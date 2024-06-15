@@ -24,9 +24,9 @@ struct member {
 struct support {
 	struct mass *mass;
 	struct constraint {
-		double n[3];
+		int c[3];
 		double p0[3];
-	} constraints[3];
+	} constraint;
 };
 
 #define jcount 3
@@ -86,8 +86,23 @@ struct member members[mcount] = {
 	}
 };
 
-#define scount 0
-struct support supports[scount] = {};
+#define scount 2
+struct support supports[scount] = {
+	{
+		.mass = &joints[0].mass,
+		.constraint = {
+			.c = {1, 1, 1},
+			.p0 = {0.0, 0.5, 0.0}
+		}
+	},
+	{
+		.mass = &joints[2].mass,
+		.constraint = {
+			.c = {0, 1, 1},
+			.p0 = {0.0, -0.5, 0.0}
+		}
+	}
+};
 
 int iteration;
 double delta_time = 0.001;
@@ -165,24 +180,16 @@ void step(void)
 		}
 	}
 
-	if(jcount > 0)
+	for(int s = 0; s < scount; s++)
 	{
-		struct joint *joint = &joints[0];
-		// Pin support
+		struct support *support = &supports[s];
 		for(int c = 0; c < 3; c++)
 		{
-			joint->mass.p[c] = 0.0;
-			joint->mass.v[c] = 0.0;
+			if(support->constraint.c[c])
+			{
+				support->mass->p[c] = support->constraint.p0[c];
+			}
 		}
-		joint->mass.p[1] = 0.5;
-		/* Roller support
-		for(int c = 1; c < 3; c++)
-		{
-			joint->mass.p[c] = 0.0;
-			joint->mass.v[c] = 0.0;
-		}
-		joint->mass.p[1] = 0.5;
-		*/
 	}
 }
 
@@ -216,6 +223,31 @@ void draw(void)
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 
+	for(int s = 0; s < scount; s++)
+	{
+		struct support = &supports[s];
+		int number = 0;
+		for(int c = 0; c < 3; c++)
+		{
+			number += support->constraint.c[c];
+		}
+		if(number == 0)
+		{
+			continue;
+		}
+		cairo_save(context);
+		cairo_translate(context, support->mass->p[0], support->mass->p[1]);
+		if(support->constraints.c[0])
+		{
+
+		}
+		cairo_move_to(context, 0.0, 0.0);
+		cairo_line_to(context, 0.1, -0.1);
+		cairo_line_to(context, -0.1, -0.1);
+		cairo_close_path(context);
+		cairo_restore(context);
+	}
+
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
@@ -226,6 +258,7 @@ void draw(void)
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke(context);
 		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.02, 0, M_TAU);
+		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
 	}
