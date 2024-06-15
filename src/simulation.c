@@ -49,7 +49,7 @@ struct joint joints[jcount] = {
 		.mass = {
 			.m = 1.0,
 			.p = {0.0, -0.5, 0.0},
-			.v = {1.0, 0.0, 0.0}
+			.v = {0.2, 0.0, 0.0}
 		}
 	}
 };
@@ -60,7 +60,7 @@ double jaccelerations[jcount][3];
 struct member members[mcount] = {
 	{
 		.spring = {
-			.k = 100.0,
+			.k = 1e5,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass,
 			.l0 = 0.5
@@ -73,7 +73,7 @@ struct member members[mcount] = {
 	},
 	{
 		.spring = {
-			.k = 100.0,
+			.k = 1e5,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass,
 			.l0 = 0.5
@@ -90,8 +90,8 @@ struct member members[mcount] = {
 struct support supports[scount] = {};
 
 int iteration;
-double delta_time = 0.01;
-double gravity = 1.0;
+double delta_time = 0.001;
+double gravity = 0.01;
 
 void step(void)
 {
@@ -168,19 +168,28 @@ void step(void)
 	if(jcount > 0)
 	{
 		struct joint *joint = &joints[0];
+		// Pin support
 		for(int c = 0; c < 3; c++)
 		{
 			joint->mass.p[c] = 0.0;
 			joint->mass.v[c] = 0.0;
 		}
 		joint->mass.p[1] = 0.5;
+		/* Roller support
+		for(int c = 1; c < 3; c++)
+		{
+			joint->mass.p[c] = 0.0;
+			joint->mass.v[c] = 0.0;
+		}
+		joint->mass.p[1] = 0.5;
+		*/
 	}
 }
 
 int picture;
 int width = 1000, height = 1000;
 double center[2] = {0.0, 0.0};
-double zoom = 0.8;
+double zoom = 0.6;
 cairo_surface_t *surface;
 cairo_t *context;
 
@@ -267,13 +276,12 @@ void init(void)
 	}
 }
 
-int iterations = 1000;
-int pictures = 100;
+int pictures = 300;
+int substeps = 500;
 
 int main(void)
 {
 	init();
-	int substeps = iterations / pictures;
 	for(int p = 0; p < pictures; p++)
 	{
 		draw();
