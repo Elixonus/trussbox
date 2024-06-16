@@ -29,26 +29,68 @@ struct support {
 	} constraint;
 };
 
-#define jcount 3
+#define jcount 9
 struct joint joints[jcount] = {
 	{
 		.mass = {
 			.m = 1.0,
-			.p = {-0.5, 0.5, 0.0},
+			.p = {0.0, 0.0, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	},
 	{
 		.mass = {
 			.m = 1.0,
-			.p = {0.0, 0.5, 0.0},
+			.p = {1.0, 0.0, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	},
 	{
 		.mass = {
 			.m = 1.0,
-			.p = {0.5, 0.5, 0.0},
+			.p = {2.0, 0.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {3.0, 0.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {4.0, 0.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {0.5, 1.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {1.5, 1.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {2.5, 1.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {3.5, 1.0, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	}
@@ -56,32 +98,201 @@ struct joint joints[jcount] = {
 double jforces[jcount][3];
 double jaccelerations[jcount][3];
 
-#define mcount 2
+#define mcount 15
 struct member members[mcount] = {
 	{
 		.spring = {
-			.k = 1e5,
+			.k = 1e1,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass,
-			.l0 = 0.5
+			.l0 = 1.0
 		},
 		.damper = {
-			.c = 1.0,
+			.c = 0.1,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 1e5,
+			.k = 1e1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass,
-			.l0 = 0.5
+			.l0 = 1.0
 		},
 		.damper = {
-			.c = 1.0,
+			.c = 0.1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass
+		}
+	},
+	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[2].mass,
+			.m2 = &joints[3].mass,
+			.l0 = 1.0
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[2].mass,
+			.m2 = &joints[3].mass
+		}
+	},
+	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[3].mass,
+			.m2 = &joints[4].mass,
+			.l0 = 1.0
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[3].mass,
+			.m2 = &joints[4].mass
+		}
+	},
+	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[5].mass,
+			.m2 = &joints[6].mass,
+			.l0 = 1.0
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[5].mass,
+			.m2 = &joints[6].mass
+		}
+	},
+	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[6].mass,
+			.m2 = &joints[7].mass,
+			.l0 = 1.0
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[6].mass,
+			.m2 = &joints[7].mass
+		}
+	},
+	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[7].mass,
+			.m2 = &joints[8].mass,
+			.l0 = 1.0
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[7].mass,
+			.m2 = &joints[8].mass
+		}
+	},
+	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[0].mass,
+			.m2 = &joints[5].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[0].mass,
+			.m2 = &joints[5].mass
+		}
+	},
+ 	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[1].mass,
+			.m2 = &joints[6].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[1].mass,
+			.m2 = &joints[6].mass
+		}
+	},
+  	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[2].mass,
+			.m2 = &joints[7].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[2].mass,
+			.m2 = &joints[7].mass
+		}
+	},
+   	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[3].mass,
+			.m2 = &joints[8].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[3].mass,
+			.m2 = &joints[8].mass
+		}
+	},
+   	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[1].mass,
+			.m2 = &joints[5].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[1].mass,
+			.m2 = &joints[5].mass
+		}
+	},
+   	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[2].mass,
+			.m2 = &joints[6].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[2].mass,
+			.m2 = &joints[6].mass
+		}
+	},
+   	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[3].mass,
+			.m2 = &joints[7].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[3].mass,
+			.m2 = &joints[7].mass
+		}
+	},
+   	{
+		.spring = {
+			.k = 1e1,
+			.m1 = &joints[4].mass,
+			.m2 = &joints[8].mass,
+			.l0 = 1.118033989
+		},
+		.damper = {
+			.c = 0.1,
+			.m1 = &joints[4].mass,
+			.m2 = &joints[8].mass
 		}
 	}
 };
@@ -91,8 +302,15 @@ struct support supports[scount] = {
 	{
 		.mass = &joints[0].mass,
 		.constraint = {
+			.c = {1, 1, 1},
+			.p0 = {0.0, 0.0, 0.0}
+		}
+	},
+	{
+		.mass = &joints[4].mass,
+		.constraint = {
 			.c = {0, 1, 1},
-			.p0 = {0.0, 0.5, 0.0}
+			.p0 = {4.0, 0.0, 0.0}
 		}
 	}
 };
@@ -187,9 +405,9 @@ void step(void)
 }
 
 int picture;
-int width = 1000, height = 1000;
-double center[2] = {0.0, 0.0};
-double zoom = 0.6;
+int width = 1920, height = 1080;
+double center[2] = {2.0, 0.5};
+double zoom = 0.2;
 cairo_surface_t *surface;
 cairo_t *context;
 
@@ -209,9 +427,10 @@ void draw(void)
 
 	cairo_save(context);
 	cairo_translate(context, 0.5 * ((double) width), 0.5 * ((double) height));
-	cairo_scale(context, (double) width, (double) height);
+	double length = width < height ? (double) width : (double) height;
+	cairo_scale(context, length, length);
 	cairo_scale(context, zoom, zoom);
-	cairo_translate(context, center[0], center[1]);
+	cairo_translate(context, -center[0], -center[1]);
 
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
