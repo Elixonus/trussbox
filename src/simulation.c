@@ -5,7 +5,7 @@
 #include "dampspring.h"
 
 #ifndef M_PI
-#define M_PI 3.1415926535
+#define M_PI 3.141592654
 #endif
 
 #ifndef M_TAU
@@ -34,6 +34,13 @@ struct joint joints[jcount] = {
 	{
 		.mass = {
 			.m = 1.0,
+			.p = {-0.5, 0.5, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+	{
+		.mass = {
+			.m = 1.0,
 			.p = {0.0, 0.5, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
@@ -41,15 +48,8 @@ struct joint joints[jcount] = {
 	{
 		.mass = {
 			.m = 1.0,
-			.p = {0.0, 0.0, 0.0},
+			.p = {0.5, 0.5, 0.0},
 			.v = {0.0, 0.0, 0.0}
-		}
-	},
-	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.0, -0.5, 0.0},
-			.v = {0.2, 0.0, 0.0}
 		}
 	}
 };
@@ -91,15 +91,8 @@ struct support supports[scount] = {
 	{
 		.mass = &joints[0].mass,
 		.constraint = {
-			.c = {1, 1, 1},
-			.p0 = {0.0, 0.5, 0.0}
-		}
-	},
-	{
-		.mass = &joints[2].mass,
-		.constraint = {
 			.c = {0, 1, 1},
-			.p0 = {0.0, -0.5, 0.0}
+			.p0 = {0.0, 0.5, 0.0}
 		}
 	}
 };
@@ -225,11 +218,11 @@ void draw(void)
 
 	for(int s = 0; s < scount; s++)
 	{
-		struct support = &supports[s];
+		struct support *support = &supports[s];
 		int number = 0;
-		for(int c = 0; c < 3; c++)
+		for(int c = 0; c < 2; c++)
 		{
-			number += support->constraint.c[c];
+			number += support->constraint.c[c] ? 1 : 0;
 		}
 		if(number == 0)
 		{
@@ -237,27 +230,87 @@ void draw(void)
 		}
 		cairo_save(context);
 		cairo_translate(context, support->mass->p[0], support->mass->p[1]);
-		if(support->constraints.c[0])
+		if(support->constraint.c[0] && !support->constraint.c[1])
 		{
-
+			cairo_rotate(context, -0.5 * M_PI);
 		}
 		cairo_move_to(context, 0.0, 0.0);
-		cairo_line_to(context, 0.1, -0.1);
-		cairo_line_to(context, -0.1, -0.1);
+		cairo_line_to(context, 0.07, -0.1);
+		cairo_line_to(context, -0.07, -0.1);
 		cairo_close_path(context);
+		if(number == 1)
+		{
+			cairo_new_sub_path(context);
+			cairo_arc(context, 0.0, -0.13, 0.02, 0.0, M_TAU);
+			cairo_close_path(context);
+			cairo_new_sub_path(context);
+			cairo_arc(context, 0.05, -0.13, 0.02, 0.0, M_TAU);
+			cairo_close_path(context);
+			cairo_new_sub_path(context);
+			cairo_arc(context, -0.05, -0.13, 0.02, 0.0, M_TAU);
+			cairo_close_path(context);
+		}
+
+
+
+		cairo_save(context);
+		if(number == 1)
+		{
+			cairo_translate(context, 0.0, -0.05);
+		}
+		cairo_rectangle(context, -0.15, -0.12, 0.3, 0.01);
+		cairo_restore(context);
+
+
+
+
+
+		cairo_set_line_width(context, 0.02);
+		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		cairo_stroke_preserve(context);
+		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
+		cairo_fill(context);
+		if(number == 1)
+		{
+			int index = support->constraint.c[0] ? 1 : 0;
+			double angle = (support->constraint.p0[index] - support->mass->p[index]) / (0.02 * M_PI);
+			cairo_save(context);
+			cairo_translate(context, 0.0, -0.13);
+			cairo_rotate(context, angle);
+			cairo_new_sub_path(context);
+			cairo_arc(context, 0.01, 0.0, 0.007, 0.0, M_TAU);
+			cairo_close_path(context);
+			cairo_restore(context);
+			cairo_save(context);
+			cairo_translate(context, 0.05, -0.13);
+			cairo_rotate(context, angle);
+			cairo_new_sub_path(context);
+			cairo_arc(context, 0.01, 0.0, 0.007, 0.0, M_TAU);
+			cairo_close_path(context);
+			cairo_restore(context);
+			cairo_save(context);
+			cairo_translate(context, -0.05, -0.13);
+			cairo_rotate(context, angle);
+			cairo_new_sub_path(context);
+			cairo_arc(context, 0.01, 0.0, 0.007, 0.0, M_TAU);
+			cairo_close_path(context);
+			cairo_restore(context);
+			cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+			cairo_fill(context);
+		}
 		cairo_restore(context);
 	}
 
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.04, 0, M_TAU);
-		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
-		cairo_fill_preserve(context);
-		cairo_set_line_width(context, 0.01);
+		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.04, 0.0, M_TAU);
+		cairo_set_line_width(context, 0.02);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-		cairo_stroke(context);
-		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.02, 0, M_TAU);
+		cairo_stroke_preserve(context);
+		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
+		cairo_fill(context);
+		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.02, 0.0, M_TAU);
 		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
