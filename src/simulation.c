@@ -7,7 +7,6 @@
 #ifndef M_PI
 #define M_PI 3.141592654
 #endif
-
 #ifndef M_TAU
 #define M_TAU 6.283185307
 #endif
