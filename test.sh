@@ -1,2 +1,2 @@
 #!/bin/bash
-./bin/test
+./bin/testfunctions

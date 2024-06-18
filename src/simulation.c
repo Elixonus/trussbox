@@ -41,11 +41,25 @@ struct joint joints[jcount] = {
 	{
 		.mass = {
 			.m = 1.0,
-			.p = {0.5, 0.0, 0.0},
+			.p = {0.25, 0.0, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	},
 	{
+		.mass = {
+			.m = 1.0,
+			.p = {0.5, 0.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
+		.mass = {
+			.m = 1.0,
+			.p = {0.75, 0.0, 0.0},
+			.v = {0.0, 0.0, 0.0}
+		}
+	},
+   	{
 		.mass = {
 			.m = 1.0,
 			.p = {1.0, 0.0, 0.0},
@@ -55,42 +69,28 @@ struct joint joints[jcount] = {
    	{
 		.mass = {
 			.m = 1.0,
-			.p = {1.5, 0.0, 0.0},
+			.p = {0.125, 0.25, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	},
    	{
 		.mass = {
 			.m = 1.0,
-			.p = {2.0, 0.0, 0.0},
+			.p = {0.375, 0.25, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	},
    	{
 		.mass = {
 			.m = 1.0,
-			.p = {0.25, 0.5, 0.0},
+			.p = {0.625, 0.25, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	},
    	{
 		.mass = {
 			.m = 1.0,
-			.p = {0.75, 0.5, 0.0},
-			.v = {0.0, 0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {1.25, 0.5, 0.0},
-			.v = {0.0, 0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {1.75, 0.5, 0.0},
+			.p = {0.875, 0.25, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
 	}
@@ -105,7 +105,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -118,7 +118,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -131,7 +131,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[3].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -144,7 +144,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[4].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -157,7 +157,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[5].mass,
 			.m2 = &joints[6].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -170,7 +170,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[6].mass,
 			.m2 = &joints[7].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -183,7 +183,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[7].mass,
 			.m2 = &joints[8].mass,
-			.l0 = 0.5
+			.l0 = 0.25
 		},
 		.damper = {
 			.c = 0.1,
@@ -196,7 +196,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[5].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -209,7 +209,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[6].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -222,7 +222,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[7].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -235,7 +235,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[8].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -248,7 +248,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[5].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -261,7 +261,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[6].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -274,7 +274,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[7].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -287,7 +287,7 @@ struct member members[mcount] = {
 			.k = 5e0,
 			.m1 = &joints[4].mass,
 			.m2 = &joints[8].mass,
-			.l0 = 0.5590169944
+			.l0 = 0.2795084972
 		},
 		.damper = {
 			.c = 0.1,
@@ -315,7 +315,8 @@ struct support supports[scount] = {
 	}
 };
 
-int iteration;
+int iteration = 0;
+double time = 0.0;
 double delta_time = 0.001;
 double gravity = 0.01;
 
@@ -330,7 +331,6 @@ void step(void)
 			joint->mass.p[c] += joint->mass.v[c] * delta_time;
 		}
 	}
-
 	for(int j = 0; j < jcount; j++)
 	{
 		for(int c = 0; c < 3; c++)
@@ -339,13 +339,11 @@ void step(void)
 			jaccelerations[j][c] = 0.0;
 		}
 	}
-
 	for(int j = 0; j < jcount; j++)
 	{
 		jaccelerations[j][1] = -gravity;
 		jforces[j][1] = joints[j].mass.m * jaccelerations[j][1];
 	}
-
 	for(int m = 0; m < mcount; m++)
 	{
 		struct member *member = &members[m];
@@ -371,7 +369,6 @@ void step(void)
 			jforces[j2][c] += mforce * mdirection[c];
 		}
 	}
-
 	for(int j = 0; j < jcount; j++)
 	{
 		double jacceleration[3];
@@ -381,7 +378,6 @@ void step(void)
 			jaccelerations[j][c] = jacceleration[c];
 		}
 	}
-
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
@@ -402,19 +398,20 @@ void step(void)
 			}
 		}
 	}
+	iteration++;
+	time += delta_time;
 }
 
-int picture;
+int picture = 0;
 int width = 1920, height = 1080;
-double center[2] = {1.0, 0.25};
-double zoom = 0.6;
-cairo_surface_t *surface;
-cairo_t *context;
+double center[2] = {0.5, 0.125};
+double zoom = 1.0;
+double scale = 1.0;
 
 void draw(void)
 {
-	surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
-	context = cairo_create(surface);
+	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
+	cairo_t *context = cairo_create(surface);
 
 	cairo_save(context);
 	cairo_translate(context, 0.0, 0.5 * ((double) height));
@@ -430,6 +427,7 @@ void draw(void)
 	cairo_pattern_add_color_stop_rgb(background, 0.0, 0.047, 0.357, 0.71);
 	cairo_pattern_add_color_stop_rgb(background, 1.0, 0.0, 0.0, 0.0);
 	cairo_set_source(context, background);
+	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 	cairo_paint(context);
 	cairo_restore(context);
 
@@ -456,52 +454,56 @@ void draw(void)
 		}
 		cairo_save(context);
 		cairo_translate(context, support->mass->p[0], support->mass->p[1]);
+		cairo_scale(context, scale, scale);
 		if(support->constraint.c[0] && !support->constraint.c[1])
 		{
 			cairo_rotate(context, -0.5 * M_PI);
 		}
 		cairo_move_to(context, 0.0, 0.0);
-		cairo_line_to(context, 0.07, -0.1);
-		cairo_line_to(context, -0.07, -0.1);
+		cairo_line_to(context, 0.035, -0.05);
+		cairo_line_to(context, -0.035, -0.05);
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
-		cairo_rectangle(context, -0.15, -0.12, 0.3, 0.01);
+		cairo_rectangle(context, -0.075, -0.06, 0.15, 0.005);
 		if(number == 1)
 		{
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.135, -0.145, 0.015, 0.0, M_TAU);
+			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, M_TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0675, -0.145, 0.015, 0.0, M_TAU);
+			cairo_arc(context, 0.03375, -0.0725, 0.0075, 0.0, M_TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0, -0.145, 0.015, 0.0, M_TAU);
+			cairo_arc(context, 0.0, -0.0725, 0.0075, 0.0, M_TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.0675, -0.145, 0.015, 0.0, M_TAU);
+			cairo_arc(context, -0.03375, -0.0725, 0.0075, 0.0, M_TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.135, -0.145, 0.015, 0.0, M_TAU);
+			cairo_arc(context, -0.0675, -0.0725, 0.0075, 0.0, M_TAU);
 			cairo_close_path(context);
 		}
-		cairo_set_line_width(context, 0.02);
+		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_fill(context);
-
 		cairo_restore(context);
 	}
 
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.04, 0.0, M_TAU);
-		cairo_set_line_width(context, 0.02);
+		cairo_save(context);
+		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
+		cairo_scale(context, scale, scale);
+		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, M_TAU);
+		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_fill(context);
+		cairo_restore(context);
 	}
 
 	for(int m = 0; m < mcount; m++)
@@ -509,22 +511,28 @@ void draw(void)
 		struct member *member = &members[m];
 		cairo_move_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
 		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
-		cairo_set_line_width(context, 0.04);
+		cairo_save(context);
+		cairo_scale(context, scale, scale);
+		cairo_set_line_width(context, 0.02);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
-		cairo_set_line_width(context, 0.02);
+		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_stroke(context);
+		cairo_restore(context);
 	}
 
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		cairo_arc(context, joint->mass.p[0], joint->mass.p[1], 0.005, 0, M_TAU);
+		cairo_save(context);
+		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
+		cairo_scale(context, scale, scale);
+		cairo_arc(context, 0.0, 0.0, 0.0025, 0, M_TAU);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
+		cairo_restore(context);
 	}
-
 
 	cairo_restore(context);
 	cairo_restore(context);
@@ -541,6 +549,7 @@ void init(void)
 {
 	iteration = 0;
 	picture = 0;
+	time = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
 		for(int c = 0; c < 3; c++)
@@ -561,7 +570,6 @@ int substeps = 500;
 
 int main(void)
 {
-	// total mass, momentum, energy
 	double mass_system = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
