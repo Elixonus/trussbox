@@ -23,8 +23,12 @@ struct member {
 struct support {
 	struct mass *mass;
 	struct constraint {
-		int c[3];
+		int c;
 		double p0[3];
+		union {
+			double t[3];
+			double n[3];
+		};
 	} constraint;
 };
 
@@ -301,15 +305,16 @@ struct support supports[scount] = {
 	{
 		.mass = &joints[0].mass,
 		.constraint = {
-			.c = {1, 1, 1},
+			.c = 3,
 			.p0 = {0.0, 0.0, 0.0}
 		}
 	},
 	{
 		.mass = &joints[4].mass,
 		.constraint = {
-			.c = {0, 1, 1},
-			.p0 = {2.0, 0.0, 0.0}
+			.c = 2,
+			.p0 = {1.0, 0.0, 0.0},
+			.t = {1.0, 0.1, 0.0}
 		}
 	}
 };
@@ -318,6 +323,7 @@ int iteration = 0;
 double time = 0.0;
 double delta_time = 0.001;
 double gravity = 0.01;
+double epsilon = 1e-9;
 
 void step(void)
 {
@@ -385,16 +391,73 @@ void step(void)
 			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * delta_time;
 		}
 	}
-
 	for(int s = 0; s < scount; s++)
 	{
 		struct support *support = &supports[s];
-		for(int c = 0; c < 3; c++)
+		if(support->constraint.c == 0)
 		{
-			if(support->constraint.c[c])
+			continue;
+		}
+		else if(support->constraint.c == 1)
+		{
+			double product1 = 0.0;
+			double product2 = 0.0;
+			double product3 = 0.0;
+			for(int c = 0; c < 3; c++)
+			{
+				product1 += (support->constraint.p0[c] - support->mass->p[c]) * support->constraint.n[c];
+				product2 += support->mass->v[c] * support->constraint.n[c];
+				product3 += support->constraint.n[c] * support->constraint.n[c];
+			}
+			if(fabs(product3) < fabs(epsilon))
+			{
+				fprintf(stderr, "error: plane constraint's normal vector square magnitude is below epsilon.\n");
+				exit(EXIT_FAILURE);
+			}
+			double coefficient1 = product1 / product3;
+			double coefficient2 = product2 / product3;
+			for(int c = 0; c < 3; c++)
+			{
+				support->mass->p[c] = support->mass->p[c] + coefficient1 * support->constraint.n[c];
+				support->mass->v[c] = support->mass->v[c] - coefficient2 * support->constraint.n[c];
+			}
+		}
+		else if(support->constraint.c == 2)
+		{
+			double product1 = 0.0;
+			double product2 = 0.0;
+			double product3 = 0.0;
+			for(int c = 0; c < 3; c++)
+			{
+				product1 += (support->mass->p[c] - support->constraint.p0[c]) * support->constraint.t[c];
+				product2 += support->mass->v[c] * support->constraint.t[c];
+				product3 += support->constraint.t[c] * support->constraint.t[c];
+			}
+			if(fabs(product3) < fabs(epsilon))
+			{
+				fprintf(stderr, "error: line constraint's tangent vector square magnitude is below epsilon.\n");
+				exit(EXIT_FAILURE);
+			}
+			double coefficient1 = product1 / product3;
+			double coefficient2 = product2 / product3;
+			for(int c = 0; c < 3; c++)
+			{
+				support->mass->p[c] = support->constraint.p0[c] + coefficient1 * support->constraint.t[c];
+				support->mass->v[c] = coefficient2 * support->constraint.t[c];
+			}
+		}
+		else if(support->constraint.c == 3)
+		{
+			for(int c = 0; c < 3; c++)
 			{
 				support->mass->p[c] = support->constraint.p0[c];
+				support->mass->v[c] = 0.0;
 			}
+		}
+		else
+		{
+			fprintf(stderr, "error: line constraint's count not in range.\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 	iteration++;
@@ -411,15 +474,12 @@ void draw(void)
 {
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, width, height);
 	cairo_t *context = cairo_create(surface);
-
 	cairo_save(context);
 	cairo_translate(context, 0.0, 0.5 * ((double) height));
 	cairo_scale(context, 1.0, -1.0);
 	cairo_translate(context, 0.0, -0.5 * ((double) height));
-
 	cairo_save(context);
 	cairo_translate(context, 0.5 * ((double) width), 0.5 * ((double) height));
-
 	cairo_save(context);
 	cairo_scale(context, (double) width, (double) height);
 	cairo_pattern_t *background = cairo_pattern_create_radial(0.0, 0.0, 0.0, 0.0, 0.0, 0.5);
@@ -429,34 +489,39 @@ void draw(void)
 	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 	cairo_paint(context);
 	cairo_restore(context);
-
 	double length = width < height ? (double) width : (double) height;
 	cairo_scale(context, length, length);
 	cairo_scale(context, zoom, zoom);
 	cairo_translate(context, -center[0], -center[1]);
-
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
-
-
 	for(int s = 0; s < scount; s++)
 	{
 		struct support *support = &supports[s];
-		int number = 0;
-		for(int c = 0; c < 2; c++)
-		{
-			number += support->constraint.c[c] ? 1 : 0;
-		}
-		if(number == 0)
-		{
-			continue;
-		}
 		cairo_save(context);
 		cairo_translate(context, support->mass->p[0], support->mass->p[1]);
 		cairo_scale(context, scale, scale);
-		if(support->constraint.c[0] && !support->constraint.c[1])
+		if(support->constraint.c == 0)
 		{
-			cairo_rotate(context, -0.5 * M_PI);
+			continue;
+		}
+		else if(support->constraint.c == 1)
+		{
+			double angle = atan2(support->constraint.n[1], support->constraint.n[0]) - 0.5 * M_PI;
+			if(fmod(angle, M_TAU) > M_PI)
+			{
+				angle += M_PI;
+			}
+			cairo_rotate(context, angle);
+		}
+		else if(support->constraint.c == 2)
+		{
+			double angle = atan2(support->constraint.n[1], support->constraint.n[0]);
+			if(fmod(angle, M_TAU) > M_PI)
+			{
+				angle += M_PI;
+			}
+			cairo_rotate(context, angle);
 		}
 		cairo_move_to(context, 0.0, 0.0);
 		cairo_line_to(context, 0.035, -0.05);
@@ -464,7 +529,7 @@ void draw(void)
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
 		cairo_rectangle(context, -0.075, -0.06, 0.15, 0.005);
-		if(number == 1)
+		if(support->constraint.c == 1 || support->constraint.c == 2)
 		{
 			cairo_new_sub_path(context);
 			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, M_TAU);
@@ -489,7 +554,6 @@ void draw(void)
 		cairo_fill(context);
 		cairo_restore(context);
 	}
-
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
@@ -504,7 +568,6 @@ void draw(void)
 		cairo_fill(context);
 		cairo_restore(context);
 	}
-
 	for(int m = 0; m < mcount; m++)
 	{
 		struct member *member = &members[m];
@@ -520,7 +583,6 @@ void draw(void)
 		cairo_stroke(context);
 		cairo_restore(context);
 	}
-
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
@@ -532,10 +594,8 @@ void draw(void)
 		cairo_fill(context);
 		cairo_restore(context);
 	}
-
 	cairo_restore(context);
 	cairo_restore(context);
-
 	cairo_destroy(context);
 	char filename[99];
 	sprintf(filename, "out/img/%05d.png", picture);
