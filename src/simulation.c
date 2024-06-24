@@ -327,9 +327,6 @@ double epsilon = 1e-9;
 
 void step(void)
 {
-	// supports[1].constraint.n[0] = cos(1e-4 * iteration);
-	// supports[1].constraint.n[1] = sin(1e-4 * iteration);
-
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
@@ -485,10 +482,6 @@ void draw(void)
 	cairo_translate(context, 0.5 * ((double) width), 0.5 * ((double) height));
 	cairo_save(context);
 	cairo_scale(context, (double) width, (double) height);
-	cairo_pattern_t *background = cairo_pattern_create_radial(0.0, 0.0, 0.0, 0.0, 0.0, 0.5);
-	cairo_pattern_add_color_stop_rgb(background, 0.0, 0.047, 0.357, 0.71);
-	cairo_pattern_add_color_stop_rgb(background, 1.0, 0.0, 0.0, 0.0);
-	cairo_set_source(context, background);
 	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 	cairo_paint(context);
 	cairo_restore(context);
