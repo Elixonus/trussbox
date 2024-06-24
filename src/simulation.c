@@ -314,7 +314,7 @@ struct support supports[scount] = {
 		.constraint = {
 			.c = 2,
 			.p0 = {1.0, 0.0, 0.0},
-			.t = {1.0, 0.1, 0.0}
+			.t = {1.0, -1.0, 0.0}
 		}
 	}
 };
@@ -327,6 +327,9 @@ double epsilon = 1e-9;
 
 void step(void)
 {
+	// supports[1].constraint.n[0] = cos(1e-4 * iteration);
+	// supports[1].constraint.n[1] = sin(1e-4 * iteration);
+
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
@@ -405,7 +408,7 @@ void step(void)
 			double product3 = 0.0;
 			for(int c = 0; c < 3; c++)
 			{
-				product1 += (support->constraint.p0[c] - support->mass->p[c]) * support->constraint.n[c];
+				product1 += (support->mass->p[c] - support->constraint.p0[c]) * support->constraint.n[c];
 				product2 += support->mass->v[c] * support->constraint.n[c];
 				product3 += support->constraint.n[c] * support->constraint.n[c];
 			}
@@ -418,7 +421,7 @@ void step(void)
 			double coefficient2 = product2 / product3;
 			for(int c = 0; c < 3; c++)
 			{
-				support->mass->p[c] = support->mass->p[c] + coefficient1 * support->constraint.n[c];
+				support->mass->p[c] = support->mass->p[c] - coefficient1 * support->constraint.n[c];
 				support->mass->v[c] = support->mass->v[c] - coefficient2 * support->constraint.n[c];
 			}
 		}
@@ -507,20 +510,14 @@ void draw(void)
 		}
 		else if(support->constraint.c == 1)
 		{
-			double angle = atan2(support->constraint.n[1], support->constraint.n[0]) - 0.5 * M_PI;
-			if(fmod(angle, M_TAU) > M_PI)
-			{
-				angle += M_PI;
-			}
+			double angle = atan2(support->constraint.n[1], support->constraint.n[0]);
+			angle = angle > 0.0 ? angle - 0.5 * M_PI : angle + 0.5 * M_PI;
 			cairo_rotate(context, angle);
 		}
 		else if(support->constraint.c == 2)
 		{
-			double angle = atan2(support->constraint.n[1], support->constraint.n[0]);
-			if(fmod(angle, M_TAU) > M_PI)
-			{
-				angle += M_PI;
-			}
+			double angle = atan2(-support->constraint.t[0], support->constraint.t[1]);
+			angle = angle > 0 ? angle - 0.5 * M_PI : angle + 0.5 * M_PI;
 			cairo_rotate(context, angle);
 		}
 		cairo_move_to(context, 0.0, 0.0);
