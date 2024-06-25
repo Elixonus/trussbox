@@ -4,12 +4,8 @@
 #include <cairo.h>
 #include "dampspring.h"
 
-#ifndef M_PI
-#define M_PI 3.141592654
-#endif
-#ifndef M_TAU
-#define M_TAU 6.283185307
-#endif
+constexpr double pi = 4.0 * atan(1.0);
+constexpr double tau = 2.0 * pi;
 
 struct joint {
 	struct mass mass;
@@ -98,8 +94,8 @@ struct joint joints[jcount] = {
 		}
 	}
 };
-double jforces[jcount][3];
 double jaccelerations[jcount][3];
+double jforces[jcount][3];
 
 #define mcount 15
 struct member members[mcount] = {
@@ -325,7 +321,7 @@ double delta_time = 0.001;
 double gravity = 0.01;
 double epsilon = 1e-9;
 
-void step(void)
+int step(void)
 {
 	for(int j = 0; j < jcount; j++)
 	{
@@ -340,8 +336,8 @@ void step(void)
 	{
 		for(int c = 0; c < 3; c++)
 		{
-			jforces[j][c] = 0.0;
 			jaccelerations[j][c] = 0.0;
+			jforces[j][c] = 0.0;
 		}
 	}
 	for(int j = 0; j < jcount; j++)
@@ -412,7 +408,7 @@ void step(void)
 			if(fabs(product3) < fabs(epsilon))
 			{
 				fprintf(stderr, "error: plane constraint's normal vector square magnitude is below epsilon.\n");
-				exit(EXIT_FAILURE);
+				return 1;
 			}
 			double coefficient1 = product1 / product3;
 			double coefficient2 = product2 / product3;
@@ -436,7 +432,7 @@ void step(void)
 			if(fabs(product3) < fabs(epsilon))
 			{
 				fprintf(stderr, "error: line constraint's tangent vector square magnitude is below epsilon.\n");
-				exit(EXIT_FAILURE);
+				return 1;
 			}
 			double coefficient1 = product1 / product3;
 			double coefficient2 = product2 / product3;
@@ -457,11 +453,12 @@ void step(void)
 		else
 		{
 			fprintf(stderr, "error: line constraint's count not in range.\n");
-			exit(EXIT_FAILURE);
+			return 1;
 		}
 	}
 	iteration++;
 	time += delta_time;
+	return 0;
 }
 
 int picture = 0;
@@ -504,13 +501,13 @@ void draw(void)
 		else if(support->constraint.c == 1)
 		{
 			double angle = atan2(support->constraint.n[1], support->constraint.n[0]);
-			angle = angle > 0.0 ? angle - 0.5 * M_PI : angle + 0.5 * M_PI;
+			angle = angle > 0.0 ? angle - 0.5 * pi : angle + 0.5 * pi;
 			cairo_rotate(context, angle);
 		}
 		else if(support->constraint.c == 2)
 		{
 			double angle = atan2(-support->constraint.t[0], support->constraint.t[1]);
-			angle = angle > 0 ? angle - 0.5 * M_PI : angle + 0.5 * M_PI;
+			angle = angle > 0 ? angle - 0.5 * pi : angle + 0.5 * pi;
 			cairo_rotate(context, angle);
 		}
 		cairo_move_to(context, 0.0, 0.0);
@@ -522,19 +519,19 @@ void draw(void)
 		if(support->constraint.c == 1 || support->constraint.c == 2)
 		{
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, M_TAU);
+			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.03375, -0.0725, 0.0075, 0.0, M_TAU);
+			cairo_arc(context, 0.03375, -0.0725, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0, -0.0725, 0.0075, 0.0, M_TAU);
+			cairo_arc(context, 0.0, -0.0725, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.03375, -0.0725, 0.0075, 0.0, M_TAU);
+			cairo_arc(context, -0.03375, -0.0725, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.0675, -0.0725, 0.0075, 0.0, M_TAU);
+			cairo_arc(context, -0.0675, -0.0725, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 		}
 		cairo_set_line_width(context, 0.01);
@@ -550,7 +547,7 @@ void draw(void)
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, scale, scale);
-		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, M_TAU);
+		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, tau);
 		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
@@ -579,7 +576,7 @@ void draw(void)
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, scale, scale);
-		cairo_arc(context, 0.0, 0.0, 0.0025, 0, M_TAU);
+		cairo_arc(context, 0.0, 0.0, 0.0025, 0, tau);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
 		cairo_restore(context);
@@ -603,8 +600,8 @@ void init(void)
 	{
 		for(int c = 0; c < 3; c++)
 		{
-			jforces[j][c] = 0.0;
 			jaccelerations[j][c] = 0.0;
+			jforces[j][c] = 0.0;
 		}
 	}
 	for(int j = 0; j < jcount; j++)
@@ -673,5 +670,5 @@ int main(void)
 			step();
 		}
 	}
-	return EXIT_SUCCESS;
+	return 0;
 }
