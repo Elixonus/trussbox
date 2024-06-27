@@ -28,7 +28,7 @@ struct support {
 	} constraint;
 };
 
-#define jcount 9
+constexpr int jcount = 9;
 struct joint joints[jcount] = {
 	{
 		.mass = {
@@ -97,206 +97,206 @@ struct joint joints[jcount] = {
 double jaccelerations[jcount][3];
 double jforces[jcount][3];
 
-#define mcount 15
+constexpr int mcount = 15;
 struct member members[mcount] = {
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[3].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[3].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[4].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[4].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[5].mass,
 			.m2 = &joints[6].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[5].mass,
 			.m2 = &joints[6].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[6].mass,
 			.m2 = &joints[7].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[6].mass,
 			.m2 = &joints[7].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[7].mass,
 			.m2 = &joints[8].mass,
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[7].mass,
 			.m2 = &joints[8].mass
 		}
 	},
 	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[5].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[5].mass
 		}
 	},
  	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[6].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[6].mass
 		}
 	},
   	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[7].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[7].mass
 		}
 	},
    	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[8].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[8].mass
 		}
 	},
    	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[5].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[5].mass
 		}
 	},
    	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[6].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[6].mass
 		}
 	},
    	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[7].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[7].mass
 		}
 	},
    	{
 		.spring = {
-			.k = 5e0,
+			.k = 5.0e0,
 			.m1 = &joints[4].mass,
 			.m2 = &joints[8].mass,
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 0.1,
+			.c = 1.0e-1,
 			.m1 = &joints[4].mass,
 			.m2 = &joints[8].mass
 		}
 	}
 };
 
-#define scount 2
+constexpr int scount = 2;
 struct support supports[scount] = {
 	{
 		.mass = &joints[0].mass,
@@ -584,7 +584,7 @@ void draw(void)
 	cairo_restore(context);
 	cairo_restore(context);
 	cairo_destroy(context);
-	char filename[99];
+	char filename[100];
 	sprintf(filename, "out/img/%05d.png", picture);
 	cairo_surface_write_to_png(surface, filename);
 	cairo_surface_destroy(surface);
