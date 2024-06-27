@@ -452,7 +452,7 @@ int step(void)
 		}
 		else
 		{
-			fprintf(stderr, "error: line constraint's count not in range.\n");
+			fprintf(stderr, "error: support constraint's count is out of bounds.\n");
 			return 1;
 		}
 	}
