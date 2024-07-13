@@ -4,6 +4,10 @@
 #include <cairo.h>
 #include "dampspring.h"
 
+// -f truss.txt -t 10.0 -dt 0.01
+// -f system.txt -t 10.0 -i 1000 -g 9.8
+// using dynamic malloc or bounded array
+
 constexpr double pi = 4.0 * atan(1.0);
 constexpr double tau = 2.0 * pi;
 
