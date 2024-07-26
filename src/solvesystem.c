@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "dampspring.h"
 
 int main(void)
@@ -112,9 +113,88 @@ int main(void)
 		return 1;
 	}
 
-	printf("mcount: %d\n", mcount);
-	printf("scount: %d\n", scount);
-	printf("dcount: %d\n", dcount);
-	printf("ended\n");
+	for (int s = 0; s < scount; s++)
+	{
+		struct spring *spring = &springs[s];
+		double force = sforce(spring);
+		sforces[s] = force;
+		double length = mdistance(spring->m1, spring->m2);
+		if (fabs(length) < 1e-9)
+		{
+			continue;
+		}
+		double direction[3];
+		for (int c = 0; c < 3; c++)
+		{
+			direction[c] = (spring->m2->p[c] - spring->m1->p[c]) / length;
+		}
+		int index1, index2;
+		for (int m = 0; m < mcount; m++)
+		{
+			if (&masses[m] == spring->m1)
+			{
+				index1 = m;
+			}
+			if (&masses[m] == spring->m2)
+			{
+				index2 = m;
+			}
+		}
+		for (int c = 0; c < 3; c++)
+		{
+			mforces[index1][c] -= direction[c] * force;
+			mforces[index2][c] += direction[c] * force;
+		}
+	}
+
+	for (int d = 0; d < dcount; d++)
+	{
+		struct damper *damper = &dampers[d];
+		double force = dforce(damper);
+		dforces[d] = force;
+		double length = mdistance(damper->m1, damper->m2);
+		if (fabs(length) < 1e-9)
+		{
+			continue;
+		}
+		double direction[3];
+		for (int c = 0; c < 3; c++)
+		{
+			direction[c] = (damper->m2->p[c] - damper->m1->p[c]) / length;
+		}
+		int index1, index2;
+		for (int m = 0; m < mcount; m++)
+		{
+			if (&masses[m] == damper->m1)
+			{
+				index1 = m;
+			}
+			if (&masses[m] == damper->m2)
+			{
+				index2 = m;
+			}
+		}
+		for (int c = 0; c < 3; c++)
+		{
+			mforces[index1][c] -= direction[c] * force;
+			mforces[index2][c] += direction[c] * force;
+		}
+	}
+
+	for (int m = 0; m < mcount; m++)
+	{
+		printf("m <%lf %lf %lf>\n", mforces[m][0], mforces[m][1], mforces[m][2]);
+	}
+
+	for (int s = 0; s < scount; s++)
+	{
+		printf("s %lf\n", sforces[s]);
+	}
+
+	for (int d = 0; d < dcount; d++)
+	{
+		printf("d %lf\n", dforces[d]);
+	}
+
 	return 0;
 }

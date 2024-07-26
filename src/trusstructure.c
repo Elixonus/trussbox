@@ -370,8 +370,8 @@ int step(void)
 		for(int c = 0; c < 3; c++)
 		{
 			mdirection[c] = (joints[j2].mass.p[c] - joints[j1].mass.p[c]) / mlength;
-			jforces[j1][c] -= mforce * mdirection[c];
-			jforces[j2][c] += mforce * mdirection[c];
+			jforces[j1][c] -= mdirection[c] * mforce;
+			jforces[j2][c] += mdirection[c] * mforce;
 		}
 	}
 	for(int j = 0; j < jcount; j++)
