@@ -23,12 +23,12 @@ struct member {
 struct support {
 	struct mass *mass;
 	struct constraint {
-		bool c[3];
+		bool a[3];
 		double p0[3];
 	} constraint;
 };
 
-constexpr int jcount = 9;
+constexpr int jcount = 12;
 struct joint joints[jcount] = {
 	{
 		.mass = {
@@ -92,12 +92,33 @@ struct joint joints[jcount] = {
 			.p = {0.875, 0.25, 0.0},
 			.v = {0.0, 0.0, 0.0}
 		}
-	}
+	},
+    {
+    	.mass = {
+        	.m = 1.0,
+            .p = {0.25, 0.5, 0.0},
+            .v = {0.0, 0.0, 0.0}
+        }
+    },
+    {
+    	.mass = {
+        	.m = 1.0,
+            .p = {0.50, 0.5, 0.0},
+            .v = {0.0, 0.0, 0.0}
+        }
+    },
+    {
+    	.mass = {
+        	.m = 1.0,
+            .p = {0.75, 0.5, 0.0},
+            .v = {0.0, 0.0, 0.0}
+        }
+    }
 };
 double jaccelerations[jcount][3];
 double jforces[jcount][3];
 
-constexpr int mcount = 15;
+constexpr int mcount = 23;
 struct member members[mcount] = {
 	{
 		.spring = {
@@ -107,7 +128,7 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[1].mass
 		}
@@ -120,7 +141,7 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[2].mass
 		}
@@ -133,7 +154,7 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[3].mass
 		}
@@ -146,7 +167,7 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[4].mass
 		}
@@ -159,7 +180,7 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[5].mass,
 			.m2 = &joints[6].mass
 		}
@@ -172,7 +193,7 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[6].mass,
 			.m2 = &joints[7].mass
 		}
@@ -185,9 +206,35 @@ struct member members[mcount] = {
 			.l0 = 0.25
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[7].mass,
 			.m2 = &joints[8].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[9].mass,
+			.m2 = &joints[10].mass,
+			.l0 = 0.25
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[9].mass,
+			.m2 = &joints[10].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[10].mass,
+			.m2 = &joints[11].mass,
+			.l0 = 0.25
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[10].mass,
+			.m2 = &joints[11].mass
 		}
 	},
 	{
@@ -198,7 +245,7 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[0].mass,
 			.m2 = &joints[5].mass
 		}
@@ -211,7 +258,7 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[6].mass
 		}
@@ -224,7 +271,7 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[7].mass
 		}
@@ -237,9 +284,48 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[8].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[5].mass,
+			.m2 = &joints[9].mass,
+			.l0 = 0.2795084972
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[5].mass,
+			.m2 = &joints[9].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[6].mass,
+			.m2 = &joints[10].mass,
+			.l0 = 0.2795084972
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[6].mass,
+			.m2 = &joints[10].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[7].mass,
+			.m2 = &joints[11].mass,
+			.l0 = 0.2795084972
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[7].mass,
+			.m2 = &joints[11].mass
 		}
 	},
    	{
@@ -250,7 +336,7 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[1].mass,
 			.m2 = &joints[5].mass
 		}
@@ -263,7 +349,7 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[2].mass,
 			.m2 = &joints[6].mass
 		}
@@ -276,12 +362,12 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[3].mass,
 			.m2 = &joints[7].mass
 		}
 	},
-   	{
+    {
 		.spring = {
 			.k = 5.0e0,
 			.m1 = &joints[4].mass,
@@ -289,9 +375,48 @@ struct member members[mcount] = {
 			.l0 = 0.2795084972
 		},
 		.damper = {
-			.c = 1.0e-1,
+			.c = 1.0e1,
 			.m1 = &joints[4].mass,
 			.m2 = &joints[8].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[6].mass,
+			.m2 = &joints[9].mass,
+			.l0 = 0.2795084972
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[6].mass,
+			.m2 = &joints[9].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[7].mass,
+			.m2 = &joints[10].mass,
+			.l0 = 0.2795084972
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[7].mass,
+			.m2 = &joints[10].mass
+		}
+	},
+    {
+		.spring = {
+			.k = 5.0e0,
+			.m1 = &joints[8].mass,
+			.m2 = &joints[11].mass,
+			.l0 = 0.2795084972
+		},
+		.damper = {
+			.c = 1.0e1,
+			.m1 = &joints[8].mass,
+			.m2 = &joints[11].mass
 		}
 	}
 };
@@ -301,15 +426,15 @@ struct support supports[scount] = {
 	{
 		.mass = &joints[0].mass,
 		.constraint = {
-			.c = {true, true, true},
+			.a = {false, true, true},
 			.p0 = {0.0, 0.0, 0.0}
 		}
 	},
 	{
 		.mass = &joints[4].mass,
 		.constraint = {
-			.c = {true, false, true},
-			.p0 = {1.0, 0.0, 0.0},
+			.a = {true, false, true},
+			.p0 = {1.0, 0.0, 0.0}
 		}
 	}
 };
@@ -349,6 +474,10 @@ int step(void)
 		struct member *member = &members[m];
 		double mforce = sforce(&member->spring) + dforce(&member->damper);
 		double mlength = mdistance(member->spring.m1, member->spring.m2);
+        if(mlength < epsilon)
+        {
+        	continue;
+        }
 		double mdirection[3];
 		int j1, j2;
 		for(int j = 0; j < jcount; j++)
@@ -374,7 +503,7 @@ int step(void)
 		double jacceleration[3];
 		for(int c = 0; c < 3; c++)
 		{
-			jacceleration[c] = jforces[j][c] / joints[j].mass.m;
+			jacceleration[c] = jforces[j][c] / (joints[j].mass.m > epsilon ? joints[j].mass.m : epsilon);
 			jaccelerations[j][c] = jacceleration[c];
 		}
 	}
@@ -391,7 +520,7 @@ int step(void)
 		struct support *support = &supports[s];
         for(int c = 0; c < 3; c++)
         {
-        	if(support->constraint.c[c])
+        	if(support->constraint.a[c])
             {
             	support->mass->p[c] = support->constraint.p0[c];
                 support->mass->v[c] = 0.0;
@@ -436,22 +565,49 @@ void draw(void)
 		cairo_save(context);
 		cairo_translate(context, support->mass->p[0], support->mass->p[1]);
 		cairo_scale(context, scale, scale);
-        int number = support->constraint.c[0] + support->constraint.c[1];
-        if(number == 0) continue;
-        if(number == 1)
+        int count = support->constraint.a[0] + support->constraint.a[1];
+        if(count == 0) continue;
+        if(support->constraint.a[0] && !support->constraint.a[1])
         {
-        	if(support->constraint.c[0])
+        	cairo_rotate(context, 0.5 * pi);
+        }
+		int ncount = 0;
+        double ncenter[2] = {0.0, 0.0};
+        for(int m = 0; m < mcount; m++)
+        {
+        	struct member *member = &members[m];
+            if(member->spring.m1 == support->mass)
             {
-        		cairo_rotate(context, 0.5 * pi);
+            	for(int c = 0; c < 2; c++)
+                {
+                	ncenter[c] += member->spring.m2->p[c];
+                }
+                ncount++;
+            }
+            if(member->spring.m2 == support->mass)
+            {
+            	for(int c = 0; c < 2; c++)
+            	{
+            		ncenter[c] += member->spring.m1->p[c];
+            	}
+                ncount++;
             }
         }
+        for(int c = 0; c < 2; c++)
+        {
+        	ncenter[c] /= ncount;
+        }
+		if((ncount == 1 && ncenter[0] - support->mass->p[0] < 0) || (ncount == 2 && ncenter[1] - support->mass->p[1] < 0))
+		{
+			cairo_scale(context, 1.0, -1.0);
+		}
 		cairo_move_to(context, 0.0, 0.0);
 		cairo_line_to(context, 0.035, -0.05);
 		cairo_line_to(context, -0.035, -0.05);
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
 		cairo_rectangle(context, -0.075, -0.06, 0.15, 0.005);
-		if(number == 1)
+		if(count == 1)
 		{
 			cairo_new_sub_path(context);
 			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, tau);
@@ -556,7 +712,7 @@ int main(void)
 	{
 		mass_system += joints[j].mass.m;
 	}
-	printf("mass of system: %lf\n", mass_system);
+	printf("mass of system: %lf kg\n", mass_system);
 	double center_system[3] = {0.0, 0.0, 0.0};
 	for(int j = 0; j < jcount; j++)
 	{
@@ -569,7 +725,7 @@ int main(void)
 	{
 		center_system[c] /= mass_system;
 	}
-	printf("center of mass of system: (%lf, %lf, %lf)\n", center_system[0], center_system[1], center_system[2]);
+	printf("center of mass of system: (%lf %lf %lf) m\n", center_system[0], center_system[1], center_system[2]);
 	double momentum_system[3] = {0.0, 0.0, 0.0};
 	for(int j = 0; j < jcount; j++)
 	{
@@ -578,7 +734,7 @@ int main(void)
 			momentum_system[c] += joints[j].mass.m * joints[j].mass.v[c];
 		}
 	}
-	printf("momentum of system: <%lf, %lf, %lf>\n", momentum_system[0], momentum_system[1], momentum_system[2]);
+	printf("momentum of system: <%lf %lf %lf> kg*m/s\n", momentum_system[0], momentum_system[1], momentum_system[2]);
 	double energy_system = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
@@ -595,7 +751,7 @@ int main(void)
 	{
 		energy_system += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2);
 	}
-	printf("energy of system: %lf\n", energy_system);
+	printf("energy of system: %lf J\n", energy_system);
 	init();
 	for(int p = 0; p < pictures; p++)
 	{
