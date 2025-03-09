@@ -23,12 +23,8 @@ struct member {
 struct support {
 	struct mass *mass;
 	struct constraint {
-		int c;
+		bool c[3];
 		double p0[3];
-		union {
-			double t[3];
-			double n[3];
-		};
 	} constraint;
 };
 
@@ -305,16 +301,15 @@ struct support supports[scount] = {
 	{
 		.mass = &joints[0].mass,
 		.constraint = {
-			.c = 3,
+			.c = {true, true, true},
 			.p0 = {0.0, 0.0, 0.0}
 		}
 	},
 	{
 		.mass = &joints[4].mass,
 		.constraint = {
-			.c = 2,
+			.c = {true, false, true},
 			.p0 = {1.0, 0.0, 0.0},
-			.t = {1.0, -1.0, 0.0}
 		}
 	}
 };
@@ -394,71 +389,14 @@ int step(void)
 	for(int s = 0; s < scount; s++)
 	{
 		struct support *support = &supports[s];
-		if(support->constraint.c == 0)
-		{
-			continue;
-		}
-		else if(support->constraint.c == 1)
-		{
-			double product1 = 0.0;
-			double product2 = 0.0;
-			double product3 = 0.0;
-			for(int c = 0; c < 3; c++)
-			{
-				product1 += (support->mass->p[c] - support->constraint.p0[c]) * support->constraint.n[c];
-				product2 += support->mass->v[c] * support->constraint.n[c];
-				product3 += support->constraint.n[c] * support->constraint.n[c];
-			}
-			if(fabs(product3) < fabs(epsilon))
-			{
-				fprintf(stderr, "error: plane constraint's normal vector square magnitude is below epsilon.\n");
-				return 1;
-			}
-			double coefficient1 = product1 / product3;
-			double coefficient2 = product2 / product3;
-			for(int c = 0; c < 3; c++)
-			{
-				support->mass->p[c] = support->mass->p[c] - coefficient1 * support->constraint.n[c];
-				support->mass->v[c] = support->mass->v[c] - coefficient2 * support->constraint.n[c];
-			}
-		}
-		else if(support->constraint.c == 2)
-		{
-			double product1 = 0.0;
-			double product2 = 0.0;
-			double product3 = 0.0;
-			for(int c = 0; c < 3; c++)
-			{
-				product1 += (support->mass->p[c] - support->constraint.p0[c]) * support->constraint.t[c];
-				product2 += support->mass->v[c] * support->constraint.t[c];
-				product3 += support->constraint.t[c] * support->constraint.t[c];
-			}
-			if(fabs(product3) < fabs(epsilon))
-			{
-				fprintf(stderr, "error: line constraint's tangent vector square magnitude is below epsilon.\n");
-				return 1;
-			}
-			double coefficient1 = product1 / product3;
-			double coefficient2 = product2 / product3;
-			for(int c = 0; c < 3; c++)
-			{
-				support->mass->p[c] = support->constraint.p0[c] + coefficient1 * support->constraint.t[c];
-				support->mass->v[c] = coefficient2 * support->constraint.t[c];
-			}
-		}
-		else if(support->constraint.c == 3)
-		{
-			for(int c = 0; c < 3; c++)
-			{
-				support->mass->p[c] = support->constraint.p0[c];
-				support->mass->v[c] = 0.0;
-			}
-		}
-		else
-		{
-			fprintf(stderr, "error: support constraint's count is out of bounds.\n");
-			return 1;
-		}
+        for(int c = 0; c < 3; c++)
+        {
+        	if(support->constraint.c[c])
+            {
+            	support->mass->p[c] = support->constraint.p0[c];
+                support->mass->v[c] = 0.0;
+            }
+        }
 	}
 	iteration++;
 	time += delta_time;
@@ -498,29 +436,22 @@ void draw(void)
 		cairo_save(context);
 		cairo_translate(context, support->mass->p[0], support->mass->p[1]);
 		cairo_scale(context, scale, scale);
-		if(support->constraint.c == 0)
-		{
-			continue;
-		}
-		else if(support->constraint.c == 1)
-		{
-			double angle = atan2(support->constraint.n[1], support->constraint.n[0]);
-			angle = angle > 0.0 ? angle - 0.5 * pi : angle + 0.5 * pi;
-			cairo_rotate(context, angle);
-		}
-		else if(support->constraint.c == 2)
-		{
-			double angle = atan2(-support->constraint.t[0], support->constraint.t[1]);
-			angle = angle > 0 ? angle - 0.5 * pi : angle + 0.5 * pi;
-			cairo_rotate(context, angle);
-		}
+        int number = support->constraint.c[0] + support->constraint.c[1];
+        if(number == 0) continue;
+        if(number == 1)
+        {
+        	if(support->constraint.c[0])
+            {
+        		cairo_rotate(context, 0.5 * pi);
+            }
+        }
 		cairo_move_to(context, 0.0, 0.0);
 		cairo_line_to(context, 0.035, -0.05);
 		cairo_line_to(context, -0.035, -0.05);
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
 		cairo_rectangle(context, -0.075, -0.06, 0.15, 0.005);
-		if(support->constraint.c == 1 || support->constraint.c == 2)
+		if(number == 1)
 		{
 			cairo_new_sub_path(context);
 			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, tau);
