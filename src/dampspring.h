@@ -1,7 +1,7 @@
 struct mass {
 	double m;
-	double p[3];
-	double v[3];
+	double p[2];
+	double v[2];
 };
 
 struct spring {

@@ -2,8 +2,8 @@
 
 struct mass {
 	double m;
-	double p[3];
-	double v[3];
+	double p[2];
+	double v[2];
 };
 
 struct spring {
@@ -22,7 +22,7 @@ struct damper {
 double mdistance(struct mass *m1, struct mass *m2)
 {
 	double d = 0.0;
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < 2; i++)
 	{
 		double dp = m1->p[i] - m2->p[i];
 		d += dp * dp;
@@ -43,7 +43,7 @@ double dvelocity(struct damper *d)
 {
 	double l = mdistance(d->m1, d->m2);
 	double v = 0.0;
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < 2; i++)
 	{
 		double dv = d->m1->v[i] - d->m2->v[i];
 		double dp = d->m1->p[i] - d->m2->p[i];

@@ -23,7 +23,7 @@ int main(void)
 		struct mass wall = {};
 		struct mass mass = {
 			.m = 10.0 * randd() * pow(10.0, 2.0 * (randd() - 0.5)),
-			.p = {x0, 0.0, 0.0}
+			.p = {x0, 0.0}
 		};
 		struct spring spring = {
 			.k = 10.0 * randd() * pow(10.0, 2.0 * (randd() - 0.5)),
