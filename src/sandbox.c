@@ -65,17 +65,17 @@ int solve(void)
 			jaccelerations[j][c] = 0.0;
 			jforces[j][c] = 0.0;
 		}
-        jaccelerations[j][1] = -gravity;
-		jforces[j][1] = joints[j].mass.m * jaccelerations[j][1];
+	jaccelerations[j][1] = -gravity;
+	jforces[j][1] = joints[j].mass.m * jaccelerations[j][1];
 	}
 	for(int m = 0; m < mcount; m++)
 	{
 		struct member *member = &members[m];
 		double mforce = sforce(&member->spring) + dforce(&member->damper);
-        mforces[m] = mforce;
+		mforces[m] = mforce;
 		double mlength = mdistance(member->spring.m1, member->spring.m2);
-        mlengths[m] = mlength;
-        if(mlength < epsilon) continue;
+		mlengths[m] = mlength;
+		if(mlength < epsilon) continue;
 		double mdirection[2];
 		int jindex1, jindex2;
 		for(int j = 0; j < jcount; j++)
@@ -89,8 +89,8 @@ int solve(void)
 			jforces[jindex1][c] -= mdirection[c] * mforce;
 			jforces[jindex2][c] += mdirection[c] * mforce;
 		}
-        mdisplacements[m] = sdisplacement(&member->spring);
-        mvelocities[m] = dvelocity(&member->damper);
+		mdisplacements[m] = sdisplacement(&member->spring);
+		mvelocities[m] = dvelocity(&member->damper);
 	}
 	for(int j = 0; j < jcount; j++)
 	{
@@ -114,15 +114,15 @@ int solve(void)
 		struct support *support = &supports[s];
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m) jindex = j;
-        for(int c = 0; c < 2; c++)
-        {
-        	if(support->constraint.a[c])
-            {
-            	support->constraint.m->p[c] = support->constraint.p0[c];
-                support->constraint.m->v[c] = 0.0;
-                sreactions[s][c] = -jforces[jindex][c];
-            }
-        }
+		for(int c = 0; c < 2; c++)
+		{
+			if(support->constraint.a[c])
+			{
+				support->constraint.m->p[c] = support->constraint.p0[c];
+				support->constraint.m->v[c] = 0.0;
+				sreactions[s][c] = -jforces[jindex][c];
+			}
+		}
 	}
 	time += dtime;
 	step++;
@@ -162,33 +162,33 @@ void render(void)
 		cairo_save(context);
 		cairo_translate(context, support->constraint.m->p[0], support->constraint.m->p[1]);
 		cairo_scale(context, fscale, fscale);
-        int count = support->constraint.a[0] + support->constraint.a[1];
-        if(count == 0) continue;
-        if(support->constraint.a[0] && !support->constraint.a[1])
-        {
-        	cairo_rotate(context, 0.5 * pi);
-        }
+		int count = support->constraint.a[0] + support->constraint.a[1];
+		if(count == 0) continue;
+		if(support->constraint.a[0] && !support->constraint.a[1])
+		{
+			cairo_rotate(context, 0.5 * pi);
+		}
 		int ncount = 0;
-        double ncenter[2] = {0.0, 0.0};
-        for(int m = 0; m < mcount; m++)
-        {
-        	struct member *member = &members[m];
-            if(member->spring.m1 == support->constraint.m)
-            {
-            	for(int c = 0; c < 2; c++) ncenter[c] += member->spring.m2->p[c];
-                ncount++;
-            }
-            if(member->spring.m2 == support->constraint.m)
-            {
-            	for(int c = 0; c < 2; c++) ncenter[c] += member->spring.m1->p[c];
-                ncount++;
-            }
-        }
-        for(int c = 0; c < 2; c++) ncenter[c] /= ncount;
+		double ncenter[2] = {0.0, 0.0};
+		for(int m = 0; m < mcount; m++)
+		{
+			struct member *member = &members[m];
+			if(member->spring.m1 == support->constraint.m)
+			{
+				for(int c = 0; c < 2; c++) ncenter[c] += member->spring.m2->p[c];
+				ncount++;
+			}
+			if(member->spring.m2 == support->constraint.m)
+			{
+				for(int c = 0; c < 2; c++) ncenter[c] += member->spring.m1->p[c];
+				ncount++;
+			}
+		}
+		for(int c = 0; c < 2; c++) ncenter[c] /= ncount;
 		if(
-        	(ncount == 1 && ncenter[0] - support->constraint.m->p[0] < 0) ||
-        	(ncount == 2 && ncenter[1] - support->constraint.m->p[1] < 0)
-        )
+			(ncount == 1 && ncenter[0] - support->constraint.m->p[0] < 0) ||
+			(ncount == 2 && ncenter[1] - support->constraint.m->p[1] < 0)
+		)
 		{
 			cairo_scale(context, 1.0, -1.0);
 		}
@@ -410,19 +410,6 @@ int main(void)
 		for(int c = 0; c < 2; c++)
             momentum[c] += joints[j].mass.m * joints[j].mass.v[c];
 	printf("momentum=<%.9lf %.9lf>\n", momentum[0], momentum[1]);
-	double energy = 0.0;
-	for(int j = 0; j < jcount; j++)
-	{
-		double speed = 0.0;
-		for(int c = 0; c < 2; c++)
-			speed += pow(joints[j].mass.v[c], 2);
-		speed = sqrt(speed);
-		energy += 0.5 * joints[j].mass.m * pow(speed, 2);
-		energy += joints[j].mass.m * gravity * joints[j].mass.p[1];
-	}
-	for(int m = 0; m < mcount; m++)
-		energy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2);
-	printf("energy=%.9lf\n", energy);
     printf("jcount=%d\n", jcount);
     for(int j = 0; j < jcount; j++)
     {
