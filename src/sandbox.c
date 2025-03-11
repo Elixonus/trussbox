@@ -28,419 +28,19 @@ struct support {
 	} constraint;
 };
 
-constexpr int jcount = 12;
-struct joint joints[jcount] = {
-	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.0, 0.0},
-			.v = {0.0, 0.0}
-		}
-	},
-	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.25, 0.0},
-			.v = {0.0, 0.0}
-		}
-	},
-	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.5, 0.0},
-			.v = {0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.75, 0.0},
-			.v = {0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {1.0, 0.0},
-			.v = {0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.125, 0.25},
-			.v = {0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.375, 0.25},
-			.v = {0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.625, 0.25},
-			.v = {0.0, 0.0}
-		}
-	},
-   	{
-		.mass = {
-			.m = 1.0,
-			.p = {0.875, 0.25},
-			.v = {0.0, 0.0}
-		}
-	},
-    {
-    	.mass = {
-        	.m = 1.0,
-            .p = {0.25, 0.5},
-            .v = {0.0, 0.0}
-        }
-    },
-    {
-    	.mass = {
-        	.m = 1.0,
-            .p = {0.50, 0.5},
-            .v = {0.0, 0.0}
-        }
-    },
-    {
-    	.mass = {
-        	.m = 1.0,
-            .p = {0.75, 0.5},
-            .v = {0.0, 0.0}
-        }
-    }
-};
-double jaccelerations[jcount][2];
-double jforces[jcount][2];
+int jcount;
+struct joint *joints;
+double **jaccelerations;
+double **jforces;
 
-constexpr int mcount = 23;
-struct member members[mcount] = {
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[0].mass,
-			.m2 = &joints[1].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[0].mass,
-			.m2 = &joints[1].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[1].mass,
-			.m2 = &joints[2].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[1].mass,
-			.m2 = &joints[2].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[2].mass,
-			.m2 = &joints[3].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[2].mass,
-			.m2 = &joints[3].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[3].mass,
-			.m2 = &joints[4].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[3].mass,
-			.m2 = &joints[4].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[5].mass,
-			.m2 = &joints[6].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[5].mass,
-			.m2 = &joints[6].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[6].mass,
-			.m2 = &joints[7].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[6].mass,
-			.m2 = &joints[7].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[7].mass,
-			.m2 = &joints[8].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[7].mass,
-			.m2 = &joints[8].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[9].mass,
-			.m2 = &joints[10].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[9].mass,
-			.m2 = &joints[10].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[10].mass,
-			.m2 = &joints[11].mass,
-			.l0 = 0.25
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[10].mass,
-			.m2 = &joints[11].mass
-		}
-	},
-	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[0].mass,
-			.m2 = &joints[5].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[0].mass,
-			.m2 = &joints[5].mass
-		}
-	},
- 	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[1].mass,
-			.m2 = &joints[6].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[1].mass,
-			.m2 = &joints[6].mass
-		}
-	},
-  	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[2].mass,
-			.m2 = &joints[7].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[2].mass,
-			.m2 = &joints[7].mass
-		}
-	},
-   	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[3].mass,
-			.m2 = &joints[8].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[3].mass,
-			.m2 = &joints[8].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[5].mass,
-			.m2 = &joints[9].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[5].mass,
-			.m2 = &joints[9].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[6].mass,
-			.m2 = &joints[10].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[6].mass,
-			.m2 = &joints[10].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[7].mass,
-			.m2 = &joints[11].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[7].mass,
-			.m2 = &joints[11].mass
-		}
-	},
-   	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[1].mass,
-			.m2 = &joints[5].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[1].mass,
-			.m2 = &joints[5].mass
-		}
-	},
-   	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[2].mass,
-			.m2 = &joints[6].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[2].mass,
-			.m2 = &joints[6].mass
-		}
-	},
-   	{
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[3].mass,
-			.m2 = &joints[7].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[3].mass,
-			.m2 = &joints[7].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[4].mass,
-			.m2 = &joints[8].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[4].mass,
-			.m2 = &joints[8].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[6].mass,
-			.m2 = &joints[9].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[6].mass,
-			.m2 = &joints[9].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[7].mass,
-			.m2 = &joints[10].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[7].mass,
-			.m2 = &joints[10].mass
-		}
-	},
-    {
-		.spring = {
-			.k = 3.0e3,
-			.m1 = &joints[8].mass,
-			.m2 = &joints[11].mass,
-			.l0 = 0.2795084972
-		},
-		.damper = {
-			.c = 3.0e2,
-			.m1 = &joints[8].mass,
-			.m2 = &joints[11].mass
-		}
-	}
-};
+int mcount = 23;
+struct member *members;
 
-constexpr int scount = 2;
-struct support supports[scount] = {
-	{
-		.mass = &joints[0].mass,
-		.constraint = {
-			.a = {false, true},
-			.p0 = {0.0, 0.0}
-		}
-	},
-	{
-		.mass = &joints[4].mass,
-		.constraint = {
-			.a = {false, true},
-			.p0 = {1.0, 0.0}
-		}
-	}
-};
+int scount;
+struct support *supports;
 
 double gravity;
-double epsilon;
+double epsilon = 1e-9;
 double dtime;
 double time;
 int step;
@@ -527,8 +127,8 @@ int solve(void)
             }
         }
 	}
-	step++;
 	time += dtime;
+	step++;
 	return 0;
 }
 
@@ -691,21 +291,71 @@ double framef;
 
 int main(void)
 {
-
-	timef = 2.0;
-    srate = 60000.0;
-    stepf = srate * timef;
+    scanf("timef=%lf\n", &timef);
     dtime = 1.0 / srate;
-    frate = 60.0;
+    scanf("frate=%lf\n", &frate);
     framef = frate * timef;
-    gravity = 9.8;
-    epsilon = 1e-9;
-    fcenter[0] = 0.5; fcenter[1] = 0.125;
-    fzoom = 1.0;
-    fscale = 1.0;
-	time = 0.0;
-	step = 0;
-	frame = 0;
+    scanf("fcenter=(%lf %lf)\n", &fcenter[0], &fcenter[1]);
+	scanf("fzoom=%lf\n", &fzoom);
+    scanf("fscale=%lf\n", &fscale);
+	scanf("srate=%lf\n", &srate);
+	stepf = srate * timef;
+	scanf("gravity=%lf\n", &gravity);
+    scanf("jcount=%d\n", &jcount);
+    if(jcount < 0)
+    {
+    	return 1;
+    }
+    joints = malloc(jcount * sizeof(struct joint));
+    for(int j = 0; j < jcount; j++)
+    {
+		scanf(
+        	"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+        	&joints[j].mass.m, &joints[j].mass.p[0], &joints[j].mass.p[1], &joints[j].mass.v[0], &joints[j].mass.v[1]
+        );
+        if(joints[j].mass.m < 0.0)
+        {
+        	return 1;
+        }
+        // printf("m=%lf px=%lf py=%lf vx=%lf vy=%lf\n", joints[j].mass.m, joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
+    }
+    jaccelerations = malloc(jcount * sizeof(double *));
+    jforces = malloc(jcount * sizeof(double *));
+    for(int j = 0; j < jcount; j++)
+    {
+		jaccelerations[j] = malloc(2 * sizeof(double));
+        jforces[j] = malloc(2 * sizeof(double));
+    }
+	scanf("mcount=%d\n", &mcount);
+    members = malloc(mcount * sizeof(struct member));
+    for(int m = 0; m < mcount; m++)
+    {
+    	int j1, j2;
+        scanf("joint1=%d joint2=%d ", &j1, &j2);
+        j1--; j2--;
+        if(j1 < 0 || j1 >= jcount || j2 < 0 || j2 >= jcount)
+        {
+        	return 1;
+        }
+        members[m].spring.m1 = &joints[j1].mass;
+    	members[m].spring.m2 = &joints[j2].mass;
+    	members[m].damper.m1 = &joints[j1].mass;
+    	members[m].damper.m2 = &joints[j2].mass;
+    	scanf(
+        	"stiffness=%lf length0=%lf dampening=%lf\n",
+        	&members[m].spring.k, &members[m].spring.l0, &members[m].damper.c
+        );
+        if(members[m].spring.l0 < 0.0)
+        {
+        	return 1;
+        }
+        printf("j1=%d j2=%d k=%lf l0=%lf c=%lf\n", j1, j2, members[m].spring.k, members[m].spring.l0, members[m].damper.c);
+    }
+
+
+	return 0;
+
+        /*
 	double smass = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
@@ -751,6 +401,11 @@ int main(void)
 		senergy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2);
 	}
 	printf("energy of system: %.3lf J\n", senergy);
+
+         */
+	time = 0.0;
+	step = 0;
+	frame = 0;
 	while(((double) frame) / framef < 1.0)
 	{
         render();
@@ -759,5 +414,13 @@ int main(void)
     		solve();
         }
 	}
+    free(joints);
+    for(int j = 0; j < jcount; j++)
+    {
+    	free(jaccelerations[j]);
+        free(jforces[j]);
+    }
+    free(jaccelerations);
+    free(jforces);
 	return 0;
 }
