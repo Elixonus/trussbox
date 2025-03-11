@@ -5,10 +5,6 @@
 #include <cairo.h>
 #include "dampspring.h"
 
-// -f truss.txt -t 10.0 -dt 0.01
-// -f system.txt -t 10.0 -i 1000 -g 9.8
-// using dynamic malloc or bounded array
-
 constexpr double pi = 4.0 * atan(1.0);
 constexpr double tau = 2.0 * pi;
 
@@ -36,6 +32,9 @@ double **jforces;
 
 int mcount;
 struct member *members;
+double *mlengths;
+double *mdisplacements;
+double *mvelocities;
 double *mforces;
 
 int scount;
@@ -75,6 +74,7 @@ int solve(void)
 		double mforce = sforce(&member->spring) + dforce(&member->damper);
         mforces[m] = mforce;
 		double mlength = mdistance(member->spring.m1, member->spring.m2);
+        mlengths[m] = mlength;
         if(mlength < epsilon) continue;
 		double mdirection[2];
 		int jindex1, jindex2;
@@ -89,6 +89,8 @@ int solve(void)
 			jforces[jindex1][c] -= mdirection[c] * mforce;
 			jforces[jindex2][c] += mdirection[c] * mforce;
 		}
+        mdisplacements[m] = sdisplacement(&member->spring);
+        mvelocities[m] = dvelocity(&member->damper);
 	}
 	for(int j = 0; j < jcount; j++)
 	{
@@ -315,7 +317,6 @@ int main(void)
         );
         if(joint.mass.m < epsilon) return 1;
         joints[j] = joint;
-        // printf("m=%lf px=%lf py=%lf vx=%lf vy=%lf\n", joints[j].mass.m, joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
     	jaccelerations[j] = malloc(2 * sizeof(double));
     	jforces[j] = malloc(2 * sizeof(double));
     	for(int c = 0; c < 2; c++)
@@ -326,6 +327,9 @@ int main(void)
     }
 	scanf("mcount=%d\n", &mcount);
     members = malloc(mcount * sizeof(struct member));
+	mlengths = malloc(mcount * sizeof(double));
+	mdisplacements = malloc(mcount * sizeof(double));
+	mvelocities = malloc(mcount * sizeof(double));
     mforces = malloc(mcount * sizeof(double));
     for(int m = 0; m < mcount; m++)
     {
@@ -348,7 +352,9 @@ int main(void)
     	member.damper.m2 = &joints[jindex2].mass;
         if(member.spring.l0 < epsilon) return 1;
         members[m] = member;
-        // printf("jindex1=%d jindex2=%d k=%lf l0=%lf c=%lf\n", jindex1, jindex2, members[m].spring.k, members[m].spring.l0, members[m].damper.c);
+    	mlengths[m] = 0.0;
+    	mdisplacements[m] = 0.0;
+        mvelocities[m] = 0.0;
         mforces[m] = 0.0;
     }
 	scanf("scount=%d\n", &scount);
@@ -374,7 +380,6 @@ int main(void)
         else support.constraint.a[1] = false;
         if(!support.constraint.a[0] && !support.constraint.a[1]) return 1;
         supports[s] = support;
-        // printf("jindex=%d axes=%s p0x=%lf p0y=%lf\n", jindex, axes, supports[s].constraint.p0[0], supports[s].constraint.p0[1]);
         sreactions[s] = malloc(2 * sizeof(double));
         for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
     }
@@ -433,8 +438,13 @@ int main(void)
     {
     	printf(
         	"force=%.9lf displacement=%.9lf length=%.9lf velocity=%.9lf\n",
-        	mforces
+        	mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]
         );
+    }
+    printf("scount=%d\n", scount);
+    for(int s = 0; s < scount; s++)
+    {
+		printf("reaction=<%.9lf %.9lf %.9lf>\n", sreactions[s][0], sreactions[s][1], sreactions[s][2]);
     }
     free(joints);
     for(int j = 0; j < jcount; j++)
@@ -445,6 +455,9 @@ int main(void)
     free(jaccelerations);
     free(jforces);
     free(members);
+    free(mlengths);
+    free(mdisplacements);
+    free(mvelocities);
     free(mforces);
     free(supports);
     for(int s = 0; s < scount; s++)
