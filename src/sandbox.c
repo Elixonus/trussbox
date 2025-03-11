@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include <cairo.h>
 #include "dampspring.h"
 
@@ -79,23 +80,23 @@ int solve(void)
         	continue;
         }
 		double mdirection[2];
-		int j1, j2;
+		int jindex1, jindex2;
 		for(int j = 0; j < jcount; j++)
 		{
 			if(&joints[j].mass == member->spring.m1)
 			{
-				j1 = j;
+				jindex1 = j;
 			}
 			if(&joints[j].mass == member->spring.m2)
 			{
-				j2 = j;
+				jindex2 = j;
 			}
 		}
 		for(int c = 0; c < 2; c++)
 		{
-			mdirection[c] = (joints[j2].mass.p[c] - joints[j1].mass.p[c]) / mlength;
-			jforces[j1][c] -= mdirection[c] * mforce;
-			jforces[j2][c] += mdirection[c] * mforce;
+			mdirection[c] = (joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) / mlength;
+			jforces[jindex1][c] -= mdirection[c] * mforce;
+			jforces[jindex2][c] += mdirection[c] * mforce;
 		}
 	}
 	for(int j = 0; j < jcount; j++)
@@ -292,7 +293,6 @@ double framef;
 int main(void)
 {
     scanf("timef=%lf\n", &timef);
-    dtime = 1.0 / srate;
     scanf("frate=%lf\n", &frate);
     framef = frate * timef;
     scanf("fcenter=(%lf %lf)\n", &fcenter[0], &fcenter[1]);
@@ -300,6 +300,7 @@ int main(void)
     scanf("fscale=%lf\n", &fscale);
 	scanf("srate=%lf\n", &srate);
 	stepf = srate * timef;
+	dtime = 1.0 / srate;
 	scanf("gravity=%lf\n", &gravity);
     scanf("jcount=%d\n", &jcount);
     if(jcount < 0)
@@ -309,14 +310,16 @@ int main(void)
     joints = malloc(jcount * sizeof(struct joint));
     for(int j = 0; j < jcount; j++)
     {
+		struct joint joint;
 		scanf(
         	"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
-        	&joints[j].mass.m, &joints[j].mass.p[0], &joints[j].mass.p[1], &joints[j].mass.v[0], &joints[j].mass.v[1]
+        	&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
         );
-        if(joints[j].mass.m < 0.0)
+        if(joint.mass.m < 0.0)
         {
         	return 1;
         }
+        joints[j] = joint;
         // printf("m=%lf px=%lf py=%lf vx=%lf vy=%lf\n", joints[j].mass.m, joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
     }
     jaccelerations = malloc(jcount * sizeof(double *));
@@ -325,35 +328,77 @@ int main(void)
     {
 		jaccelerations[j] = malloc(2 * sizeof(double));
         jforces[j] = malloc(2 * sizeof(double));
+        for(int c = 0; c < 2; c++)
+        {
+        	jaccelerations[j][c] = 0.0;
+        	jforces[j][c] = 0.0;
+        }
     }
 	scanf("mcount=%d\n", &mcount);
     members = malloc(mcount * sizeof(struct member));
     for(int m = 0; m < mcount; m++)
     {
-    	int j1, j2;
-        scanf("joint1=%d joint2=%d ", &j1, &j2);
-        j1--; j2--;
-        if(j1 < 0 || j1 >= jcount || j2 < 0 || j2 >= jcount)
-        {
-        	return 1;
-        }
-        members[m].spring.m1 = &joints[j1].mass;
-    	members[m].spring.m2 = &joints[j2].mass;
-    	members[m].damper.m1 = &joints[j1].mass;
-    	members[m].damper.m2 = &joints[j2].mass;
+    	int jindex1, jindex2;
+        struct member member;
     	scanf(
-        	"stiffness=%lf length0=%lf dampening=%lf\n",
-        	&members[m].spring.k, &members[m].spring.l0, &members[m].damper.c
+        	"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+        	&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
         );
-        if(members[m].spring.l0 < 0.0)
+    	jindex1--; jindex2--;
+    	if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount)
+    	{
+    		return 1;
+    	}
+    	member.spring.m1 = &joints[jindex1].mass;
+    	member.spring.m2 = &joints[jindex2].mass;
+    	member.damper.m1 = &joints[jindex1].mass;
+    	member.damper.m2 = &joints[jindex2].mass;
+        if(member.spring.l0 < 0.0)
         {
         	return 1;
         }
-        printf("j1=%d j2=%d k=%lf l0=%lf c=%lf\n", j1, j2, members[m].spring.k, members[m].spring.l0, members[m].damper.c);
+        members[m] = member;
+        // printf("jindex1=%d jindex2=%d k=%lf l0=%lf c=%lf\n", jindex1, jindex2, members[m].spring.k, members[m].spring.l0, members[m].damper.c);
     }
-
-
-	return 0;
+	scanf("scount=%d\n", &scount);
+	supports = malloc(scount * sizeof(struct support));
+    for(int s = 0; s < scount; s++)
+    {
+    	int jindex;
+    	char axes[2];
+        struct support support;
+        scanf("joint=%d axes=%2s position0=(%lf %lf)\n",
+              &jindex, axes, &support.constraint.p0[0], &support.constraint.p0[1]
+        );
+        jindex--;
+        if(jindex < 0 || jindex >= jcount)
+        {
+        	return 1;
+        }
+        support.mass = &joints[jindex].mass;
+        if(strchr(axes, 'x') != nullptr)
+        {
+        	support.constraint.a[0] = true;
+        }
+        else
+        {
+        	support.constraint.a[0] = false;
+        }
+        if(strchr(axes, 'y') != nullptr)
+        {
+        	support.constraint.a[1] = true;
+        }
+        else
+        {
+        	support.constraint.a[1] = false;
+        }
+        if(!support.constraint.a[0] && !support.constraint.a[1])
+        {
+        	return 1;
+        }
+        supports[s] = support;
+        // printf("jindex=%d axes=%s p0x=%lf p0y=%lf\n", jindex, axes, supports[s].constraint.p0[0], supports[s].constraint.p0[1]);
+    }
 
         /*
 	double smass = 0.0;
@@ -411,7 +456,7 @@ int main(void)
         render();
         while(((double) step) / stepf < ((double) frame) / framef)
         {
-    		solve();
+        	solve();
         }
 	}
     free(joints);
