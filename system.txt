@@ -1,9 +1,9 @@
-timef=2.0
+timef=1.0
 frate=60.0
 fcenter=(0.5 0.125)
 fzoom=1
 fscale=1
-srate=60000.0
+srate=1000.0
 gravity=9.8
 jcount=12
 mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
