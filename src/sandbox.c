@@ -293,6 +293,10 @@ double framef;
 int main(void)
 {
     scanf("timef=%lf\n", &timef);
+    if(timef < epsilon)
+    {
+
+    }
     scanf("frate=%lf\n", &frate);
     framef = frate * timef;
     scanf("fcenter=(%lf %lf)\n", &fcenter[0], &fcenter[1]);
@@ -303,10 +307,7 @@ int main(void)
 	dtime = 1.0 / srate;
 	scanf("gravity=%lf\n", &gravity);
     scanf("jcount=%d\n", &jcount);
-    if(jcount < 0)
-    {
-    	return 1;
-    }
+    if(jcount < 0) return 1;
     joints = malloc(jcount * sizeof(struct joint));
     for(int j = 0; j < jcount; j++)
     {
@@ -315,10 +316,7 @@ int main(void)
         	"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
         	&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
         );
-        if(joint.mass.m < 0.0)
-        {
-        	return 1;
-        }
+        if(joint.mass.m < epsilon) return 1;
         joints[j] = joint;
         // printf("m=%lf px=%lf py=%lf vx=%lf vy=%lf\n", joints[j].mass.m, joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
     }
@@ -345,18 +343,12 @@ int main(void)
         	&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
         );
     	jindex1--; jindex2--;
-    	if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount)
-    	{
-    		return 1;
-    	}
+    	if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
     	member.spring.m1 = &joints[jindex1].mass;
     	member.spring.m2 = &joints[jindex2].mass;
     	member.damper.m1 = &joints[jindex1].mass;
     	member.damper.m2 = &joints[jindex2].mass;
-        if(member.spring.l0 < 0.0)
-        {
-        	return 1;
-        }
+        if(member.spring.l0 < epsilon) return 1;
         members[m] = member;
         // printf("jindex1=%d jindex2=%d k=%lf l0=%lf c=%lf\n", jindex1, jindex2, members[m].spring.k, members[m].spring.l0, members[m].damper.c);
     }
@@ -371,42 +363,22 @@ int main(void)
               &jindex, axes, &support.constraint.p0[0], &support.constraint.p0[1]
         );
         jindex--;
-        if(jindex < 0 || jindex >= jcount)
-        {
-        	return 1;
-        }
+        if(jindex < 0 || jindex >= jcount) return 1;
         support.mass = &joints[jindex].mass;
-        if(strchr(axes, 'x') != nullptr)
-        {
-        	support.constraint.a[0] = true;
-        }
-        else
-        {
-        	support.constraint.a[0] = false;
-        }
-        if(strchr(axes, 'y') != nullptr)
-        {
-        	support.constraint.a[1] = true;
-        }
-        else
-        {
-        	support.constraint.a[1] = false;
-        }
-        if(!support.constraint.a[0] && !support.constraint.a[1])
-        {
-        	return 1;
-        }
+        if(strchr(axes, 'x') != nullptr) support.constraint.a[0] = true;
+        else support.constraint.a[0] = false;
+        if(strchr(axes, 'y') != nullptr) support.constraint.a[1] = true;
+        else support.constraint.a[1] = false;
+        if(!support.constraint.a[0] && !support.constraint.a[1]) return 1;
         supports[s] = support;
         // printf("jindex=%d axes=%s p0x=%lf p0y=%lf\n", jindex, axes, supports[s].constraint.p0[0], supports[s].constraint.p0[1]);
     }
-
-        /*
 	double smass = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
 		smass += joints[j].mass.m;
 	}
-	printf("mass of system: %.3lf kg\n", smass);
+	printf("mass=%.3lf kg\n", smass);
 	double scenter[2] = {0.0, 0.0};
 	for(int j = 0; j < jcount; j++)
 	{
@@ -419,7 +391,7 @@ int main(void)
 	{
 		scenter[c] /= smass;
 	}
-	printf("center of mass of system: (%.3lf %.3lf) m\n", scenter[0], scenter[1]);
+	printf("center=(%.3lf %.3lf) m\n", scenter[0], scenter[1]);
 	double smomentum[2] = {0.0, 0.0};
 	for(int j = 0; j < jcount; j++)
 	{
@@ -428,7 +400,7 @@ int main(void)
 			smomentum[c] += joints[j].mass.m * joints[j].mass.v[c];
 		}
 	}
-	printf("momentum of system: <%.3lf %.3lf> kg*m/s\n", smomentum[0], smomentum[1]);
+	printf("momentum=<%.3lf %.3lf> kg*m/s\n", smomentum[0], smomentum[1]);
 	double senergy = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
@@ -445,9 +417,7 @@ int main(void)
 	{
 		senergy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2);
 	}
-	printf("energy of system: %.3lf J\n", senergy);
-
-         */
+	printf("energy=%.3lf J\n", senergy);
 	time = 0.0;
 	step = 0;
 	frame = 0;
