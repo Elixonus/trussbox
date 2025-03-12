@@ -38,3 +38,5 @@ joint1=9 joint2=12 stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
 scount=2
 joint=1 axes=y position0=(0.0 0.0)
 joint=5 axes=y position0=(1.0 0.0)
+lcount=1
+joint=11 force=<0.0 300.0>

@@ -29,8 +29,8 @@ struct load {
 	struct extenal {
 		double f[2];
 		struct mass *m;
-	}
-}
+	} external;
+};
 
 int jcount;
 struct joint *joints;
@@ -415,8 +415,6 @@ int main(int argc, char **argv)
 		);
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
-		for(int l2 = 0; l2 < l; l2++)
-			if(loads[l2].external.m == &joints[jindex].mass) return 1;
 		load.external.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
