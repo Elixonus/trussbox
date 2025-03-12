@@ -1,5 +1,5 @@
 bin/
-out/
+tmp/
 
 # IDE
 .idea

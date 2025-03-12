@@ -4,8 +4,6 @@ struct mass {
 	double m;
 	double p[2];
 	double v[2];
-	double a[2];
-	double f[2];
 };
 
 struct spring {
