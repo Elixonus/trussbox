@@ -26,30 +26,28 @@ struct support {
 };
 
 struct load {
-	struct extenal {
+	struct applied {
 		double f[2];
 		struct mass *m;
-	} external;
+	} applied;
 };
 
-int jcount;
 struct joint *joints;
-double **jaccelerations;
-double **jforces;
+int jcount;
 
-int mcount;
 struct member *members;
 double *mlengths;
 double *mdisplacements;
 double *mvelocities;
 double *mforces;
+int mcount;
 
-int scount;
 struct support *supports;
 double **sreactions;
+int scount;
 
-int lcount;
 struct load *loads;
+int lcount;
 
 double epsilon = 1e-9;
 double gravity;
@@ -72,29 +70,29 @@ int solve(void)
 	{
 		for(int c = 0; c < 2; c++)
 		{
-			jforces[j][c] = 0.0;
+			joints[j].mass.f[c] = 0.0;
 		}
-		jforces[j][1] = -gravity * joints[j].mass.m;
+		joints[j].mass.f[1] = -gravity * joints[j].mass.m;
 	}
 	for(int l = 0; l < lcount; l++)
 	{
 		struct load *load = &loads[l];
 		int jindex;
-		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->external.m) jindex = j;
+		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->applied.m) jindex = j;
 		for(int c = 0; c < 2; c++)
 		{
-			jforces[jindex][c] += load->external.f[c];
+			joints[jindex].mass.f[c] += load->applied.f[c];
 		}
 	}
 	for(int m = 0; m < mcount; m++)
 	{
 		struct member *member = &members[m];
-		double mforce = sforce(&member->spring) + dforce(&member->damper);
-		mforces[m] = mforce;
-		double mlength = mdistance(member->spring.m1, member->spring.m2);
-		mlengths[m] = mlength;
-		if(mlength < epsilon) continue;
-		double mdirection[2];
+		double force = sforce(&member->spring) + dforce(&member->damper);
+		mforces[m] = force;
+		double length = mdistance(member->spring.m1, member->spring.m2);
+		mlengths[m] = length;
+		if(length < epsilon) continue;
+		double direction[2];
 		int jindex1, jindex2;
 		for(int j = 0; j < jcount; j++)
 		{
@@ -103,27 +101,19 @@ int solve(void)
 		}
 		for(int c = 0; c < 2; c++)
 		{
-			mdirection[c] = (joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) / mlength;
-			jforces[jindex1][c] -= mdirection[c] * mforce;
-			jforces[jindex2][c] += mdirection[c] * mforce;
+			direction[c] = (joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) / length;
+			joints[jindex1].mass.f[c] -= direction[c] * force;
+			joints[jindex2].mass.f[c] += direction[c] * force;
 		}
 		mdisplacements[m] = sdisplacement(&member->spring);
 		mvelocities[m] = dvelocity(&member->damper);
 	}
 	for(int j = 0; j < jcount; j++)
 	{
-		double jacceleration[2];
-		for(int c = 0; c < 2; c++)
-		{
-			jacceleration[c] = jforces[j][c] / (joints[j].mass.m > epsilon ? joints[j].mass.m : epsilon);
-			jaccelerations[j][c] = jacceleration[c];
-		}
-	}
-	for(int j = 0; j < jcount; j++)
-	{
 		struct joint *joint = &joints[j];
 		for(int c = 0; c < 2; c++)
 		{
+			jaccelerations[j][c] = joints[j].mass.f[c] / (joints[j].mass.m > epsilon ? joints[j].mass.m : epsilon);
 			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * dtime;
 		}
 	}
@@ -138,7 +128,7 @@ int solve(void)
 			{
 				support->constraint.m->p[c] = support->constraint.p0[c];
 				support->constraint.m->v[c] = 0.0;
-				sreactions[s][c] = -jforces[jindex][c];
+				sreactions[s][c] = -joints[jindex].mass.f[c];
 			}
 		}
 	}
@@ -151,6 +141,7 @@ int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
+char ffolder[101];
 int frame;
 
 void render(void)
@@ -284,8 +275,9 @@ void render(void)
 	cairo_restore(context);
 	cairo_restore(context);
 	cairo_destroy(context);
-	char filename[100];
-	sprintf(filename, "out/img/%05d.png", frame + 1);
+	char filename[201];
+	sprintf(filename, "%s/%05d.png", ffolder, frame + 1);
+	printf("hello=%s\n", filename);
 	cairo_surface_write_to_png(surface, filename);
 	cairo_surface_destroy(surface);
 	frame++;
@@ -294,22 +286,29 @@ void render(void)
 double timef;
 double srate;
 int stepf;
-double dtime;
 double frate;
 int framef;
 
 int main(int argc, char **argv)
 {
-	for(int a = 1; a < argc; a++)
+	gravity = 0.0;
+	fsize[0] = 1000, fsize[1] = 1000;
+	fcenter[0] = 0.0, fcenter[1] = 0.0;
+	fzoom = 1.0;
+	fscale = 1.0;
+	if(argc >= 2) sscanf(argv[1], "%100s", ffolder);
+	printf("ffolder=%s", ffolder);
+	for(int a = 2; a < argc; a++)
 	{
 		if(sscanf(argv[a], "gravity=%lf", &gravity) == 1) continue;
 		if(sscanf(argv[a], "timef=%lf", &timef) == 1) continue;
 		if(sscanf(argv[a], "srate=%lf", &srate) == 1) continue;
 		if(sscanf(argv[a], "frate=%lf", &frate) == 1) continue;
-		if(sscanf(argv[a], "fsize=<%d %d>", &fsize[0], &fsize[1]) == 2) continue;
+		if(sscanf(argv[a], "fsize=%dx%d", &fsize[0], &fsize[1]) == 2) continue;
 		if(sscanf(argv[a], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) == 2) continue;
 		if(sscanf(argv[a], "fzoom=%lf", &fzoom) == 1) continue;
 		if(sscanf(argv[a], "fscale=%lf", &fscale) == 1) continue;
+		if(sscanf(argv[a], "ffolder=%100s", ffolder) == 1) continue;
 	}
 	if(timef < epsilon) return 1;
 	if(srate < epsilon) return 1;
@@ -327,7 +326,6 @@ int main(int argc, char **argv)
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
 	jaccelerations = malloc(jcount * sizeof(double *));
-	jforces = malloc(jcount * sizeof(double *));
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
@@ -338,11 +336,9 @@ int main(int argc, char **argv)
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
-		jforces[j] = malloc(2 * sizeof(double));
 		for(int c = 0; c < 2; c++)
 		{
 			jaccelerations[j][c] = 0.0;
-			jforces[j][c] = 0.0;
 		}
 	}
 	scanf("mcount=%d\n", &mcount);
@@ -359,7 +355,7 @@ int main(int argc, char **argv)
 			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
 			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
 		);
-		jindex1--; jindex2--;
+		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
 		for(int m2 = 0; m2 < m; m2++)
 			if(
@@ -386,7 +382,7 @@ int main(int argc, char **argv)
 		char axes[2];
 		struct support support;
 		scanf(
-			"joint=%d axes=%2s position0=(%lf %lf)\n",
+			"joint=%d axes=%2s position=(%lf %lf)\n",
 			&jindex, axes, &support.constraint.p0[0], &support.constraint.p0[1]
 		);
 		jindex--;
@@ -411,11 +407,11 @@ int main(int argc, char **argv)
 		struct load load;
 		scanf(
 			"joint=%d force=<%lf %lf>\n",
-			&jindex, &load.external.f[0], &load.external.f[1]
+			&jindex, &load.applied.f[0], &load.applied.f[1]
 		);
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
-		load.external.m = &joints[jindex].mass;
+		load.applied.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
 	time = 0.0;
@@ -434,7 +430,7 @@ int main(int argc, char **argv)
 	{
 		printf(
 			"force=<%.9lf %.9lf> position=(%.9lf %.9lf) velocity=<%.9lf %.9lf>\n",
-			jforces[j][0], jforces[j][1],
+			joints[j].mass.f[0], joints[j].mass.f[1],
 			joints[j].mass.p[0], joints[j].mass.p[1],
 			joints[j].mass.v[0], joints[j].mass.v[1]
 		);
@@ -456,10 +452,8 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		free(jaccelerations[j]);
-		free(jforces[j]);
 	}
 	free(jaccelerations);
-	free(jforces);
 	free(members);
 	free(mlengths);
 	free(mdisplacements);
