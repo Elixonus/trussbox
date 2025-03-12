@@ -25,6 +25,13 @@ struct support {
 	} constraint;
 };
 
+struct load {
+	struct extenal {
+		double f[2];
+		struct mass *m;
+	}
+}
+
 int jcount;
 struct joint *joints;
 double **jaccelerations;
@@ -40,6 +47,9 @@ double *mforces;
 int scount;
 struct support *supports;
 double **sreactions;
+
+int lcount;
+struct load *loads;
 
 double epsilon = 1e-9;
 double gravity;
@@ -62,11 +72,19 @@ int solve(void)
 	{
 		for(int c = 0; c < 2; c++)
 		{
-			jaccelerations[j][c] = 0.0;
 			jforces[j][c] = 0.0;
 		}
-	jaccelerations[j][1] = -gravity;
-	jforces[j][1] = joints[j].mass.m * jaccelerations[j][1];
+		jforces[j][1] = -gravity * joints[j].mass.m;
+	}
+	for(int l = 0; l < lcount; l++)
+	{
+		struct load *load = &loads[l];
+		int jindex;
+		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->external.m) jindex = j;
+		for(int c = 0; c < 2; c++)
+		{
+			jforces[jindex][c] += load->external.f[c];
+		}
 	}
 	for(int m = 0; m < mcount; m++)
 	{
@@ -385,6 +403,23 @@ int main(int argc, char **argv)
 		sreactions[s] = malloc(2 * sizeof(double));
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
 	}
+	scanf("lcount=%d\n", &lcount);
+	loads = malloc(lcount * sizeof(struct load));
+	for(int l = 0; l < lcount; l++)
+	{
+		int jindex;
+		struct load load;
+		scanf(
+			"joint=%d force=<%lf %lf>\n",
+			&jindex, &load.external.f[0], &load.external.f[1]
+		);
+		jindex--;
+		if(jindex < 0 || jindex >= jcount) return 1;
+		for(int l2 = 0; l2 < l; l2++)
+			if(loads[l2].external.m == &joints[jindex].mass) return 1;
+		load.external.m = &joints[jindex].mass;
+		loads[l] = load;
+	}
 	time = 0.0;
 	step = 0;
 	frame = 0;
@@ -436,5 +471,6 @@ int main(int argc, char **argv)
 	for(int s = 0; s < scount; s++)
 		free(sreactions[s]);
 	free(sreactions);
+	free(loads);
 	return 0;
 }
