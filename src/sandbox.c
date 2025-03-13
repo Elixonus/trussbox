@@ -26,10 +26,10 @@ struct support {
 };
 
 struct load {
-	struct applied {
+	struct force {
 		double f[2];
 		struct mass *m;
-	} applied;
+	} force;
 };
 
 struct joint *joints;
@@ -51,7 +51,7 @@ int scount;
 struct load *loads;
 int lcount;
 
-double epsilon = 1e-9;
+double epsilon = 1.0e-18;
 double gravity;
 double dtime;
 double time;
@@ -70,20 +70,21 @@ int solve(void)
 	}
 	for(int j = 0; j < jcount; j++)
 	{
+		struct joint *joint = &joints[j];
 		for(int c = 0; c < 2; c++)
 		{
 			jforces[j][c] = 0.0;
 		}
-		jforces[j][1] = -gravity * joints[j].mass.m;
+		jforces[j][1] = -gravity * joint->mass.m;
 	}
 	for(int l = 0; l < lcount; l++)
 	{
 		struct load *load = &loads[l];
 		int jindex;
-		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->applied.m) jindex = j;
+		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->force.m) jindex = j;
 		for(int c = 0; c < 2; c++)
 		{
-			jforces[jindex][c] += load->applied.f[c];
+			jforces[jindex][c] += load->force.f[c];
 		}
 	}
 	for(int m = 0; m < mcount; m++)
@@ -115,7 +116,7 @@ int solve(void)
 		struct joint *joint = &joints[j];
 		for(int c = 0; c < 2; c++)
 		{
-			jaccelerations[j][c] = jforces[j][c] / (joints[j].mass.m > epsilon ? joints[j].mass.m : epsilon);
+			jaccelerations[j][c] = jforces[j][c] / (joint->mass.m > epsilon ? joint->mass.m : epsilon);
 			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * dtime;
 		}
 	}
@@ -139,11 +140,11 @@ int solve(void)
 	return 0;
 }
 
+char dirname[101];
 int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
-char ffolder[101];
 int frame;
 
 void render(void)
@@ -279,7 +280,7 @@ void render(void)
 	cairo_restore(context);
 	cairo_destroy(context);
 	char filename[201];
-	sprintf(filename, "%s/%05d.png", ffolder, frame + 1);
+	sprintf(filename, "%s/%05d.png", dirname, frame + 1);
 	cairo_surface_write_to_png(surface, filename);
 	cairo_surface_destroy(surface);
 	frame++;
@@ -301,7 +302,7 @@ int main(int argc, char **argv)
 	fcenter[0] = 0.0, fcenter[1] = 0.0;
 	fzoom = 1.0;
 	fscale = 1.0;
-	if(argc >= 2) sscanf(argv[1], "%100s", ffolder);
+	if(argc >= 2) sscanf(argv[1], "%100s", dirname);
 	for(int a = 2; a < argc; a++)
 	{
 		if(sscanf(argv[a], "gravity=%lf", &gravity) == 1) continue;
@@ -312,7 +313,6 @@ int main(int argc, char **argv)
 		if(sscanf(argv[a], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) == 2) continue;
 		if(sscanf(argv[a], "fzoom=%lf", &fzoom) == 1) continue;
 		if(sscanf(argv[a], "fscale=%lf", &fscale) == 1) continue;
-		if(sscanf(argv[a], "ffolder=%100s", ffolder) == 1) continue;
 	}
 	if(timef < epsilon) return 1;
 	if(srate < epsilon) return 1;
@@ -326,7 +326,7 @@ int main(int argc, char **argv)
 	if(fsize[0] < 64 || fsize[1] < 64) return 1;
 	if(fzoom < epsilon) return 1;
 	if(fscale < epsilon) return 1;
-	scanf("jcount=%d\n", &jcount);
+	if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
 	jaccelerations = malloc(jcount * sizeof(double *));
@@ -348,7 +348,7 @@ int main(int argc, char **argv)
 			jforces[j][c] = 0.0;
 		}
 	}
-	scanf("mcount=%d\n", &mcount);
+	if(scanf("members=%d\n", &mcount) != 1) return 1;
 	members = malloc(mcount * sizeof(struct member));
 	mlengths = malloc(mcount * sizeof(double));
 	mdisplacements = malloc(mcount * sizeof(double));
@@ -380,7 +380,7 @@ int main(int argc, char **argv)
 		mvelocities[m] = 0.0;
 		mforces[m] = 0.0;
 	}
-	scanf("scount=%d\n", &scount);
+	if(scanf("supports=%d\n", &scount) != 1) return 1;
 	supports = malloc(scount * sizeof(struct support));
 	sreactions = malloc(scount * sizeof(double *));
 	for(int s = 0; s < scount; s++)
@@ -405,7 +405,7 @@ int main(int argc, char **argv)
 		sreactions[s] = malloc(2 * sizeof(double));
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
 	}
-	scanf("lcount=%d\n", &lcount);
+	if(scanf("loads=%d\n", &lcount) != 1) return 1;
 	loads = malloc(lcount * sizeof(struct load));
 	for(int l = 0; l < lcount; l++)
 	{
@@ -413,11 +413,11 @@ int main(int argc, char **argv)
 		struct load load;
 		scanf(
 			"joint=%d force=<%lf %lf>\n",
-			&jindex, &load.applied.f[0], &load.applied.f[1]
+			&jindex, &load.force.f[0], &load.force.f[1]
 		);
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
-		load.applied.m = &joints[jindex].mass;
+		load.force.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
 	time = 0.0;
@@ -431,7 +431,7 @@ int main(int argc, char **argv)
 			solve();
 		}
 	}
-	printf("jcount=%d\n", jcount);
+	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{
 		printf(
@@ -441,7 +441,7 @@ int main(int argc, char **argv)
 			joints[j].mass.v[0], joints[j].mass.v[1]
 		);
 	}
-	printf("mcount=%d\n", mcount);
+	printf("members=%d\n", mcount);
 	for(int m = 0; m < mcount; m++)
 	{
 		printf(
@@ -449,7 +449,7 @@ int main(int argc, char **argv)
 			mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]
 		);
 	}
-	printf("scount=%d\n", scount);
+	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)
 	{
 		printf("reaction=<%.9lf %.9lf %.9lf>\n", sreactions[s][0], sreactions[s][1], sreactions[s][2]);
