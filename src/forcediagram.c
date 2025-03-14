@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
+#include <cairo.h>
+#include "dampspring.h"
+
 struct joint {
 	struct mass mass;
 };
@@ -42,13 +49,13 @@ int lcount;
 
 double gravity;
 
-int psize[2];
-double pcenter[2];
-double pzoom;
-double pscale;
+int fsize[2];
+double fcenter[2];
+double fzoom;
+double fscale;
 
 double epsilon = 1.0e-18;
-char *filename;
+char dirname[1001];
 
 void render(void)
 {
@@ -57,16 +64,16 @@ void render(void)
 
 int main(int argc, char **argv)
 {
-    if(argc != 2) return 1;
-    if(sscanf(argv[1], "%1000s", filename) != 1) return 1;
+    if(argc != 7) return 1;
+    if(sscanf(argv[1], "%1000s", dirname) != 1) return 1;
     if(sscanf(argv[2], "gravity=%lf", &gravity) != 1) return 1;
-    if(sscanf(argv[6], "psize=%dx%d", &psize[0], &psize[1]) != 2) return 1;
-	if(psize[0] < 64 || psize[1] < 64) return 1;
-	if(sscanf(argv[7], "pcenter=(%lf %lf)", &pcenter[0], &pcenter[1]) != 2) return 1;
-	if(sscanf(argv[8], "pzoom=%lf", &pzoom) != 1) return 1;
-    if(pzoom < epsilon) return 1;
-	if(sscanf(argv[9], "fscale=%lf", &pscale) != 1) return 1;
-	if(pscale < epsilon) return 1;
+    if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2) return 1;
+	if(fsize[0] < 64 || fsize[1] < 64) return 1;
+	if(sscanf(argv[4], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2) return 1;
+	if(sscanf(argv[5], "fzoom=%lf", &fzoom) != 1) return 1;
+    if(fzoom < epsilon) return 1;
+	if(sscanf(argv[6], "fscale=%lf", &fscale) != 1) return 1;
+	if(fscale < epsilon) return 1;
     if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
@@ -181,7 +188,7 @@ int main(int argc, char **argv)
     for(int m = 0; m < mcount; m++)
     {
         if(scanf(
-            "force=%lf displacement=%lf length=%lf velocity=%lf",
+            "force=%lf displacement=%lf length=%lf velocity=%lf\n",
             &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]
         ) != 4) return 1;
     }
@@ -190,6 +197,7 @@ int main(int argc, char **argv)
 	sreactions = malloc(scount * sizeof(double *));
     for(int s = 0; s < scount; s++)
     {
-        
+        sreactions[s] = malloc(2 * sizeof(double));
+        if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
     }
 }

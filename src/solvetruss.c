@@ -460,7 +460,7 @@ int main(int argc, char **argv)
 	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)
 	{
-		printf("reaction=<%.9lf %.9lf %.9lf>\n", sreactions[s][0], sreactions[s][1], sreactions[s][2]);
+		printf("reaction=<%.9lf %.9lf>\n", sreactions[s][0], sreactions[s][1]);
 	}
 	free(joints);
 	for(int j = 0; j < jcount; j++)
