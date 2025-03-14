@@ -51,11 +51,24 @@ int scount;
 struct load *loads;
 int lcount;
 
-double epsilon = 1.0e-18;
 double gravity;
 double dtime;
 double time;
+double timef;
+double srate;
 int step;
+int stepf;
+
+double frate;
+int frame;
+int framef;
+int fsize[2];
+double fcenter[2];
+double fzoom;
+double fscale;
+
+double epsilon = 1.0e-18;
+char dirname[1001];
 
 int solve(void)
 {
@@ -139,13 +152,6 @@ int solve(void)
 	step++;
 	return 0;
 }
-
-char dirname[1001];
-int fsize[2];
-double fcenter[2];
-double fzoom;
-double fscale;
-int frame;
 
 void render(void)
 {
@@ -288,12 +294,6 @@ void render(void)
 	frame++;
 }
 
-double timef;
-double srate;
-int stepf;
-double frate;
-int framef;
-
 int main(int argc, char **argv)
 {
 	gravity = 0.0;
@@ -319,12 +319,12 @@ int main(int argc, char **argv)
 	}
 	if(timef < epsilon) return 1;
 	if(srate < epsilon) return 1;
-	stepf = ((int) (srate * timef)) - 1;
-	if(stepf < 0) return 1;
 	dtime = 1.0 / srate;
 	if(dtime < epsilon) return 1;
+	stepf = ((int) round(srate * timef)) - 1;
+	if(stepf < 0) return 1;
 	if(frate < epsilon) return 1;
-	framef = ((int) (frate * timef)) - 1;
+	framef = ((int) round(frate * timef)) - 1;
 	if(framef < 0) return 1;
 	if(fsize[0] < 64 || fsize[1] < 64) return 1;
 	if(fzoom < epsilon) return 1;
