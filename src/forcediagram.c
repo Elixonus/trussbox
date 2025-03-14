@@ -23,7 +23,6 @@ struct load {
 };
 
 struct joint *joints;
-double **jaccelerations;
 double **jforces;
 int jcount;
 
@@ -71,38 +70,26 @@ int main(int argc, char **argv)
     if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
-
     for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		scanf(
-			"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
-			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
-		);
+        if(scanf(
+		    "mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		    &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
+		) != 5) return 1;
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
-		jaccelerations[j] = malloc(2 * sizeof(double));
-		jforces[j] = malloc(2 * sizeof(double));
-		for(int c = 0; c < 2; c++)
-		{
-			jaccelerations[j][c] = 0.0;
-			jforces[j][c] = 0.0;
-		}
 	}
     if(scanf("members=%d\n", &mcount) != 1) return 1;
 	members = malloc(mcount * sizeof(struct member));
-	mlengths = malloc(mcount * sizeof(double));
-	mdisplacements = malloc(mcount * sizeof(double));
-	mvelocities = malloc(mcount * sizeof(double));
-	mforces = malloc(mcount * sizeof(double));
 	for(int m = 0; m < mcount; m++)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		scanf(
+		if(scanf(
 			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
 			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
-		);
+		) != 5) return 1;
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
 		for(int m2 = 0; m2 < m; m2++)
@@ -122,20 +109,15 @@ int main(int argc, char **argv)
 		member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon) return 1;
 		members[m] = member;
-		mlengths[m] = 0.0;
-		mdisplacements[m] = 0.0;
-		mvelocities[m] = 0.0;
-		mforces[m] = 0.0;
 	}
 	if(scanf("supports=%d\n", &scount) != 1) return 1;
 	supports = malloc(scount * sizeof(struct support));
-	sreactions = malloc(scount * sizeof(double *));
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
 		char axes[3];
 		struct support support;
-		scanf("joint=%d axes=%2s\n", &jindex, axes);
+        if(scanf("joint=%d axes=%2s\n", &jindex, axes) != 2) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass) return 1;
@@ -159,8 +141,6 @@ int main(int argc, char **argv)
 		for(int c = 0; c < 2; c++)
 			support.constraint.p[c] = joints[jindex].mass.p[c];
 		supports[s] = support;
-		sreactions[s] = malloc(2 * sizeof(double));
-		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1) return 1;
 	loads = malloc(lcount * sizeof(struct load));
@@ -168,22 +148,29 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		scanf(
+		if(scanf(
 			"joint=%d force=<%lf %lf>\n",
 			&jindex, &load.action.f[0], &load.action.f[1]
-		);
+		) != 3) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		load.action.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
-
     int jcount2;
     if(scanf("joints=%d\n", &jcount2) != 1) return 1;
 	if(jcount2 != jcount) return 1;
-	jaccelerations = malloc(jcount * sizeof(double *));
 	jforces = malloc(jcount * sizeof(double *));
-
+    for(int j = 0; j < jcount; j++)
+    {
+		jforces[j] = malloc(2 * sizeof(double));
+        if(scanf(
+            "force=<%lf %lf> position=(%lf %lf) velocity=<%lf %lf>\n",
+            &jforces[j][0], &jforces[j][1],
+            &joints[j].mass.p[0], &joints[j].mass.p[1],
+            &joints[j].mass.v[0], &joints[j].mass.v[1]
+        ) != 6) return 1;
+    }
     int mcount2;
     if(scanf("members=%d\n", &mcount2) != 1) return 1;
     if(mcount2 != mcount) return 1;
@@ -191,8 +178,18 @@ int main(int argc, char **argv)
 	mdisplacements = malloc(mcount * sizeof(double));
 	mvelocities = malloc(mcount * sizeof(double));
 	mforces = malloc(mcount * sizeof(double));
-
+    for(int m = 0; m < mcount; m++)
+    {
+        if(scanf(
+            "force=%lf displacement=%lf length=%lf velocity=%lf",
+            &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]
+        ) != 4) return 1;
+    }
     int scount2;
     if(scanf("supports=%d\n", &scount2) != 1) return 1;
 	sreactions = malloc(scount * sizeof(double *));
+    for(int s = 0; s < scount; s++)
+    {
+        
+    }
 }

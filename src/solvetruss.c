@@ -326,10 +326,10 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		scanf(
+		if(scanf(
 			"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
 			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
-		);
+		) != 5) return 1;
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
@@ -350,10 +350,10 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		scanf(
+		if(scanf(
 			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
 			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
-		);
+		) != 5) return 1;
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
 		for(int m2 = 0; m2 < m; m2++)
@@ -386,7 +386,7 @@ int main(int argc, char **argv)
 		int jindex;
 		char axes[3];
 		struct support support;
-		scanf("joint=%d axes=%2s\n", &jindex, axes);
+		if(scanf("joint=%d axes=%2s\n", &jindex, axes) != 2) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass) return 1;
@@ -419,10 +419,10 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		scanf(
+		if(scanf(
 			"joint=%d force=<%lf %lf>\n",
 			&jindex, &load.action.f[0], &load.action.f[1]
-		);
+		) != 3) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		load.action.m = &joints[jindex].mass;
