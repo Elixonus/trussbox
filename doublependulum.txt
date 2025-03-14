@@ -1,0 +1,10 @@
+joints=3
+mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.3) velocity=<0.0 0.0>
+members=2
+joint1=1 joint2=2 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=2 joint2=3 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+supports=1
+joint=1 axes=xy
+loads=0

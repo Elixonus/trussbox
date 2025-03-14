@@ -397,10 +397,7 @@ int main(int argc, char **argv)
 		int jindex;
 		char axes[3];
 		struct support support;
-		scanf(
-			"joint=%d axes=%2s position=(%lf %lf)\n",
-			&jindex, axes, &support.constraint.p[0], &support.constraint.p[1]
-		);
+		scanf("joint=%d axes=%2s\n", &jindex, axes);
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass) return 1;
@@ -421,6 +418,8 @@ int main(int argc, char **argv)
 			support.constraint.a[1] = true;
 		}
 		else return 1;
+		for(int c = 0; c < 2; c++)
+			support.constraint.p[c] = joints[jindex].mass.p[c];
 		supports[s] = support;
 		sreactions[s] = malloc(2 * sizeof(double));
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
