@@ -56,12 +56,12 @@ double dtime;
 double time;
 double timef;
 double srate;
-int step;
 int stepf;
+int step;
 
 double frate;
-int frame;
 int framef;
+int frame;
 int fsize[2];
 double fcenter[2];
 double fzoom;
@@ -288,7 +288,7 @@ void render(void)
 	cairo_restore(context);
 	cairo_destroy(context);
 	char filename[1101];
-	sprintf(filename, "%s/%05d.png", dirname, frame + 1);
+	sprintf(filename, "%s/%09d.png", dirname, frame + 1);
 	cairo_surface_write_to_png(surface, filename);
 	cairo_surface_destroy(surface);
 	frame++;
@@ -296,38 +296,27 @@ void render(void)
 
 int main(int argc, char **argv)
 {
-	gravity = 0.0;
-	timef = 1.0;
-	srate = 1.0e6;
-	frate = 60.0;
-	fsize[0] = 1920, fsize[1] = 1080;
-	fcenter[0] = 0.0, fcenter[1] = 0.0;
-	fzoom = 1.0;
-	fscale = 1.0;
-	if(argc >= 2)
-		if(sscanf(argv[1], "%01000s", dirname) != 1) return 1;
-	for(int a = 2; a < argc; a++)
-	{
-		if(sscanf(argv[a], "gravity=%lf", &gravity) == 1) continue;
-		if(sscanf(argv[a], "timef=%lf", &timef) == 1) continue;
-		if(sscanf(argv[a], "srate=%lf", &srate) == 1) continue;
-		if(sscanf(argv[a], "frate=%lf", &frate) == 1) continue;
-		if(sscanf(argv[a], "fsize=%dx%d", &fsize[0], &fsize[1]) == 2) continue;
-		if(sscanf(argv[a], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) == 2) continue;
-		if(sscanf(argv[a], "fzoom=%lf", &fzoom) == 1) continue;
-		if(sscanf(argv[a], "fscale=%lf", &fscale) == 1) continue;
-	}
+	if(argc != 10) return 1;
+	if(sscanf(argv[1], "%1000s", dirname) != 1) return 1;
+	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1) return 1;
+	if(sscanf(argv[3], "timef=%lf", &timef) != 1) return 1;
 	if(timef < epsilon) return 1;
+	if(sscanf(argv[4], "srate=%lf", &srate) != 1) return 1;
 	if(srate < epsilon) return 1;
 	dtime = 1.0 / srate;
 	if(dtime < epsilon) return 1;
 	stepf = ((int) round(srate * timef)) - 1;
 	if(stepf < 0) return 1;
+	if(sscanf(argv[5], "frate=%lf", &frate) != 1) return 1;
 	if(frate < epsilon) return 1;
 	framef = ((int) round(frate * timef)) - 1;
 	if(framef < 0) return 1;
+	if(sscanf(argv[6], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2) return 1;
 	if(fsize[0] < 64 || fsize[1] < 64) return 1;
+	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2) return 1;
+	if(sscanf(argv[8], "fzoom=%lf", &fzoom) != 1) return 1;
 	if(fzoom < epsilon) return 1;
+	if(sscanf(argv[9], "fscale=%lf", &fscale) != 1) return 1;
 	if(fscale < epsilon) return 1;
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;

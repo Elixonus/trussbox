@@ -10,7 +10,7 @@ echo "pendulum.txt
 0.0
 1.5
 1.0
-tmp/pendulums/pendulum" | source deformtruss.sh
+tmp/pendulums/pendulum" | source custom.sh
 echo "doublependulum.txt
 9.8
 10.0
@@ -22,4 +22,4 @@ echo "doublependulum.txt
 0.0
 0.75
 2.0
-tmp/pendulums/doublependulum" | source deformtruss.sh
+tmp/pendulums/doublependulum" | source custom.sh

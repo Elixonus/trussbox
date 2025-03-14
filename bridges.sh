@@ -10,7 +10,7 @@ echo "warren.txt
 0.125
 1.0
 1.0
-tmp/bridges/warren" | source deformtruss.sh
+tmp/bridges/warren" | source custom.sh
 echo "pratt.txt
 9.8
 3.0
@@ -22,7 +22,7 @@ echo "pratt.txt
 0.125
 1.0
 1.0
-tmp/bridges/pratt" | source deformtruss.sh
+tmp/bridges/pratt" | source custom.sh
 echo "howe.txt
 9.8
 3.0
@@ -34,4 +34,4 @@ echo "howe.txt
 0.125
 1.0
 1.0
-tmp/bridges/howe" | source deformtruss.sh
+tmp/bridges/howe" | source custom.sh
