@@ -21,5 +21,5 @@ echo "doublependulum.txt
 0.0
 0.0
 0.75
-2.0
+1.0
 tmp/pendulums/doublependulum" | source custom.sh
