@@ -59,7 +59,36 @@ char dirname[1001];
 
 void render(void)
 {
+	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
+	cairo_t *context = cairo_create(surface);
+	cairo_save(context);
+	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
+	cairo_clip(context);
+	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+	cairo_paint(context);
+	cairo_restore(context);
+	cairo_save(context);
+	cairo_translate(context, 0.0, 0.5 * ((double) fsize[1]));
+	cairo_scale(context, 1.0, -1.0);
+	cairo_translate(context, 0.0, -0.5 * ((double) fsize[1]));
+	cairo_save(context);
+	cairo_translate(context, 0.5 * ((double) fsize[0]), 0.5 * ((double) fsize[1]));
+	double length = fsize[0] < fsize[1] ? (double) fsize[0] : (double) fsize[1];
+	cairo_scale(context, length, length);
+	cairo_scale(context, fzoom, fzoom);
+	cairo_translate(context, -fcenter[0], -fcenter[1]);
+	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
+	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 
+	
+
+	cairo_restore(context);
+	cairo_restore(context);
+	cairo_destroy(context);
+	char filename[1101];
+	sprintf(filename, "%s/fdiagram.png", dirname);
+	cairo_surface_write_to_png(surface, filename);
+	cairo_surface_destroy(surface);
 }
 
 int main(int argc, char **argv)
@@ -200,4 +229,20 @@ int main(int argc, char **argv)
         sreactions[s] = malloc(2 * sizeof(double));
         if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
     }
+	render();
+	free(joints);
+	for(int j = 0; j < jcount; j++)
+		free(jforces[j]);
+	free(jforces);
+	free(members);
+	free(mlengths);
+	free(mdisplacements);
+	free(mvelocities);
+	free(mforces);
+	free(supports);
+	for(int s = 0; s < scount; s++)
+		free(sreactions[s]);
+	free(sreactions);
+	free(loads);
+	return 0;
 }

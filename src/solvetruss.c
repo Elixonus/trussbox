@@ -158,16 +158,17 @@ void render(void)
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
 	cairo_t *context = cairo_create(surface);
 	cairo_save(context);
+	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
+	cairo_clip(context);
+	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+	cairo_paint(context);
+	cairo_restore(context);
+	cairo_save(context);
 	cairo_translate(context, 0.0, 0.5 * ((double) fsize[1]));
 	cairo_scale(context, 1.0, -1.0);
 	cairo_translate(context, 0.0, -0.5 * ((double) fsize[1]));
 	cairo_save(context);
 	cairo_translate(context, 0.5 * ((double) fsize[0]), 0.5 * ((double) fsize[1]));
-	cairo_save(context);
-	cairo_scale(context, (double) fsize[0], (double) fsize[1]);
-	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-	cairo_paint(context);
-	cairo_restore(context);
 	double length = fsize[0] < fsize[1] ? (double) fsize[0] : (double) fsize[1];
 	cairo_scale(context, length, length);
 	cairo_scale(context, fzoom, fzoom);
@@ -213,7 +214,8 @@ void render(void)
 		{
 			cairo_scale(context, 1.0, -1.0);
 		}
-		cairo_move_to(context, 0.0, 0.0);
+		cairo_new_path(context);
+		cairo_line_to(context, 0.0, 0.0);
 		cairo_line_to(context, 0.035, -0.05);
 		cairo_line_to(context, -0.035, -0.05);
 		cairo_close_path(context);
@@ -250,7 +252,9 @@ void render(void)
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, fscale, fscale);
+		cairo_new_path(context);
 		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, tau);
+		cairo_close_path(context);
 		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
@@ -261,7 +265,8 @@ void render(void)
 	for(int m = 0; m < mcount; m++)
 	{
 		struct member *member = &members[m];
-		cairo_move_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
+		cairo_new_path(context);
+		cairo_line_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
 		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_save(context);
 		cairo_scale(context, fscale, fscale);
@@ -279,7 +284,9 @@ void render(void)
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, fscale, fscale);
+		cairo_new_path(context);
 		cairo_arc(context, 0.0, 0.0, 0.0025, 0, tau);
+		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
 		cairo_restore(context);
