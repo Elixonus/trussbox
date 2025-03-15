@@ -180,7 +180,7 @@ void render(void)
 		struct support *support = &supports[s];
 		cairo_save(context);
 		cairo_translate(context, support->constraint.m->p[0], support->constraint.m->p[1]);
-		cairo_scale(context, fscale, fscale);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		int count = support->constraint.a[0] + support->constraint.a[1];
 		if(count == 0) continue;
 		if(support->constraint.a[0] && !support->constraint.a[1])
@@ -251,7 +251,7 @@ void render(void)
 		struct joint *joint = &joints[j];
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
-		cairo_scale(context, fscale, fscale);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_path(context);
 		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, tau);
 		cairo_close_path(context);
@@ -269,7 +269,7 @@ void render(void)
 		cairo_line_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
 		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_save(context);
-		cairo_scale(context, fscale, fscale);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_set_line_width(context, 0.02);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
@@ -283,7 +283,7 @@ void render(void)
 		struct joint *joint = &joints[j];
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
-		cairo_scale(context, fscale, fscale);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_path(context);
 		cairo_arc(context, 0.0, 0.0, 0.0025, 0, tau);
 		cairo_close_path(context);

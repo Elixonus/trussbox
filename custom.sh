@@ -20,5 +20,5 @@ ffmpeg -r 60 -i ${dirname}/frames/%09d.png -y ${dirname}/video.mp4 -loglevel fat
 rm -f ${dirname}/frames/*.png
 rmdir ${dirname}/frames
 cat $dirname/problem.txt $dirname/solution.txt > $dirname/pronsol.txt
-./bin/forcediagram ${dirname} gravity=${gravity} fsize=${fwidth}x${fheight} "fcenter=(${fcenterx} ${fcentery})" fzoom=${fzoom} fscale=${fscale} < $dirname/pronsol.txt > $dirname/forcediagramoutput.txt
+./bin/forcediagram ${dirname} gravity=${gravity} fsize=${fwidth}x${fheight} "fcenter=(${fcenterx} ${fcentery})" fzoom=${fzoom} fscale=${fscale} < $dirname/pronsol.txt
 rm -f $dirname/pronsol.txt

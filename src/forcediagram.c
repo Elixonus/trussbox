@@ -64,7 +64,7 @@ void render(void)
 	cairo_save(context);
 	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
 	cairo_clip(context);
-	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+	cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 	cairo_paint(context);
 	cairo_restore(context);
 	cairo_save(context);
@@ -77,10 +77,43 @@ void render(void)
 	cairo_scale(context, length, length);
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
-	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
-	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
+	for(int m = 0; m < mcount; m++)
+	{
+		struct member *member = &members[m];
+		cairo_new_path(context);
+		cairo_line_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
+		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
+		cairo_save(context);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
+		cairo_set_line_width(context, 0.01);
+		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		cairo_stroke(context);
+		cairo_restore(context);
+		if(mlengths[m] < epsilon || mforces[m] < epsilon) continue;
+		double direction[2];
+		for(int c = 0; c < 2; c++)
+			direction[c] = (member->spring.m2->p[c] - member->spring.m1->p[c]) / mlengths[m];
 
-	
+		cairo_save(context);
+		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
+		cairo_rotate(context, atan2(direction[1], direction[0]));
+		cairo_new_path(context);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
+		cairo_line_to(context, 0.0, 0.0);
+		cairo_line_to(context, 0.05, 0.0);
+		cairo_line_to(context, 0.05, 0.01);
+		cairo_line_to(context, 0.07, 0.0);
+		cairo_line_to(context, 0.05, -0.01);
+		cairo_line_to(context, 0.05, 0.0);
+		cairo_close_path(context);
+		cairo_set_line_width(context, 0.005);
+		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		cairo_stroke_preserve(context);
+		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		cairo_fill(context);
+		cairo_restore(context);
+
+	}
 
 	cairo_restore(context);
 	cairo_restore(context);

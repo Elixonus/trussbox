@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "pendulum.txt
 9.8
-1.0
+10.0
 10000.0
 60.0
 1920
@@ -13,7 +13,7 @@ echo "pendulum.txt
 tmp/pendulums/pendulum" | source custom.sh
 echo "doublependulum.txt
 9.8
-1.0
+10.0
 10000.0
 60.0
 1920
