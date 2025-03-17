@@ -188,6 +188,7 @@ void render(void)
 			cairo_rotate(context, -0.5 * pi);
 		}
 		double ncenter[2] = {0.0, 0.0};
+		double nradius = 0.0;
 		int ncount = 0;
 		for(int m = 0; m < mcount; m++)
 		{
@@ -196,47 +197,54 @@ void render(void)
 			{
 				for(int c = 0; c < 2; c++)
 					ncenter[c] += member->spring.m2->p[c];
+				nradius += mdistance(member->spring.m2, support->constraint.m);
 				ncount++;
 			}
 			if(member->spring.m2 == support->constraint.m)
 			{
 				for(int c = 0; c < 2; c++)
 					ncenter[c] += member->spring.m1->p[c];
+				nradius += mdistance(member->spring.m1, support->constraint.m);
 				ncount++;
 			}
 		}
-		for(int c = 0; c < 2; c++) ncenter[c] /= ncount;
-		if(
-			(count == 1 && ncenter[0] - support->constraint.m->p[0] < 0 && support->constraint.a[0]) ||
-			(count == 1 && ncenter[1] - support->constraint.m->p[1] < 0 && support->constraint.a[1]) ||
-			(count == 2 && ncenter[1] - support->constraint.m->p[1] < 0)
-		)
+		for(int c = 0; c < 2; c++)
 		{
-			cairo_scale(context, 1.0, -1.0);
+			ncenter[c] /= ncount;
+			nradius /= ncount;	
 		}
 		cairo_new_path(context);
 		cairo_line_to(context, 0.0, 0.0);
-		cairo_line_to(context, 0.035, -0.05);
-		cairo_line_to(context, -0.035, -0.05);
+		double factor;
+		if(count == 2 || (count == 1 && support->constraint.a[1]))
+			factor = (ncenter[1] - support->constraint.m->p[1]) / nradius;
+		if(count == 1 && support->constraint.a[0])
+			factor = (ncenter[0] - support->constraint.m->p[0]) / nradius;
+		factor = 2.0 / (1.0 + exp(-10.0 * factor)) - 1.0;
+		cairo_scale(context, 1.0, factor >= 0.0 ? 1.0 : -1.0);
+		double height = 0.0575 * fabs(factor);
+		cairo_translate(context, 0.0, -height);
+		cairo_line_to(context, 0.035, height > 0.0075 ? 0.0075 : height);
+		cairo_line_to(context, -0.035, height > 0.0075 ? 0.0075 : height);
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
-		cairo_rectangle(context, -0.075, -0.06, 0.15, 0.005);
+		cairo_rectangle(context, -0.075, -0.0025, 0.15, 0.005);
 		if(count == 1)
 		{
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0675, -0.0725, 0.0075, 0.0, tau);
+			cairo_arc(context, 0.0675, -0.015, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.03375, -0.0725, 0.0075, 0.0, tau);
+			cairo_arc(context, 0.03375, -0.015, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0, -0.0725, 0.0075, 0.0, tau);
+			cairo_arc(context, 0.0, -0.015, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.03375, -0.0725, 0.0075, 0.0, tau);
+			cairo_arc(context, -0.03375, -0.015, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.0675, -0.0725, 0.0075, 0.0, tau);
+			cairo_arc(context, -0.0675, -0.015, 0.0075, 0.0, tau);
 			cairo_close_path(context);
 		}
 		cairo_set_line_width(context, 0.01);
