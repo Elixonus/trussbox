@@ -62,19 +62,19 @@ void render_force(
 	double color[3], bool draw_head_at_point
 )
 {
+	if(max_force < epsilon) return;
 	double magnitude = 0.0;
 	for(int c = 0; c < 2; c++)
 		magnitude += pow(force[c], 2);
 	magnitude = sqrt(magnitude);
-	if(magnitude < 0.05 * max_force)
-		return;
+	if(magnitude < 0.05 * max_force) return;
 	cairo_save(context);
 	cairo_translate(context, point[0], point[1]);
 	cairo_rotate(context, atan2(force[1], force[0]));
-	cairo_new_path(context);
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
 		cairo_translate(context, -0.07 * magnitude / max_force, 0.0);
+	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
 	cairo_translate(context, 0.07 * magnitude / max_force, 0.0);
 	cairo_line_to(context, -0.01, 0.0);
@@ -96,6 +96,7 @@ void render(void)
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
 	cairo_t *context = cairo_create(surface);
 	cairo_save(context);
+	cairo_new_path(context);
 	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
 	cairo_clip(context);
 	cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
@@ -121,7 +122,7 @@ void render(void)
 	{
 		double reaction = 0.0;
 		for(int c = 0; c < 2; c++)
-			reaction += pow(sreactions[s][0], 2);
+			reaction += pow(sreactions[s][c], 2);
 		reaction = sqrt(reaction);
 		if(reaction > max_force)
 			max_force = reaction;
@@ -144,6 +145,8 @@ void render(void)
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_set_line_width(context, 0.005);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
+		cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 		cairo_stroke(context);
 		cairo_restore(context);
 		if(mlengths[m] < epsilon) continue;
@@ -189,7 +192,7 @@ void render(void)
 	{
 		struct joint *joint = &joints[j];
 		double force[2] = {0.0, -gravity * joint->mass.m};
-		double color[3] = {0.5, 0.24, 0.0};
+		double color[3] = {0.31, 0.15, 0.0};
 		render_force(context, force, joint->mass.p, max_force, color, false);
 	}
 	cairo_restore(context);
