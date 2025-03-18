@@ -115,7 +115,7 @@ void render(void)
 	double max_force = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
-		double force = gravity * joint->mass.m;
+		double force = gravity * joints[j].mass.m;
 		if(fabs(force) > max_force)
 			max_force = force;
 	}

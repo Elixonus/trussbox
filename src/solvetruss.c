@@ -356,6 +356,7 @@ int main(int argc, char **argv)
 		}
 	}
 	if(scanf("members=%d\n", &mcount) != 1) return 1;
+	if(mcount < 0) return 1;
 	members = malloc(mcount * sizeof(struct member));
 	mlengths = malloc(mcount * sizeof(double));
 	mdisplacements = malloc(mcount * sizeof(double));
@@ -394,6 +395,7 @@ int main(int argc, char **argv)
 		mforces[m] = 0.0;
 	}
 	if(scanf("supports=%d\n", &scount) != 1) return 1;
+	if(scount < 0) return 1;
 	supports = malloc(scount * sizeof(struct support));
 	sreactions = malloc(scount * sizeof(double *));
 	for(int s = 0; s < scount; s++)
@@ -429,6 +431,7 @@ int main(int argc, char **argv)
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1) return 1;
+	if(lcount < 0) return 1;
 	loads = malloc(lcount * sizeof(struct load));
 	for(int l = 0; l < lcount; l++)
 	{
@@ -458,7 +461,7 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		printf(
-			"force=<%.9lf %.9lf> position=(%.9lf %.9lf) velocity=<%.9lf %.9lf>\n",
+			"force=<%.9e %.9e> position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
 			jforces[j][0], jforces[j][1],
 			joints[j].mass.p[0], joints[j].mass.p[1],
 			joints[j].mass.v[0], joints[j].mass.v[1]
@@ -468,14 +471,14 @@ int main(int argc, char **argv)
 	for(int m = 0; m < mcount; m++)
 	{
 		printf(
-			"force=%.9lf displacement=%.9lf length=%.9lf velocity=%.9lf\n",
+			"force=%.9e displacement=%.9e length=%.9e velocity=%.9e\n",
 			mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]
 		);
 	}
 	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)
 	{
-		printf("reaction=<%.9lf %.9lf>\n", sreactions[s][0], sreactions[s][1]);
+		printf("reaction=<%.9e %.9e>\n", sreactions[s][0], sreactions[s][1]);
 	}
 	free(joints);
 	for(int j = 0; j < jcount; j++)
