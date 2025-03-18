@@ -26,7 +26,7 @@ Creates solutions (a video and force data on each member and reactions on each s
 
 **or**
 
-```$ ./solvetruss.sh```
+```$ ./custom.sh```
 
 Creates solution (a video and force data on each member and reactions on each support) for a given problem containing input data for joints, members, supports, loads as well as other input data provided into standard input of the shell script (gravity, duration, frame rate, step rate, etc...).
 

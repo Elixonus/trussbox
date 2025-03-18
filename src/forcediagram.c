@@ -113,6 +113,12 @@ void render(void)
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
 	double max_force = 0.0;
+	for(int j = 0; j < jcount; j++)
+	{
+		double force = gravity * joint->mass.m;
+		if(fabs(force) > max_force)
+			max_force = force;
+	}
 	for(int m = 0; m < mcount; m++)
 	{
 		if(mforces[m] > max_force)

@@ -1,0 +1,24 @@
+joints=10
+mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.3) velocity=<0.0 0.0>
+mass=1.0 position=(0.6 0.3) velocity=<0.0 0.0>
+mass=1.0 position=(0.6 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.9 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.9 0.3) velocity=<0.0 0.0>
+mass=1.0 position=(1.2 0.3) velocity=<0.0 0.0>
+mass=1.0 position=(1.2 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(1.5 0.0) velocity=<0.0 0.0>
+members=9
+joint1=1 joint2=2 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=2 joint2=3 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=3 joint2=4 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=4 joint2=5 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=5 joint2=6 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=6 joint2=7 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=7 joint2=8 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=8 joint2=9 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+joint1=9 joint2=10 stiffness=1.0e5 length0=0.3 dampening=1.0e3
+supports=1
+joint=1 axes=xy
+loads=0

@@ -1,4 +1,6 @@
 #!/bin/bash
+mkdir -p tmp/bridges
+rm -rf tmp/bridges/*
 echo "warren.txt
 9.8
 3.0
