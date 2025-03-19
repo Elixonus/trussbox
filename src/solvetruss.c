@@ -323,22 +323,22 @@ int main(int argc, char **argv)
 {
 	if(argc != 10)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 10\n", argc);
+		fprintf(stderr, "error: count: arguments: %d of 9\n", argc - 1);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: dirname argument: \"%s\" [2]\n", argv[1]);
+		fprintf(stderr, "error: parse: dirname argument: \"%s\" [1]\n", argv[1]);
 		return 1;
 	}
 	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument: \"%s\" [3]\n", argv[2]);
+		fprintf(stderr, "error: parse: gravity argument: \"%s\" [2]\n", argv[2]);
 		return 1;
 	}
 	if(sscanf(argv[3], "timef=%lf", &timef) != 1)
 	{
-		fprintf(stderr, "error: parse: timef argument: \"%s\" [4]\n", argv[3]);
+		fprintf(stderr, "error: parse: timef argument: \"%s\" [3]\n", argv[3]);
 		return 1;
 	}
 	if(timef < epsilon)
@@ -348,7 +348,7 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[4], "srate=%lf", &srate) != 1)
 	{
-		fprintf(stderr, "error: parse: srate argument: \"%s\" [5]\n", argv[4]);
+		fprintf(stderr, "error: parse: srate argument: \"%s\" [4]\n", argv[4]);
 		return 1;
 	}
 	if(srate < epsilon)
@@ -370,7 +370,7 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[5], "frate=%lf", &frate) != 1)
 	{
-		fprintf(stderr, "error: parse: frate argument: \"%s\" [6]\n", argv[5]);
+		fprintf(stderr, "error: parse: frate argument: \"%s\" [5]\n", argv[5]);
 		return 1;
 	}
 	if(frate < epsilon)
@@ -384,21 +384,69 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: sign: framef variable: %d not positive\n", framef);
 		return 1;
 	}
-	if(sscanf(argv[6], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2) return 1;
-	if(fsize[0] < 64 || fsize[1] < 64) return 1;
-	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2) return 1;
-	if(sscanf(argv[8], "fzoom=%lf", &fzoom) != 1) return 1;
-	if(fzoom < epsilon) return 1;
-	if(sscanf(argv[9], "fscale=%lf", &fscale) != 1) return 1;
-	if(fscale < epsilon) return 1;
-	if(scanf("joints=%d\n", &jcount) != 1) return 1;
-	if(jcount < 0) return 1;
+	if(sscanf(argv[6], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
+	{
+		fprintf(stderr, "error: parse: fsize argument: \"%s\" [6]\n", argv[6]);
+		return 1;
+	}
+	if(fsize[0] < 64 || fsize[1] < 64)
+	{
+		fprintf(stderr, "error: scale: fsize variable: %dx%d not larger than or equivalent to 64x64\n", fsize[0], fsize[1]);
+		return 1;
+	}
+	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+	{
+		fprintf(stderr, "error: parse: fcenter argument: \"%s\" [7]\n", argv[7]);
+		return 1;
+	}
+	if(sscanf(argv[8], "fzoom=%lf", &fzoom) != 1)
+	{
+		fprintf(stderr, "error: parse: fzoom argument: \"%s\" [8]\n", argv[8]);
+		return 1;
+	}
+	if(fzoom < epsilon)
+	{
+		fprintf(stderr, "error: scale: fzoom variable: %.1e not greater than %.1e\n", fzoom, epsilon);
+		return 1;
+	}
+	if(sscanf(argv[9], "fscale=%lf", &fscale) != 1)
+	{
+		fprintf(stderr, "error: parse: fscale argument: \"%s\" [9]\n", argv[9]);
+		return 1;
+	}
+	if(fscale < epsilon)
+	{
+		fprintf(stderr, "error: scale: fscale variable: %.1e not greater than %.1e\n", fscale, epsilon);
+		return 1;
+	}
+	if(scanf("joints=%d\n", &jcount) != 1)
+	{
+		fprintf(stderr, "error: parse: joints parameter\n");
+		return 1;
+	}
+	if(jcount < 0)
+	{
+		fprintf(stderr, "error: count: joints: %d not positive or zero\n", jcount);
+		return 1;
+	}
 	joints = malloc(jcount * sizeof(struct joint));
-	if(joints == nullptr) return 1;
+	if(joints == nullptr)
+	{
+		fprintf(stderr, "error: memory: joints variable: %zuB allocation\n", jcount * sizeof(struct joint));
+		return 1;
+	}
 	jaccelerations = malloc(jcount * sizeof(double *));
-	if(jaccelerations == nullptr) return 1;
+	if(jaccelerations == nullptr)
+	{
+		fprintf(stderr, "error: memory: jaccelerations variable: %zuB allocation\n", jcount * sizeof(double *));
+		return 1;
+	}
 	jforces = malloc(jcount * sizeof(double *));
-	if(jforces == nullptr) return 1;
+	if(jforces == nullptr)
+	{
+		fprintf(stderr, "error: memory: jforces variable: %zuB allocation\n", jcount * sizeof(double *));
+		return 1;
+	}
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
@@ -409,27 +457,63 @@ int main(int argc, char **argv)
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
-		if(jaccelerations[j] == nullptr) return 1;
+		if(jaccelerations[j] == nullptr)
+		{
+			fprintf(stderr, "error: memory: jaccelerations[%d] variable: %zuB allocation\n", j + 1, 2 * sizeof(double));
+			return 1;
+		}
 		jforces[j] = malloc(2 * sizeof(double));
-		if(jforces[j] == nullptr) return 1;
+		if(jforces[j] == nullptr)
+		{
+			fprintf(stderr, "error: memory: jforces[%d] variable: %zuB allocation\n", j + 1, 2 * sizeof(double));
+			return 1;
+		}
 		for(int c = 0; c < 2; c++)
 		{
 			jaccelerations[j][c] = 0.0;
 			jforces[j][c] = 0.0;
 		}
 	}
-	if(scanf("members=%d\n", &mcount) != 1) return 1;
-	if(mcount < 0) return 1;
+	if(scanf("members=%d\n", &mcount) != 1)
+	{
+		fprintf(stderr, "error: parse: members parameter\n");
+		return 1;
+	}
+	if(mcount < 0)
+	{
+		fprintf(stderr, "error: count: members: %d not positive or zero\n", mcount);
+		return 1;
+	}
 	members = malloc(mcount * sizeof(struct member));
-	if(members == nullptr) return 1;
+	if(members == nullptr)
+	{
+		fprintf(stderr, "error: memory: members variable: %zuB allocation\n", mcount * sizeof(struct member));
+		return 1;
+	}
 	mlengths = malloc(mcount * sizeof(double));
-	if(mlengths == nullptr) return 1;
+	if(mlengths == nullptr)
+	{
+		fprintf(stderr, "error: memory: mlengths variable: %zuB allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	mdisplacements = malloc(mcount * sizeof(double));
-	if(mdisplacements == nullptr) return 1;
+	if(mdisplacements == nullptr)
+	{
+		fprintf(stderr, "error: memory: mdisplacements variable: %zuB allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	mvelocities = malloc(mcount * sizeof(double));
-	if(mvelocities == nullptr) return 1;
+	if(mvelocities == nullptr)
+	{
+		fprintf(stderr, "error: memory: mvelocities variable: %zuB allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	mforces = malloc(mcount * sizeof(double));
-	if(mforces == nullptr) return 1;
+	if(mforces == nullptr)
+	{
+		fprintf(stderr, "error: memory: mforces variable: %zuB allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	for(int m = 0; m < mcount; m++)
 	{
 		int jindex1, jindex2;
@@ -462,12 +546,28 @@ int main(int argc, char **argv)
 		mvelocities[m] = 0.0;
 		mforces[m] = 0.0;
 	}
-	if(scanf("supports=%d\n", &scount) != 1) return 1;
-	if(scount < 0) return 1;
+	if(scanf("supports=%d\n", &scount) != 1)
+	{
+		fprintf(stderr, "error: parse: supports parameter\n");
+		return 1;
+	}
+	if(scount < 0)
+	{
+		fprintf(stderr, "error: count: supports: %d not positive or zero\n", scount);
+		return 1;
+	}
 	supports = malloc(scount * sizeof(struct support));
-	if(supports == nullptr) return 1;
+	if(supports == nullptr)
+	{
+		fprintf(stderr, "error: memory: supports variable: %zuB allocation\n", scount * sizeof(struct support));
+		return 1;
+	}
 	sreactions = malloc(scount * sizeof(double *));
-	if(sreactions == nullptr) return 1;
+	if(sreactions == nullptr)
+	{
+		fprintf(stderr, "error: memory: sreactions variable: %zuB allocation\n", scount * sizeof(double *));
+		return 1;
+	}
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
@@ -498,13 +598,29 @@ int main(int argc, char **argv)
 			support.constraint.p[c] = joints[jindex].mass.p[c];
 		supports[s] = support;
 		sreactions[s] = malloc(2 * sizeof(double));
-		if(sreactions[s] == nullptr) return 1;
+		if(sreactions[s] == nullptr)
+		{
+			fprintf(stderr, "error: memory: sreactions[%d] variable: %zuB allocation\n", s + 1, 2 * sizeof(double));
+			return 1;
+		}
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
 	}
-	if(scanf("loads=%d\n", &lcount) != 1) return 1;
-	if(lcount < 0) return 1;
+	if(scanf("loads=%d\n", &lcount) != 1)
+	{
+		fprintf(stderr, "error: parse: loads parameter\n");
+		return 1;
+	}
+	if(lcount < 0)
+	{
+		fprintf(stderr, "error: count: loads: %d not positive or zero\n", lcount);
+		return 1;
+	}
 	loads = malloc(lcount * sizeof(struct load));
-	if(loads == nullptr) return 1;
+	if(loads == nullptr)
+	{
+		fprintf(stderr, "error: memory: loads variable: %zuB allocation\n", lcount * sizeof(struct load));
+		return 1;
+	}
 	for(int l = 0; l < lcount; l++)
 	{
 		int jindex;
