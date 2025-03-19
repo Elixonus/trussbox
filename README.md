@@ -8,6 +8,8 @@ heavily inspired by Ange The Great's physics simulation
 
 [Warren Truss Video](./preview.mp4)
 
+![Warren Truss Diagram](./previewfd.png)
+
 ## Steps
 
 ### Setup
