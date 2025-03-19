@@ -61,13 +61,13 @@ double gravity;
 double dtime;
 double time;
 double timef;
-double srate;
-int stepf;
 int step;
+int stepf;
+double srate;
 
-double frate;
-int framef;
 int frame;
+int framef;
+double frate;
 int fsize[2];
 double fcenter[2];
 double fzoom;
@@ -342,8 +342,11 @@ int main(int argc, char **argv)
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
+	if(joints == nullptr) return 1;
 	jaccelerations = malloc(jcount * sizeof(double *));
+	if(jaccelerations == nullptr) return 1;
 	jforces = malloc(jcount * sizeof(double *));
+	if(jforces == nullptr) return 1;
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
@@ -354,7 +357,9 @@ int main(int argc, char **argv)
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
+		if(jaccelerations[j] == nullptr) return 1;
 		jforces[j] = malloc(2 * sizeof(double));
+		if(jforces[j] == nullptr) return 1;
 		for(int c = 0; c < 2; c++)
 		{
 			jaccelerations[j][c] = 0.0;
@@ -364,10 +369,15 @@ int main(int argc, char **argv)
 	if(scanf("members=%d\n", &mcount) != 1) return 1;
 	if(mcount < 0) return 1;
 	members = malloc(mcount * sizeof(struct member));
+	if(members == nullptr) return 1;
 	mlengths = malloc(mcount * sizeof(double));
+	if(mlengths == nullptr) return 1;
 	mdisplacements = malloc(mcount * sizeof(double));
+	if(mdisplacements == nullptr) return 1;
 	mvelocities = malloc(mcount * sizeof(double));
+	if(mvelocities == nullptr) return 1;
 	mforces = malloc(mcount * sizeof(double));
+	if(mforces == nullptr) return 1;
 	for(int m = 0; m < mcount; m++)
 	{
 		int jindex1, jindex2;
@@ -403,7 +413,9 @@ int main(int argc, char **argv)
 	if(scanf("supports=%d\n", &scount) != 1) return 1;
 	if(scount < 0) return 1;
 	supports = malloc(scount * sizeof(struct support));
+	if(supports == nullptr) return 1;
 	sreactions = malloc(scount * sizeof(double *));
+	if(sreactions == nullptr) return 1;
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
@@ -434,11 +446,13 @@ int main(int argc, char **argv)
 			support.constraint.p[c] = joints[jindex].mass.p[c];
 		supports[s] = support;
 		sreactions[s] = malloc(2 * sizeof(double));
+		if(sreactions[s] == nullptr) return 1;
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1) return 1;
 	if(lcount < 0) return 1;
 	loads = malloc(lcount * sizeof(struct load));
+	if(loads == nullptr) return 1;
 	for(int l = 0; l < lcount; l++)
 	{
 		int jindex;
