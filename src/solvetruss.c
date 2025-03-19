@@ -159,7 +159,7 @@ int solve(void)
 	return 0;
 }
 
-void render(void)
+int render(void)
 {
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
 	cairo_t *context = cairo_create(surface);
@@ -310,28 +310,80 @@ void render(void)
 	cairo_destroy(context);
 	char filename[1101];
 	sprintf(filename, "%s/%09d.png", dirname, frame + 1);
-	cairo_surface_write_to_png(surface, filename);
+	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
+	{
+		fprintf(stderr, "error: write: frame filename: \"%s\"\n", filename);
+		return 1;
+	}
 	cairo_surface_destroy(surface);
 	frame++;
 }
 
 int main(int argc, char **argv)
 {
-	if(argc != 10) return 1;
-	if(sscanf(argv[1], "%1000s", dirname) != 1) return 1;
-	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1) return 1;
-	if(sscanf(argv[3], "timef=%lf", &timef) != 1) return 1;
-	if(timef < epsilon) return 1;
-	if(sscanf(argv[4], "srate=%lf", &srate) != 1) return 1;
-	if(srate < epsilon) return 1;
+	if(argc != 10)
+	{
+		fprintf(stderr, "error: count: arguments: %d of 10\n", argc);
+		return 1;
+	}
+	if(sscanf(argv[1], "%1000s", dirname) != 1)
+	{
+		fprintf(stderr, "error: parse: dirname argument: \"%s\" [2]\n", argv[1]);
+		return 1;
+	}
+	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+	{
+		fprintf(stderr, "error: parse: gravity argument: \"%s\" [3]\n", argv[2]);
+		return 1;
+	}
+	if(sscanf(argv[3], "timef=%lf", &timef) != 1)
+	{
+		fprintf(stderr, "error: parse: timef argument: \"%s\" [4]\n", argv[3]);
+		return 1;
+	}
+	if(timef < epsilon)
+	{
+		fprintf(stderr, "error: scale: timef variable: %.1e not greater than %.1e\n", timef, epsilon);
+		return 1;
+	}
+	if(sscanf(argv[4], "srate=%lf", &srate) != 1)
+	{
+		fprintf(stderr, "error: parse: srate argument: \"%s\" [5]\n", argv[4]);
+		return 1;
+	}
+	if(srate < epsilon)
+	{
+		fprintf(stderr, "error: scale: srate variable: %.1e not greater than %.1e\n", srate, epsilon);
+		return 1;
+	}
 	dtime = 1.0 / srate;
-	if(dtime < epsilon) return 1;
+	if(dtime < epsilon)
+	{
+		fprintf(stderr, "error: scale: dtime variable: %.1e not greater than %.1e\n", dtime, epsilon);
+		return 1;
+	}
 	stepf = ((int) round(srate * timef)) - 1;
-	if(stepf < 0) return 1;
-	if(sscanf(argv[5], "frate=%lf", &frate) != 1) return 1;
-	if(frate < epsilon) return 1;
+	if(stepf < 0)
+	{
+		fprintf(stderr, "error: sign: stepf variable: %d not positive\n", stepf);
+		return 1;
+	}
+	if(sscanf(argv[5], "frate=%lf", &frate) != 1)
+	{
+		fprintf(stderr, "error: parse: frate argument: \"%s\" [6]\n", argv[5]);
+		return 1;
+	}
+	if(frate < epsilon)
+	{
+		fprintf(stderr, "error: scale: frate variable: %.1e not greater than %.1e\n", frate, epsilon);
+		return 1;
+	}
 	framef = ((int) round(frate * timef)) - 1;
-	if(framef < 0) return 1;
+	if(framef < 0)
+	{
+		fprintf(stderr, "error: sign: framef variable: %d not positive\n", framef);
+		return 1;
+	}
 	if(sscanf(argv[6], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2) return 1;
 	if(fsize[0] < 64 || fsize[1] < 64) return 1;
 	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2) return 1;
@@ -471,10 +523,10 @@ int main(int argc, char **argv)
 	frame = 0;
 	while(frame <= framef)
 	{
-		render();
+		if(render() != 0) return 1;
 		while(step * (framef + 1) < frame * (stepf + 1))
 		{
-			solve();
+			if(solve() != 0) return 1;
 		}
 	}
 	printf("joints=%d\n", jcount);
