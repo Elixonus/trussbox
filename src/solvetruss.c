@@ -8,25 +8,31 @@
 constexpr double pi = 4.0 * atan(1.0);
 constexpr double tau = 2.0 * pi;
 
-struct joint {
+struct joint
+{
 	struct mass mass;
 };
 
-struct member {
+struct member
+{
 	struct spring spring;
 	struct damper damper;
 };
 
-struct support {
-	struct constraint {
+struct support
+{
+	struct constraint
+	{
 		bool a[2];
 		struct mass *m;
 		double p[2];
 	} constraint;
 };
 
-struct load {
-	struct action {
+struct load
+{
+	struct action
+	{
 		double f[2];
 		struct mass *m;
 	} action;

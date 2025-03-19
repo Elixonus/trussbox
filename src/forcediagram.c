@@ -57,6 +57,17 @@ double fscale;
 double epsilon = 1.0e-18;
 char dirname[1001];
 
+void map_mforce_to_color(double force, double *color, double max_force)
+{
+	if(max_force < epsilon) return;
+	double balance = force / max_force;
+	balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
+	if(balance > 0.0)
+		color[0] = 1.0 - balance, color[1] = 1.0 - balance, color[2] = 1.0;
+	else
+		color[0] = 1.0, color[1] = 1.0 - fabs(balance), color[2] = 1.0 - fabs(balance);
+}
+
 void render_force(
 	cairo_t *context, double *force, double *point, double max_force,
 	double color[3], bool draw_head_at_point
@@ -99,7 +110,7 @@ void render(void)
 	cairo_new_path(context);
 	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
 	cairo_clip(context);
-	cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
+	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 	cairo_paint(context);
 	cairo_restore(context);
 	cairo_save(context);
@@ -150,7 +161,9 @@ void render(void)
 		cairo_save(context);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_set_line_width(context, 0.005);
-		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		double color1[3];
+		map_mforce_to_color(mforces[m], color1, max_force);
+		cairo_set_source_rgb(context, color1[0], color1[1], color1[2]);
 		cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 		cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 		cairo_stroke(context);
@@ -163,15 +176,11 @@ void render(void)
 			direction[c] = (member->spring.m2->p[c] - member->spring.m1->p[c]) / mlengths[m];
 			force[c] = -mforces[m] * direction[c];
 		}
-		double color[3];
-		if(mforces[m] > 0.0)
-			color[0] = 0.0, color[1] = 0.0, color[2] = 0.5;
-		else
-			color[0] = 0.5, color[1] = 0.0, color[2] = 0.0;
-		render_force(context, force, member->spring.m1->p, max_force, color, false);
+		double color2[3] = {0.0, 1.0, 0.0};
+		render_force(context, force, member->spring.m1->p, max_force, color2, false);
 		for(int c = 0; c < 2; c++)
 			force[c] = -force[c];
-		render_force(context, force, member->spring.m2->p, max_force, color, false);
+		render_force(context, force, member->spring.m2->p, max_force, color2, false);
 	}
 	for(int s = 0; s < scount; s++)
 	{
@@ -184,25 +193,37 @@ void render(void)
 				if(c2 == c1)
 					force[c2] = sreactions[s][c2];
 			}
-			double color[3] = {0.36, 0.09, 0.5};
+			double color[3] = {1.0, 0.0, 1.0};
 			render_force(context, force, support->constraint.m->p, max_force, color, false);
 		}
 	}
 	for(int l = 0; l < lcount; l++)
 	{
 		struct load *load = &loads[l];
-		double color[3] = {0.5, 0.5, 0.0};
+		double color[3] = {1.0, 1.0, 0.0};
 		render_force(context, load->action.f, load->action.m->p, max_force, color, false);
 	}
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
 		double force[2] = {0.0, -gravity * joint->mass.m};
-		double color[3] = {0.31, 0.15, 0.0};
+		double color[3] = {0.5, 0.5, 0.5};
 		render_force(context, force, joint->mass.p, max_force, color, false);
 	}
 	cairo_restore(context);
 	cairo_restore(context);
+
+	for(int i = 0; i < fsize[1]; i++)
+	{
+		cairo_new_path(context);
+		cairo_rectangle(context, 0.95 * ((double) fsize[0]), (double) i, 0.2 * ((double) fsize[0]), 2.0);
+		double fake_force = max_force * (1.0 - 2.0 * ((double) (i)) / (double) (fsize[1] - 1));
+		double color[3];
+		map_mforce_to_color(fake_force, color, max_force);
+		cairo_set_source_rgb(context, color[0], color[1], color[2]);
+		cairo_fill(context);
+	}
+
 	cairo_destroy(context);
 	char filename[1101];
 	sprintf(filename, "%s/fdiagram.png", dirname);
