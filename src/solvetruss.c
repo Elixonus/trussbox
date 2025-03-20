@@ -324,7 +324,7 @@ int main(int argc, char **argv)
 {
 	if(argc != 10)
 	{
-		fprintf(stderr, "error: logic: arguments: %d of 9 provided\n", argc - 1);
+		fprintf(stderr, "error: count: arguments: %d of 9 provided\n", argc - 1);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", dirname) != 1)
@@ -392,7 +392,7 @@ int main(int argc, char **argv)
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
 	{
-		fprintf(stderr, "error: limit: fsize variable: %dx%d not larger than or equivalent to 64x64\n", fsize[0], fsize[1]);
+		fprintf(stderr, "error: limit: fsize variable: %dx%d not larger than nor equivalent to 64x64\n", fsize[0], fsize[1]);
 		return 1;
 	}
 	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
@@ -427,7 +427,7 @@ int main(int argc, char **argv)
 	}
 	if(jcount < 0)
 	{
-		fprintf(stderr, "error: logic: joints parameter: %d not positive or zero\n", jcount);
+		fprintf(stderr, "error: count: joints parameter: %d not positive nor zero\n", jcount);
 		return 1;
 	}
 	joints = malloc(jcount * sizeof(struct joint));
@@ -490,7 +490,7 @@ int main(int argc, char **argv)
 	}
 	if(mcount < 0)
 	{
-		fprintf(stderr, "error: logic: members parameter: %d not positive or zero\n", mcount);
+		fprintf(stderr, "error: count: members parameter: %d not positive nor zero\n", mcount);
 		return 1;
 	}
 	members = malloc(mcount * sizeof(struct member));
@@ -538,12 +538,12 @@ int main(int argc, char **argv)
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount)
 		{
-			fprintf(stderr, "error: logic: member%d variable: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
+			fprintf(stderr, "error: index: member%d variable: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
 			return 1;
 		}
 		if(jindex2 < 0 || jindex2 >= jcount)
 		{
-			fprintf(stderr, "error: logic: member%d variable: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
+			fprintf(stderr, "error: index: member%d variable: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
@@ -558,7 +558,7 @@ int main(int argc, char **argv)
 				)
 			)
 			{
-				fprintf(stderr, "error: logic: member%d variable: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already used\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
+				fprintf(stderr, "error: index: member%d variable: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already used\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
 			}
 		member.spring.m1 = &joints[jindex1].mass;
@@ -583,7 +583,7 @@ int main(int argc, char **argv)
 	}
 	if(scount < 0)
 	{
-		fprintf(stderr, "error: logic: supports parameter: %d not positive or zero\n", scount);
+		fprintf(stderr, "error: count: supports parameter: %d not positive nor zero\n", scount);
 		return 1;
 	}
 	supports = malloc(scount * sizeof(struct support));
@@ -611,12 +611,12 @@ int main(int argc, char **argv)
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: logic: support%d variable: joint parameter: %d does not exist\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support%d variable: joint parameter: %d does not exist\n", s + 1, jindex + 1);
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass)
 		{
-			fprintf(stderr, "error: logic: support%d variable: joint parameter: %d already used\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support%d variable: joint parameter: %d already used\n", s + 1, jindex + 1);
 			return 1;
 		}
 		support.constraint.m = &joints[jindex].mass;
@@ -637,7 +637,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			fprintf(stderr, "error: parse: support%d variable: axes parameter: \"%s...\" not available\n", s + 1, axes);
+			fprintf(stderr, "error: parse: support%d variable: axes parameter: \"%s(...)\" not an option\n", s + 1, axes);
 			return 1;
 		}
 		for(int c = 0; c < 2; c++)
@@ -658,7 +658,7 @@ int main(int argc, char **argv)
 	}
 	if(lcount < 0)
 	{
-		fprintf(stderr, "error: logic: loads parameter: %d not positive or zero\n", lcount);
+		fprintf(stderr, "error: count: loads parameter: %d not positive nor zero\n", lcount);
 		return 1;
 	}
 	loads = malloc(lcount * sizeof(struct load));
@@ -682,7 +682,7 @@ int main(int argc, char **argv)
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: logic: load%d variable: joint parameter: %d does not exist\n", l + 1, jindex + 1);
+			fprintf(stderr, "error: index: load%d variable: joint parameter: %d does not exist\n", l + 1, jindex + 1);
 			return 1;
 		}
 		load.action.m = &joints[jindex].mass;
