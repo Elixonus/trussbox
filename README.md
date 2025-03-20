@@ -4,6 +4,8 @@ heavily inspired by Ange The Great's physics simulation
 
 ## Preview
 
+[Montage Video](./previewmt.mp4)
+
 ![Warren Truss Image](./preview.png)
 
 [Warren Truss Video](./preview.mp4)

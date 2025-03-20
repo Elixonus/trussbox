@@ -13,12 +13,25 @@ read -r -e -p "frame scale: " fscale
 read -r -e -p "solution dirname: " dirname
 mkdir -p $dirname
 rm -rf $dirname/*
-cp $filename ${dirname}/problem.txt
-mkdir -p ${dirname}/frames
-./bin/solvetruss ${dirname}/frames gravity=${gravity} timef=${timef} srate=${srate} frate=${frate} fsize=${fwidth}x${fheight} "fcenter=(${fcenterx} ${fcentery})" fzoom=${fzoom} fscale=${fscale} < $dirname/problem.txt > $dirname/solution.txt
-ffmpeg -r 60 -i ${dirname}/frames/%09d.png -y ${dirname}/video.mp4 -loglevel error
-rm -f ${dirname}/frames/*.png
-rmdir ${dirname}/frames
+cp $filename $dirname/problem.txt
+mkdir -p $dirname/frames
+./bin/solvetruss $dirname/frames \
+                 gravity=$gravity \
+                 timef=$timef \
+                 srate=$srate \
+                 frate=$frate \
+                 fsize=${fwidth}x${fheight} \
+                 "fcenter=($fcenterx $fcentery)" \
+                 fzoom=$fzoom \
+                 fscale=$fscale < $dirname/problem.txt > $dirname/solution.txt
+ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
+rm -f $dirname/frames/*.png
+rmdir $dirname/frames
 cat $dirname/problem.txt $dirname/solution.txt > $dirname/pronsol.txt
-./bin/forcediagram ${dirname} gravity=${gravity} fsize=${fwidth}x${fheight} "fcenter=(${fcenterx} ${fcentery})" fzoom=${fzoom} fscale=${fscale} < $dirname/pronsol.txt
+./bin/forcediagram $dirname \
+                   gravity=$gravity \
+                   fsize=${fwidth}x${fheight} \
+                   "fcenter=($fcenterx $fcentery)" \
+                   fzoom=$fzoom \
+                   fscale=$fscale < $dirname/pronsol.txt
 rm -f $dirname/pronsol.txt
