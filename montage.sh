@@ -1,5 +1,5 @@
 ./bridges.sh
-./pendulum.sh
+./pendulums.sh
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
 mkdir -p tmp/montage/bridges/warren

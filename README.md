@@ -18,6 +18,10 @@ heavily inspired by Ange The Great's physics simulation
 
 ```$ ./setup.sh```
 
+### Format
+
+```$ ./format.sh```
+
 ### Build
 
 ```$ ./build.sh```
