@@ -134,7 +134,14 @@ int solve(void)
 		struct joint *joint = &joints[j];
 		for(int c = 0; c < 2; c++)
 		{
-			jaccelerations[j][c] = jforces[j][c] / (joint->mass.m > epsilon ? joint->mass.m : epsilon);
+			jaccelerations[j][c] = jforces[j][c] / joint->mass.m;
+		}
+	}
+	for(int j = 0; j < jcount; j++)
+	{
+		struct joint *joint = &joints[j];
+		for(int c = 0; c < 2; c++)
+		{
 			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * dtime;
 		}
 	}
@@ -162,7 +169,17 @@ int solve(void)
 int render(void)
 {
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
+	if(cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS)
+	{
+		fprintf(stderr, "error: create: surface\n");
+		return 1;
+	}
 	cairo_t *context = cairo_create(surface);
+	if(cairo_status(context) != CAIRO_STATUS_SUCCESS)
+	{
+		fprintf(stderr, "error: create: context\n");
+		return 1;
+	}
 	cairo_save(context);
 	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
 	cairo_clip(context);
@@ -310,9 +327,9 @@ int render(void)
 	cairo_destroy(context);
 	char filename[1101];
 	sprintf(filename, "%s/%09d.png", dirname, frame + 1);
-	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
+	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS || true)
 	{
-		fprintf(stderr, "error: write: frame: filename: \"%s\"\n", filename);
+		fprintf(stderr, "error: create: file: \"%s\"\n", filename);
 		return 1;
 	}
 	cairo_surface_destroy(surface);
@@ -392,7 +409,7 @@ int main(int argc, char **argv)
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
 	{
-		fprintf(stderr, "error: limit: fsize variable: %dx%d not larger than nor equivalent to 64x64\n", fsize[0], fsize[1]);
+		fprintf(stderr, "error: limit: fsize variable: %dx%d not larger than 64x64 nor equivalent\n", fsize[0], fsize[1]);
 		return 1;
 	}
 	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
@@ -431,19 +448,19 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	joints = malloc(jcount * sizeof(struct joint));
-	if(joints == nullptr)
+	if(!joints)
 	{
 		fprintf(stderr, "error: memory: joints variable: %zuB allocation\n", jcount * sizeof(struct joint));
 		return 1;
 	}
 	jaccelerations = malloc(jcount * sizeof(double *));
-	if(jaccelerations == nullptr)
+	if(!jaccelerations)
 	{
 		fprintf(stderr, "error: memory: jaccelerations variable: %zuB allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	jforces = malloc(jcount * sizeof(double *));
-	if(jforces == nullptr)
+	if(!jforces)
 	{
 		fprintf(stderr, "error: memory: jforces variable: %zuB allocation\n", jcount * sizeof(double *));
 		return 1;
@@ -466,13 +483,13 @@ int main(int argc, char **argv)
 		}
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
-		if(jaccelerations[j] == nullptr)
+		if(!jaccelerations[j])
 		{
 			fprintf(stderr, "error: memory: jacceleration%d variable: %zuB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		jforces[j] = malloc(2 * sizeof(double));
-		if(jforces[j] == nullptr)
+		if(!jforces[j])
 		{
 			fprintf(stderr, "error: memory: jforce%d variable: %zuB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
@@ -494,31 +511,31 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	members = malloc(mcount * sizeof(struct member));
-	if(members == nullptr)
+	if(!members)
 	{
 		fprintf(stderr, "error: memory: members variable: %zuB allocation\n", mcount * sizeof(struct member));
 		return 1;
 	}
 	mlengths = malloc(mcount * sizeof(double));
-	if(mlengths == nullptr)
+	if(!mlengths)
 	{
 		fprintf(stderr, "error: memory: mlengths variable: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mdisplacements = malloc(mcount * sizeof(double));
-	if(mdisplacements == nullptr)
+	if(!mdisplacements)
 	{
 		fprintf(stderr, "error: memory: mdisplacements variable: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mvelocities = malloc(mcount * sizeof(double));
-	if(mvelocities == nullptr)
+	if(!mvelocities)
 	{
 		fprintf(stderr, "error: memory: mvelocities variable: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mforces = malloc(mcount * sizeof(double));
-	if(mforces == nullptr)
+	if(!mforces)
 	{
 		fprintf(stderr, "error: memory: mforces variable: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
@@ -587,13 +604,13 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	supports = malloc(scount * sizeof(struct support));
-	if(supports == nullptr)
+	if(!supports)
 	{
 		fprintf(stderr, "error: memory: supports variable: %zuB allocation\n", scount * sizeof(struct support));
 		return 1;
 	}
 	sreactions = malloc(scount * sizeof(double *));
-	if(sreactions == nullptr)
+	if(!sreactions)
 	{
 		fprintf(stderr, "error: memory: sreactions variable: %zuB allocation\n", scount * sizeof(double *));
 		return 1;
@@ -644,7 +661,7 @@ int main(int argc, char **argv)
 			support.constraint.p[c] = joints[jindex].mass.p[c];
 		supports[s] = support;
 		sreactions[s] = malloc(2 * sizeof(double));
-		if(sreactions[s] == nullptr)
+		if(!sreactions[s])
 		{
 			fprintf(stderr, "error: memory: sreaction%d variable: %zuB allocation\n", s + 1, 2 * sizeof(double));
 			return 1;
@@ -662,7 +679,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	loads = malloc(lcount * sizeof(struct load));
-	if(loads == nullptr)
+	if(!loads)
 	{
 		fprintf(stderr, "error: memory: loads variable: %zuB allocation\n", lcount * sizeof(struct load));
 		return 1;

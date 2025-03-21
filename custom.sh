@@ -25,8 +25,7 @@ mkdir -p $dirname/frames
                  fzoom=$fzoom \
                  fscale=$fscale < $dirname/problem.txt > $dirname/solution.txt
 ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
-rm -f $dirname/frames/*.png
-rmdir $dirname/frames
+rm -rf $dirname/frames
 cat $dirname/problem.txt $dirname/solution.txt > $dirname/pronsol.txt
 ./bin/forcediagram $dirname \
                    gravity=$gravity \
