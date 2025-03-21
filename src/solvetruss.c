@@ -171,13 +171,13 @@ int render(void)
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
 	if(cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS)
 	{
-		fprintf(stderr, "error: create: surface\n");
+		fprintf(stderr, "error: create: image surface\n");
 		return 1;
 	}
 	cairo_t *context = cairo_create(surface);
 	if(cairo_status(context) != CAIRO_STATUS_SUCCESS)
 	{
-		fprintf(stderr, "error: create: context\n");
+		fprintf(stderr, "error: create: image context\n");
 		return 1;
 	}
 	cairo_save(context);
@@ -327,9 +327,9 @@ int render(void)
 	cairo_destroy(context);
 	char filename[1101];
 	sprintf(filename, "%s/%09d.png", dirname, frame + 1);
-	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS || true)
+	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
 	{
-		fprintf(stderr, "error: create: file: \"%s\"\n", filename);
+		fprintf(stderr, "error: create: image file: %s\n", filename);
 		return 1;
 	}
 	cairo_surface_destroy(surface);
@@ -342,36 +342,41 @@ int main(int argc, char **argv)
 	if(argc != 10)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 9 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s dirname gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: dirname argument: \"%s\" (1)\n", argv[1]);
+		fprintf(stderr, "error: parse: dirname argument: %s (1)\n", argv[1]);
+		fprintf(stderr, "usage: dirname argument: string (1)\n");
 		return 1;
 	}
 	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument: \"%s\" (2)\n", argv[2]);
+		fprintf(stderr, "error: parse: gravity argument: %s (2)\n", argv[2]);
+		fprintf(stderr, "usage: gravity argument: gravity=float (2)\n");
 		return 1;
 	}
 	if(sscanf(argv[3], "timef=%lf", &timef) != 1)
 	{
-		fprintf(stderr, "error: parse: timef argument: \"%s\" (3)\n", argv[3]);
+		fprintf(stderr, "error: parse: timef argument: %s (3)\n", argv[3]);
+		fprintf(stderr, "usage: timef argument: timef=float (3)\n");
 		return 1;
 	}
 	if(timef < epsilon)
 	{
-		fprintf(stderr, "error: limit: timef variable: %.1e not greater than %.1e\n", timef, epsilon);
+		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
 		return 1;
 	}
 	if(sscanf(argv[4], "srate=%lf", &srate) != 1)
 	{
-		fprintf(stderr, "error: parse: srate argument: \"%s\" (4)\n", argv[4]);
+		fprintf(stderr, "error: parse: srate argument: %s (4)\n", argv[4]);
+		fprintf(stderr, "usage: srate argument: srate=float (4)\n");
 		return 1;
 	}
 	if(srate < epsilon)
 	{
-		fprintf(stderr, "error: limit: srate variable: %.1e not greater than %.1e\n", srate, epsilon);
+		fprintf(stderr, "error: limit: srate argument: %.1e not greater than %.1e\n", srate, epsilon);
 		return 1;
 	}
 	dtime = 1.0 / srate;
@@ -388,12 +393,13 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[5], "frate=%lf", &frate) != 1)
 	{
-		fprintf(stderr, "error: parse: frate argument: \"%s\" (5)\n", argv[5]);
+		fprintf(stderr, "error: parse: frate argument: %s (5)\n", argv[5]);
+		fprintf(stderr, "usage: frate argument: frate=float (5)\n");
 		return 1;
 	}
 	if(frate < epsilon)
 	{
-		fprintf(stderr, "error: limit: frate variable: %.1e not greater than %.1e\n", frate, epsilon);
+		fprintf(stderr, "error: limit: frate argument: %.1e not greater than %.1e\n", frate, epsilon);
 		return 1;
 	}
 	framef = ((int) round(frate * timef)) - 1;
@@ -404,42 +410,47 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[6], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument: \"%s\" (6)\n", argv[6]);
+		fprintf(stderr, "error: parse: fsize argument: %s (6)\n", argv[6]);
+		fprintf(stderr, "usage: fsize argument: fsize=integerxinteger (6)\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
 	{
-		fprintf(stderr, "error: limit: fsize variable: %dx%d not larger than 64x64 nor equivalent\n", fsize[0], fsize[1]);
+		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
 		return 1;
 	}
 	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument: \"%s\" (7)\n", argv[7]);
+		fprintf(stderr, "error: parse: fcenter argument: %s (7)\n", argv[7]);
+		fprintf(stderr, "usage: fcenter argument: fcenter=(float float) (7)\n");
 		return 1;
 	}
 	if(sscanf(argv[8], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument: \"%s\" (8)\n", argv[8]);
+		fprintf(stderr, "error: parse: fzoom argument: %s (8)\n", argv[8]);
+		fprintf(stderr, "usage: fzoom argument: fzoom=float (8)\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
 	{
-		fprintf(stderr, "error: limit: fzoom variable: %.1e not greater than %.1e\n", fzoom, epsilon);
+		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 		return 1;
 	}
 	if(sscanf(argv[9], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument: \"%s\" (9)\n", argv[9]);
+		fprintf(stderr, "error: parse: fscale argument: %s (9)\n", argv[9]);
+		fprintf(stderr, "usage: fscale argument: fscale=float (9)\n");
 		return 1;
 	}
 	if(fscale < epsilon)
 	{
-		fprintf(stderr, "error: limit: fscale variable: %.1e not greater than %.1e\n", fscale, epsilon);
+		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1)
 	{
 		fprintf(stderr, "error: parse: joints parameter\n");
+		fprintf(stderr, "usage: joints parameter: joints=float\n");
 		return 1;
 	}
 	if(jcount < 0)
@@ -450,19 +461,19 @@ int main(int argc, char **argv)
 	joints = malloc(jcount * sizeof(struct joint));
 	if(!joints)
 	{
-		fprintf(stderr, "error: memory: joints variable: %zuB allocation\n", jcount * sizeof(struct joint));
+		fprintf(stderr, "error: memory: joints array: %zuB allocation\n", jcount * sizeof(struct joint));
 		return 1;
 	}
 	jaccelerations = malloc(jcount * sizeof(double *));
 	if(!jaccelerations)
 	{
-		fprintf(stderr, "error: memory: jaccelerations variable: %zuB allocation\n", jcount * sizeof(double *));
+		fprintf(stderr, "error: memory: jaccelerations array: %zuB allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	jforces = malloc(jcount * sizeof(double *));
 	if(!jforces)
 	{
-		fprintf(stderr, "error: memory: jforces variable: %zuB allocation\n", jcount * sizeof(double *));
+		fprintf(stderr, "error: memory: jforces array: %zuB allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	for(int j = 0; j < jcount; j++)
@@ -473,25 +484,26 @@ int main(int argc, char **argv)
 			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
 		) != 5)
 		{
-			fprintf(stderr, "error: parse: joint%d variable\n", j + 1);
+			fprintf(stderr, "error: parse: joint%d object\n", j + 1);
+			fprintf(stderr, "usage: joint object: mass=float position=(float float) velocity=(float float)\n");
 			return 1;
 		}
 		if(joint.mass.m < epsilon)
 		{
-			fprintf(stderr, "error: limit: joint%d variable: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint%d object: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
 			return 1;
 		}
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
 		if(!jaccelerations[j])
 		{
-			fprintf(stderr, "error: memory: jacceleration%d variable: %zuB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: memory: jacceleration%d array: %zuB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j])
 		{
-			fprintf(stderr, "error: memory: jforce%d variable: %zuB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: memory: jforce%d array: %zuB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int c = 0; c < 2; c++)
@@ -503,6 +515,7 @@ int main(int argc, char **argv)
 	if(scanf("members=%d\n", &mcount) != 1)
 	{
 		fprintf(stderr, "error: parse: members parameter\n");
+		fprintf(stderr, "usage: members parameter: members=float\n");
 		return 1;
 	}
 	if(mcount < 0)
@@ -513,31 +526,31 @@ int main(int argc, char **argv)
 	members = malloc(mcount * sizeof(struct member));
 	if(!members)
 	{
-		fprintf(stderr, "error: memory: members variable: %zuB allocation\n", mcount * sizeof(struct member));
+		fprintf(stderr, "error: memory: members array: %zuB allocation\n", mcount * sizeof(struct member));
 		return 1;
 	}
 	mlengths = malloc(mcount * sizeof(double));
 	if(!mlengths)
 	{
-		fprintf(stderr, "error: memory: mlengths variable: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: memory: mlengths array: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mdisplacements = malloc(mcount * sizeof(double));
 	if(!mdisplacements)
 	{
-		fprintf(stderr, "error: memory: mdisplacements variable: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: memory: mdisplacements array: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mvelocities = malloc(mcount * sizeof(double));
 	if(!mvelocities)
 	{
-		fprintf(stderr, "error: memory: mvelocities variable: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: memory: mvelocities array: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mforces = malloc(mcount * sizeof(double));
 	if(!mforces)
 	{
-		fprintf(stderr, "error: memory: mforces variable: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: memory: mforces array: %zuB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	for(int m = 0; m < mcount; m++)
@@ -549,18 +562,19 @@ int main(int argc, char **argv)
 			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
 		) != 5)
 		{
-			fprintf(stderr, "error: parse: member%d variable\n", m + 1);
+			fprintf(stderr, "error: parse: member%d object\n", m + 1);
+			fprintf(stderr, "usage: member object: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
 			return 1;
 		}
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount)
 		{
-			fprintf(stderr, "error: index: member%d variable: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
+			fprintf(stderr, "error: index: member%d object: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
 			return 1;
 		}
 		if(jindex2 < 0 || jindex2 >= jcount)
 		{
-			fprintf(stderr, "error: index: member%d variable: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
+			fprintf(stderr, "error: index: member%d object: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
@@ -575,7 +589,7 @@ int main(int argc, char **argv)
 				)
 			)
 			{
-				fprintf(stderr, "error: index: member%d variable: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already used\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
+				fprintf(stderr, "error: index: member%d object: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
 			}
 		member.spring.m1 = &joints[jindex1].mass;
@@ -584,7 +598,7 @@ int main(int argc, char **argv)
 		member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon)
 		{
-			fprintf(stderr, "error: limit: member%d variable: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member%d object: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
 			return 1;
 		}
 		members[m] = member;
@@ -596,6 +610,7 @@ int main(int argc, char **argv)
 	if(scanf("supports=%d\n", &scount) != 1)
 	{
 		fprintf(stderr, "error: parse: supports parameter\n");
+		fprintf(stderr, "usage: supports parameter: supports=float\n");
 		return 1;
 	}
 	if(scount < 0)
@@ -606,34 +621,35 @@ int main(int argc, char **argv)
 	supports = malloc(scount * sizeof(struct support));
 	if(!supports)
 	{
-		fprintf(stderr, "error: memory: supports variable: %zuB allocation\n", scount * sizeof(struct support));
+		fprintf(stderr, "error: memory: supports array: %zuB allocation\n", scount * sizeof(struct support));
 		return 1;
 	}
 	sreactions = malloc(scount * sizeof(double *));
 	if(!sreactions)
 	{
-		fprintf(stderr, "error: memory: sreactions variable: %zuB allocation\n", scount * sizeof(double *));
+		fprintf(stderr, "error: memory: sreactions array: %zuB allocation\n", scount * sizeof(double *));
 		return 1;
 	}
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
-		char axes[3];
+		char axes[101];
 		struct support support;
-		if(scanf("joint=%d axes=%2s\n", &jindex, axes) != 2)
+		if(scanf("joint=%d axes=%100s\n", &jindex, axes) != 2)
 		{
-			fprintf(stderr, "error: parse: support%d variable\n", s + 1);
+			fprintf(stderr, "error: parse: support%d object\n", s + 1);
+			fprintf(stderr, "usage: support object: joint=index axes=xy|x|y\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: support%d variable: joint parameter: %d does not exist\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support%d object: joint parameter: %d does not exist\n", s + 1, jindex + 1);
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass)
 		{
-			fprintf(stderr, "error: index: support%d variable: joint parameter: %d already used\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support%d object: joint parameter: %d already in use\n", s + 1, jindex + 1);
 			return 1;
 		}
 		support.constraint.m = &joints[jindex].mass;
@@ -654,7 +670,8 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			fprintf(stderr, "error: parse: support%d variable: axes parameter: \"%s(...)\" not an option\n", s + 1, axes);
+			fprintf(stderr, "error: parse: support%d object: axes parameter: %s not an option\n", s + 1, axes);
+			fprintf(stderr, "usage: support object: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
 		for(int c = 0; c < 2; c++)
@@ -663,7 +680,7 @@ int main(int argc, char **argv)
 		sreactions[s] = malloc(2 * sizeof(double));
 		if(!sreactions[s])
 		{
-			fprintf(stderr, "error: memory: sreaction%d variable: %zuB allocation\n", s + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: memory: sreaction%d array: %zuB allocation\n", s + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
@@ -671,6 +688,7 @@ int main(int argc, char **argv)
 	if(scanf("loads=%d\n", &lcount) != 1)
 	{
 		fprintf(stderr, "error: parse: loads parameter\n");
+		fprintf(stderr, "usage: loads parameter: loads=float\n");
 		return 1;
 	}
 	if(lcount < 0)
@@ -681,7 +699,7 @@ int main(int argc, char **argv)
 	loads = malloc(lcount * sizeof(struct load));
 	if(!loads)
 	{
-		fprintf(stderr, "error: memory: loads variable: %zuB allocation\n", lcount * sizeof(struct load));
+		fprintf(stderr, "error: memory: loads array: %zuB allocation\n", lcount * sizeof(struct load));
 		return 1;
 	}
 	for(int l = 0; l < lcount; l++)
@@ -693,13 +711,14 @@ int main(int argc, char **argv)
 			&jindex, &load.action.f[0], &load.action.f[1]
 		) != 3)
 		{
-			fprintf(stderr, "error: parse: load%d variable\n", l + 1);
+			fprintf(stderr, "error: parse: load%d object\n", l + 1);
+			fprintf(stderr, "usage: load object: joint=index force=<float float>\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: load%d variable: joint parameter: %d does not exist\n", l + 1, jindex + 1);
+			fprintf(stderr, "error: index: load%d object: joint parameter: %d does not exist\n", l + 1, jindex + 1);
 			return 1;
 		}
 		load.action.m = &joints[jindex].mass;

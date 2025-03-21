@@ -84,7 +84,7 @@ void render_force(
 	cairo_rotate(context, atan2(force[1], force[0]));
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
-		cairo_translate(context, -0.07 * magnitude / max_force, 0.0);
+		cairo_translate(context, -0.08 * magnitude / max_force, 0.0);
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
 	cairo_translate(context, 0.07 * magnitude / max_force, 0.0);
@@ -194,7 +194,7 @@ void render(void)
 					force[c2] = sreactions[s][c2];
 			}
 			double color[3] = {1.0, 0.0, 1.0};
-			render_force(context, force, support->constraint.m->p, max_force, color, false);
+			render_force(context, force, support->constraint.m->p, max_force, color, true);
 		}
 	}
 	for(int l = 0; l < lcount; l++)
@@ -208,7 +208,7 @@ void render(void)
 		struct joint *joint = &joints[j];
 		double force[2] = {0.0, -gravity * joint->mass.m};
 		double color[3] = {0.5, 0.5, 0.5};
-		render_force(context, force, joint->mass.p, max_force, color, false);
+		render_force(context, force, joint->mass.p, max_force, color, true);
 	}
 	cairo_restore(context);
 	cairo_restore(context);
