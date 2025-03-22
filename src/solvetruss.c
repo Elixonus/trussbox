@@ -308,15 +308,13 @@ int render(void)
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_stroke(context);
 		cairo_restore(context);
-	}
-	for(int j = 0; j < jcount; j++)
-	{
-		struct joint *joint = &joints[j];
 		cairo_save(context);
-		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0025, 0, tau);
+		cairo_arc(context, member->spring.m1->p[0], member->spring.m1->p[1], 0.0025, 0.0, tau);
+		cairo_close_path(context);
+		cairo_new_sub_path(context);
+		cairo_arc(context, member->spring.m2->p[0], member->spring.m2->p[1], 0.0025, 0.0, tau);
 		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
@@ -461,19 +459,19 @@ int main(int argc, char **argv)
 	joints = malloc(jcount * sizeof(struct joint));
 	if(!joints)
 	{
-		fprintf(stderr, "error: memory: joints array: %zuB allocation\n", jcount * sizeof(struct joint));
+		fprintf(stderr, "error: create: joints array: %zdB allocation\n", jcount * sizeof(struct joint));
 		return 1;
 	}
 	jaccelerations = malloc(jcount * sizeof(double *));
 	if(!jaccelerations)
 	{
-		fprintf(stderr, "error: memory: jaccelerations array: %zuB allocation\n", jcount * sizeof(double *));
+		fprintf(stderr, "error: create: jaccelerations array: %zdB allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	jforces = malloc(jcount * sizeof(double *));
 	if(!jforces)
 	{
-		fprintf(stderr, "error: memory: jforces array: %zuB allocation\n", jcount * sizeof(double *));
+		fprintf(stderr, "error: create: jforces array: %zdB allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	for(int j = 0; j < jcount; j++)
@@ -484,26 +482,26 @@ int main(int argc, char **argv)
 			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
 		) != 5)
 		{
-			fprintf(stderr, "error: parse: joint%d object\n", j + 1);
-			fprintf(stderr, "usage: joint object: mass=float position=(float float) velocity=(float float)\n");
+			fprintf(stderr, "error: parse: joint%d line\n", j + 1);
+			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=(float float)\n");
 			return 1;
 		}
 		if(joint.mass.m < epsilon)
 		{
-			fprintf(stderr, "error: limit: joint%d object: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint%d line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
 			return 1;
 		}
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
 		if(!jaccelerations[j])
 		{
-			fprintf(stderr, "error: memory: jacceleration%d array: %zuB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: jacceleration%d array: %zdB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j])
 		{
-			fprintf(stderr, "error: memory: jforce%d array: %zuB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: jforce%d array: %zdB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int c = 0; c < 2; c++)
@@ -526,31 +524,31 @@ int main(int argc, char **argv)
 	members = malloc(mcount * sizeof(struct member));
 	if(!members)
 	{
-		fprintf(stderr, "error: memory: members array: %zuB allocation\n", mcount * sizeof(struct member));
+		fprintf(stderr, "error: create: members array: %zdB allocation\n", mcount * sizeof(struct member));
 		return 1;
 	}
 	mlengths = malloc(mcount * sizeof(double));
 	if(!mlengths)
 	{
-		fprintf(stderr, "error: memory: mlengths array: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mlengths array: %zdB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mdisplacements = malloc(mcount * sizeof(double));
 	if(!mdisplacements)
 	{
-		fprintf(stderr, "error: memory: mdisplacements array: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mdisplacements array: %zdB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mvelocities = malloc(mcount * sizeof(double));
 	if(!mvelocities)
 	{
-		fprintf(stderr, "error: memory: mvelocities array: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mvelocities array: %zdB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mforces = malloc(mcount * sizeof(double));
 	if(!mforces)
 	{
-		fprintf(stderr, "error: memory: mforces array: %zuB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mforces array: %zdB allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	for(int m = 0; m < mcount; m++)
@@ -562,19 +560,19 @@ int main(int argc, char **argv)
 			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
 		) != 5)
 		{
-			fprintf(stderr, "error: parse: member%d object\n", m + 1);
-			fprintf(stderr, "usage: member object: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
+			fprintf(stderr, "error: parse: member%d line\n", m + 1);
+			fprintf(stderr, "usage: member line: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
 			return 1;
 		}
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount)
 		{
-			fprintf(stderr, "error: index: member%d object: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
+			fprintf(stderr, "error: index: member%d line: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
 			return 1;
 		}
 		if(jindex2 < 0 || jindex2 >= jcount)
 		{
-			fprintf(stderr, "error: index: member%d object: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
+			fprintf(stderr, "error: index: member%d line: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
@@ -589,7 +587,7 @@ int main(int argc, char **argv)
 				)
 			)
 			{
-				fprintf(stderr, "error: index: member%d object: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
+				fprintf(stderr, "error: index: member%d line: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
 			}
 		member.spring.m1 = &joints[jindex1].mass;
@@ -598,7 +596,7 @@ int main(int argc, char **argv)
 		member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon)
 		{
-			fprintf(stderr, "error: limit: member%d object: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member%d line: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
 			return 1;
 		}
 		members[m] = member;
@@ -621,13 +619,13 @@ int main(int argc, char **argv)
 	supports = malloc(scount * sizeof(struct support));
 	if(!supports)
 	{
-		fprintf(stderr, "error: memory: supports array: %zuB allocation\n", scount * sizeof(struct support));
+		fprintf(stderr, "error: create: supports array: %zdB allocation\n", scount * sizeof(struct support));
 		return 1;
 	}
 	sreactions = malloc(scount * sizeof(double *));
 	if(!sreactions)
 	{
-		fprintf(stderr, "error: memory: sreactions array: %zuB allocation\n", scount * sizeof(double *));
+		fprintf(stderr, "error: create: sreactions array: %zdB allocation\n", scount * sizeof(double *));
 		return 1;
 	}
 	for(int s = 0; s < scount; s++)
@@ -637,19 +635,19 @@ int main(int argc, char **argv)
 		struct support support;
 		if(scanf("joint=%d axes=%100s\n", &jindex, axes) != 2)
 		{
-			fprintf(stderr, "error: parse: support%d object\n", s + 1);
-			fprintf(stderr, "usage: support object: joint=index axes=xy|x|y\n");
+			fprintf(stderr, "error: parse: support%d line\n", s + 1);
+			fprintf(stderr, "usage: support line: joint=index axes=xy|x|y\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: support%d object: joint parameter: %d does not exist\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support%d line: joint parameter: %d does not exist\n", s + 1, jindex + 1);
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass)
 		{
-			fprintf(stderr, "error: index: support%d object: joint parameter: %d already in use\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support%d line: joint parameter: %d already in use\n", s + 1, jindex + 1);
 			return 1;
 		}
 		support.constraint.m = &joints[jindex].mass;
@@ -670,8 +668,8 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			fprintf(stderr, "error: parse: support%d object: axes parameter: %s not an option\n", s + 1, axes);
-			fprintf(stderr, "usage: support object: axes parameter: axes=xy|x|y\n");
+			fprintf(stderr, "error: parse: support%d line: axes parameter: %s not an option\n", s + 1, axes);
+			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
 		for(int c = 0; c < 2; c++)
@@ -680,7 +678,7 @@ int main(int argc, char **argv)
 		sreactions[s] = malloc(2 * sizeof(double));
 		if(!sreactions[s])
 		{
-			fprintf(stderr, "error: memory: sreaction%d array: %zuB allocation\n", s + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: sreaction%d array: %zdB allocation\n", s + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
@@ -699,7 +697,7 @@ int main(int argc, char **argv)
 	loads = malloc(lcount * sizeof(struct load));
 	if(!loads)
 	{
-		fprintf(stderr, "error: memory: loads array: %zuB allocation\n", lcount * sizeof(struct load));
+		fprintf(stderr, "error: create: loads array: %zdB allocation\n", lcount * sizeof(struct load));
 		return 1;
 	}
 	for(int l = 0; l < lcount; l++)
@@ -711,14 +709,14 @@ int main(int argc, char **argv)
 			&jindex, &load.action.f[0], &load.action.f[1]
 		) != 3)
 		{
-			fprintf(stderr, "error: parse: load%d object\n", l + 1);
-			fprintf(stderr, "usage: load object: joint=index force=<float float>\n");
+			fprintf(stderr, "error: parse: load%d line\n", l + 1);
+			fprintf(stderr, "usage: load line: joint=index force=<float float>\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: load%d object: joint parameter: %d does not exist\n", l + 1, jindex + 1);
+			fprintf(stderr, "error: index: load%d line: joint parameter: %d does not exist\n", l + 1, jindex + 1);
 			return 1;
 		}
 		load.action.m = &joints[jindex].mass;

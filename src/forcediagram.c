@@ -246,6 +246,7 @@ int main(int argc, char **argv)
     if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
+	if(!joints) return 1;
     for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
@@ -258,6 +259,7 @@ int main(int argc, char **argv)
 	}
     if(scanf("members=%d\n", &mcount) != 1) return 1;
 	members = malloc(mcount * sizeof(struct member));
+	if(!members) return 1;
 	for(int m = 0; m < mcount; m++)
 	{
 		int jindex1, jindex2;
@@ -288,6 +290,7 @@ int main(int argc, char **argv)
 	}
 	if(scanf("supports=%d\n", &scount) != 1) return 1;
 	supports = malloc(scount * sizeof(struct support));
+	if(!supports) return 1;
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
@@ -320,6 +323,7 @@ int main(int argc, char **argv)
 	}
 	if(scanf("loads=%d\n", &lcount) != 1) return 1;
 	loads = malloc(lcount * sizeof(struct load));
+	if(!loads) return 1;
 	for(int l = 0; l < lcount; l++)
 	{
 		int jindex;
@@ -337,9 +341,11 @@ int main(int argc, char **argv)
     if(scanf("joints=%d\n", &jcount2) != 1) return 1;
 	if(jcount2 != jcount) return 1;
 	jforces = malloc(jcount * sizeof(double *));
+	if(!jforces) return 1;
     for(int j = 0; j < jcount; j++)
     {
 		jforces[j] = malloc(2 * sizeof(double));
+		if(!jforces[j]) return 1;
         if(scanf(
             "force=<%lf %lf> position=(%lf %lf) velocity=<%lf %lf>\n",
             &jforces[j][0], &jforces[j][1],
@@ -351,9 +357,13 @@ int main(int argc, char **argv)
     if(scanf("members=%d\n", &mcount2) != 1) return 1;
     if(mcount2 != mcount) return 1;
 	mlengths = malloc(mcount * sizeof(double));
+	if(!mlengths) return 1;
 	mdisplacements = malloc(mcount * sizeof(double));
+	if(!mdisplacements) return 1;
 	mvelocities = malloc(mcount * sizeof(double));
+	if(!mvelocities) return 1;
 	mforces = malloc(mcount * sizeof(double));
+	if(!mforces) return 1;
     for(int m = 0; m < mcount; m++)
     {
         if(scanf(
@@ -364,9 +374,11 @@ int main(int argc, char **argv)
     int scount2;
     if(scanf("supports=%d\n", &scount2) != 1) return 1;
 	sreactions = malloc(scount * sizeof(double *));
+	if(!sreactions) return 1;
     for(int s = 0; s < scount; s++)
     {
         sreactions[s] = malloc(2 * sizeof(double));
+		if(!sreactions[s]) return 1;
         if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
     }
 	render();
