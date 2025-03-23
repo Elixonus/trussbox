@@ -6,11 +6,11 @@ heavily inspired by Ange The Great's physics simulation
 
 [Montage Video (2K60FPS)](./previewmt.mp4)
 
-![Montage GIF](./previewmt.gif)
+![Montage Image](./previewmt.png)
 
 [Warren Truss Video (2K60FPS)](./preview.mp4)
 
-![Warren Truss GIF](./preview.gif)
+![Warren Truss Image](./preview.png)
 
 Warren Truss Force Diagram
 
@@ -60,3 +60,6 @@ $ 1.0
 $ tmp/warren
 ```
 
+**or**
+
+```$ ./montage.sh```

@@ -181,7 +181,9 @@ int render(void)
 		return 1;
 	}
 	cairo_save(context);
+	cairo_new_path(context);
 	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
+	cairo_close_path(context);
 	cairo_clip(context);
 	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 	cairo_paint(context);
@@ -252,6 +254,7 @@ int render(void)
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
 		cairo_rectangle(context, -0.075, -0.0025, 0.15, 0.005);
+		cairo_close_path(context);
 		if(count == 1)
 		{
 			cairo_new_sub_path(context);

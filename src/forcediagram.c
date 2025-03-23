@@ -104,10 +104,12 @@ void render_force(
 	cairo_restore(context);
 }
 
-void render(void)
+int render(void)
 {
 	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
+	if(cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) return 1;
 	cairo_t *context = cairo_create(surface);
+	if(cairo_status(context) != CAIRO_STATUS_SUCCESS) return 1;
 	cairo_save(context);
 	cairo_new_path(context);
 	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
@@ -218,23 +220,22 @@ void render(void)
 	}
 	cairo_restore(context);
 	cairo_restore(context);
-
 	for(int i = 0; i < fsize[1]; i++)
 	{
 		cairo_new_path(context);
 		cairo_rectangle(context, 0.95 * ((double) fsize[0]), (double) i, 0.2 * ((double) fsize[0]), 2.0);
-		double fake_force = max_force * (1.0 - 2.0 * ((double) (i)) / (double) (fsize[1] - 1));
+		double fake_force = max_force * (1.0 - 2.0 * ((double) (i)) / ((double) (fsize[1] - 1)));
 		double color[3];
 		map_mforce_to_color(fake_force, color, max_force);
 		cairo_set_source_rgb(context, color[0], color[1], color[2]);
 		cairo_fill(context);
 	}
-
 	cairo_destroy(context);
 	char filename[1101];
 	sprintf(filename, "%s/fdiagram.png", dirname);
-	cairo_surface_write_to_png(surface, filename);
+	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS) return 1;
 	cairo_surface_destroy(surface);
+	return 0;
 }
 
 int main(int argc, char **argv)
@@ -387,7 +388,7 @@ int main(int argc, char **argv)
 		if(!sreactions[s]) return 1;
         if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
     }
-	render();
+	if(render() != 0) return 1;
 	free(joints);
 	for(int j = 0; j < jcount; j++)
 		free(jforces[j]);
