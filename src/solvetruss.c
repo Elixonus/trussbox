@@ -308,8 +308,6 @@ int render(void)
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_stroke(context);
 		cairo_restore(context);
-		cairo_save(context);
-		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_path(context);
 		cairo_arc(context, member->spring.m1->p[0], member->spring.m1->p[1], 0.0025, 0.0, tau);
 		cairo_close_path(context);
@@ -318,7 +316,6 @@ int render(void)
 		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
-		cairo_restore(context);
 	}
 	cairo_restore(context);
 	cairo_restore(context);
