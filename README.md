@@ -4,13 +4,17 @@ heavily inspired by Ange The Great's physics simulation
 
 ## Preview
 
-[Montage Video](./previewmt.mp4)
+[Montage Video (2K60FPS)](./previewmt.mp4)
 
-![Warren Truss Image](./preview.png)
+![Montage GIF](./previewmt.gif)
 
-[Warren Truss Video](./preview.mp4)
+[Warren Truss Video (2K60FPS)](./preview.mp4)
 
-![Warren Truss Diagram](./previewfd.png)
+![Warren Truss GIF](./preview.gif)
+
+Warren Truss Force Diagram
+
+![Warren Truss Force Diagram](./previewfd.png)
 
 ## Steps
 
@@ -30,7 +34,7 @@ heavily inspired by Ange The Great's physics simulation
 
 ```$ ./bridges.sh```
 
-Creates solutions (a video and force data on each member and reactions on each support in the tmp directory) for each of the three trusses: warren, pratt, howe without further input.
+Creates solutions (a video and force data on each member and reactions on each support in the tmp directory) for each of the five truss bridges: warren, pratt, howe, parker and cambridge without further input.
 
 **or**
 

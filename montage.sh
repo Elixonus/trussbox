@@ -3,7 +3,8 @@
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
 mkdir -p tmp/montage/bridges/warren
-echo "subtitles=1
+echo "\
+subtitles=1
 center=(0.0 -0.4) lineheight=0.05 text=Warren Bridge
 " | ./bin/subtitles tmp/montage/bridges/warren fsize=1920x1080
 ffmpeg \
