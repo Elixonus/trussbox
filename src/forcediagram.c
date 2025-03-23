@@ -84,10 +84,12 @@ void render_force(
 	cairo_rotate(context, atan2(force[1], force[0]));
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
-		cairo_translate(context, -0.08 * magnitude / max_force, 0.0);
+	{
+		cairo_translate(context, -0.07 * magnitude / max_force - 0.01, 0.0);
+	}
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
-	cairo_translate(context, 0.07 * magnitude / max_force, 0.0);
+	cairo_translate(context, 0.07 * magnitude / max_force + 0.005, 0.0);
 	cairo_line_to(context, -0.01, 0.0);
 	cairo_line_to(context, -0.01, 0.005);
 	cairo_line_to(context, 0.0, 0.0);
@@ -168,6 +170,10 @@ void render(void)
 		cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 		cairo_stroke(context);
 		cairo_restore(context);
+	}
+	for(int m = 0; m < mcount; m++)
+	{
+		struct member *member = &members[m];
 		if(mlengths[m] < epsilon) continue;
 		double direction[2];
 		double force[2];

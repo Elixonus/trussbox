@@ -308,12 +308,20 @@ int render(void)
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_stroke(context);
 		cairo_restore(context);
+		cairo_save(context);
+		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_path(context);
-		cairo_arc(context, member->spring.m1->p[0], member->spring.m1->p[1], 0.0025, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.0025, 0.0, tau);
 		cairo_close_path(context);
+		cairo_restore(context);
+		cairo_save(context);
+		cairo_translate(context, member->spring.m2->p[0], member->spring.m2->p[1]);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_sub_path(context);
-		cairo_arc(context, member->spring.m2->p[0], member->spring.m2->p[1], 0.0025, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.0025, 0.0, tau);
 		cairo_close_path(context);
+		cairo_restore(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
 	}
