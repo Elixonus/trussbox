@@ -1,5 +1,23 @@
-./bridges.sh
-./pendulums.sh
+read -r -e -p "solve bridges (y/n): " do_bridges
+if ! [[ "$do_bridges" == "y" || "$do_bridges" == "Y" || "$do_bridges" == "n" || "$do_bridges" == "N" ]]
+then
+    echo "unrecognized input"
+    exit 1
+fi
+read -r -e -p "solve pendulums (y/n): " do_pendulums
+if ! [[ "$do_pendulums" == "y" || "$do_pendulums" == "Y" || "$do_pendulums" == "n" || "$do_pendulums" == "N" ]]
+then
+    echo "unrecognized input"
+    exit 1
+fi
+if [[ "$do_bridges" == "y" || "$do_bridges" == "Y" ]]
+then
+    ./bridges.sh
+fi
+if [[ "$do_pendulums" == "y" || "$do_pendulums" == "Y" ]]
+then
+    ./pendulums.sh
+fi
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
 mkdir -p tmp/montage/bridges/warren

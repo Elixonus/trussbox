@@ -1,3 +1,9 @@
+read -r -e -p "make montage (y/n): " do_montage
+if ! [[ "$do_montage" == "y" || "$do_montage" == "Y" || "$do_montage" == "n" || "$do_montage" == "N" ]]
+then
+    echo "unrecognized input"
+    exit 1
+fi
 mkdir -p tmp/preview
 rm -rf tmp/preview/*
 cat warren.txt | sed "s/dampening=3.0e2/dampening=3.0e1/g" > warrenld.txt
@@ -16,7 +22,10 @@ warrenld.txt
 tmp/preview
 " | ./custom.sh
 rm -f warrenld.txt
-./montage.sh
+if [[ "$do_montage" == "y" || "$do_montage" == "Y" ]]
+then
+    ./montage.sh
+fi
 cp tmp/preview/video.mp4 preview.mp4
 ffmpeg \
     -i tmp/preview/video.mp4 \
