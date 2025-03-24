@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include <cairo.h>
 #include "dampspring.h"
 
@@ -46,16 +47,13 @@ int mcount;
 struct support *supports;
 int scount;
 
-int frame;
-int framef;
-double frate;
 int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
 
 double epsilon = 1.0e-18;
-char dirname[1001];
+char filename[1005];
 
 int render(void)
 {
@@ -222,47 +220,38 @@ int render(void)
 	cairo_restore(context);
 	cairo_restore(context);
 	cairo_destroy(context);
-	char filename[1101];
-	sprintf(filename, "%s/%09d.png", dirname, frame + 1);
 	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
 	{
 		fprintf(stderr, "error: create: image file: %s\n", filename);
 		return 1;
 	}
 	cairo_surface_destroy(surface);
-	frame++;
 	return 0;
 }
 
 int main(int argc, char **argv)
 {
-    if(sscanf(argv[1], "%1000s", dirname) != 1)
+    if(argc != 6)
 	{
-		fprintf(stderr, "error: parse: dirname argument: %s (1)\n", argv[1]);
-		fprintf(stderr, "usage: dirname argument: string (1)\n");
+		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s filename fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
-    if(sscanf(argv[5], "frate=%lf", &frate) != 1)
+    if(sscanf(argv[1], "%1000s", filename) != 1)
 	{
-		fprintf(stderr, "error: parse: frate argument: %s (5)\n", argv[5]);
-		fprintf(stderr, "usage: frate argument: frate=float (5)\n");
+		fprintf(stderr, "error: parse: filename argument: %s (1)\n", argv[1]);
+		fprintf(stderr, "usage: filename argument: string (1)\n");
 		return 1;
 	}
-	if(frate < epsilon)
+	char *extension = strrchr(filename, '.');
+	if(!extension || strcmp(extension, ".png") != 0)
 	{
-		fprintf(stderr, "error: limit: frate argument: %.1e not greater than %.1e\n", frate, epsilon);
-		return 1;
+		strcat(filename, ".png");
 	}
-	framef = ((int) round(frate * timef)) - 1;
-	if(framef < 0)
+	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: limit: framef variable: %d not positive\n", framef);
-		return 1;
-	}
-	if(sscanf(argv[6], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
-	{
-		fprintf(stderr, "error: parse: fsize argument: %s (6)\n", argv[6]);
-		fprintf(stderr, "usage: fsize argument: fsize=integerxinteger (6)\n");
+		fprintf(stderr, "error: parse: fsize argument: %s (2)\n", argv[6]);
+		fprintf(stderr, "usage: fsize argument: fsize=integerxinteger (2)\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
@@ -270,16 +259,16 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
 		return 1;
 	}
-	if(sscanf(argv[7], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+	if(sscanf(argv[3], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument: %s (7)\n", argv[7]);
-		fprintf(stderr, "usage: fcenter argument: fcenter=(float float) (7)\n");
+		fprintf(stderr, "error: parse: fcenter argument: %s (3)\n", argv[7]);
+		fprintf(stderr, "usage: fcenter argument: fcenter=(float float) (3)\n");
 		return 1;
 	}
-	if(sscanf(argv[8], "fzoom=%lf", &fzoom) != 1)
+	if(sscanf(argv[4], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument: %s (8)\n", argv[8]);
-		fprintf(stderr, "usage: fzoom argument: fzoom=float (8)\n");
+		fprintf(stderr, "error: parse: fzoom argument: %s (4)\n", argv[8]);
+		fprintf(stderr, "usage: fzoom argument: fzoom=float (4)\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
@@ -287,10 +276,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[9], "fscale=%lf", &fscale) != 1)
+	if(sscanf(argv[5], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument: %s (9)\n", argv[9]);
-		fprintf(stderr, "usage: fscale argument: fscale=float (9)\n");
+		fprintf(stderr, "error: parse: fscale argument: %s (5)\n", argv[9]);
+		fprintf(stderr, "usage: fscale argument: fscale=float (5)\n");
 		return 1;
 	}
 	if(fscale < epsilon)

@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <cairo.h>
 #include "dampspring.h"
 
 struct joint
@@ -156,22 +155,22 @@ int solve(void)
 
 int main(int argc, char **argv)
 {
-	if(argc != 10)
+	if(argc != 4)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 9 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s dirname gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 3 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s gravity=float timef=float srate=float\n", argv[0]);
 		return 1;
 	}
-	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+	if(sscanf(argv[1], "gravity=%lf", &gravity) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument: %s (2)\n", argv[2]);
-		fprintf(stderr, "usage: gravity argument: gravity=float (2)\n");
+		fprintf(stderr, "error: parse: gravity argument: %s (1)\n", argv[2]);
+		fprintf(stderr, "usage: gravity argument: gravity=float (1)\n");
 		return 1;
 	}
-	if(sscanf(argv[3], "timef=%lf", &timef) != 1)
+	if(sscanf(argv[2], "timef=%lf", &timef) != 1)
 	{
-		fprintf(stderr, "error: parse: timef argument: %s (3)\n", argv[3]);
-		fprintf(stderr, "usage: timef argument: timef=float (3)\n");
+		fprintf(stderr, "error: parse: timef argument: %s (2)\n", argv[3]);
+		fprintf(stderr, "usage: timef argument: timef=float (2)\n");
 		return 1;
 	}
 	if(timef < epsilon)
@@ -179,10 +178,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[4], "srate=%lf", &srate) != 1)
+	if(sscanf(argv[3], "srate=%lf", &srate) != 1)
 	{
-		fprintf(stderr, "error: parse: srate argument: %s (4)\n", argv[4]);
-		fprintf(stderr, "usage: srate argument: srate=float (4)\n");
+		fprintf(stderr, "error: parse: srate argument: %s (3)\n", argv[4]);
+		fprintf(stderr, "usage: srate argument: srate=float (3)\n");
 		return 1;
 	}
 	if(srate < epsilon)
