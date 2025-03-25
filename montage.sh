@@ -1,10 +1,10 @@
-read -r -e -p "create new bridges solutions? (y/n): " create_bridges
+read -r -e -p "create new bridges output? (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
 then
     echo "unrecognized input"
     exit 1
 fi
-read -r -e -p "create new pendulums solutions? (y/n): " create_pendulums
+read -r -e -p "create new pendulums output? (y/n): " create_pendulums
 if ! [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" || "$create_pendulums" == "n" || "$create_pendulums" == "N" ]]
 then
     echo "unrecognized input"

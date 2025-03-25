@@ -8,13 +8,11 @@ heavily inspired by Ange The Great's physics simulation
 
 ![Montage Image](./previewmt.png)
 
-[Warren Truss Video (2K60FPS)](./preview.mp4)
+[Warren Truss Bridge Video (2K60FPS)](./preview.mp4)
 
-![Warren Truss Image](./preview.png)
+![Warren Truss Bridge Image](./preview.png)
 
-Warren Truss Force Diagram
-
-![Warren Truss Force Diagram](./previewfd.png)
+[Warren Truss Bridge Force Diagram Video (2K60FPS)](./previewfd.mp4)
 
 ## Steps
 
