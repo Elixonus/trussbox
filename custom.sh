@@ -19,7 +19,7 @@ mkdir -p $dirname/prosols
 mkdir -p $dirname/frames
 mkdir -p $dirname/diagrams
 
-./bin/pipeline \
+ ./bin/pipeline \
     solvetruss_executable=bin/solvetruss \
     rendertruss_executable=bin/rendertruss \
     forcediagram_executable=bin/forcediagram \
@@ -40,29 +40,7 @@ mkdir -p $dirname/diagrams
     fscale=$fscale \
     > $dirname/pipeline.sh
 source $dirname/pipeline.sh
-
-# cp $filename $dirname/problem.txt
-# mkdir -p $dirname/frames
-# ./bin/solvetruss \
-#     $dirname/frames \
-#     gravity=$gravity \
-#     timef=$timef \
-#     srate=$srate \
-#     frate=$frate \
-#     fsize=${fwidth}x${fheight} \
-#     "fcenter=($fcenterx $fcentery)" \
-#     fzoom=$fzoom \
-#     fscale=$fscale \
-#     < $dirname/problem.txt > $dirname/solution.txt
-# ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
-# rm -rf $dirname/frames
-# cat $dirname/problem.txt $dirname/solution.txt > $dirname/pronsol.txt
-# ./bin/forcediagram \
-#     $dirname \
-#     gravity=$gravity \
-#     fsize=${fwidth}x${fheight} \
-#     "fcenter=($fcenterx $fcentery)" \
-#     fzoom=$fzoom \
-#     fscale=$fscale \
-#     < $dirname/pronsol.txt
-# rm -f $dirname/pronsol.txt
+ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
+rm -rf $dirname/frames
+ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
+rm -rf $dirname/diagrams

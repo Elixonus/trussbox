@@ -32,6 +32,5 @@ tmp/preview
 rm -f warrenld.txt
 cp tmp/preview/video.mp4 preview.mp4
 ffmpeg -sseof -3 -i tmp/preview/video.mp4 -vsync 0 -q:v 31 -update true -y preview.png -loglevel error
-cp tmp/preview/fdiagram.png previewfd.png
 cp tmp/montage/video.mp4 previewmt.mp4
 ffmpeg -sseof -3 -i tmp/montage/video.mp4 -vsync 0 -q:v 31 -update true -y previewmt.png -loglevel error

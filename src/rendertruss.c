@@ -233,7 +233,7 @@ int main(int argc, char **argv)
 {
     if(argc != 6)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
+		fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc - 1);
 		fprintf(stderr, "usage: arguments: %s filename fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
@@ -250,7 +250,7 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument: %s (2)\n", argv[6]);
+		fprintf(stderr, "error: parse: fsize argument: %s (2)\n", argv[2]);
 		fprintf(stderr, "usage: fsize argument: fsize=integerxinteger (2)\n");
 		return 1;
 	}
@@ -261,13 +261,13 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[3], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument: %s (3)\n", argv[7]);
+		fprintf(stderr, "error: parse: fcenter argument: %s (3)\n", argv[3]);
 		fprintf(stderr, "usage: fcenter argument: fcenter=(float float) (3)\n");
 		return 1;
 	}
 	if(sscanf(argv[4], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument: %s (4)\n", argv[8]);
+		fprintf(stderr, "error: parse: fzoom argument: %s (4)\n", argv[4]);
 		fprintf(stderr, "usage: fzoom argument: fzoom=float (4)\n");
 		return 1;
 	}
@@ -278,7 +278,7 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[5], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument: %s (5)\n", argv[9]);
+		fprintf(stderr, "error: parse: fscale argument: %s (5)\n", argv[5]);
 		fprintf(stderr, "usage: fscale argument: fscale=float (5)\n");
 		return 1;
 	}

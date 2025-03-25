@@ -162,13 +162,13 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[1], "gravity=%lf", &gravity) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument: %s (1)\n", argv[2]);
+		fprintf(stderr, "error: parse: gravity argument: %s (1)\n", argv[1]);
 		fprintf(stderr, "usage: gravity argument: gravity=float (1)\n");
 		return 1;
 	}
 	if(sscanf(argv[2], "timef=%lf", &timef) != 1)
 	{
-		fprintf(stderr, "error: parse: timef argument: %s (2)\n", argv[3]);
+		fprintf(stderr, "error: parse: timef argument: %s (2)\n", argv[2]);
 		fprintf(stderr, "usage: timef argument: timef=float (2)\n");
 		return 1;
 	}
@@ -179,7 +179,7 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[3], "srate=%lf", &srate) != 1)
 	{
-		fprintf(stderr, "error: parse: srate argument: %s (3)\n", argv[4]);
+		fprintf(stderr, "error: parse: srate argument: %s (3)\n", argv[3]);
 		fprintf(stderr, "usage: srate argument: srate=float (3)\n");
 		return 1;
 	}
@@ -481,17 +481,6 @@ int main(int argc, char **argv)
 	step = 0;
 	while(step <= stepf)
 		solve();
-/*
-	frame = 0;
-	while(frame <= framef)
-	{
-		if(render() != 0) return 1;
-		while(step * (framef + 1) < frame * (stepf + 1))
-		{
-			if(solve() != 0) return 1;
-		}
-	}
-*/
 	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{

@@ -206,10 +206,10 @@ int main(int argc, char **argv)
             "cat %s/%09d.txt %s/%09d.txt > %s/%09d.txt\n",
             problems_dirname, frame + 1, solutions_dirname, frame + 1, prosols_dirname, frame + 1
         );
-/*      printf(
-notyet     "./%s", 
-            forcediagram_executable,
-        );*/
+        printf(
+            "%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
+            forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, prosols_dirname, frame + 1
+        );
         printf(
             "%s < %s/%09d.txt > %s/%09d.txt\n",
             feedback_executable, prosols_dirname, frame + 1, problems_dirname, frame + 2

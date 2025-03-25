@@ -55,7 +55,7 @@ double fzoom;
 double fscale;
 
 double epsilon = 1.0e-18;
-char dirname[1001];
+char filename[1005];
 
 void map_mforce_to_color(double force, double *color, double max_force)
 {
@@ -231,25 +231,79 @@ int render(void)
 		cairo_fill(context);
 	}
 	cairo_destroy(context);
-	char filename[1101];
-	sprintf(filename, "%s/fdiagram.png", dirname);
-	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS) return 1;
+	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
+	{
+		fprintf(stderr, "error: create: image file: %s\n", filename);
+		return 1;
+	}
 	cairo_surface_destroy(surface);
 	return 0;
 }
 
 int main(int argc, char **argv)
 {
-	if(argc != 7) return 1;
-	if(sscanf(argv[1], "%1000s", dirname) != 1) return 1;
-	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1) return 1;
-	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2) return 1;
-	if(fsize[0] < 64 || fsize[1] < 64) return 1;
-	if(sscanf(argv[4], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2) return 1;
-	if(sscanf(argv[5], "fzoom=%lf", &fzoom) != 1) return 1;
-	if(fzoom < epsilon) return 1;
-	if(sscanf(argv[6], "fscale=%lf", &fscale) != 1) return 1;
-	if(fscale < epsilon) return 1;
+	if(argc != 7)
+	{
+		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		return 1;
+	}
+	if(sscanf(argv[1], "%1000s", filename) != 1)
+	{
+		fprintf(stderr, "error: parse: filename argument: %s (1)\n", argv[1]);
+		fprintf(stderr, "usage: filename argument: string (1)\n");
+		return 1;
+	}
+	char *extension = strrchr(filename, '.');
+	if(!extension || strcmp(extension, ".png") != 0)
+	{
+		strcat(filename, ".png");
+	}
+	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+	{
+		fprintf(stderr, "error: parse: gravity argument: %s (2)\n", argv[2]);
+		fprintf(stderr, "usage: gravity argument: gravity=float (2)\n");
+		return 1;
+	}
+	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
+	{
+		fprintf(stderr, "error: parse: fsize argument: %s (3)\n", argv[3]);
+		fprintf(stderr, "usage: fsize argument: fsize=integerxinteger (3)\n");
+		return 1;
+	}
+	if(fsize[0] < 64 || fsize[1] < 64)
+	{
+		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
+		return 1;
+	}
+	if(sscanf(argv[4], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+	{
+		fprintf(stderr, "error: parse: fcenter argument: %s (4)\n", argv[4]);
+		fprintf(stderr, "usage: fcenter argument: fcenter=(float float) (4)\n");
+		return 1;
+	}
+	if(sscanf(argv[5], "fzoom=%lf", &fzoom) != 1)
+	{
+		fprintf(stderr, "error: parse: fzoom argument: %s (5)\n", argv[5]);
+		fprintf(stderr, "usage: fzoom argument: fzoom=float (5)\n");
+		return 1;
+	}
+	if(fzoom < epsilon)
+	{
+		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
+		return 1;
+	}
+	if(sscanf(argv[6], "fscale=%lf", &fscale) != 1)
+	{
+		fprintf(stderr, "error: parse: fscale argument: %s (6)\n", argv[6]);
+		fprintf(stderr, "usage: fscale argument: fscale=float (6)\n");
+		return 1;
+	}
+	if(fscale < epsilon)
+	{
+		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
+		return 1;
+	}
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;
 	if(jcount < 0) return 1;
 	joints = malloc(jcount * sizeof(struct joint));
