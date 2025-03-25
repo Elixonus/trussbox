@@ -495,10 +495,9 @@ int main(int argc, char **argv)
 	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{
-		struct joint *joint = &joints[j];
 		printf(
 			"force=<%.9e %.9e> position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
-			jforces[j][0], jforces[j][1], joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]
+			jforces[j][0], jforces[j][1], joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]
 		);
 	}
 	printf("members=%d\n", mcount);

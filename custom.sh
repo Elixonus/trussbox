@@ -10,13 +10,26 @@ read -r -e -p "frame center x (m): " fcenterx
 read -r -e -p "frame center y (m): " fcentery
 read -r -e -p "frame zoom: " fzoom
 read -r -e -p "frame scale: " fscale
-read -r -e -p "solution dirname: " dirname
+read -r -e -p "output dirname: " dirname
 mkdir -p $dirname
 rm -rf $dirname/*
-cp $filename $dirname/problem.txt
+mkdir -p $dirname/problems
+mkdir -p $dirname/solutions
+mkdir -p $dirname/prosols
 mkdir -p $dirname/frames
-./bin/solvetruss \
-    $dirname/frames \
+mkdir -p $dirname/diagrams
+
+./bin/pipeline \
+    solvetruss_executable=bin/solvetruss \
+    rendertruss_executable=bin/rendertruss \
+    forcediagram_executable=bin/forcediagram \
+    feedback_executable=bin/feedback \
+    problem_filename=$filename \
+    problems_dirname=$dirname/problems \
+    solutions_dirname=$dirname/solutions \
+    prosols_dirname=$dirname/prosols \
+    frames_dirname=$dirname/frames \
+    diagrams_dirname=$dirname/diagrams \
     gravity=$gravity \
     timef=$timef \
     srate=$srate \
@@ -25,16 +38,31 @@ mkdir -p $dirname/frames
     "fcenter=($fcenterx $fcentery)" \
     fzoom=$fzoom \
     fscale=$fscale \
-    < $dirname/problem.txt > $dirname/solution.txt
-ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
-rm -rf $dirname/frames
-cat $dirname/problem.txt $dirname/solution.txt > $dirname/pronsol.txt
-./bin/forcediagram \
-    $dirname \
-    gravity=$gravity \
-    fsize=${fwidth}x${fheight} \
-    "fcenter=($fcenterx $fcentery)" \
-    fzoom=$fzoom \
-    fscale=$fscale \
-    < $dirname/pronsol.txt
-rm -f $dirname/pronsol.txt
+    > $dirname/pipeline.sh
+source $dirname/pipeline.sh
+
+# cp $filename $dirname/problem.txt
+# mkdir -p $dirname/frames
+# ./bin/solvetruss \
+#     $dirname/frames \
+#     gravity=$gravity \
+#     timef=$timef \
+#     srate=$srate \
+#     frate=$frate \
+#     fsize=${fwidth}x${fheight} \
+#     "fcenter=($fcenterx $fcentery)" \
+#     fzoom=$fzoom \
+#     fscale=$fscale \
+#     < $dirname/problem.txt > $dirname/solution.txt
+# ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
+# rm -rf $dirname/frames
+# cat $dirname/problem.txt $dirname/solution.txt > $dirname/pronsol.txt
+# ./bin/forcediagram \
+#     $dirname \
+#     gravity=$gravity \
+#     fsize=${fwidth}x${fheight} \
+#     "fcenter=($fcenterx $fcentery)" \
+#     fzoom=$fzoom \
+#     fscale=$fscale \
+#     < $dirname/pronsol.txt
+# rm -f $dirname/pronsol.txt
