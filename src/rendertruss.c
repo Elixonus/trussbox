@@ -231,13 +231,13 @@ int render(void)
 
 int main(int argc, char **argv)
 {
-    if(argc != 6)
+	if(argc != 6)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc - 1);
 		fprintf(stderr, "usage: arguments: %s filename fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
-    if(sscanf(argv[1], "%1000s", filename) != 1)
+	if(sscanf(argv[1], "%1000s", filename) != 1)
 	{
 		fprintf(stderr, "error: parse: filename argument: %s (1)\n", argv[1]);
 		fprintf(stderr, "usage: filename argument: string (1)\n");
@@ -293,7 +293,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: joints parameter: joints=float\n");
 		return 1;
 	}
-    if(jcount < 0)
+	if(jcount < 0)
 	{
 		fprintf(stderr, "error: count: joints parameter: %d not positive nor zero\n", jcount);
 		return 1;
@@ -304,7 +304,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: create: joints array: %zdB allocation\n", jcount * sizeof(struct joint));
 		return 1;
 	}
-    for(int j = 0; j < jcount; j++)
+	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
 		if(scanf(
@@ -390,7 +390,7 @@ int main(int argc, char **argv)
 		}
 		members[m] = member;
 	}
-    if(scanf("supports=%d\n", &scount) != 1)
+	if(scanf("supports=%d\n", &scount) != 1)
 	{
 		fprintf(stderr, "error: parse: supports parameter\n");
 		fprintf(stderr, "usage: supports parameter: supports=float\n");
@@ -407,7 +407,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: create: supports array: %zdB allocation\n", scount * sizeof(struct support));
 		return 1;
 	}
-    for(int s = 0; s < scount; s++)
+	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
 		char axes[101];
@@ -455,9 +455,9 @@ int main(int argc, char **argv)
 			support.constraint.p[c] = joints[jindex].mass.p[c];
 		supports[s] = support;
 	}
-    if(render() != 0) return 1;
-    free(joints);
+	if(render() != 0) return 1;
+	free(joints);
 	free(members);
 	free(supports);
-    return 0;
+	return 0;
 }
