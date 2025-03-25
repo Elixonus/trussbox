@@ -38,6 +38,7 @@ mkdir -p $dirname/diagrams
     "fcenter=($fcenterx $fcentery)" \
     fzoom=$fzoom \
     fscale=$fscale \
+    forceref=50.0 \
     > $dirname/pipeline.sh
 source $dirname/pipeline.sh
 ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error

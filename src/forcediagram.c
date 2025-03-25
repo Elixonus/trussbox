@@ -53,6 +53,7 @@ int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
+double forceref;
 
 double epsilon = 1.0e-18;
 char filename[1005];
@@ -242,10 +243,10 @@ int render(void)
 
 int main(int argc, char **argv)
 {
-	if(argc != 7)
+	if(argc != 8)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 7 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float forceref=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
@@ -302,6 +303,16 @@ int main(int argc, char **argv)
 	if(fscale < epsilon)
 	{
 		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
+		return 1;
+	}
+	if(sscanf(argv[7], "forceref=%lf", &forceref) != 1)
+	{
+		fprintf(stderr, "error: parse: forceref argument: %s (7)\n", argv[6]);
+		fprintf(stderr, "usage: forceref argument: forceref=float (7)\n");
+	}
+	if(forceref < epsilon)
+	{
+		fprintf(stderr, "error: limit: forceref argument: %.1e not greater than %.1e\n", forceref, epsilon);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;

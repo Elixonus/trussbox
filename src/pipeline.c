@@ -64,14 +64,15 @@ int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
+double forceref;
 double epsilon = 1.0e-18;
 
 int main(int argc, char **argv)
 {
-	if(argc != 19)
+	if(argc != 20)
 	{
-		printf("error: count: arguments: %d of 18 provided\n", argc - 1);
-		printf("usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		printf("error: count: arguments: %d of 19 provided\n", argc - 1);
+		printf("usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float forceref=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "solvetruss_executable=%s", solvetruss_executable) != 1)
@@ -230,6 +231,17 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
 		return 1;
 	}
+	if(sscanf(argv[19], "forceref=%lf", &forceref) != 1)
+	{
+		printf("error: parse: forceref (19)\n");
+		printf("usage: forceref: forceref=float (19)\n");
+		return 1;
+	}
+	if(forceref < epsilon)
+	{
+		fprintf(stderr, "error: limit: forceref argument: %.1e not greater than %.1e\n", forceref, epsilon);
+		return 1;
+	}
 	printf("cp %s %s/%09d.txt\n", problem_filename, problems_dirname, 1);
 	step = 0;
 	frame = 0;
@@ -248,8 +260,8 @@ int main(int argc, char **argv)
 			problems_dirname, frame + 1, solutions_dirname, frame + 1, prosols_dirname, frame + 1
 		);
 		printf(
-			"%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
-			forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, prosols_dirname, frame + 1
+			"%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e forceref=%.9e < %s/%09d.txt\n",
+			forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, forceref, prosols_dirname, frame + 1
 		);
 		printf(
 			"%s < %s/%09d.txt > %s/%09d.txt\n",
