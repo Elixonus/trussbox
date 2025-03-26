@@ -1,0 +1,155 @@
+joints=33
+mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.1 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.2 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.4 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.5 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.6 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.7 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.8 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.9 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(1.0 0.0) velocity=<0.0 0.0>
+
+mass=1.0 position=(0.0 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.1 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.2 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.4 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.5 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.6 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.7 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.8 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(0.9 0.1) velocity=<0.0 0.0>
+mass=1.0 position=(1.0 0.1) velocity=<0.0 0.0>
+
+mass=1.0 position=(0.0 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.1 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.2 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.3 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.4 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.5 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.6 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.7 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.8 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(0.9 0.2) velocity=<0.0 0.0>
+mass=1.0 position=(1.0 0.2) velocity=<0.0 0.0>
+members=92
+joint1=1 joint2=2 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=2 joint2=3 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=3 joint2=4 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=4 joint2=5 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=5 joint2=6 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=6 joint2=7 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=7 joint2=8 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=8 joint2=9 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=9 joint2=10 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=10 joint2=11 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=12 joint2=13 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=13 joint2=14 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=14 joint2=15 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=15 joint2=16 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=16 joint2=17 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=17 joint2=18 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=18 joint2=19 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=19 joint2=20 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=20 joint2=21 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=21 joint2=22 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=23 joint2=24 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=24 joint2=25 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=25 joint2=26 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=26 joint2=27 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=27 joint2=28 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=28 joint2=29 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=29 joint2=30 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=30 joint2=31 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=31 joint2=32 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=32 joint2=33 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=1 joint2=12 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=12 joint2=23 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=2 joint2=13 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=13 joint2=24 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=3 joint2=14 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=14 joint2=25 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=4 joint2=15 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=15 joint2=26 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=5 joint2=16 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=16 joint2=27 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=6 joint2=17 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=17 joint2=28 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=7 joint2=18 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=18 joint2=29 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=8 joint2=19 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=19 joint2=30 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=9 joint2=20 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=20 joint2=31 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=10 joint2=21 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=21 joint2=32 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+joint1=11 joint2=22 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+joint1=22 joint2=33 stiffness=1.0e5 length0=0.1 dampening=1.0e4
+
+
+
+
+
+joint1=1 joint2=13 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=2 joint2=14 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=3 joint2=15 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=4 joint2=16 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=5 joint2=17 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=6 joint2=18 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=7 joint2=19 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=8 joint2=20 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=9 joint2=21 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=10 joint2=22 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+
+joint1=12 joint2=24 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=13 joint2=25 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=14 joint2=26 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=15 joint2=27 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=16 joint2=28 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=17 joint2=29 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=18 joint2=30 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=19 joint2=31 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=20 joint2=32 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=21 joint2=33 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+
+joint1=2 joint2=12 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=3 joint2=13 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=4 joint2=14 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=5 joint2=15 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=6 joint2=16 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=7 joint2=17 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=8 joint2=18 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=9 joint2=19 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=10 joint2=20 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=11 joint2=21 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+
+joint1=13 joint2=23 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=14 joint2=24 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=15 joint2=25 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=16 joint2=26 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=17 joint2=27 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=18 joint2=28 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=19 joint2=29 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=20 joint2=30 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=21 joint2=31 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+joint1=22 joint2=32 stiffness=1.0e5 length0=0.14142135623 dampening=1.0e4
+
+supports=2
+joint=1 axes=xy
+joint=23 axes=xy
+loads=0
