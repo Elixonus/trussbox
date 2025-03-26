@@ -72,3 +72,7 @@ $ tmp/warren
 **or**
 
 ```$ ./montage.sh```
+
+## Pipeline
+
+![Program Pipeline Diagram](./pipeline.png)
