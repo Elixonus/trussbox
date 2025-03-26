@@ -57,10 +57,10 @@ double fscale;
 double epsilon = 1.0e-18;
 char filename[1005];
 
-void map_mforce_to_color(double force, double *color, double max_force)
+void map_mforce_to_color(double force, double *color, double cutoff_force)
 {
-	if(max_force < epsilon) return;
-	double balance = force / max_force;
+	if(cutoff_force < epsilon) return;
+	double balance = force / cutoff_force;
 	balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
 	if(balance > 0.0)
 		color[0] = 1.0 - balance, color[1] = 1.0 - balance, color[2] = 1.0;
