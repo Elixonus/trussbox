@@ -53,10 +53,10 @@ int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
-double forceref;
 
 double epsilon = 1.0e-18;
 char filename[1005];
+char solref[1001];
 
 void map_mforce_to_color(double force, double *color, double max_force)
 {
@@ -246,7 +246,7 @@ int main(int argc, char **argv)
 	if(argc != 8)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 7 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float forceref=float\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float solref=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
@@ -305,14 +305,14 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[7], "forceref=%lf", &forceref) != 1)
+	if(sscanf(argv[7], "solref=%lf", &solref) != 1)
 	{
-		fprintf(stderr, "error: parse: forceref argument: %s (7)\n", argv[6]);
-		fprintf(stderr, "usage: forceref argument: forceref=float (7)\n");
+		fprintf(stderr, "error: parse: solref argument: %s (7)\n", argv[6]);
+		fprintf(stderr, "usage: solref argument: solref=float (7)\n");
 	}
-	if(forceref < epsilon)
+	if(solref < epsilon)
 	{
-		fprintf(stderr, "error: limit: forceref argument: %.1e not greater than %.1e\n", forceref, epsilon);
+		fprintf(stderr, "error: limit: solref argument: %.1e not greater than %.1e\n", solref, epsilon);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;
@@ -453,6 +453,25 @@ int main(int argc, char **argv)
 		if(!sreactions[s]) return 1;
 		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
 	}
+
+	FILE *solref_file = fopen(solref, "r");
+	if(solref_file == nullptr)
+	{
+		fprintf(stderr, "error: read: solref file: %s\n", solref);
+		return 1;
+	}
+	fscanf(solref_file, "joints=%*d");
+	while(true)
+	{
+		double force[2];
+		if(fscanf(solref_file, "force=<%lf %lf> position=(%*lf %*lf) velocity=<%*lf %*lf>") != 2)
+		{
+			printf()
+			return 1;
+		}
+	}
+
+
 	if(render() != 0) return 1;
 	free(joints);
 	for(int j = 0; j < jcount; j++)
