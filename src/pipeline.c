@@ -1,43 +1,3 @@
-
-
-/*
-./bin/pipeline solvetruss_executable=./bin/solvetruss rendertruss_executable=./bin/rendertruss forcediagram_executable=./bin/forcediagram feedback_executable=./bin/feedback problem_filename=warren.txt problems_dirname=tmp/test/problems solutions_dirname=tmp/test/solutions prosols_dirname=tmp/test/prosols frames_dirname=tmp/test/frames diagrams_dirname=tmp/test/diagrams gravity=9.8 timef=1.0 srate=10000.0 frate=60.0 fsize=1920x1080 "fcenter=(0.5 0.125)" fzoom=1.0 fscale=1.0
-
-problems/000000001.txt
-problems/000000002.txt
-
-solvetruss_executable
-rendertruss_executable
-forcediagram_executable
-feedback_executable
-problem_filename
-problems_dirname
-solutions_dirname
-prosols_dirname
-frames_dirname
-diagrams_dirname
-gravity
-timef
-srate
-frate
-fsize
-fcenter
-fzoom
-fscale
-
-cp pfilename pdirname/000000001.txt
-rendertruss_executable frames_dirname/000000001.png < problems_dirname/000000001.txt
-solvetruss_executable < problems_dirname/000000001.txt > solutions_dirname/000000001.txt
-cat problems_dirname/000000001.txt solutions_dirname/000000001.txt > prosols_dirname/000000001.txt
-forcediagram_executable diagrams_dirname/000000001.png < prosols_dirname/000000001.txt
-feedback_executable < prosols_dirname/000000001.txt > problems_dirname/000000002.txt
-
-rendertruss ...
-
-ffmpeg -r frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
-
-*/
-
 #include <stdio.h>
 #include <math.h>
 
@@ -64,15 +24,14 @@ int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
-double forceref;
 double epsilon = 1.0e-18;
 
 int main(int argc, char **argv)
 {
-	if(argc != 20)
+	if(argc != 19)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 19 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float forceref=float\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 18 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "solvetruss_executable=%s", solvetruss_executable) != 1)
@@ -231,17 +190,6 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[19], "forceref=%lf", &forceref) != 1)
-	{
-		fprintf(stderr, "error: parse: forceref (19)\n");
-		fprintf(stderr, "usage: forceref: forceref=float (19)\n");
-		return 1;
-	}
-	if(forceref < epsilon)
-	{
-		fprintf(stderr, "error: limit: forceref argument: %.1e not greater than %.1e\n", forceref, epsilon);
-		return 1;
-	}
 	printf("cp %s %s/%09d.txt\n", problem_filename, problems_dirname, 1);
 	step = 0;
 	frame = 0;
@@ -260,8 +208,8 @@ int main(int argc, char **argv)
 			problems_dirname, frame + 1, solutions_dirname, frame + 1, prosols_dirname, frame + 1
 		);
 		printf(
-			"%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e forceref=%.9e < %s/%09d.txt\n",
-			forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, forceref, prosols_dirname, frame + 1
+			"%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
+			forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, prosols_dirname, frame + 1
 		);
 		printf(
 			"%s < %s/%09d.txt > %s/%09d.txt\n",

@@ -14,7 +14,18 @@ heavily inspired by Ange The Great's physics simulation
 
 [Warren Truss Bridge Force Diagram Video (2K60FPS)](./previewfd.mp4)
 
+![Warren Truss Bridge Force Diagram](./previewfd.png)
+
 ## Steps
+
+### Pre-Requirements
+
+**Compilation**: GNU + Linux and gcc-14 C23 or higher
+
+**Pipeline**: GNU + Linux
+
+**Execution**: 2GB Memory (for 2K60FPS)
+
 
 ### Setup
 

@@ -56,7 +56,6 @@ double fscale;
 
 double epsilon = 1.0e-18;
 char filename[1005];
-char solref[1001];
 
 void map_mforce_to_color(double force, double *color, double max_force)
 {
@@ -70,27 +69,27 @@ void map_mforce_to_color(double force, double *color, double max_force)
 }
 
 void render_force(
-	cairo_t *context, double *force, double *point, double max_force,
+	cairo_t *context, double *force, double *point, double ref_force,
 	double color[3], bool draw_head_at_point
 )
 {
-	if(max_force < epsilon) return;
+	if(ref_force < epsilon) return;
 	double magnitude = 0.0;
 	for(int c = 0; c < 2; c++)
 		magnitude += pow(force[c], 2);
 	magnitude = sqrt(magnitude);
-	if(magnitude < 0.05 * max_force) return;
+	if(magnitude < 0.05 * ref_force) return;
 	cairo_save(context);
 	cairo_translate(context, point[0], point[1]);
 	cairo_rotate(context, atan2(force[1], force[0]));
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
 	{
-		cairo_translate(context, -0.07 * magnitude / max_force - 0.01, 0.0);
+		cairo_translate(context, -0.14 * magnitude / ref_force - 0.01, 0.0);
 	}
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
-	cairo_translate(context, 0.07 * magnitude / max_force + 0.005, 0.0);
+	cairo_translate(context, 0.14 * magnitude / ref_force + 0.005, 0.0);
 	cairo_line_to(context, -0.01, 0.0);
 	cairo_line_to(context, -0.01, 0.005);
 	cairo_line_to(context, 0.0, 0.0);
@@ -128,34 +127,22 @@ int render(void)
 	cairo_scale(context, length, length);
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
-	double max_force = 0.0;
+	double ref_force = 0.0;
+	double sys_gravity_force = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
-		double force = gravity * joints[j].mass.m;
-		if(fabs(force) > max_force)
-			max_force = force;
+		double force = fabs(gravity * joints[j].mass.m);
+		sys_gravity_force += force;
 	}
-	for(int m = 0; m < mcount; m++)
-	{
-		if(mforces[m] > max_force)
-			max_force = mforces[m];
-	}
-	for(int s = 0; s < scount; s++)
-	{
-		double reaction = 0.0;
-		for(int c = 0; c < 2; c++)
-			reaction += pow(sreactions[s][c], 2);
-		reaction = sqrt(reaction);
-		if(reaction > max_force)
-			max_force = reaction;
-	}
+	if(sys_gravity_force > ref_force)
+		ref_force = sys_gravity_force;
 	for(int l = 0; l < lcount; l++)
 	{
 		double force = 0.0;
 		for(int c = 0; c < 2; c++)
 			force += pow(loads[l].action.f[c], 2);
-		if(force > max_force)
-			max_force = force;
+		if(force > ref_force)
+			ref_force = force;
 	}
 	for(int m = 0; m < mcount; m++)
 	{
@@ -167,7 +154,7 @@ int render(void)
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_set_line_width(context, 0.005);
 		double color1[3];
-		map_mforce_to_color(mforces[m], color1, max_force);
+		map_mforce_to_color(mforces[m], color1, ref_force);
 		cairo_set_source_rgb(context, color1[0], color1[1], color1[2]);
 		cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 		cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
@@ -179,17 +166,16 @@ int render(void)
 		struct member *member = &members[m];
 		if(mlengths[m] < epsilon) continue;
 		double direction[2];
-		double force[2];
+		double forces[2][2];
 		for(int c = 0; c < 2; c++)
 		{
 			direction[c] = (member->spring.m2->p[c] - member->spring.m1->p[c]) / mlengths[m];
-			force[c] = -mforces[m] * direction[c];
+			forces[0][c] = -mforces[m] * direction[c];
+			forces[1][c] = mforces[m] * direction[c];
 		}
 		double color2[3] = {0.0, 1.0, 0.0};
-		render_force(context, force, member->spring.m1->p, max_force, color2, false);
-		for(int c = 0; c < 2; c++)
-			force[c] = -force[c];
-		render_force(context, force, member->spring.m2->p, max_force, color2, false);
+		render_force(context, forces[0], member->spring.m1->p, ref_force, color2, false);
+		render_force(context, forces[1], member->spring.m2->p, ref_force, color2, false);
 	}
 	for(int s = 0; s < scount; s++)
 	{
@@ -203,21 +189,21 @@ int render(void)
 					force[c2] = sreactions[s][c2];
 			}
 			double color[3] = {1.0, 0.0, 1.0};
-			render_force(context, force, support->constraint.m->p, max_force, color, true);
+			render_force(context, force, support->constraint.m->p, ref_force, color, true);
 		}
 	}
 	for(int l = 0; l < lcount; l++)
 	{
 		struct load *load = &loads[l];
 		double color[3] = {1.0, 1.0, 0.0};
-		render_force(context, load->action.f, load->action.m->p, max_force, color, false);
+		render_force(context, load->action.f, load->action.m->p, ref_force, color, false);
 	}
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
 		double force[2] = {0.0, -gravity * joint->mass.m};
 		double color[3] = {0.5, 0.5, 0.5};
-		render_force(context, force, joint->mass.p, max_force, color, true);
+		render_force(context, force, joint->mass.p, ref_force, color, true);
 	}
 	cairo_restore(context);
 	cairo_restore(context);
@@ -225,9 +211,9 @@ int render(void)
 	{
 		cairo_new_path(context);
 		cairo_rectangle(context, 0.95 * ((double) fsize[0]), (double) i, 0.2 * ((double) fsize[0]), 2.0);
-		double fake_force = max_force * (1.0 - 2.0 * ((double) (i)) / ((double) (fsize[1] - 1)));
+		double fake_force = ref_force * (1.0 - 2.0 * ((double) (i)) / ((double) (fsize[1] - 1)));
 		double color[3];
-		map_mforce_to_color(fake_force, color, max_force);
+		map_mforce_to_color(fake_force, color, ref_force);
 		cairo_set_source_rgb(context, color[0], color[1], color[2]);
 		cairo_fill(context);
 	}
@@ -243,10 +229,10 @@ int render(void)
 
 int main(int argc, char **argv)
 {
-	if(argc != 8)
+	if(argc != 7)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 7 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float solref=float\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
@@ -303,16 +289,6 @@ int main(int argc, char **argv)
 	if(fscale < epsilon)
 	{
 		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
-		return 1;
-	}
-	if(sscanf(argv[7], "solref=%lf", &solref) != 1)
-	{
-		fprintf(stderr, "error: parse: solref argument: %s (7)\n", argv[6]);
-		fprintf(stderr, "usage: solref argument: solref=float (7)\n");
-	}
-	if(solref < epsilon)
-	{
-		fprintf(stderr, "error: limit: solref argument: %.1e not greater than %.1e\n", solref, epsilon);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;
@@ -453,25 +429,6 @@ int main(int argc, char **argv)
 		if(!sreactions[s]) return 1;
 		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
 	}
-
-	FILE *solref_file = fopen(solref, "r");
-	if(solref_file == nullptr)
-	{
-		fprintf(stderr, "error: read: solref file: %s\n", solref);
-		return 1;
-	}
-	fscanf(solref_file, "joints=%*d");
-	while(true)
-	{
-		double force[2];
-		if(fscanf(solref_file, "force=<%lf %lf> position=(%*lf %*lf) velocity=<%*lf %*lf>") != 2)
-		{
-			printf()
-			return 1;
-		}
-	}
-
-
 	if(render() != 0) return 1;
 	free(joints);
 	for(int j = 0; j < jcount; j++)
