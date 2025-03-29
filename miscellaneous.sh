@@ -1,6 +1,8 @@
 #!/bin/bash
+echo "solving and rendering each of the miscellaneous systems"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
+echo "solving and rendering cantilever"
 echo "\
 cantilever.txt
 9.8
@@ -15,3 +17,4 @@ cantilever.txt
 0.5
 tmp/miscellaneous/cantilever
 " | source custom.sh
+echo "miscellaneous files can now be found in tmp/miscellaneous/"

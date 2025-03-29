@@ -145,6 +145,7 @@ void solve(void)
 				support->constraint.m->p[c] = support->constraint.p[c];
 				support->constraint.m->v[c] = 0.0;
 				sreactions[s][c] = -jforces[jindex][c];
+				jforces[jindex][c] = 0.0;
 			}
 		}
 	}

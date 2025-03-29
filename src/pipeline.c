@@ -196,11 +196,11 @@ int main(int argc, char **argv)
 	while(frame <= framef)
 	{
 		printf(
-			"%s %s/%09d.png fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
+			"./%s %s/%09d.png fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
 			rendertruss_executable, frames_dirname, frame + 1, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, problems_dirname, frame + 1
 		);
 		printf(
-			"%s gravity=%.9e timef=%.9e srate=%.9e < %s/%09d.txt > %s/%09d.txt\n",
+			"./%s gravity=%.9e timef=%.9e srate=%.9e < %s/%09d.txt > %s/%09d.txt\n",
 			solvetruss_executable, gravity, timef / ((double) (framef + 1)), srate, problems_dirname, frame + 1, solutions_dirname, frame + 1
 		);
 		printf(
@@ -208,11 +208,11 @@ int main(int argc, char **argv)
 			problems_dirname, frame + 1, solutions_dirname, frame + 1, prosols_dirname, frame + 1
 		);
 		printf(
-			"%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
+			"./%s %s/%09d.png gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < %s/%09d.txt\n",
 			forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, prosols_dirname, frame + 1
 		);
 		printf(
-			"%s < %s/%09d.txt > %s/%09d.txt\n",
+			"./%s < %s/%09d.txt > %s/%09d.txt\n",
 			feedback_executable, prosols_dirname, frame + 1, problems_dirname, frame + 2
 		);
 		frame++;

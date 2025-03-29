@@ -1,6 +1,8 @@
 #!/bin/bash
+echo "solving and rendering each of the bridges"
 mkdir -p tmp/bridges
 rm -rf tmp/bridges/*
+echo "solving and rendering warren bridge"
 echo "\
 warren.txt
 9.8
@@ -15,6 +17,7 @@ warren.txt
 1.0
 tmp/bridges/warren
 " | source custom.sh
+echo "solving and rendering pratt bridge"
 echo "\
 pratt.txt
 9.8
@@ -29,6 +32,7 @@ pratt.txt
 1.0
 tmp/bridges/pratt
 " | source custom.sh
+echo "solving and rendering howe bridge"
 echo "\
 howe.txt
 9.8
@@ -43,6 +47,7 @@ howe.txt
 1.0
 tmp/bridges/howe
 " | source custom.sh
+echo "solving and rendering parker bridge"
 echo "\
 parker.txt
 9.8
@@ -57,6 +62,7 @@ parker.txt
 1.0
 tmp/bridges/parker
 " | source custom.sh
+echo "solving and rendering cambridge bridge"
 echo "\
 cambridge.txt
 9.8
@@ -71,3 +77,4 @@ cambridge.txt
 1.0
 tmp/bridges/cambridge
 " | source custom.sh
+echo "bridge files can now be found in tmp/bridges/"

@@ -1,6 +1,8 @@
 #!/bin/bash
+echo "solving and rendering each of the pendulums"
 mkdir -p tmp/pendulums
 rm -rf tmp/pendulums/*
+echo "solving and rendering normal pendulum"
 echo "\
 pendulum.txt
 9.8
@@ -15,6 +17,7 @@ pendulum.txt
 1.0
 tmp/pendulums/pendulum
 " | source custom.sh
+echo "solving and rendering double pendulum"
 echo "\
 doublependulum.txt
 9.8
@@ -29,6 +32,7 @@ doublependulum.txt
 1.0
 tmp/pendulums/doublependulum
 " | source custom.sh
+echo "solving and rendering double pendulum (roller)"
 echo "\
 doublependulumroller.txt
 9.8
@@ -43,6 +47,7 @@ doublependulumroller.txt
 1.0
 tmp/pendulums/doublependulumroller
 " | source custom.sh
+echo "solving and rendering decuple pendulum"
 echo "\
 decuplependulum.txt
 9.8
@@ -57,3 +62,4 @@ decuplependulum.txt
 1.0
 tmp/pendulums/decuplependulum
 " | source custom.sh
+echo "pendulum files can now be found in tmp/pendulums/"
