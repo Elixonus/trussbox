@@ -1,5 +1,7 @@
 # Dampspring
 
+![Dampspring Logo](./logo.png)
+
 ## Preview
 
 [Montage Video (2K60FPS)](./previewmt.mp4)
