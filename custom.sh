@@ -18,7 +18,6 @@ mkdir -p $dirname/solutions
 mkdir -p $dirname/prosols
 mkdir -p $dirname/frames
 mkdir -p $dirname/diagrams
-
 ./bin/pipeline \
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \

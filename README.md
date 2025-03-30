@@ -1,6 +1,11 @@
-# Dampspring
+[![Quality](https://github.com/Elixonus/dampspring/actions/workflows/quality.yml/badge.svg)](https://github.com/Elixonus/dampspring/actions/workflows/quality.yml)
+![Issues](https://img.shields.io/github/issues/Elixonus/dampspring)
+![Language](https://img.shields.io/badge/Language-C23-blue)
+![Platform](https://img.shields.io/badge/Platform-GNU/Linux-orange)
+[![License](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
+![Code Size](https://img.shields.io/github/languages/code-size/Elixonus/dampspring)
 
-![Dampspring Logo](./logo.png)
+# Dampspring
 
 ## Preview
 
@@ -20,9 +25,9 @@
 
 ### Pre-Requirements
 
-**Compilation**: GNU + Linux and gcc-14 C23 or higher
+**Compilation**: GNU/Linux and gcc-14 C23 or higher
 
-**Pipeline**: GNU + Linux
+**Pipeline**: GNU/Linux
 
 **Execution**: minimum 2GB memory (for 2K60FPS)
 

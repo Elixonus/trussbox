@@ -152,7 +152,7 @@ int render(void)
 		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_save(context);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_set_line_width(context, 0.005);
+		cairo_set_line_width(context, 0.01);
 		double color1[3];
 		map_mforce_to_color(mforces[m], color1, ref_force);
 		cairo_set_source_rgb(context, color1[0], color1[1], color1[2]);
