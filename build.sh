@@ -10,4 +10,5 @@ gcc src/forcediagram.c -o bin/forcediagram bin/dampspring.o -lm $(pkg-config --c
 gcc src/feedback.c -o bin/feedback bin/dampspring.o -lm -std=c23
 gcc src/subtitles.c -o bin/subtitles -lm $(pkg-config --cflags --libs cairo) -std=c23
 gcc src/pipeline.c -o bin/pipeline -lm -std=c23
+gcc src/createlogo.c -o bin/createlogo $(pkg-config --cflags --libs cairo) -std=c23
 echo "executables can now be found in bin/"

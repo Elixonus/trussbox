@@ -122,13 +122,6 @@ void solve(void)
 		for(int c = 0; c < 2; c++)
 		{
 			jaccelerations[j][c] = jforces[j][c] / (joint->mass.m > epsilon ? joint->mass.m : epsilon);
-		}
-	}
-	for(int j = 0; j < jcount; j++)
-	{
-		struct joint *joint = &joints[j];
-		for(int c = 0; c < 2; c++)
-		{
 			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * dtime;
 		}
 	}

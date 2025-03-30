@@ -2,9 +2,6 @@ bin
 tmp
 warrenld.txt
 
-# IDE
-.idea
-
 # Prerequisites
 *.d
 

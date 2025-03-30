@@ -243,9 +243,7 @@ int main(int argc, char **argv)
 	}
 	char *extension = strrchr(filename, '.');
 	if(!extension || strcmp(extension, ".png") != 0)
-	{
 		strcat(filename, ".png");
-	}
 	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
 	{
 		fprintf(stderr, "error: parse: gravity argument: %s (2)\n", argv[2]);

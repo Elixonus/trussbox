@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.gitattributes" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/.gitignore" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/build.sh" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/clean.sh" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/setup.sh" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/dampspring.c" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/dampspring.h" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/engine.c" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/solvesystem.c" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/testfunctions.c" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/src/trusstructure.c" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/test.sh" charset="ISO-8859-1" />
+    <file url="file://$PROJECT_DIR$/truss.sh" charset="ISO-8859-1" />
+  </component>
+</project>
