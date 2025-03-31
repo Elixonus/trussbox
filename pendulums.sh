@@ -1,8 +1,25 @@
 #!/bin/bash
+set -eo pipefail
+ncolors=$(tput colors)
+if test -n "$ncolors" && test $ncolors -ge 9; then
+	bold="$(tput bold)"
+	underline="$(tput smul)"
+	standout="$(tput smso)"
+	normal="$(tput sgr0)"
+	black="$(tput setaf 0)";   fg_black="$(tput setaf 0)";   bg_black="$(tput setab 0)"
+	red="$(tput setaf 1)";     fg_red="$(tput setaf 1)";     bg_red="$(tput setab 1)"
+	green="$(tput setaf 2)";   fg_green="$(tput setaf 2)";   bg_green="$(tput setab 2)"
+	yellow="$(tput setaf 3)";  fg_yellow="$(tput setaf 3)";  bg_yellow="$(tput setab 3)"
+	blue="$(tput setaf 4)";    fg_blue="$(tput setaf 4)";    bg_blue="$(tput setab 4)"
+	magenta="$(tput setaf 5)"; fg_magenta="$(tput setaf 5)"; bg_magenta="$(tput setab 5)"
+	cyan="$(tput setaf 6)";    fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
+	white="$(tput setaf 7)";   fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
+	gray="$(tput setaf 8)";    fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+fi
 echo "solving and rendering each of the pendulums"
 mkdir -p tmp/pendulums
 rm -rf tmp/pendulums/*
-echo "solving and rendering normal pendulum"
+echo "| solving and rendering normal pendulum"
 echo "\
 pendulum.txt
 9.8
@@ -16,8 +33,9 @@ pendulum.txt
 1.5
 1.0
 tmp/pendulums/pendulum
-" | source custom.sh
-echo "solving and rendering double pendulum"
+" | source custom.sh | sed 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| solving and rendering double pendulum"
 echo "\
 doublependulum.txt
 9.8
@@ -31,8 +49,9 @@ doublependulum.txt
 0.75
 1.0
 tmp/pendulums/doublependulum
-" | source custom.sh
-echo "solving and rendering double pendulum (roller)"
+" | source custom.sh | sed 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| solving and rendering double pendulum (roller)"
 echo "\
 doublependulumroller.txt
 9.8
@@ -46,8 +65,9 @@ doublependulumroller.txt
 0.75
 1.0
 tmp/pendulums/doublependulumroller
-" | source custom.sh
-echo "solving and rendering decuple pendulum"
+" | source custom.sh | sed 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| solving and rendering decuple pendulum"
 echo "\
 decuplependulum.txt
 9.8
@@ -61,5 +81,7 @@ decuplependulum.txt
 0.25
 1.0
 tmp/pendulums/decuplependulum
-" | source custom.sh
-echo "pendulum files can now be found in tmp/pendulums/"
+" | source custom.sh | sed 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "pendulum files can now be found in ${underline}tmp/pendulums/${normal}"

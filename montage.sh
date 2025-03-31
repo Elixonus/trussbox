@@ -1,5 +1,21 @@
 #!/bin/bash
-echo "creating a montage of each of the systems"
+set -eo pipefail
+ncolors=$(tput colors)
+if test -n "$ncolors" && test $ncolors -ge 9; then
+	bold="$(tput bold)"
+	underline="$(tput smul)"
+	standout="$(tput smso)"
+	normal="$(tput sgr0)"
+	black="$(tput setaf 0)";   fg_black="$(tput setaf 0)";   bg_black="$(tput setab 0)"
+	red="$(tput setaf 1)";     fg_red="$(tput setaf 1)";     bg_red="$(tput setab 1)"
+	green="$(tput setaf 2)";   fg_green="$(tput setaf 2)";   bg_green="$(tput setab 2)"
+	yellow="$(tput setaf 3)";  fg_yellow="$(tput setaf 3)";  bg_yellow="$(tput setab 3)"
+	blue="$(tput setaf 4)";    fg_blue="$(tput setaf 4)";    bg_blue="$(tput setab 4)"
+	magenta="$(tput setaf 5)"; fg_magenta="$(tput setaf 5)"; bg_magenta="$(tput setab 5)"
+	cyan="$(tput setaf 6)";    fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
+	white="$(tput setaf 7)";   fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
+	gray="$(tput setaf 8)";    fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+fi
 read -r -e -p "create new bridges output? (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
 then
@@ -18,21 +34,22 @@ then
 	echo "error: unrecognized input"
 	exit 1
 fi
+echo "creating a montage of each of the systems"
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
 if [[ "$create_bridges" == "y" || "$create_bridges" == "Y" ]]
 then
-	./bridges.sh
+	source bridges.sh | sed 's/^/| /'
 fi
 if [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" ]]
 then
-	./miscellaneous.sh
+	source miscellaneous.sh | sed 's/^/| /'
 fi
 if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
 then
-	./pendulums.sh
+	source pendulums.sh | sed 's/^/| /'
 fi
-echo "overlaying videos, force diagrams and subtitles"
+echo "| overlaying videos, force diagrams and subtitles"
 mkdir -p tmp/montage/bridges/warren
 echo "\
 subtitles=1
@@ -154,7 +171,8 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
-echo "stitching each of the video solutions together"
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| stitching each of the video solutions together"
 ffmpeg \
 	-i tmp/montage/bridges/warren/video.mp4 \
 	-i tmp/montage/bridges/pratt/video.mp4 \
@@ -170,7 +188,9 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 rm -rf tmp/montage/bridges
 rm -rf tmp/montage/miscellaneous
 rm -rf tmp/montage/pendulums
-echo "montage files can now be found in tmp/montage/"
+echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "montage files can now be found in ${underline}tmp/montage/${normal}"

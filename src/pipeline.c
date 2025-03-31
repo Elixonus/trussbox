@@ -190,6 +190,8 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
 		return 1;
 	}
+	printf("#!/bin/bash\n");
+	printf("set -eo pipefail\n");
 	printf("cp %s %s/%09d.txt\n", problem_filename, problems_dirname, 1);
 	step = 0;
 	frame = 0;
