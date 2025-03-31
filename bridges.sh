@@ -33,7 +33,7 @@ warren.txt
 1.0
 1.0
 tmp/bridges/warren
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering pratt bridge"
 echo "\
@@ -49,7 +49,7 @@ pratt.txt
 1.0
 1.0
 tmp/bridges/pratt
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering howe bridge"
 echo "\
@@ -65,7 +65,7 @@ howe.txt
 1.0
 1.0
 tmp/bridges/howe
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering parker bridge"
 echo "\
@@ -81,7 +81,7 @@ parker.txt
 1.0
 1.0
 tmp/bridges/parker
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering cambridge bridge"
 echo "\
@@ -97,7 +97,7 @@ cambridge.txt
 1.0
 1.0
 tmp/bridges/cambridge
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "bridge files can now be found in ${underline}tmp/bridges/${normal}"

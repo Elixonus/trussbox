@@ -33,7 +33,7 @@ pendulum.txt
 1.5
 1.0
 tmp/pendulums/pendulum
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering double pendulum"
 echo "\
@@ -49,7 +49,7 @@ doublependulum.txt
 0.75
 1.0
 tmp/pendulums/doublependulum
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering double pendulum (roller)"
 echo "\
@@ -65,7 +65,7 @@ doublependulumroller.txt
 0.75
 1.0
 tmp/pendulums/doublependulumroller
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering decuple pendulum"
 echo "\
@@ -81,7 +81,7 @@ decuplependulum.txt
 0.25
 1.0
 tmp/pendulums/decuplependulum
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "pendulum files can now be found in ${underline}tmp/pendulums/${normal}"

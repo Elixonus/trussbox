@@ -1,4 +1,7 @@
 #!/bin/bash
-dos2unix *
-find . -type f -name '*.c' -print -exec iconv -f '*' -t US-ASCII {} -o {} \;
-find . -type f -name '*.sh' -print -exec iconv -f '*' -t US-ASCII {} -o {} \;
+filelist=$(find . -type f -name "*.c" & find . -type f -name "*.sh")
+dos2unix $filelist
+for file in $filelist
+do
+	iconv -t US-ASCII "$file" | sponge "$file"
+done

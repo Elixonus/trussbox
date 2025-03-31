@@ -16,6 +16,7 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	white="$(tput setaf 7)";   fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	gray="$(tput setaf 8)";    fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
+echo "creating a montage of each of the systems"
 read -r -e -p "create new bridges output? (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
 then
@@ -34,25 +35,23 @@ then
 	echo "error: unrecognized input"
 	exit 1
 fi
-echo "creating a montage of each of the systems"
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
 if [[ "$create_bridges" == "y" || "$create_bridges" == "Y" ]]
 then
-	source bridges.sh | sed 's/^/| /'
+	source bridges.sh | sed -u 's/^/| /'
 fi
 if [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" ]]
 then
-	source miscellaneous.sh | sed 's/^/| /'
+	source miscellaneous.sh | sed -u 's/^/| /'
 fi
 if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
 then
-	source pendulums.sh | sed 's/^/| /'
+	source pendulums.sh | sed -u 's/^/| /'
 fi
 echo "| overlaying videos, force diagrams and subtitles"
 mkdir -p tmp/montage/bridges/warren
-echo "\
-subtitles=1
+echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.05 text=Warren Bridge
 " | ./bin/subtitles tmp/montage/bridges/warren fsize=1920x1080
 ffmpeg \

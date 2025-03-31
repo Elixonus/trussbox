@@ -33,7 +33,7 @@ cantilever.txt
 1.0
 0.5
 tmp/miscellaneous/cantilever
-" | source custom.sh | sed 's/^/| | /'
+" | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "miscellaneous files can now be found in ${underline}tmp/miscellaneous/${normal}"

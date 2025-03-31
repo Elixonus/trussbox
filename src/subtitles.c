@@ -46,6 +46,7 @@ int render(void)
 	sprintf(filename, "%s/subtitles.png", dirname);
 	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS) return 1;
 	cairo_surface_destroy(surface);
+	return 0;
 }
 
 int main(int argc, char **argv)
