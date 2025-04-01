@@ -99,5 +99,21 @@ cambridge.txt
 tmp/bridges/cambridge
 " | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| solving and rendering whipple bridge"
+echo "\
+whipple.txt
+9.8
+3.0
+10000.0
+60.0
+1920
+1080
+0.5
+0.125
+1.0
+1.0
+tmp/bridges/whipple
+" | source custom.sh | sed -u 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "bridge files can now be found in ${underline}tmp/bridges/${normal}"

@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <cairo.h>
 
 int scount;
 char **stexts;
 double **scenters;
 double *slineheights;
-char dirname[1001];
+char filename[1005];
 int fsize[2];
 
 int render(void)
@@ -33,17 +34,15 @@ int render(void)
 		cairo_stroke_preserve(context);
 		cairo_pattern_t *pattern;
 		pattern = cairo_pattern_create_linear(
-			0.0, 0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) + 0.5 * extents.height,
-			0.0, 0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) - 0.5 * extents.height
+			0.0, 0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) + 0.5 * slineheights[s] * ((double) flength),
+			0.0, 0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) - 0.5 * slineheights[s] * ((double) flength)
 		);
 		cairo_pattern_add_color_stop_rgb(pattern, 0.0, 1.0, 1.0, 0.0);
-		cairo_pattern_add_color_stop_rgb(pattern, 1.0, 1.0, 0.3, 0.0);
+		cairo_pattern_add_color_stop_rgb(pattern, 1.0, 1.0, 0.2, 0.0);
 		cairo_set_source(context, pattern);
 		cairo_fill(context);
 	}
 	cairo_destroy(context);
-	char filename[1101];
-	sprintf(filename, "%s/subtitles.png", dirname);
 	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS) return 1;
 	cairo_surface_destroy(surface);
 	return 0;
@@ -52,7 +51,10 @@ int render(void)
 int main(int argc, char **argv)
 {
 	if(argc != 3) return 1;
-	if(sscanf(argv[1], "%1000s", dirname) != 1) return 1;
+	if(sscanf(argv[1], "%1000s", filename) != 1) return 1;
+	char *extension = strrchr(filename, '.');
+	if(!extension || strcmp(extension, ".png") != 0)
+		strcat(filename, ".png");
 	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2) return 1;
 	if(scanf("subtitles=%d\n", &scount) != 1) return 1;
 	if(scount < 0) return 1;
