@@ -94,7 +94,6 @@ void solve(void)
 	{
 		struct member *member = &members[m];
 		double length = mdistance(member->spring.m1, member->spring.m2);
-		if(length < epsilon) continue;
 		double force = sforce(&member->spring) + dforce(&member->damper);
 		double direction[2];
 		int jindex1, jindex2;
@@ -107,7 +106,10 @@ void solve(void)
 		}
 		for(int c = 0; c < 2; c++)
 		{
-			direction[c] = (joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) / length;
+			direction[c] = (
+				(joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) /
+				(length > epsilon ? length : epsilon)
+			);
 			jforces[jindex1][c] -= direction[c] * force;
 			jforces[jindex2][c] += direction[c] * force;
 		}

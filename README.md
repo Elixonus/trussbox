@@ -1,4 +1,5 @@
 [![Quality](https://github.com/Elixonus/dampspring/actions/workflows/quality.yml/badge.svg)](https://github.com/Elixonus/dampspring/actions/workflows/quality.yml)
+[![Build](https://github.com/Elixonus/dampspring/actions/workflows/build.yml/badge.svg)](https://github.com/Elixonus/dampspring/actions/workflows/build.yml)
 ![Issues](https://img.shields.io/github/issues/Elixonus/dampspring)
 ![Language](https://img.shields.io/badge/Language-C23-blue)
 ![Platform](https://img.shields.io/badge/Platform-GNU/Linux-orange)

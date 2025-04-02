@@ -1,0 +1,22 @@
+name: "Build"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+
+jobs:
+  compile:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Install package dependencies
+      run: sudo apt-get update && source setup.sh
+    - name: Format shell scripts and source code
+      run: source format.sh
+    - name: Compile source code of programs
+      run: source build.sh

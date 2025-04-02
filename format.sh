@@ -1,5 +1,6 @@
 #!/bin/bash
-filelist=$(find . -type f -name "*.c" & find . -type f -name "*.sh")
+filelist=$(find . -type f -name "*.c" && find . -type f -name "*.h" && find . -type f -name "*.sh")
+echo $filelist
 dos2unix $filelist
 for file in $filelist
 do
