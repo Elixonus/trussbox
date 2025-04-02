@@ -20,6 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1965ea1f-3620-487c-9190-e24780da0a1d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/quality.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/quality.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -83,7 +85,9 @@
       <workItem from="1743486619038" duration="1658000" />
       <workItem from="1743535967423" duration="5847000" />
       <workItem from="1743552373599" duration="5731000" />
-      <workItem from="1743558713196" duration="33000" />
+      <workItem from="1743558713196" duration="281000" />
+      <workItem from="1743612316888" duration="6303000" />
+      <workItem from="1743641722425" duration="3434000" />
     </task>
     <servers />
   </component>

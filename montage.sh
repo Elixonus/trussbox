@@ -201,6 +201,36 @@ ffmpeg \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| stacking each of the video solutions together"
+ffmpeg \
+	-t 10 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/bridges/howe/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/pendulums/decuplependulum/video.mp4 \
+	-filter_complex "\
+		[0:v]scale=480:-1[v0]; \
+		[1:v]scale=480:-1[v1]; \
+		[2:v]scale=480:-1[v2]; \
+		[3:v]scale=480:-1[v3]; \
+		[4:v]scale=480:-1[v4]; \
+		[5:v]scale=480:-1[v5]; \
+		[6:v]scale=480:-1[v6]; \
+		[7:v]scale=480:-1[v7]; \
+		[8:v]scale=480:-1[v8]; \
+		[9:v]scale=480:-1[v9]; \
+		[10:v]scale=480:-1[v10]; \
+		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10]xstack=inputs=11:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1:fill=black[v]" \
+	-map "[v]" \
+	-y tmp/montage/parallel.mp4 \
+	-loglevel error
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 rm -rf tmp/montage/bridges
 rm -rf tmp/montage/miscellaneous
 rm -rf tmp/montage/pendulums

@@ -12,15 +12,19 @@
 
 [Montage Video (2K60FPS)](./previewmt.mp4)
 
-![Montage Image](./previewmt.png)
+[![Montage Image](./previewmt.png)](./previewmt.mp4)
+
+[Montage (Parallel) Video (2K60FPS)](./previewmtpl.mp4)
+
+[![Montage (Parallel) Image](./previewmtpl.png)](./previewmtpl.mp4)
 
 [Warren Truss Bridge Video (2K60FPS)](./preview.mp4)
 
-![Warren Truss Bridge Image](./preview.png)
+[![Warren Truss Bridge Image](./preview.png)](./preview.mp4)
 
 [Warren Truss Bridge Force Diagram Video (2K60FPS)](./previewfd.mp4)
 
-![Warren Truss Bridge Force Diagram](./previewfd.png)
+[![Warren Truss Bridge Force Diagram](./previewfd.png)](./previewfd.mp4)
 
 ## Steps
 
@@ -28,10 +32,11 @@
 
 **Compilation**: GNU/Linux and gcc-14 C23 or higher
 
+* Recommended distro: Ubuntu 24.04 or higher
+
 **Pipeline**: GNU/Linux
 
 **Execution**: minimum 2GB memory (for 2K60FPS)
-
 
 ### Setup
 
