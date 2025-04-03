@@ -1,0 +1,24 @@
+joints=7
+mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.33 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.67 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(1.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(0.5 0.25) velocity=<0.0 0.0>
+mass=1.0 position=(0.25 0.125) velocity=<0.0 0.0>
+mass=1.0 position=(0.75 0.125) velocity=<0.0 0.0>
+members=11
+joint1=1 joint2=2 stiffness=1.0e4 length0=0.33 dampening=3.0e2
+joint1=2 joint2=3 stiffness=1.0e4 length0=0.34 dampening=3.0e2
+joint1=3 joint2=4 stiffness=1.0e4 length0=0.33 dampening=3.0e2
+joint1=1 joint2=6 stiffness=1.0e4 length0=0.2795084972 dampening=3.0e2
+joint1=5 joint2=6 stiffness=1.0e4 length0=0.2795084972 dampening=3.0e2
+joint1=5 joint2=7 stiffness=1.0e4 length0=0.2795084972 dampening=3.0e2
+joint1=4 joint2=7 stiffness=1.0e4 length0=0.2795084972 dampening=3.0e2
+joint1=2 joint2=5 stiffness=1.0e4 length0=0.3023243292 dampening=3.0e2
+joint1=2 joint2=6 stiffness=1.0e4 length0=0.1484082208 dampening=3.0e2
+joint1=3 joint2=5 stiffness=1.0e4 length0=0.3023243292 dampening=3.0e2
+joint1=3 joint2=7 stiffness=1.0e4 length0=0.1484082208 dampening=3.0e2
+supports=2
+joint=1 axes=xy
+joint=4 axes=y
+loads=0

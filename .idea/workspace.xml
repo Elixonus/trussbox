@@ -7,7 +7,6 @@
     <option name="/Default/RiderDebugger/RiderRestoreDecompile/RestoreDecompileSetting/@EntryValue" value="false" type="bool" />
     <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
     <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexedValue" value="true" type="bool" />
-    <option name="/Default/Housekeeping/FeatureSuggestion/FeatureSuggestionManager/DisabledSuggesters/=SwitchToGoToActionSuggester/@EntryIndexRemoved" />
     <option name="/Default/Housekeeping/OptionsDialog/SelectedPageId/@EntryValue" value="CppFormatterOtherPage" type="string" />
   </component>
   <component name="CMakeProjectFlavorService">
@@ -20,9 +19,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1965ea1f-3620-487c-9190-e24780da0a1d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/build.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/quality.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/quality.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dampspring.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/dampspring.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,12 +57,13 @@
     &quot;com.jetbrains.cidr.cpp.cmake.workspace.CMakeCacheInvalidator.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Elias Dobrin/Documents/GitHub/dampspring&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C/C++&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -88,6 +87,18 @@
       <workItem from="1743558713196" duration="281000" />
       <workItem from="1743612316888" duration="6303000" />
       <workItem from="1743641722425" duration="3434000" />
+      <workItem from="1743649699958" duration="2556000" />
+      <workItem from="1743657995804" duration="2905000" />
+      <workItem from="1743713343327" duration="14000" />
+      <workItem from="1743716136654" duration="96000" />
+      <workItem from="1743734401334" duration="139000" />
+      <workItem from="1743734692246" duration="45000" />
+      <workItem from="1743734854957" duration="3000" />
+      <workItem from="1743735203982" duration="6000" />
+      <workItem from="1743735274257" duration="50000" />
+      <workItem from="1743742093180" duration="93000" />
+      <workItem from="1743746717730" duration="444000" />
+      <workItem from="1743888998030" duration="30000" />
     </task>
     <servers />
   </component>

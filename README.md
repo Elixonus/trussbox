@@ -34,9 +34,7 @@
 
 * Recommended distro: Ubuntu 24.04 or higher
 
-**Pipeline**: GNU/Linux
-
-**Execution**: minimum 2GB memory (for 2K60FPS)
+**Execution**: GNU/Linux and minimum 2GB memory (for 2K60FPS)
 
 ### Setup
 

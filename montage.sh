@@ -122,6 +122,18 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/bridges/whipple/video.mp4 \
 	-loglevel error
+mkdir -p tmp/montage/miscellaneous/roof
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.05 text=Roof
+" | ./bin/subtitles tmp/montage/miscellaneous/roof/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/roof/video.mp4 \
+	-i tmp/miscellaneous/roof/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/roof/subtitles.png \
+	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/roof/video.mp4 \
+	-loglevel error
 mkdir -p tmp/montage/miscellaneous/cantilever
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.05 text=Cantilever
@@ -191,12 +203,13 @@ ffmpeg \
 	-i tmp/montage/bridges/parker/video.mp4 \
 	-i tmp/montage/bridges/cambridge/video.mp4 \
 	-i tmp/montage/bridges/whipple/video.mp4 \
+	-i tmp/montage/miscellaneous/roof/video.mp4 \
 	-i tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-i tmp/montage/pendulums/pendulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/montage/pendulums/decuplependulum/video.mp4 \
-	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v]concat=n=11:v=1[v]" \
+	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v]concat=n=12:v=1[v]" \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
@@ -209,6 +222,7 @@ ffmpeg \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/roof/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
@@ -226,7 +240,8 @@ ffmpeg \
 		[8:v]scale=480:-1[v8]; \
 		[9:v]scale=480:-1[v9]; \
 		[10:v]scale=480:-1[v10]; \
-		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10]xstack=inputs=11:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1:fill=black[v]" \
+		[11:v]scale=480:-1[v11]; \
+		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10][v11]xstack=inputs=12:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1|w0+w1+w2_h0+h1:fill=black[v]" \
 	-map "[v]" \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
