@@ -65,10 +65,8 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf(
-			"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
-			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
-		) != 5)
+		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line (%d)\n", j + 1);
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=(float float)\n");
@@ -102,10 +100,8 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf(
-			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
-			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
-		) != 5)
+		if(scanf("joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line (%d)\n", m + 1);
 			fprintf(stderr, "usage: member line: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
@@ -123,16 +119,10 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
-			if(
-				(
-					members[m2].spring.m1 == &joints[jindex1].mass &&
-					members[m2].spring.m2 == &joints[jindex2].mass
-				) ||
-				(
-					members[m2].spring.m1 == &joints[jindex2].mass &&
-					members[m2].spring.m2 == &joints[jindex1].mass
-				)
-				)
+			if((members[m2].spring.m1 == &joints[jindex1].mass &&
+			    members[m2].spring.m2 == &joints[jindex2].mass) ||
+			   (members[m2].spring.m1 == &joints[jindex2].mass &&
+			    members[m2].spring.m2 == &joints[jindex1].mass))
 			{
 				fprintf(stderr, "error: index: member line (%d): joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;

@@ -86,7 +86,7 @@ void solve(void)
 		struct load *load = &loads[l];
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
-			jindex = j;
+				jindex = j;
 		for(int c = 0; c < 2; c++)
 			jforces[jindex][c] += load->action.f[c];
 	}
@@ -106,10 +106,8 @@ void solve(void)
 		}
 		for(int c = 0; c < 2; c++)
 		{
-			direction[c] = (
-				(joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) /
-				(length > epsilon ? length : epsilon)
-			);
+			direction[c] = ((joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) /
+			                (length > epsilon ? length : epsilon));
 			jforces[jindex1][c] -= direction[c] * force;
 			jforces[jindex2][c] += direction[c] * force;
 		}
@@ -132,7 +130,7 @@ void solve(void)
 		struct support *support = &supports[s];
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
-			jindex = j;
+				jindex = j;
 		for(int c = 0; c < 2; c++)
 		{
 			if(support->constraint.a[c])
@@ -228,10 +226,8 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf(
-			"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
-			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
-		) != 5)
+		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line (%d)\n", j + 1);
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=(float float)\n");
@@ -303,10 +299,8 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf(
-			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
-			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
-		) != 5)
+		if(scanf("joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line (%d)\n", m + 1);
 			fprintf(stderr, "usage: member line: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
@@ -324,16 +318,10 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
-			if(
-				(
-					members[m2].spring.m1 == &joints[jindex1].mass &&
-					members[m2].spring.m2 == &joints[jindex2].mass
-				) ||
-				(
-					members[m2].spring.m1 == &joints[jindex2].mass &&
-					members[m2].spring.m2 == &joints[jindex1].mass
-				)
-			)
+			if((members[m2].spring.m1 == &joints[jindex1].mass &&
+			    members[m2].spring.m2 == &joints[jindex2].mass) ||
+			   (members[m2].spring.m1 == &joints[jindex2].mass &&
+			    members[m2].spring.m2 == &joints[jindex1].mass))
 			{
 				fprintf(stderr, "error: index: member line (%d): joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
@@ -391,10 +379,10 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass)
-		{
-			fprintf(stderr, "error: index: support line (%d): joint parameter: %d already in use\n", s + 1, jindex + 1);
-			return 1;
-		}
+			{
+				fprintf(stderr, "error: index: support line (%d): joint parameter: %d already in use\n", s + 1, jindex + 1);
+				return 1;
+			}
 		support.constraint.m = &joints[jindex].mass;
 		if(strcmp(axes, "xy") == 0 || strcmp(axes, "yx") == 0)
 		{
@@ -449,10 +437,8 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		if(scanf(
-			"joint=%d force=<%lf %lf>\n",
-			&jindex, &load.action.f[0], &load.action.f[1]
-		) != 3)
+		if(scanf("joint=%d force=<%lf %lf>\n",
+		         &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{
 			fprintf(stderr, "error: parse: load line (%d)\n", l + 1);
 			fprintf(stderr, "usage: load line: joint=index force=<float float>\n");
@@ -473,18 +459,14 @@ int main(int argc, char **argv)
 	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{
-		printf(
-			"force=<%.9e %.9e> position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
-			jforces[j][0], jforces[j][1], joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]
-		);
+		printf("force=<%.9e %.9e> position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
+		       jforces[j][0], jforces[j][1], joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
 	}
 	printf("members=%d\n", mcount);
 	for(int m = 0; m < mcount; m++)
 	{
-		printf(
-			"force=%.9e displacement=%.9e length=%.9e velocity=%.9e\n",
-			mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]
-		);
+		printf("force=%.9e displacement=%.9e length=%.9e velocity=%.9e\n",
+		       mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]);
 	}
 	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)

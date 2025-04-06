@@ -296,10 +296,8 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf(
-			"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
-			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
-		) != 5) return 1;
+		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5) return 1;
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
 	}
@@ -310,23 +308,15 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf(
-			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
-			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
-		) != 5) return 1;
+		if(scanf("joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5) return 1;
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
 		for(int m2 = 0; m2 < m; m2++)
-			if(
-				(
-					members[m2].spring.m1 == &joints[jindex1].mass &&
-					members[m2].spring.m2 == &joints[jindex2].mass
-				) ||
-				(
-					members[m2].spring.m1 == &joints[jindex2].mass &&
-					members[m2].spring.m2 == &joints[jindex1].mass
-				)
-			) return 1;
+			if((members[m2].spring.m1 == &joints[jindex1].mass &&
+			    members[m2].spring.m2 == &joints[jindex2].mass) ||
+			   (members[m2].spring.m1 == &joints[jindex2].mass &&
+			    members[m2].spring.m2 == &joints[jindex1].mass)) return 1;
 		member.spring.m1 = &joints[jindex1].mass;
 		member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass;
@@ -374,10 +364,8 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		if(scanf(
-			"joint=%d force=<%lf %lf>\n",
-			&jindex, &load.action.f[0], &load.action.f[1]
-		) != 3) return 1;
+		if(scanf("joint=%d force=<%lf %lf>\n",
+		         &jindex, &load.action.f[0], &load.action.f[1]) != 3) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		load.action.m = &joints[jindex].mass;
@@ -392,12 +380,10 @@ int main(int argc, char **argv)
 	{
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j]) return 1;
-		if(scanf(
-			"force=<%lf %lf> position=(%lf %lf) velocity=<%lf %lf>\n",
-			&jforces[j][0], &jforces[j][1],
-			&joints[j].mass.p[0], &joints[j].mass.p[1],
-			&joints[j].mass.v[0], &joints[j].mass.v[1]
-		) != 6) return 1;
+		if(scanf("force=<%lf %lf> position=(%lf %lf) velocity=<%lf %lf>\n",
+		         &jforces[j][0], &jforces[j][1],
+		         &joints[j].mass.p[0], &joints[j].mass.p[1],
+		         &joints[j].mass.v[0], &joints[j].mass.v[1]) != 6) return 1;
 	}
 	int mcount2;
 	if(scanf("members=%d\n", &mcount2) != 1) return 1;
@@ -412,10 +398,8 @@ int main(int argc, char **argv)
 	if(!mforces) return 1;
 	for(int m = 0; m < mcount; m++)
 	{
-		if(scanf(
-			"force=%lf displacement=%lf length=%lf velocity=%lf\n",
-			&mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]
-		) != 4) return 1;
+		if(scanf("force=%lf displacement=%lf length=%lf velocity=%lf\n",
+		         &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4) return 1;
 	}
 	int scount2;
 	if(scanf("supports=%d\n", &scount2) != 1) return 1;

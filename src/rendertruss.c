@@ -101,7 +101,9 @@ int render(void)
 		{
 			cairo_rotate(context, -0.5 * pi);
 		}
-		double ncenter[2] = {0.0, 0.0}, double nradius = 0.0, int ncount = 0;
+		double ncenter[2] = {0.0, 0.0};
+		double nradius = 0.0;
+		int ncount = 0;
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
@@ -123,7 +125,7 @@ int render(void)
 		for(int c = 0; c < 2; c++)
 		{
 			ncenter[c] /= ncount;
-			nradius /= ncount;	
+			nradius /= ncount;
 		}
 		cairo_new_path(context);
 		cairo_line_to(context, 0.0, 0.0);
@@ -303,10 +305,8 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf(
-			"mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
-			&joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]
-		) != 5)
+		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line (%d)\n", j + 1);
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=(float float)\n");
@@ -340,10 +340,8 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf(
-			"joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
-			&jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c
-		) != 5)
+		if(scanf("joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line (%d)\n", m + 1);
 			fprintf(stderr, "usage: member line: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
@@ -361,16 +359,10 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
-			if(
-				(
-					members[m2].spring.m1 == &joints[jindex1].mass &&
-					members[m2].spring.m2 == &joints[jindex2].mass
-				) ||
-				(
-					members[m2].spring.m1 == &joints[jindex2].mass &&
-					members[m2].spring.m2 == &joints[jindex1].mass
-				)
-			)
+			if((members[m2].spring.m1 == &joints[jindex1].mass &&
+			    members[m2].spring.m2 == &joints[jindex2].mass) ||
+			   (members[m2].spring.m1 == &joints[jindex2].mass &&
+			    members[m2].spring.m2 == &joints[jindex1].mass))
 			{
 				fprintf(stderr, "error: index: member line (%d): joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
@@ -421,10 +413,10 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass)
-		{
-			fprintf(stderr, "error: index: support line (%d): joint parameter: %d already in use\n", s + 1, jindex + 1);
-			return 1;
-		}
+			{
+				fprintf(stderr, "error: index: support line (%d): joint parameter: %d already in use\n", s + 1, jindex + 1);
+				return 1;
+			}
 		support.constraint.m = &joints[jindex].mass;
 		if(strcmp(axes, "xy") == 0 || strcmp(axes, "yx") == 0)
 		{
