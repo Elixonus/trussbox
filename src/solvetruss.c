@@ -246,20 +246,17 @@ int main(int argc, char **argv)
 		jaccelerations[j] = malloc(2 * sizeof(double));
 		if(!jaccelerations[j])
 		{
-			fprintf(stderr, "error: create: jacceleration%d array: %zdB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: jacceleration array (%d): %zdB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j])
 		{
-			fprintf(stderr, "error: create: jforce%d array: %zdB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: jforce array (%d): %zdB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int c = 0; c < 2; c++)
-		{
-			jaccelerations[j][c] = 0.0;
-			jforces[j][c] = 0.0;
-		}
+			jaccelerations[j][c], jforces[j][c] = 0.0;
 	}
 	if(scanf("members=%d\n", &mcount) != 1)
 	{
@@ -351,10 +348,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		members[m] = member;
-		mlengths[m] = 0.0;
-		mdisplacements[m] = 0.0;
-		mvelocities[m] = 0.0;
-		mforces[m] = 0.0;
+		mlengths[m], mdisplacements[m], mvelocities[m], mforces[m] = 0.0;
 	}
 	if(scanf("supports=%d\n", &scount) != 1)
 	{
@@ -473,8 +467,7 @@ int main(int argc, char **argv)
 		load.action.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
-	time = 0.0;
-	step = 0;
+	time = 0.0, step = 0;
 	while(step <= stepf)
 		solve();
 	printf("joints=%d\n", jcount);

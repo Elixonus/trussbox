@@ -19,8 +19,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1965ea1f-3620-487c-9190-e24780da0a1d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dampspring.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/dampspring.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +99,8 @@
       <workItem from="1743742093180" duration="93000" />
       <workItem from="1743746717730" duration="444000" />
       <workItem from="1743888998030" duration="30000" />
+      <workItem from="1743913596829" duration="1311000" />
+      <workItem from="1743963666383" duration="3702000" />
     </task>
     <servers />
   </component>

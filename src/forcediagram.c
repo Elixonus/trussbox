@@ -237,8 +237,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
 	{
-		fprintf(stderr, "error: parse: filename argument: %s (1)\n", argv[1]);
-		fprintf(stderr, "usage: filename argument: string (1)\n");
+		fprintf(stderr, "error: parse: filename argument (1): %s\n", argv[1]);
+		fprintf(stderr, "usage: filename argument (1): string\n");
 		return 1;
 	}
 	char *extension = strrchr(filename, '.');
@@ -246,14 +246,14 @@ int main(int argc, char **argv)
 		strcat(filename, ".png");
 	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument: %s (2)\n", argv[2]);
-		fprintf(stderr, "usage: gravity argument: gravity=float (2)\n");
+		fprintf(stderr, "error: parse: gravity argument (2): %s\n", argv[2]);
+		fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
 		return 1;
 	}
 	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument: %s (3)\n", argv[3]);
-		fprintf(stderr, "usage: fsize argument: fsize=integerxinteger (3)\n");
+		fprintf(stderr, "error: parse: fsize argument (3): %s\n", argv[3]);
+		fprintf(stderr, "usage: fsize argument (3): fsize=integerxinteger\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
@@ -263,14 +263,14 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[4], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument: %s (4)\n", argv[4]);
-		fprintf(stderr, "usage: fcenter argument: fcenter=(float float) (4)\n");
+		fprintf(stderr, "error: parse: fcenter argument (4): %s\n", argv[4]);
+		fprintf(stderr, "usage: fcenter argument (4): fcenter=(float float)\n");
 		return 1;
 	}
 	if(sscanf(argv[5], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument: %s (5)\n", argv[5]);
-		fprintf(stderr, "usage: fzoom argument: fzoom=float (5)\n");
+		fprintf(stderr, "error: parse: fzoom argument (5): %s\n", argv[5]);
+		fprintf(stderr, "usage: fzoom argument (5): fzoom=float\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
@@ -280,8 +280,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[6], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument: %s (6)\n", argv[6]);
-		fprintf(stderr, "usage: fscale argument: fscale=float (6)\n");
+		fprintf(stderr, "error: parse: fscale argument (6): %s\n", argv[6]);
+		fprintf(stderr, "usage: fscale argument (6): fscale=float\n");
 		return 1;
 	}
 	if(fscale < epsilon)
