@@ -250,7 +250,39 @@ int main(int argc, char **argv)
 	if(argc < 2) return 1;
 	if(strcmp(argv[1], "properties") == 0)
 	{
-
+		if(argc != 3) return 1;
+		double gravity;
+		if(sscanf(argv[2], "gravity=%lf", &gravity) != 1) return 1;
+		double mass = 0.0;
+		for(int j = 0; j < jcount; j++)
+			mass += joints[j].mass.m;
+		printf("mass=%.9e\n", mass);
+		double length = 0.0;
+		for(int m = 0; m < mcount; m++)
+			length += members[m].spring.l0;
+		printf("length=%.9e\n", length);
+		double density = length > epsilon ? mass / length : mass / epsilon;
+		printf("density=%.9e\n", density);
+		double center[2] = {0.0, 0.0};
+		for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
+				center[c] += joints[j].mass.m * joints[j].mass.p[c];
+		for(int c = 0; c < 2; c++)
+			center[c] /= mass;
+		printf("center=(%.9e %.9e)\n", center[0], center[1]);
+		double momentum[2] = {0.0, 0.0};
+		for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
+				momentum[c] += joints[j].mass.m * joints[j].mass.v[c];
+		printf("momentum=<%.9e %.9e>\n", momentum[0], momentum[1]);
+		double energy = 0.0;
+		for(int j = 0; j < jcount; j++)
+		{
+			energy += gravity * joints[j].mass.m * joints[j].mass.p[1];
+			double speed = sqrt(pow(joints[j].mass.v[0], 2) + pow(joints[j].mass.v[1], 2));
+			energy += 0.5 * joints[j].mass.m * pow(speed, 2);
+		}
+		for(int m = 0; m < mcount; m++)
+			energy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2);
+		printf("energy=%.9e\n", energy);
 	}
 	else if(strcmp(argv[1], "transform") == 0)
 	{
