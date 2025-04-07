@@ -247,12 +247,27 @@ int main(int argc, char **argv)
 		load.action.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
-	if(argc < 2) return 1;
+	if(argc < 2)
+	{
+		fprintf(stderr, "error: count: arguments: %d of 1+ provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: %s properties|transform|undeform ...\n", argv[0]);
+		return 1;
+	}
 	if(strcmp(argv[1], "properties") == 0)
 	{
-		if(argc != 3) return 1;
+		if(argc != 3)
+		{
+			fprintf(stderr, "error: count: arguments: %d of 2 provided\n", argc - 1);
+			fprintf(stderr, "usage: arguments: %s properties gravity=float\n", argv[0]);
+			return 1;
+		}
 		double gravity;
-		if(sscanf(argv[2], "gravity=%lf", &gravity) != 1) return 1;
+		if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+		{
+			fprintf(stderr, "error: parse: gravity argument (2): %s\n", argv[2]);
+			fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
+			return 1;
+		}
 		double mass = 0.0;
 		for(int j = 0; j < jcount; j++)
 			mass += joints[j].mass.m;
@@ -291,14 +306,24 @@ int main(int argc, char **argv)
 			if(strncmp(argv[a], "translate", 9) == 0)
 			{
 				double translation[2];
-				if(sscanf(argv[a], "translate=(%lf %lf)", &translation[0], &translation[1]) != 2) return 1;
+				if(sscanf(argv[a], "translate=<%lf %lf>", &translation[0], &translation[1]) != 2)
+				{
+					fprintf(stderr, "error: parse: translate argument (%d): %s\n", a, argv[a]);
+					fprintf(stderr, "usage: translate argument: translate=<float float>\n");
+					return 1;
+				}
 				for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
 						joints[j].mass.p[c] += translation[c];
 			}
 			else if(strncmp(argv[a], "rotate", 6) == 0)
 			{
 				double rotation;
-				if(sscanf(argv[a], "rotate=%lf", &rotation) != 1) return 1;
+				if(sscanf(argv[a], "rotate=%lf", &rotation) != 1)
+				{
+					fprintf(stderr, "error: parse: rotate argument (%d): %s\n", a, argv[a]);
+					fprintf(stderr, "usage: rotate argument: rotate=float\n");
+					return 1;
+				}
 				double radians = pi / 180.0 * rotation;
 				for(int j = 0; j < jcount; j++)
 				{
@@ -316,13 +341,23 @@ int main(int argc, char **argv)
 			else if(strncmp(argv[a], "scale", 5) == 0)
 			{
 				double scale;
-				if(sscanf(argv[a], "scale=%lf", &scale) != 1) return 1;
+				if(sscanf(argv[a], "scale=%lf", &scale) != 1)
+				{
+					fprintf(stderr, "error: parse: scale argument (%d): %s\n", a, argv[a]);
+					fprintf(stderr, "usage: scale argument: scale=float\n");
+					return 1;
+				}
 				for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
 						joints[j].mass.p[c] *= scale;
 				for(int m = 0; m < mcount; m++)
 					members[m].spring.l0 *= scale;
 			}
-			else return 1;
+			else
+			{
+				fprintf(stderr, "error: parse: argument (%d): %s\n", a, argv[a]);
+				fprintf(stderr, "usage: argument: translate...|rotate...|scale...\n");
+				return 1;
+			}
 		}
 		printf("joints=%d\n", jcount);
 		for(int j = 0; j < jcount; j++)
@@ -374,7 +409,12 @@ int main(int argc, char **argv)
 	}
 	else if(strcmp(argv[1], "undeform") == 0)
 	{
-		if(argc != 2) return 1;
+		if(argc != 2)
+		{
+			fprintf(stderr, "error: count: arguments: %d of 1 provided\n", argc - 1);
+			fprintf(stderr, "usage: arguments: %s undeform\n", argv[0]);
+			return 1;
+		}
 		for(int m = 0; m < mcount; m++)
 			members[m].spring.l0 = mdistance(members[m].spring.m1, members[m].spring.m2);
 		printf("joints=%d\n", jcount);
@@ -425,7 +465,12 @@ int main(int argc, char **argv)
 			printf("joint=%d force=<%.9e %.9e>\n", jindex + 1, load->action.f[0], load->action.f[1]);
 		}
 	}
-	else return 1;
+	else
+	{
+		fprintf(stderr, "error: parse: utility argument (1): %s\n", argv[1]);
+		fprintf(stderr, "usage: utility argument (1): properties|transform|undeform\n");
+		return 1;
+	}
 	free(joints);
 	free(members);
 	free(supports);

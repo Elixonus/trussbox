@@ -30,6 +30,8 @@
 
 ### Pre-Requirements
 
+**Installation**: GNU/Linux and apt package manager
+
 **Compilation**: GNU/Linux and gcc-14 C23 or higher
 
 * Recommended distro: Ubuntu 24.04 or higher
