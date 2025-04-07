@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/dampspring.iml" filepath="$PROJECT_DIR$/.idea/dampspring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/trussbox.iml" filepath="$PROJECT_DIR$/.idea/trussbox.iml" />
     </modules>
   </component>
 </project>

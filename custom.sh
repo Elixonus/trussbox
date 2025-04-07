@@ -6,15 +6,15 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	underline="$(tput smul)"
 	standout="$(tput smso)"
 	normal="$(tput sgr0)"
-	black="$(tput setaf 0)";   fg_black="$(tput setaf 0)";   bg_black="$(tput setab 0)"
-	red="$(tput setaf 1)";     fg_red="$(tput setaf 1)";     bg_red="$(tput setab 1)"
-	green="$(tput setaf 2)";   fg_green="$(tput setaf 2)";   bg_green="$(tput setab 2)"
-	yellow="$(tput setaf 3)";  fg_yellow="$(tput setaf 3)";  bg_yellow="$(tput setab 3)"
-	blue="$(tput setaf 4)";    fg_blue="$(tput setaf 4)";    bg_blue="$(tput setab 4)"
-	magenta="$(tput setaf 5)"; fg_magenta="$(tput setaf 5)"; bg_magenta="$(tput setab 5)"
-	cyan="$(tput setaf 6)";    fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
-	white="$(tput setaf 7)";   fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
-	gray="$(tput setaf 8)";    fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+	fg_black="$(tput setaf 0)";   bg_black="$(tput setab 0)"
+	fg_red="$(tput setaf 1)";     bg_red="$(tput setab 1)"
+	fg_green="$(tput setaf 2)";   bg_green="$(tput setab 2)"
+	fg_yellow="$(tput setaf 3)";  bg_yellow="$(tput setab 3)"
+	fg_blue="$(tput setaf 4)";    bg_blue="$(tput setab 4)"
+	fg_magenta="$(tput setaf 5)"; bg_magenta="$(tput setab 5)"
+	fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
+	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
+	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
 read -r -e -p "problem filename: " filename
 read -r -e -p "gravitational acceleration (m/s^2): " gravity
@@ -58,14 +58,14 @@ echo "creating pipeline"
 	> $dirname/pipeline.sh
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "running pipeline with parameters:
-| ${cyan}gravity${normal}=$gravity ${gray}m/s^2${normal}
-| ${cyan}timef${normal}=$timef ${gray}s${normal}
-| ${cyan}srate${normal}=$srate ${gray}Hz${normal}
-| ${cyan}frate${normal}=$frate ${gray}Hz${normal}
-| ${cyan}fsize${normal}=(${fwidth}x${fheight}) ${gray}px${normal}
-| ${cyan}fcenter${normal}=($fcenterx $fcentery) ${gray}m${normal}
-| ${cyan}fzoom${normal}=$fzoom
-| ${cyan}fscale${normal}=$fscale"
+| ${fg_cyan}gravity${normal}=$gravity ${fg_gray}m/s^2${normal}
+| ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
+| ${fg_cyan}srate${normal}=$srate ${fg_gray}Hz${normal}
+| ${fg_cyan}frate${normal}=$frate ${fg_gray}Hz${normal}
+| ${fg_cyan}fsize${normal}=(${fwidth}x${fheight}) ${fg_gray}px${normal}
+| ${fg_cyan}fcenter${normal}=($fcenterx $fcentery) ${fg_gray}m${normal}
+| ${fg_cyan}fzoom${normal}=$fzoom
+| ${fg_cyan}fscale${normal}=$fscale"
 source $dirname/pipeline.sh
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "stitching video frames together"

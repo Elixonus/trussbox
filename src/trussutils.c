@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "dampspring.h"
+#include "msd.h"
 
 constexpr double pi = 4.0 * atan(1.0);
 

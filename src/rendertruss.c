@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <cairo.h>
-#include "dampspring.h"
+#include "msd.h"
 
 constexpr double pi = 4.0 * atan(1.0);
 constexpr double tau = 2.0 * pi;

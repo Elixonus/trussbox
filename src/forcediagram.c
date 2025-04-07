@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include <cairo.h>
-#include "dampspring.h"
+#include "msd.h"
 
 struct joint {
 	struct mass mass;

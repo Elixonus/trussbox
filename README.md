@@ -1,12 +1,12 @@
-[![Quality](https://github.com/Elixonus/dampspring/actions/workflows/quality.yml/badge.svg)](https://github.com/Elixonus/dampspring/actions/workflows/quality.yml)
-[![Build](https://github.com/Elixonus/dampspring/actions/workflows/build.yml/badge.svg)](https://github.com/Elixonus/dampspring/actions/workflows/build.yml)
-![Issues](https://img.shields.io/github/issues/Elixonus/dampspring)
+[![Quality](https://github.com/Elixonus/trussbox/actions/workflows/quality.yml/badge.svg)](https://github.com/Elixonus/trussbox/actions/workflows/quality.yml)
+[![Build](https://github.com/Elixonus/trussbox/actions/workflows/build.yml/badge.svg)](https://github.com/Elixonus/trussbox/actions/workflows/build.yml)
+![Issues](https://img.shields.io/github/issues/Elixonus/trussbox)
 ![Language](https://img.shields.io/badge/Language-C23-blue)
 ![Platform](https://img.shields.io/badge/Platform-GNU/Linux-orange)
-[![License](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
-![Code Size](https://img.shields.io/github/languages/code-size/Elixonus/dampspring)
+![License](https://img.shields.io/badge/License-MIT-red.svg)
+![Code Size](https://img.shields.io/github/languages/code-size/Elixonus/trussbox)
 
-# Dampspring
+# Trussbox
 
 ## Preview
 
