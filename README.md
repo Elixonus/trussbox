@@ -40,25 +40,25 @@
 
 ### Setup
 
-```$ ./setup.sh```
+```./setup.sh```
 
 ### Format
 
-```$ ./format.sh```
+```./format.sh```
 
 ### Build
 
-```$ ./build.sh```
+```./build.sh```
 
 ### Run
 
-```$ ./bridges.sh```
+```./bridges.sh```
 
 Creates solutions (videos and force data on each member and reactions on each support in the tmp directory) for each of the five truss bridges: warren, pratt, howe, parker and cambridge without further input.
 
 **or**
 
-```$ ./custom.sh```
+```./custom.sh```
 
 Creates solution (videos and force data on each member and reactions on each support) for a given problem containing input data for joints, members, supports, loads as well as other input data provided into standard input of the shell script (gravity, duration, frame rate, step rate, etc...).
 
@@ -82,3 +82,44 @@ $ tmp/warren
 **or**
 
 ```$ ./montage.sh```
+
+## Usage
+
+### Conventions
+
+**Problem**
+
+1. Joints Count *Header*
+   * syntax: ```joints=count``` (newline)
+   * number of joints in stream
+2. Joints Lines *Body*
+   * syntax: ```mass=float position=(float float) velocity=(float float)``` (newline)
+   * each individual joint mass in kg, position vector in meters and velocity vector in meters per second
+3. Members Count *Header*
+   * syntax: ```members=count``` (newline)
+   * number of members in stream
+4. Members Lines *Body*
+   * syntax: ```joint1=index joint2=index stiffness=float length0=float dampening=float``` (newline)
+   * each individual member joints connection indices, stiffness of spring component in Newtons per meter, resting length in meters and dampening of damper component in Newton seconds per meter
+5. Supports Count *Header*
+   * syntax: ```supports=```
+6. Supports Lines *Body*
+7. Loads Count *Header*
+8. Loads Lines *Body*
+
+
+
+```
+joints=integer
+mass=
+```
+
+**Truss Solver**
+
+* ```stdin```
+* ```gravity```: gravitational acceleration of truss in meters per second squared
+* ```timef```: elapsed simulation time in seconds
+* ```srate```: frequency of simulation steps in time in Hz
+
+```./bin/solvetruss gravity=gravity timef=timef srate=srate```
+

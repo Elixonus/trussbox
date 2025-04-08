@@ -2,7 +2,7 @@
 echo "creating executables"
 shopt -s expand_aliases
 alias gcc="gcc-14"
-mkdir bin
+mkdir -p bin
 gcc -c src/msd.c -o bin/msd.o -std=c23
 gcc src/solvetruss.c -o bin/solvetruss bin/msd.o -lm -std=c23
 gcc src/rendertruss.c -o bin/rendertruss bin/msd.o -lm $(pkg-config --cflags --libs cairo) -std=c23

@@ -52,7 +52,7 @@ int main(void)
 	if(scanf("joints=%d\n", &jcount) != 1)
 	{
 		fprintf(stderr, "error: parse: joints parameter (problem)\n");
-		fprintf(stderr, "usage: joints parameter (problem): joints=float\n");
+		fprintf(stderr, "usage: joints parameter (problem): joints=count\n");
 		return 1;
 	}
 	if(jcount < 0)
@@ -86,7 +86,7 @@ int main(void)
 	if(scanf("members=%d\n", &mcount) != 1)
 	{
 		fprintf(stderr, "error: parse: members parameter (problem)\n");
-		fprintf(stderr, "usage: members parameter (problem): members=float\n");
+		fprintf(stderr, "usage: members parameter (problem): members=count\n");
 		return 1;
 	}
 	if(mcount < 0)
@@ -145,7 +145,7 @@ int main(void)
 	if(scanf("supports=%d\n", &scount) != 1)
 	{
 		fprintf(stderr, "error: parse: supports parameter (problem)\n");
-		fprintf(stderr, "usage: supports parameter (problem): supports=float\n");
+		fprintf(stderr, "usage: supports parameter (problem): supports=count\n");
 		return 1;
 	}
 	if(scount < 0)
@@ -210,7 +210,7 @@ int main(void)
 	if(scanf("loads=%d\n", &lcount) != 1)
 	{
 		fprintf(stderr, "error: parse: loads parameter (problem)\n");
-		fprintf(stderr, "usage: loads parameter (problem): loads=float\n");
+		fprintf(stderr, "usage: loads parameter (problem): loads=count\n");
 		return 1;
 	}
 	if(lcount < 0)
@@ -247,7 +247,7 @@ int main(void)
 	if(scanf("joints=%d\n", &jcount2) != 1)
 	{
 		fprintf(stderr, "error: parse: joints parameter (solution)\n");
-		fprintf(stderr, "usage: joints parameter (solution): joints=float\n");
+		fprintf(stderr, "usage: joints parameter (solution): joints=count\n");
 		return 1;
 	}
 	if(jcount2 != jcount)
