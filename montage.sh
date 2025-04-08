@@ -17,19 +17,19 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
 echo "creating a montage of each of the systems"
-read -r -e -p "create new bridges output? (y/n): " create_bridges
+read -rep "create new bridges output? (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
 then
 	echo "error: unrecognized input"
 	exit 1
 fi
-read -r -e -p "create new miscellaneous output? (y/n): " create_miscellaneous
+read -rep "create new miscellaneous output? (y/n): " create_miscellaneous
 if ! [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" || "$create_miscellaneous" == "n" || "$create_miscellaneous" == "N" ]]
 then
 	echo "error: unrecognized input"
 	exit 1
 fi
-read -r -e -p "create new pendulums output? (y/n): " create_pendulums
+read -rep "create new pendulums output? (y/n): " create_pendulums
 if ! [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" || "$create_pendulums" == "n" || "$create_pendulums" == "N" ]]
 then
 	echo "error: unrecognized input"

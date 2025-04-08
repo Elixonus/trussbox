@@ -25,9 +25,9 @@ struct damper
 double mdistance(struct mass *m1, struct mass *m2)
 {
 	double d = 0.0;
-	for(int c = 0; c < 2; c++)
+	for(int a = 0; a < 2; a++)
 	{
-		double dp = m1->p[c] - m2->p[c];
+		double dp = m1->p[a] - m2->p[a];
 		d += dp * dp;
 	}
 	d = sqrt(d);
@@ -46,10 +46,10 @@ double dvelocity(struct damper *d)
 {
 	double l = mdistance(d->m1, d->m2);
 	double v = 0.0;
-	for(int c = 0; c < 2; c++)
+	for(int a = 0; a < 2; a++)
 	{
-		double dv = d->m1->v[c] - d->m2->v[c];
-		double dp = d->m1->p[c] - d->m2->p[c];
+		double dv = d->m1->v[a] - d->m2->v[a];
+		double dp = d->m1->p[a] - d->m2->p[a];
 		v += dv * dp;
 	}
 	v /= l;

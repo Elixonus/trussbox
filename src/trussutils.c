@@ -206,8 +206,8 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
-		for(int c = 0; c < 2; c++)
-			support.constraint.p[c] = joints[jindex].mass.p[c];
+		for(int a = 0; a < 2; a++)
+			support.constraint.p[a] = joints[jindex].mass.p[a];
 		supports[s] = support;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1)
@@ -279,14 +279,14 @@ int main(int argc, char **argv)
 		double density = length > epsilon ? mass / length : mass / epsilon;
 		printf("density=%.9e\n", density);
 		double center[2] = {0.0, 0.0};
-		for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
-				center[c] += joints[j].mass.m * joints[j].mass.p[c];
-		for(int c = 0; c < 2; c++)
-			center[c] /= mass;
+		for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
+				center[a] += joints[j].mass.m * joints[j].mass.p[a];
+		for(int a = 0; a < 2; a++)
+			center[a] /= mass;
 		printf("center=(%.9e %.9e)\n", center[0], center[1]);
 		double momentum[2] = {0.0, 0.0};
-		for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
-				momentum[c] += joints[j].mass.m * joints[j].mass.v[c];
+		for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
+				momentum[a] += joints[j].mass.m * joints[j].mass.v[a];
 		printf("momentum=<%.9e %.9e>\n", momentum[0], momentum[1]);
 		double energy = 0.0;
 		for(int j = 0; j < jcount; j++)
@@ -312,8 +312,8 @@ int main(int argc, char **argv)
 					fprintf(stderr, "usage: translate argument: translate=<float float>\n");
 					return 1;
 				}
-				for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
-						joints[j].mass.p[c] += translation[c];
+				for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
+						joints[j].mass.p[a] += translation[a];
 			}
 			else if(strncmp(argv[a], "rotate", 6) == 0)
 			{
@@ -347,8 +347,8 @@ int main(int argc, char **argv)
 					fprintf(stderr, "usage: scale argument: scale=float\n");
 					return 1;
 				}
-				for(int j = 0; j < jcount; j++) for(int c = 0; c < 2; c++)
-						joints[j].mass.p[c] *= scale;
+				for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
+						joints[j].mass.p[a] *= scale;
 				for(int m = 0; m < mcount; m++)
 					members[m].spring.l0 *= scale;
 			}

@@ -89,7 +89,7 @@ tmp/warren
 
 ### Conventions
 
-#### Problem Stream
+#### Truss Problem Configuration
 
 Simple example:
 
@@ -136,7 +136,7 @@ joint=3 force=<-10.0 -10.0>
    * syntax: ```joint=index force=<float float>``` (newline)
    * each individual point load joint binding and global-space force vector in Newtons
 
-#### Solution Stream
+#### Truss Solution Configuration
 
 Simple example:
 
@@ -176,8 +176,8 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ```./bin/solvetruss gravity=float timef=float srate=float < problem.txt```
 
-* (stdin): [Problem Configuration](#problem-stream)
-* (stdout): [Solution Configuration](#solution-stream)
+* (stdin): [Truss Problem Configuration](#truss-problem-configuration)
+* (stdout): [Truss Solution Configuration](#truss-solution-configuration)
 * (stderr): error and help messages
 * ```gravity```: gravitational acceleration of truss in meters per second squared
 * ```timef```: elapsed simulation time in seconds
@@ -185,12 +185,25 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ### Truss Renderer
 
-```./bin/rendertruss filename fsize=integerxinteger "fcenter=(float float) fzoom=float fscale=float"```
+```./bin/rendertruss filename fsize=integerxinteger "fcenter=(float float)" fzoom=float fscale=float```
 
-* (stdin): [Problem Configuration](#problem-stream)
+* (stdin): [Truss Problem Configuration](#truss-problem-configuration)
 * (stderr): error and help messages
 * ```filename```: output png render (image of truss in given configuration)
 * ```fsize```: renderer resolution in pixels (width and height)
 * ```fcenter```: renderer camera center in meters
 * ```fzoom```: renderer camera zoom (size of visual elements remain unaffected)
 * ```fscale```: renderer scale factor of visual elements
+
+### Truss Force Diagram
+
+```./bin/forcediagram filename gravity=float fsize=integerxinteger "fcenter=(float float)" fzoom=float fscale=float```
+
+* (stdin): concatenation of [Truss Problem Configuration](#truss-problem-configuration) and [Truss Solution Configuration](#truss-solution-configuration)
+* (stderr): error and help messages
+* ```filename```: output png visualization (image of truss in given configuration)
+* ```fsize```: visualization resolution in pixels (width and height)
+* ```fcenter```: visualization camera center in meters
+* ```fzoom```: visualization camera zoom (size of visual elements remain unaffected)
+* ```fscale```: visualization scale factor of visual elements
+

@@ -109,22 +109,22 @@ int render(void)
 			struct member *member = &members[m];
 			if(member->spring.m1 == support->constraint.m)
 			{
-				for(int c = 0; c < 2; c++)
-					ncenter[c] += member->spring.m2->p[c];
+				for(int a = 0; a < 2; a++)
+					ncenter[a] += member->spring.m2->p[a];
 				nradius += mdistance(member->spring.m2, support->constraint.m);
 				ncount++;
 			}
 			if(member->spring.m2 == support->constraint.m)
 			{
-				for(int c = 0; c < 2; c++)
-					ncenter[c] += member->spring.m1->p[c];
+				for(int a = 0; a < 2; a++)
+					ncenter[a] += member->spring.m1->p[a];
 				nradius += mdistance(member->spring.m1, support->constraint.m);
 				ncount++;
 			}
 		}
-		for(int c = 0; c < 2; c++)
+		for(int a = 0; a < 2; a++)
 		{
-			ncenter[c] /= ncount;
+			ncenter[a] /= ncount;
 			nradius /= ncount;
 		}
 		cairo_new_path(context);
@@ -439,8 +439,8 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
-		for(int c = 0; c < 2; c++)
-			support.constraint.p[c] = joints[jindex].mass.p[c];
+		for(int a = 0; a < 2; a++)
+			support.constraint.p[a] = joints[jindex].mass.p[a];
 		supports[s] = support;
 	}
 	if(render() != 0) return 1;

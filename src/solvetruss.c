@@ -68,17 +68,17 @@ void solve(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		for(int c = 0; c < 2; c++)
+		for(int a = 0; a < 2; a++)
 		{
-			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * dtime;
-			joint->mass.p[c] += joint->mass.v[c] * dtime;
+			joint->mass.v[a] += 0.5 * jaccelerations[j][a] * dtime;
+			joint->mass.p[a] += joint->mass.v[a] * dtime;
 		}
 	}
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		for(int c = 0; c < 2; c++)
-			jforces[j][c] = 0.0;
+		for(int a = 0; a < 2; a++)
+			jforces[j][a] = 0.0;
 		jforces[j][1] = -gravity * joint->mass.m;
 	}
 	for(int l = 0; l < lcount; l++)
@@ -87,8 +87,8 @@ void solve(void)
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
 				jindex = j;
-		for(int c = 0; c < 2; c++)
-			jforces[jindex][c] += load->action.f[c];
+		for(int a = 0; a < 2; a++)
+			jforces[jindex][a] += load->action.f[a];
 	}
 	for(int m = 0; m < mcount; m++)
 	{
@@ -104,12 +104,12 @@ void solve(void)
 			if(&joints[j].mass == member->spring.m2)
 				jindex2 = j;
 		}
-		for(int c = 0; c < 2; c++)
+		for(int a = 0; a < 2; a++)
 		{
-			direction[c] = ((joints[jindex2].mass.p[c] - joints[jindex1].mass.p[c]) /
+			direction[a] = ((joints[jindex2].mass.p[a] - joints[jindex1].mass.p[a]) /
 			                (length > epsilon ? length : epsilon));
-			jforces[jindex1][c] -= direction[c] * force;
-			jforces[jindex2][c] += direction[c] * force;
+			jforces[jindex1][a] -= direction[a] * force;
+			jforces[jindex2][a] += direction[a] * force;
 		}
 		mforces[m] = force;
 		mlengths[m] = length;
@@ -119,10 +119,10 @@ void solve(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		for(int c = 0; c < 2; c++)
+		for(int a = 0; a < 2; a++)
 		{
-			jaccelerations[j][c] = jforces[j][c] / (joint->mass.m > epsilon ? joint->mass.m : epsilon);
-			joint->mass.v[c] += 0.5 * jaccelerations[j][c] * dtime;
+			jaccelerations[j][a] = jforces[j][a] / (joint->mass.m > epsilon ? joint->mass.m : epsilon);
+			joint->mass.v[a] += 0.5 * jaccelerations[j][a] * dtime;
 		}
 	}
 	for(int s = 0; s < scount; s++)
@@ -131,14 +131,14 @@ void solve(void)
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
 				jindex = j;
-		for(int c = 0; c < 2; c++)
+		for(int a = 0; a < 2; a++)
 		{
-			if(support->constraint.a[c])
+			if(support->constraint.a[a])
 			{
-				support->constraint.m->p[c] = support->constraint.p[c];
-				support->constraint.m->v[c] = 0.0;
-				sreactions[s][c] = -jforces[jindex][c];
-				jforces[jindex][c] = 0.0;
+				support->constraint.m->p[a] = support->constraint.p[a];
+				support->constraint.m->v[a] = 0.0;
+				sreactions[s][a] = -jforces[jindex][a];
+				jforces[jindex][a] = 0.0;
 			}
 		}
 	}
@@ -251,8 +251,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: create: jforce array (%d): %zdB allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
-		for(int c = 0; c < 2; c++)
-			jaccelerations[j][c], jforces[j][c] = 0.0;
+		for(int a = 0; a < 2; a++) jaccelerations[j][a], jforces[j][a] = 0.0;
 	}
 	if(scanf("members=%d\n", &mcount) != 1)
 	{
@@ -385,28 +384,19 @@ int main(int argc, char **argv)
 			}
 		support.constraint.m = &joints[jindex].mass;
 		if(strcmp(axes, "xy") == 0 || strcmp(axes, "yx") == 0)
-		{
-			support.constraint.a[0] = true;
-			support.constraint.a[1] = true;
-		}
+			support.constraint.a[0] = true, support.constraint.a[1] = true;
 		else if(strcmp(axes, "x") == 0)
-		{
-			support.constraint.a[0] = true;
-			support.constraint.a[1] = false;
-		}
+			support.constraint.a[0] = true, support.constraint.a[1] = false;
 		else if(strcmp(axes, "y") == 0)
-		{
-			support.constraint.a[0] = false;
-			support.constraint.a[1] = true;
-		}
+			support.constraint.a[0] = false, support.constraint.a[1] = true;
 		else
 		{
 			fprintf(stderr, "error: parse: support line (%d): axes parameter: %s not an option\n", s + 1, axes);
 			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
-		for(int c = 0; c < 2; c++)
-			support.constraint.p[c] = joints[jindex].mass.p[c];
+		for(int a = 0; a < 2; a++)
+			support.constraint.p[a] = joints[jindex].mass.p[a];
 		supports[s] = support;
 		sreactions[s] = malloc(2 * sizeof(double));
 		if(!sreactions[s])
@@ -414,7 +404,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: create: sreaction array (%d): %zdB allocation\n", s + 1, 2 * sizeof(double));
 			return 1;
 		}
-		for(int c = 0; c < 2; c++) sreactions[s][c] = 0.0;
+		for(int a = 0; a < 2; a++) sreactions[s][a] = 0.0;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1)
 	{

@@ -17,7 +17,7 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
 echo "creating preview media"
-read -r -e -p "create new montage? (y/n): " create_montage
+read -rep "create new montage? (y/n): " create_montage
 if ! [[
 	"$create_montage" == "y" || "$create_montage" == "Y" ||
 	"$create_montage" == "n" || "$create_montage" == "N"

@@ -16,18 +16,18 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
-read -r -e -p "problem filename: " filename
-read -r -e -p "gravitational acceleration (m/s^2): " gravity
-read -r -e -p "final time (s): " timef
-read -r -e -p "step rate (Hz): " srate
-read -r -e -p "frame rate (Hz): " frate
-read -r -e -p "frame width (px): " fwidth
-read -r -e -p "frame height (px): " fheight
-read -r -e -p "frame center x (m): " fcenterx
-read -r -e -p "frame center y (m): " fcentery
-read -r -e -p "frame zoom: " fzoom
-read -r -e -p "frame scale: " fscale
-read -r -e -p "output dirname: " dirname
+read -rep "problem filename: " filename
+read -rep "gravitational acceleration (m/s^2): " gravity
+read -rep "final time (s): " timef
+read -rep "step rate (Hz): " srate
+read -rep "frame rate (Hz): " frate
+read -rep "frame width (px): " fwidth
+read -rep "frame height (px): " fheight
+read -rep "frame center x (m): " fcenterx
+read -rep "frame center y (m): " fcentery
+read -rep "frame zoom: " fzoom
+read -rep "frame scale: " fscale
+read -rep "output dirname: " dirname
 mkdir -p $dirname
 rm -rf $dirname/*
 mkdir -p $dirname/problems
