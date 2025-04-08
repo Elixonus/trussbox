@@ -75,8 +75,8 @@ void render_force(
 {
 	if(ref_force < epsilon) return;
 	double magnitude = 0.0;
-	for(int c = 0; c < 2; c++)
-		magnitude += pow(force[c], 2);
+	for(int a = 0; a < 2; a++)
+		magnitude += pow(force[a], 2);
 	magnitude = sqrt(magnitude);
 	if(magnitude < 0.05 * ref_force) return;
 	cairo_save(context);
@@ -139,8 +139,8 @@ int render(void)
 	for(int l = 0; l < lcount; l++)
 	{
 		double force = 0.0;
-		for(int c = 0; c < 2; c++)
-			force += pow(loads[l].action.f[c], 2);
+		for(int a = 0; a < 2; a++)
+			force += pow(loads[l].action.f[a], 2);
 		if(force > ref_force)
 			ref_force = force;
 	}
@@ -167,11 +167,11 @@ int render(void)
 		if(mlengths[m] < epsilon) continue;
 		double direction[2];
 		double forces[2][2];
-		for(int c = 0; c < 2; c++)
+		for(int a = 0; a < 2; a++)
 		{
-			direction[c] = (member->spring.m2->p[c] - member->spring.m1->p[c]) / mlengths[m];
-			forces[0][c] = -mforces[m] * direction[c];
-			forces[1][c] = mforces[m] * direction[c];
+			direction[a] = (member->spring.m2->p[a] - member->spring.m1->p[a]) / mlengths[m];
+			forces[0][a] = -mforces[m] * direction[a];
+			forces[1][a] = mforces[m] * direction[a];
 		}
 		double color2[3] = {0.0, 1.0, 0.0};
 		render_force(context, forces[0], member->spring.m1->p, ref_force, color2, false);
@@ -180,14 +180,12 @@ int render(void)
 	for(int s = 0; s < scount; s++)
 	{
 		struct support *support = &supports[s];
-		for(int c1 = 0; c1 < 2; c1++)
+		for(int a1 = 0; a1 < 2; a1++)
 		{
 			double force[2] = {0.0, 0.0};
-			for(int c2 = 0; c2 < 2; c2++)
-			{
-				if(c2 == c1)
-					force[c2] = sreactions[s][c2];
-			}
+			for(int a2 = 0; a2 < 2; a2++)
+				if(a2 == a1)
+					force[a2] = sreactions[s][a2];
 			double color[3] = {1.0, 0.0, 1.0};
 			render_force(context, force, support->constraint.m->p, ref_force, color, true);
 		}
@@ -353,8 +351,8 @@ int main(int argc, char **argv)
 			support.constraint.a[1] = true;
 		}
 		else return 1;
-		for(int c = 0; c < 2; c++)
-			support.constraint.p[c] = joints[jindex].mass.p[c];
+		for(int a = 0; a < 2; a++)
+			support.constraint.p[a] = joints[jindex].mass.p[a];
 		supports[s] = support;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1) return 1;

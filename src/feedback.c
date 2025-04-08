@@ -203,8 +203,8 @@ int main(void)
 			fprintf(stderr, "usage: support line (problem): axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
-		for(int c = 0; c < 2; c++)
-			support.constraint.p[c] = joints[jindex].mass.p[c];
+		for(int a = 0; a < 2; a++)
+			support.constraint.p[a] = joints[jindex].mass.p[a];
 		supports[s] = support;
 	}
 	if(scanf("loads=%d\n", &lcount) != 1)
