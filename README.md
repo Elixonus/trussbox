@@ -65,18 +65,18 @@ Creates solution (videos and force data on each member and reactions on each sup
 Example stdin:
 
 ```
-$ warren.txt
-$ 9.8
-$ 3.0
-$ 10000.0
-$ 60.0
-$ 1920
-$ 1080
-$ 0.5
-$ 0.125
-$ 1.0
-$ 1.0
-$ tmp/warren
+warren.txt
+9.8
+3.0
+10000.0
+60.0
+1920
+1080
+0.5
+0.125
+1.0
+1.0
+tmp/warren
 ```
 
 **or**
@@ -85,41 +85,102 @@ $ tmp/warren
 
 ## Usage
 
+**(low-level)**
+
 ### Conventions
 
-**Problem**
+#### Problem Stream
+
+Simple example:
+
+```
+joints=3
+mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(1.0 0.0) velocity=<0.0 0.0>
+mass=1.0 position=(1.0 1.0) velocity=<0.0 0.0>
+members=3
+joint1=1 joint2=2 stiffness=3.0e3 length0=1.0 dampening=3.0e2
+joint1=2 joint2=3 stiffness=3.0e3 length0=1.0 dampening=3.0e2
+joint1=3 joint2=1 stiffness=3.0e3 length0=1.0 dampening=3.0e2
+supports=1
+joint=1 axes=xy
+loads=1
+joint=3 force=<-10.0 -10.0>
+```
 
 1. Joints Count *Header*
    * syntax: ```joints=count``` (newline)
-   * number of joints in stream
+   * number of joints in following body
 2. Joints Lines *Body*
    * syntax: ```mass=float position=(float float) velocity=(float float)``` (newline)
    * each individual joint mass in kg, position vector in meters and velocity vector in meters per second
 3. Members Count *Header*
    * syntax: ```members=count``` (newline)
-   * number of members in stream
+   * number of members in following body
 4. Members Lines *Body*
    * syntax: ```joint1=index joint2=index stiffness=float length0=float dampening=float``` (newline)
    * each individual member joints connection indices, stiffness of spring component in Newtons per meter, resting length in meters and dampening of damper component in Newton seconds per meter
 5. Supports Count *Header*
-   * syntax: ```supports=```
+   * syntax: ```supports=count``` (newline)
+   * number of supports in following body
 6. Supports Lines *Body*
+   * syntax: ```joint=index axes=xy|x|y``` (newline)
+   * each individual support joint binding and axes of reactions
+   * if ```axes=xy```, support is of type pin
+   * if ```axes=x```, support is of type vertical roller
+   * if ```axes=y```, support is of type horizontal roller
 7. Loads Count *Header*
+   * syntax: ```loads=count``` (newline)
+   * number of loads in following body
 8. Loads Lines *Body*
+   * syntax: ```joint=index force=<float float>``` (newline)
+   * each individual point load joint binding and global-space force vector in Newtons
 
+#### Solution Stream
 
+Simple example:
 
 ```
-joints=integer
-mass=
+joints=3
+force=<0.000000000e+00 0.000000000e+00> position=(0.000000000e+00 0.000000000e+00) velocity=<0.000000000e+00 0.000000000e+00>
+force=<0.000000000e+00 0.000000000e+00> position=(1.000000000e+00 0.000000000e+00) velocity=<0.000000000e+00 0.000000000e+00>
+force=<-8.886796564e+02 -8.886796564e+02> position=(1.000000000e+00 1.000000000e+00) velocity=<-4.443398282e-16 -4.443398282e-16>
+members=3
+force=-0.000000000e+00 displacement=0.000000000e+00 length=1.000000000e+00 velocity=0.000000000e+00
+force=-0.000000000e+00 displacement=0.000000000e+00 length=1.000000000e+00 velocity=0.000000000e+00
+force=-1.242640687e+03 displacement=4.142135624e-01 length=1.414213562e+00 velocity=0.000000000e+00
+supports=1
+reaction=<-8.786796564e+02 -8.786796564e+02>
 ```
 
-**Truss Solver**
+1. Joints Count *Header*
+   * syntax: ```joints=count``` (newline)
+   * number of joints in following body
+2. Joints Lines *Body*
+   * syntax: ```force=<float float> position=(float float) velocity=<float float>``` (newline)
+   * each individual joint force vector in Newtons, modified position vector in meters and modified velocity vector in meters per second
+3. Members Count *Header*
+   * syntax: ```members=count``` (newline)
+   * number of members in following body
+4. Members Lines *Body*
+   * syntax: ```force=float displacement=float length=float velocity=float``` (newline)
+   * each individual member tension force (negative for compression) in Newtons, displacement from resting length in meters, current measured length in meters and velocity of expansion in meters per second
+5. Supports Count *Header*
+   * syntax: ```supports=count``` (newline)
+   * number of supports in following body
+6. Supports Lines *Body*
+   * syntax: ```reaction=<float float>``` (newline)
+   * each individual support reaction force vector in Newtons
 
-* ```stdin```
+### Truss Solver
+
+```./bin/solvetruss gravity=gravity timef=timef srate=srate < problem.txt```
+
+* (stdin): [Problem](#problem-stream)
 * ```gravity```: gravitational acceleration of truss in meters per second squared
 * ```timef```: elapsed simulation time in seconds
-* ```srate```: frequency of simulation steps in time in Hz
+* ```srate```: frequency of simulation time steps in Hz
 
-```./bin/solvetruss gravity=gravity timef=timef srate=srate```
+### Truss Renderer
 
+```./bin/rendertruss ```
