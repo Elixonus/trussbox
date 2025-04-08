@@ -174,13 +174,23 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ### Truss Solver
 
-```./bin/solvetruss gravity=gravity timef=timef srate=srate < problem.txt```
+```./bin/solvetruss gravity=float timef=float srate=float < problem.txt```
 
-* (stdin): [Problem](#problem-stream)
+* (stdin): [Problem Configuration](#problem-stream)
+* (stdout): [Solution Configuration](#solution-stream)
+* (stderr): error and help messages
 * ```gravity```: gravitational acceleration of truss in meters per second squared
 * ```timef```: elapsed simulation time in seconds
 * ```srate```: frequency of simulation time steps in Hz
 
 ### Truss Renderer
 
-```./bin/rendertruss ```
+```./bin/rendertruss filename fsize=integerxinteger "fcenter=(float float) fzoom=float fscale=float"```
+
+* (stdin): [Problem Configuration](#problem-stream)
+* (stderr): error and help messages
+* ```filename```: output png render (image of truss in given configuration)
+* ```fsize```: renderer resolution in pixels (width and height)
+* ```fcenter```: renderer camera center in meters
+* ```fzoom```: renderer camera zoom (size of visual elements remain unaffected)
+* ```fscale```: renderer scale factor of visual elements
