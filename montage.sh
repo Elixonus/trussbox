@@ -246,8 +246,5 @@ ffmpeg \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-rm -rf tmp/montage/bridges
-rm -rf tmp/montage/miscellaneous
-rm -rf tmp/montage/pendulums
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "montage files can now be found in ${underline}tmp/montage/${normal}"
