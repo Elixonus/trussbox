@@ -14,9 +14,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/montage.sh" beforeDir="false" afterPath="$PROJECT_DIR$/montage.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preview.sh" beforeDir="false" afterPath="$PROJECT_DIR$/preview.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmt.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/format.sh" beforeDir="false" afterPath="$PROJECT_DIR$/format.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +77,8 @@
       <workItem from="1744143219966" duration="111000" />
       <workItem from="1744143340844" duration="24000" />
       <workItem from="1744179829196" duration="608000" />
+      <workItem from="1744261294297" duration="644000" />
+      <workItem from="1744342151341" duration="2427000" />
     </task>
     <servers />
   </component>

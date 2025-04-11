@@ -85,11 +85,11 @@ void render_force(
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
 	{
-		cairo_translate(context, -0.14 * magnitude / ref_force - 0.01, 0.0);
+		cairo_translate(context, -0.14 * magnitude / ref_force * fzoom - 0.01, 0.0);
 	}
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
-	cairo_translate(context, 0.14 * magnitude / ref_force + 0.005, 0.0);
+	cairo_translate(context, 0.14 * magnitude / ref_force * fzoom + 0.005, 0.0);
 	cairo_line_to(context, -0.01, 0.0);
 	cairo_line_to(context, -0.01, 0.005);
 	cairo_line_to(context, 0.0, 0.0);
@@ -138,9 +138,7 @@ int render(void)
 		ref_force = sys_gravity_force;
 	for(int l = 0; l < lcount; l++)
 	{
-		double force = 0.0;
-		for(int a = 0; a < 2; a++)
-			force += pow(loads[l].action.f[a], 2);
+		double force = sqrt(pow(loads[l].action.f[0], 2) + pow(loads[l].action.f[1], 2));
 		if(force > ref_force)
 			ref_force = force;
 	}
