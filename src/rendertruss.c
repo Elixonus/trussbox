@@ -245,7 +245,7 @@ int main(int argc, char **argv)
 	}
 	char *extension = strrchr(filename, '.');
 	if(!extension || strcmp(extension, ".png") != 0)
-		strcat(filename, ".png");
+		strncat(filename, ".png", sizeof(filename) - sizeof(char));
 	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fsize argument (2): %s\n", argv[2]);

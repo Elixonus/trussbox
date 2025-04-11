@@ -228,7 +228,7 @@ int main(int argc, char **argv)
 	if(argc != 7)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
@@ -249,7 +249,7 @@ int main(int argc, char **argv)
 	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fsize argument (3): %s\n", argv[3]);
-		fprintf(stderr, "usage: fsize argument (3): fsize=integerxinteger\n");
+		fprintf(stderr, "usage: fsize argument (3): fsize=widthxheight\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)

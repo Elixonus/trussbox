@@ -185,7 +185,7 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ### Truss Renderer
 
-```./bin/rendertruss filename fsize=integerxinteger "fcenter=(float float)" fzoom=float fscale=float```
+```./bin/rendertruss filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): [Truss Problem Configuration](#truss-problem-configuration)
 * (stderr): error and help messages
@@ -197,7 +197,7 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ### Truss Force Diagram
 
-```./bin/forcediagram filename gravity=float fsize=integerxinteger "fcenter=(float float)" fzoom=float fscale=float```
+```./bin/forcediagram filename gravity=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): concatenation of [Truss Problem Configuration](#truss-problem-configuration) and [Truss Solution Configuration](#truss-solution-configuration)
 * (stderr): error and help messages
