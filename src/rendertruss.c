@@ -101,6 +101,8 @@ int render(void)
 		{
 			cairo_rotate(context, -0.5 * pi);
 		}
+		cairo_new_path(context);
+		cairo_line_to(context, 0.0, 0.0);
 		double ncenter[2] = {0.0, 0.0};
 		double nradius = 0.0;
 		int ncount = 0;
@@ -124,17 +126,17 @@ int render(void)
 		}
 		for(int a = 0; a < 2; a++)
 		{
-			ncenter[a] /= ncount;
-			nradius /= ncount;
+			ncenter[a] /= (ncount > 0 ? ncount : 1);
+			nradius /= (ncount > 0 ? ncount : 1);
 		}
-		cairo_new_path(context);
-		cairo_line_to(context, 0.0, 0.0);
 		double factor;
 		if(count == 2 || (count == 1 && support->constraint.a[1]))
-			factor = (ncenter[1] - support->constraint.m->p[1]) / nradius;
+			factor = (ncenter[1] - support->constraint.m->p[1]) / (nradius > epsilon ? nradius : epsilon);
 		if(count == 1 && support->constraint.a[0])
-			factor = (ncenter[0] - support->constraint.m->p[0]) / nradius;
-		factor = 2.0 / (1.0 + exp(-10.0 * factor)) - 1.0;
+			factor = (ncenter[0] - support->constraint.m->p[0]) / (nradius > epsilon ? nradius : epsilon);
+		factor = 1.0 + exp(-10.0 * factor);
+		factor = fabs(factor) > epsilon ? factor : epsilon;
+		factor = 2.0 / factor - 1.0;
 		cairo_scale(context, 1.0, factor >= 0.0 ? 1.0 : -1.0);
 		double height = 0.0575 * fabs(factor);
 		cairo_translate(context, 0.0, -height);
@@ -234,7 +236,7 @@ int main(int argc, char **argv)
 	if(argc != 6)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s filename fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s filename fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
@@ -249,7 +251,7 @@ int main(int argc, char **argv)
 	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fsize argument (2): %s\n", argv[2]);
-		fprintf(stderr, "usage: fsize argument (2): fsize=integerxinteger\n");
+		fprintf(stderr, "usage: fsize argument (2): fsize=widthxheight\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)

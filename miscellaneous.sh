@@ -19,6 +19,22 @@ fi
 echo "solving and rendering each of the miscellaneous systems"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
+echo "| solving and rendering stadium truss"
+echo "\
+stadium.txt
+0.0
+2.0
+1000000.0
+60.0
+1920
+1080
+6.096
+-4.8006
+0.05
+1.0
+tmp/miscellaneous/stadium
+" | source custom.sh | sed -u 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering roof truss"
 echo "\
 roof.txt
