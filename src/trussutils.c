@@ -292,11 +292,11 @@ int main(int argc, char **argv)
 		for(int j = 0; j < jcount; j++)
 		{
 			energy += gravity * joints[j].mass.m * joints[j].mass.p[1];
-			double speed = sqrt(pow(joints[j].mass.v[0], 2) + pow(joints[j].mass.v[1], 2));
-			energy += 0.5 * joints[j].mass.m * pow(speed, 2);
+			double speed = sqrt(pow(joints[j].mass.v[0], 2.0) + pow(joints[j].mass.v[1], 2.0));
+			energy += 0.5 * joints[j].mass.m * pow(speed, 2.0);
 		}
 		for(int m = 0; m < mcount; m++)
-			energy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2);
+			energy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2.0);
 		printf("energy=%.9e\n", energy);
 	}
 	else if(strcmp(argv[1], "transform") == 0)

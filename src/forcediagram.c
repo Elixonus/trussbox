@@ -76,7 +76,7 @@ void render_force(
 	if(ref_force < epsilon) return;
 	double magnitude = 0.0;
 	for(int a = 0; a < 2; a++)
-		magnitude += pow(force[a], 2);
+		magnitude += pow(force[a], 2.0);
 	magnitude = sqrt(magnitude);
 	if(magnitude < 0.05 * ref_force) return;
 	cairo_save(context);
@@ -85,11 +85,11 @@ void render_force(
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
 	{
-		cairo_translate(context, -0.14 * magnitude / ref_force * fzoom - 0.01, 0.0);
+		cairo_translate(context, -0.07 * magnitude / ref_force * fzoom - 0.01, 0.0);
 	}
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
-	cairo_translate(context, 0.14 * magnitude / ref_force * fzoom + 0.005, 0.0);
+	cairo_translate(context, 0.07 * magnitude / ref_force * fzoom + 0.005, 0.0);
 	cairo_line_to(context, -0.01, 0.0);
 	cairo_line_to(context, -0.01, 0.005);
 	cairo_line_to(context, 0.0, 0.0);
@@ -128,17 +128,32 @@ int render(void)
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
 	double ref_force = 0.0;
+	double sys_gravity_force = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
-		double force = fabs(gravity * joints[j].mass.m);
+		double force = gravity * joints[j].mass.m;
+		sys_gravity_force += force;
+	}
+	sys_gravity_force = fabs(sys_gravity_force);
+	if(sys_gravity_force > ref_force)
+		ref_force = sys_gravity_force;
+	for(int l = 0; l < lcount; l++)
+	{
+		double force = sqrt(pow(loads[l].action.f[0], 2.0) + pow(loads[l].action.f[1], 2.0));
 		if(force > ref_force)
 			ref_force = force;
 	}
-	for(int l = 0; l < lcount; l++)
+	for(int s = 0; s < scount; s++)
 	{
-		double force = sqrt(pow(loads[l].action.f[0], 2) + pow(loads[l].action.f[1], 2));
-		if(force > ref_force)
-			ref_force = force;
+		double force = sqrt(pow(sreactions[s][0], 2.0) + pow(sreactions[s][1], 2.0));
+		if(0.5 * force > ref_force)
+			ref_force = 0.5 * force;
+	}
+	for(int m = 0; m < mcount; m++)
+	{
+		double force = fabs(mforces[m]);
+		if(0.5 * force > ref_force)
+			ref_force = 0.5 * force;
 	}
 	for(int m = 0; m < mcount; m++)
 	{
