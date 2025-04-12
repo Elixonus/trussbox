@@ -128,14 +128,12 @@ int render(void)
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
 	double ref_force = 0.0;
-	double sys_gravity_force = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
 		double force = fabs(gravity * joints[j].mass.m);
-		sys_gravity_force += force;
+		if(force > ref_force)
+			ref_force = force;
 	}
-	if(sys_gravity_force > ref_force)
-		ref_force = sys_gravity_force;
 	for(int l = 0; l < lcount; l++)
 	{
 		double force = sqrt(pow(loads[l].action.f[0], 2) + pow(loads[l].action.f[1], 2));

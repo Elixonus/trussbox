@@ -19,20 +19,20 @@ fi
 echo "solving and rendering each of the miscellaneous systems"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
-echo "| solving and rendering stadium truss"
+echo "| solving and rendering power transmission line tower truss"
 echo "\
-stadium.txt
+powertower.txt
 0.0
-2.0
+3.0
 1000000.0
 60.0
 1920
 1080
-6.096
--4.8006
-0.05
-1.0
-tmp/miscellaneous/stadium
+0.0
+4.8
+0.08
+0.7
+tmp/miscellaneous/powertower
 " | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "| solving and rendering roof truss"
@@ -65,6 +65,22 @@ cantilever.txt
 1.0
 0.5
 tmp/miscellaneous/cantilever
+" | source custom.sh | sed -u 's/^/| | /'
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| solving and rendering stadium truss"
+echo "\
+stadium.txt
+0.0
+3.0
+1000000.0
+60.0
+1920
+1080
+6.096
+-4.8006
+0.05
+1.0
+tmp/miscellaneous/stadium
 " | source custom.sh | sed -u 's/^/| | /'
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
