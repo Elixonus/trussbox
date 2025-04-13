@@ -16,26 +16,12 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
-echo "solving and rendering each of the miscellaneous systems"
+echo "* solving and rendering each of the miscellaneous systems"
+echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
-echo "| solving and rendering power transmission line tower truss"
-echo "\
-powertower.txt
-0.0
-3.0
-1000000.0
-60.0
-1920
-1080
-0.0
-4.8
-0.08
-0.7
-tmp/miscellaneous/powertower
-" | source custom.sh | sed -u 's/^/| | /'
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering roof truss"
+echo "| * solving and rendering roof truss"
+echo "| |\\"
 echo "\
 roof.txt
 9.8
@@ -49,9 +35,11 @@ roof.txt
 1.0
 1.0
 tmp/miscellaneous/roof
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering cantilever"
+echo "| * solving and rendering cantilever"
+echo "| |\\"
 echo "\
 cantilever.txt
 9.8
@@ -65,9 +53,11 @@ cantilever.txt
 1.0
 0.5
 tmp/miscellaneous/cantilever
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering stadium truss"
+echo "| * solving and rendering stadium truss"
+echo "| |\\"
 echo "\
 stadium.txt
 0.0
@@ -81,7 +71,27 @@ stadium.txt
 0.05
 1.0
 tmp/miscellaneous/stadium
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| * solving and rendering power transmission line tower truss"
+echo "| |\\"
+echo "\
+powertower.txt
+0.0
+10.0
+1000000.0
+60.0
+1920
+1080
+0.0
+4.8
+0.08
+0.7
+tmp/miscellaneous/powertower
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "|/"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "miscellaneous files can now be found in ${underline}tmp/miscellaneous/${normal}"
+echo "* miscellaneous files can now be found in ${underline}tmp/miscellaneous/${normal}"

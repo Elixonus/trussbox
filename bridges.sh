@@ -16,10 +16,12 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
-echo "solving and rendering each of the bridges"
+echo "* solving and rendering each of the bridges"
+echo "|\\"
 mkdir -p tmp/bridges
 rm -rf tmp/bridges/*
-echo "| solving and rendering warren bridge"
+echo "| * solving and rendering warren bridge"
+echo "| |\\"
 echo "\
 warren.txt
 9.8
@@ -33,9 +35,11 @@ warren.txt
 1.0
 1.0
 tmp/bridges/warren
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering pratt bridge"
+echo "| * solving and rendering pratt bridge"
+echo "| |\\"
 echo "\
 pratt.txt
 9.8
@@ -49,9 +53,11 @@ pratt.txt
 1.0
 1.0
 tmp/bridges/pratt
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering howe bridge"
+echo "| * solving and rendering howe bridge"
+echo "| |\\"
 echo "\
 howe.txt
 9.8
@@ -65,9 +71,11 @@ howe.txt
 1.0
 1.0
 tmp/bridges/howe
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering parker bridge"
+echo "| * solving and rendering parker bridge"
+echo "| |\\"
 echo "\
 parker.txt
 9.8
@@ -81,9 +89,11 @@ parker.txt
 1.0
 1.0
 tmp/bridges/parker
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering cambridge bridge"
+echo "| * solving and rendering cambridge bridge"
+echo "| |\\"
 echo "\
 cambridge.txt
 9.8
@@ -97,9 +107,11 @@ cambridge.txt
 1.0
 1.0
 tmp/bridges/cambridge
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering whipple bridge"
+echo "| * solving and rendering whipple bridge"
+echo "| |\\"
 echo "\
 whipple.txt
 9.8
@@ -113,7 +125,9 @@ whipple.txt
 1.0
 1.0
 tmp/bridges/whipple
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "|/"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "bridge files can now be found in ${underline}tmp/bridges/${normal}"
+echo "* bridge files can now be found in ${underline}tmp/bridges/${normal}"

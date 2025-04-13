@@ -16,7 +16,8 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
-echo "creating a montage of each of the systems"
+echo "* creating a montage of each of the systems"
+echo "|\\"
 read -rep "create new bridges output? (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
 then
@@ -39,17 +40,17 @@ mkdir -p tmp/montage
 rm -rf tmp/montage/*
 if [[ "$create_bridges" == "y" || "$create_bridges" == "Y" ]]
 then
-	source bridges.sh | sed -u 's/^/| /'
+	source bridges.sh | sed -u "s/^/| /"
 fi
 if [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" ]]
 then
-	source miscellaneous.sh | sed -u 's/^/| /'
+	source miscellaneous.sh | sed -u "s/^/| /"
 fi
 if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
 then
-	source pendulums.sh | sed -u 's/^/| /'
+	source pendulums.sh | sed -u "s/^/| /"
 fi
-echo "| overlaying videos, force diagrams and subtitles"
+echo "| * overlaying videos, force diagrams and subtitles"
 mkdir -p tmp/montage/bridges/warren
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.05 text=Warren Bridge
@@ -146,6 +147,30 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-loglevel error
+mkdir -p tmp/montage/miscellaneous/stadium
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.05 text=Stadium
+" | ./bin/subtitles tmp/montage/miscellaneous/stadium/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/stadium/video.mp4 \
+	-i tmp/miscellaneous/stadium/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/stadium/subtitles.png \
+	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/stadium/video.mp4 \
+	-loglevel error
+mkdir -p tmp/montage/miscellaneous/powertower
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.05 text=Power Transmission Tower
+" | ./bin/subtitles tmp/montage/miscellaneous/powertower/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/powertower/video.mp4 \
+	-i tmp/miscellaneous/powertower/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/powertower/subtitles.png \
+	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/powertower/video.mp4 \
+	-loglevel error
 mkdir -p tmp/montage/pendulums/pendulum
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.05 text=Single Pendulum
@@ -195,7 +220,7 @@ ffmpeg \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| stitching each of the video solutions together"
+echo "| * stitching each of the video solutions together"
 ffmpeg \
 	-i tmp/montage/bridges/warren/video.mp4 \
 	-i tmp/montage/bridges/pratt/video.mp4 \
@@ -205,16 +230,18 @@ ffmpeg \
 	-i tmp/montage/bridges/whipple/video.mp4 \
 	-i tmp/montage/miscellaneous/roof/video.mp4 \
 	-i tmp/montage/miscellaneous/cantilever/video.mp4 \
+	-i tmp/montage/miscellaneous/stadium/video.mp4 \
+	-i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-i tmp/montage/pendulums/pendulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/montage/pendulums/decuplependulum/video.mp4 \
-	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v]concat=n=12:v=1[v]" \
+	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v]concat=n=14:v=1[v]" \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| stacking each of the video solutions together"
+echo "| * stacking each of the video solutions together"
 ffmpeg \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
@@ -224,6 +251,8 @@ ffmpeg \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/roof/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
+	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
@@ -241,10 +270,13 @@ ffmpeg \
 		[9:v]scale=480:-1[v9]; \
 		[10:v]scale=480:-1[v10]; \
 		[11:v]scale=480:-1[v11]; \
-		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10][v11]xstack=inputs=12:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1|w0+w1+w2_h0+h1:fill=black[v]" \
+		[12:v]scale=480:-1[v12]; \
+		[13:v]scale=480:-1[v13]; \
+		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10][v11][v12][v13]xstack=inputs=14:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1|w0+w1+w2_h0+h1|0_h0+h1+h2|w0_h0+h1+h2:fill=black[v]" \
 	-map "[v]" \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "|/"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "montage files can now be found in ${underline}tmp/montage/${normal}"
+echo "* montage files can now be found in ${underline}tmp/montage/${normal}"
