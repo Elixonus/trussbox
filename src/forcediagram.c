@@ -347,20 +347,11 @@ int main(int argc, char **argv)
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass) return 1;
 		support.constraint.m = &joints[jindex].mass;
 		if(strcmp(axes, "xy") == 0 || strcmp(axes, "yx") == 0)
-		{
-			support.constraint.a[0] = true;
-			support.constraint.a[1] = true;
-		}
+			support.constraint.a[0] = true, support.constraint.a[1] = true;
 		else if(strcmp(axes, "x") == 0)
-		{
-			support.constraint.a[0] = true;
-			support.constraint.a[1] = false;
-		}
+			support.constraint.a[0] = true, support.constraint.a[1] = false;
 		else if(strcmp(axes, "y") == 0)
-		{
-			support.constraint.a[0] = false;
-			support.constraint.a[1] = true;
-		}
+			support.constraint.a[0] = false, support.constraint.a[1] = true;
 		else return 1;
 		for(int a = 0; a < 2; a++)
 			support.constraint.p[a] = joints[jindex].mass.p[a];
@@ -389,7 +380,7 @@ int main(int argc, char **argv)
 	{
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j]) return 1;
-		if(scanf("force=<%lf %lf> position=(%*lf %*lf) velocity=<%*lf %*lf>\n",
+		if(scanf("force=<%lf %lf> position=(%*f %*f) velocity=<%*f %*f>\n",
 		         &jforces[j][0], &jforces[j][1]) != 2) return 1;
 	}
 	int mcount2;

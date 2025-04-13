@@ -186,20 +186,11 @@ int main(int argc, char **argv)
 			}
 		support.constraint.m = &joints[jindex].mass;
 		if(strcmp(axes, "xy") == 0 || strcmp(axes, "yx") == 0)
-		{
-			support.constraint.a[0] = true;
-			support.constraint.a[1] = true;
-		}
+			support.constraint.a[0] = true, support.constraint.a[1] = true;
 		else if(strcmp(axes, "x") == 0)
-		{
-			support.constraint.a[0] = true;
-			support.constraint.a[1] = false;
-		}
+			support.constraint.a[0] = true, support.constraint.a[1] = false;
 		else if(strcmp(axes, "y") == 0)
-		{
-			support.constraint.a[0] = false;
-			support.constraint.a[1] = true;
-		}
+			support.constraint.a[0] = false, support.constraint.a[1] = true;
 		else
 		{
 			fprintf(stderr, "error: parse: support line (%d): axes parameter: %s not an option\n", s + 1, axes);
