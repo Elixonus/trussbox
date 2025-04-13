@@ -206,4 +206,3 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 * ```fcenter```: visualization camera center in meters
 * ```fzoom```: visualization camera zoom (size of visual elements remain unaffected)
 * ```fscale```: visualization scale factor of visual elements
-

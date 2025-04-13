@@ -61,7 +61,7 @@ ffmpeg -sseof -3 -i tmp/preview/fdiagram.mp4 -vsync 0 -q:v 31 -update true -y pr
 cp tmp/montage/video.mp4 previewmt.mp4
 ffmpeg -sseof -3 -i tmp/montage/miscellaneous/cantilever/video.mp4 -vsync 0 -q:v 31 -update true -y previewmt.png -loglevel error
 cp tmp/montage/parallel.mp4 previewmtpl.mp4
-ffmpeg -sseof -3 -i tmp/montage/parallel.mp4 -vsync 0 -q:v 31 -update true -y previewmtpl.png -loglevel error
+ffmpeg -i tmp/montage/parallel.mp4 -vframes 1 -y previewmtpl.png -loglevel error
 echo "| |"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 echo "|/"

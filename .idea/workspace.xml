@@ -20,6 +20,7 @@
       <change beforePath="$PROJECT_DIR$/previewmt.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/previewmtpl.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.mp4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/previewmtpl.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,7 +60,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Less&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -92,6 +93,10 @@
       <workItem from="1744477530162" duration="3101000" />
       <workItem from="1744512310283" duration="7346000" />
       <workItem from="1744519853362" duration="416000" />
+      <workItem from="1744571349217" duration="11761000" />
+      <workItem from="1744584459666" duration="983000" />
+      <workItem from="1744606647754" duration="1341000" />
+      <workItem from="1744608397267" duration="2196000" />
     </task>
     <servers />
   </component>
