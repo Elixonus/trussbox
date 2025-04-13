@@ -35,7 +35,7 @@ mkdir -p $dirname/solutions
 mkdir -p $dirname/prosols
 mkdir -p $dirname/frames
 mkdir -p $dirname/diagrams
-echo "creating pipeline"
+echo "* creating pipeline"
 ./bin/pipeline \
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
@@ -56,8 +56,9 @@ echo "creating pipeline"
 	fzoom=$fzoom \
 	fscale=$fscale \
 	> $dirname/pipeline.sh
+echo "|"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "running pipeline with parameters:
+echo "* running pipeline with parameters:
 | ${fg_cyan}gravity${normal}=$gravity ${fg_gray}m/s^2${normal}
 | ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
 | ${fg_cyan}srate${normal}=$srate ${fg_gray}Hz${normal}
@@ -68,10 +69,11 @@ echo "running pipeline with parameters:
 | ${fg_cyan}fscale${normal}=$fscale"
 source $dirname/pipeline.sh
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "stitching video frames together"
+echo "* stitching video frames together"
 rm -rf $dirname/prosols
 ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
 rm -rf $dirname/frames
 ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
 rm -rf $dirname/diagrams
+echo "|"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"

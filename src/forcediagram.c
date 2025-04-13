@@ -389,10 +389,8 @@ int main(int argc, char **argv)
 	{
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j]) return 1;
-		if(scanf("force=<%lf %lf> position=(%lf %lf) velocity=<%lf %lf>\n",
-		         &jforces[j][0], &jforces[j][1],
-		         &joints[j].mass.p[0], &joints[j].mass.p[1],
-		         &joints[j].mass.v[0], &joints[j].mass.v[1]) != 6) return 1;
+		if(scanf("force=<%lf %lf> position=(%*lf %*lf) velocity=<%*lf %*lf>\n",
+		         &jforces[j][0], &jforces[j][1]) != 2) return 1;
 	}
 	int mcount2;
 	if(scanf("members=%d\n", &mcount2) != 1) return 1;

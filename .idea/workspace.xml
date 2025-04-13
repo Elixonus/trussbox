@@ -13,11 +13,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/powertower.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscellaneous.sh" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stadium.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stadium.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom.sh" beforeDir="false" afterPath="$PROJECT_DIR$/custom.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/montage.sh" beforeDir="false" afterPath="$PROJECT_DIR$/montage.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preview.sh" beforeDir="false" afterPath="$PROJECT_DIR$/preview.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +83,13 @@
       <workItem from="1744179829196" duration="608000" />
       <workItem from="1744261294297" duration="644000" />
       <workItem from="1744342151341" duration="2427000" />
-      <workItem from="1744405786796" duration="20223000" />
+      <workItem from="1744405786796" duration="21675000" />
+      <workItem from="1744432658151" duration="3111000" />
+      <workItem from="1744475405464" duration="1920000" />
+      <workItem from="1744477530162" duration="3101000" />
+      <workItem from="1744512310283" duration="7346000" />
+      <workItem from="1744519853362" duration="416000" />
+      <workItem from="1744569046833" duration="2065000" />
     </task>
     <servers />
   </component>

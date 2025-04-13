@@ -16,23 +16,25 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
-echo "creating preview media"
+echo "* creating preview media"
+echo "|\\"
 read -rep "create new montage? (y/n): " create_montage
 if ! [[
 	"$create_montage" == "y" || "$create_montage" == "Y" ||
 	"$create_montage" == "n" || "$create_montage" == "N"
 ]]
 then
-	echo "error: unrecognized input"
+	echo "error: unrecognized input">&2
 	exit 1
 fi
 mkdir -p tmp/preview
 rm -rf tmp/preview/*
 if [[ "$create_montage" == "y" || "$create_montage" == "Y" ]]
 then
-	source montage.sh | sed -u 's/^/| /'
+	source montage.sh | sed -u "s/^/| /"
 fi
-echo "| solving and rendering preview example"
+echo "| * solving and rendering preview example"
+echo "| |\\"
 cat warren.txt | sed "s/dampening=3.0e2/dampening=3.0e1/g" > warrenld.txt
 echo "\
 warrenld.txt
@@ -47,10 +49,11 @@ warrenld.txt
 1.0
 1.0
 tmp/preview
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
 rm -f warrenld.txt
-echo "| copying preview media from tmp/ to ./"
+echo "| * copying preview media from tmp/ to ./"
 cp tmp/preview/video.mp4 preview.mp4
 ffmpeg -sseof -3 -i tmp/preview/video.mp4 -vsync 0 -q:v 31 -update true -y preview.png -loglevel error
 cp tmp/preview/fdiagram.mp4 previewfd.mp4
@@ -59,6 +62,8 @@ cp tmp/montage/video.mp4 previewmt.mp4
 ffmpeg -sseof -3 -i tmp/montage/miscellaneous/cantilever/video.mp4 -vsync 0 -q:v 31 -update true -y previewmt.png -loglevel error
 cp tmp/montage/parallel.mp4 previewmtpl.mp4
 ffmpeg -sseof -3 -i tmp/montage/parallel.mp4 -vsync 0 -q:v 31 -update true -y previewmtpl.png -loglevel error
+echo "| |"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "|/"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "preview files can now be found at ${underline}./preview*${normal}"
+echo "* preview files can now be found at ${underline}./preview*${normal}"

@@ -16,10 +16,12 @@ if test -n "$ncolors" && test $ncolors -ge 9; then
 	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 fi
-echo "solving and rendering each of the pendulums"
+echo "* solving and rendering each of the pendulums"
+echo "|\\"
 mkdir -p tmp/pendulums
 rm -rf tmp/pendulums/*
-echo "| solving and rendering normal pendulum"
+echo "| * solving and rendering normal pendulum"
+echo "| |\\"
 echo "\
 pendulum.txt
 9.8
@@ -33,9 +35,11 @@ pendulum.txt
 1.5
 1.0
 tmp/pendulums/pendulum
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering double pendulum"
+echo "| * solving and rendering double pendulum"
+echo "| |\\"
 echo "\
 doublependulum.txt
 9.8
@@ -49,9 +53,11 @@ doublependulum.txt
 0.75
 1.0
 tmp/pendulums/doublependulum
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering double pendulum (roller)"
+echo "| * solving and rendering double pendulum (roller)"
+echo "| |\\"
 echo "\
 doublependulumroller.txt
 9.8
@@ -65,9 +71,11 @@ doublependulumroller.txt
 0.75
 1.0
 tmp/pendulums/doublependulumroller
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| solving and rendering decuple pendulum"
+echo "| * solving and rendering decuple pendulum"
+echo "| |\\"
 echo "\
 decuplependulum.txt
 9.8
@@ -81,7 +89,9 @@ decuplependulum.txt
 0.25
 1.0
 tmp/pendulums/decuplependulum
-" | source custom.sh | sed -u 's/^/| | /'
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
 echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "|/"
 echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "pendulum files can now be found in ${underline}tmp/pendulums/${normal}"
+echo "* pendulum files can now be found in ${underline}tmp/pendulums/${normal}"
