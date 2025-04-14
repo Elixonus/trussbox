@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	joints = malloc(jcount * sizeof(struct joint));
 	if(!joints)
 	{
-		fprintf(stderr, "error: create: joints array: %zdB allocation\n", jcount * sizeof(struct joint));
+		fprintf(stderr, "error: create: joints array: %zd bytes allocation\n", jcount * sizeof(struct joint));
 		return 1;
 	}
 	for(int j = 0; j < jcount; j++)
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 	members = malloc(mcount * sizeof(struct member));
 	if(!members)
 	{
-		fprintf(stderr, "error: create: members array: %zdB allocation\n", mcount * sizeof(struct member));
+		fprintf(stderr, "error: create: members array: %zd bytes allocation\n", mcount * sizeof(struct member));
 		return 1;
 	}
 	for(int m = 0; m < mcount; m++)
@@ -159,7 +159,7 @@ int main(int argc, char **argv)
 	supports = malloc(scount * sizeof(struct support));
 	if(!supports)
 	{
-		fprintf(stderr, "error: create: supports array: %zdB allocation\n", scount * sizeof(struct support));
+		fprintf(stderr, "error: create: supports array: %zd bytes allocation\n", scount * sizeof(struct support));
 		return 1;
 	}
 	for(int s = 0; s < scount; s++)
@@ -215,7 +215,7 @@ int main(int argc, char **argv)
 	loads = malloc(lcount * sizeof(struct load));
 	if(!loads)
 	{
-		fprintf(stderr, "error: create: loads array: %zdB allocation\n", lcount * sizeof(struct load));
+		fprintf(stderr, "error: create: loads array: %zd bytes allocation\n", lcount * sizeof(struct load));
 		return 1;
 	}
 	for(int l = 0; l < lcount; l++)

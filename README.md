@@ -1,6 +1,6 @@
 [![Quality](https://github.com/Elixonus/trussbox/actions/workflows/quality.yml/badge.svg)](https://github.com/Elixonus/trussbox/actions/workflows/quality.yml)
 [![Build](https://github.com/Elixonus/trussbox/actions/workflows/build.yml/badge.svg)](https://github.com/Elixonus/trussbox/actions/workflows/build.yml)
-![Issues](https://img.shields.io/github/issues/Elixonus/trussbox)
+[![Issues](https://img.shields.io/github/issues/Elixonus/trussbox)](https://github.com/Elixonus/trussbox/issues)
 ![Language](https://img.shields.io/badge/Language-C23-blue)
 ![Platform](https://img.shields.io/badge/Platform-GNU/Linux-orange)
 ![License](https://img.shields.io/badge/License-MIT-red.svg)
@@ -54,15 +54,24 @@
 
 ```./bridges.sh```
 
-Creates solutions (videos and force data on each member and reactions on each support in the tmp directory) for each of the five truss bridges: warren, pratt, howe, parker and cambridge without further input.
+Creates solutions (videos and force data on each member 
+and reactions on each support in the tmp directory) 
+for each of the six truss bridges: warren, pratt, howe, 
+parker, cambridge and whipple without further 
+input.
 
 **or**
 
 ```./custom.sh```
 
-Creates solution (videos and force data on each member and reactions on each support) for a given problem containing input data for joints, members, supports, loads as well as other input data provided into standard input of the shell script (gravity, duration, frame rate, step rate, etc...).
+Creates solution (videos and force data on each member 
+and reactions on each support) for a given problem 
+containing input data for joints, members, supports, 
+loads as well as other input data provided into standard 
+input of the shell script (gravity, duration, frame rate, 
+step rate, etc...).
 
-Example stdin:
+Shell script example input:
 
 ```
 warren.txt
@@ -91,7 +100,7 @@ tmp/warren
 
 #### Truss Problem Configuration
 
-Simple example:
+Raw text example:
 
 ```
 joints=3
@@ -109,36 +118,41 @@ joint=3 force=<-10.0 -10.0>
 ```
 
 1. Joints Count *Header*
-   * syntax: ```joints=count``` (newline)
+   * syntax: ```joints=count``` (trailing newline)
    * number of joints in following body
 2. Joints Lines *Body*
-   * syntax: ```mass=float position=(float float) velocity=(float float)``` (newline)
-   * each individual joint mass in kg, position vector in meters and velocity vector in meters per second
+   * syntax: ```mass=float position=(float float) velocity=(float float)``` (trailing newline)
+   * each individual joint mass in kg, position vector in meters 
+     and velocity vector in meters per second
 3. Members Count *Header*
-   * syntax: ```members=count``` (newline)
+   * syntax: ```members=count``` (trailing newline)
    * number of members in following body
 4. Members Lines *Body*
-   * syntax: ```joint1=index joint2=index stiffness=float length0=float dampening=float``` (newline)
-   * each individual member joints connection indices, stiffness of spring component in Newtons per meter, resting length in meters and dampening of damper component in Newton seconds per meter
+   * syntax: ```joint1=index joint2=index stiffness=float length0=float dampening=float``` (trailing newline)
+   * each individual member joints connection indices, stiffness 
+     of spring component in Newtons per meter, resting length in 
+     meters and dampening of damper component in Newton seconds per 
+     meter
 5. Supports Count *Header*
-   * syntax: ```supports=count``` (newline)
+   * syntax: ```supports=count``` (trailing newline)
    * number of supports in following body
 6. Supports Lines *Body*
-   * syntax: ```joint=index axes=xy|x|y``` (newline)
+   * syntax: ```joint=index axes=xy|x|y``` (trailing newline)
    * each individual support joint binding and axes of reactions
    * if ```axes=xy```, support is of type pin
    * if ```axes=x```, support is of type vertical roller
    * if ```axes=y```, support is of type horizontal roller
 7. Loads Count *Header*
-   * syntax: ```loads=count``` (newline)
+   * syntax: ```loads=count``` (trailing newline)
    * number of loads in following body
 8. Loads Lines *Body*
-   * syntax: ```joint=index force=<float float>``` (newline)
-   * each individual point load joint binding and global-space force vector in Newtons
+   * syntax: ```joint=index force=<float float>``` (trailing newline)
+   * each individual point load joint binding and global space 
+     force vector in Newtons
 
 #### Truss Solution Configuration
 
-Simple example:
+Raw text example:
 
 ```
 joints=3
@@ -154,22 +168,28 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 ```
 
 1. Joints Count *Header*
-   * syntax: ```joints=count``` (newline)
+   * syntax: ```joints=count``` (trailing newline)
    * number of joints in following body
 2. Joints Lines *Body*
-   * syntax: ```force=<float float> position=(float float) velocity=<float float>``` (newline)
-   * each individual joint force vector in Newtons, modified position vector in meters and modified velocity vector in meters per second
+   * syntax: ```force=<float float> position=(float float) velocity=<float float>``` (trailing newline)
+   * each individual joint force vector in Newtons, 
+     modified position vector in meters and modified 
+     velocity vector in meters per second
 3. Members Count *Header*
-   * syntax: ```members=count``` (newline)
+   * syntax: ```members=count``` (trailing newline)
    * number of members in following body
 4. Members Lines *Body*
-   * syntax: ```force=float displacement=float length=float velocity=float``` (newline)
-   * each individual member tension force (negative for compression) in Newtons, displacement from resting length in meters, current measured length in meters and velocity of expansion in meters per second
+   * syntax: ```force=float displacement=float length=float velocity=float``` (trailing newline)
+   * each individual member tension force (negative 
+     for compression) in Newtons, displacement from 
+     resting length in meters, current measured length 
+     in meters and velocity of expansion in meters 
+     per second
 5. Supports Count *Header*
-   * syntax: ```supports=count``` (newline)
+   * syntax: ```supports=count``` (trailing newline)
    * number of supports in following body
 6. Supports Lines *Body*
-   * syntax: ```reaction=<float float>``` (newline)
+   * syntax: ```reaction=<float float>``` (trailing newline)
    * each individual support reaction force vector in Newtons
 
 ### Truss Solver
@@ -178,8 +198,8 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 * (stdin): [Truss Problem Configuration](#truss-problem-configuration)
 * (stdout): [Truss Solution Configuration](#truss-solution-configuration)
-* (stderr): error and help messages
-* ```gravity```: gravitational acceleration of truss in meters per second squared
+* (stderr): error and usage messages
+* ```gravity```: gravitational acceleration of a free mass in meters per second squared
 * ```timef```: elapsed simulation time in seconds
 * ```srate```: frequency of simulation time steps in Hz
 
@@ -188,8 +208,8 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 ```./bin/rendertruss filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): [Truss Problem Configuration](#truss-problem-configuration)
-* (stderr): error and help messages
-* ```filename```: output png render (image of truss in given configuration)
+* (stderr): error and usage messages
+* ```filename```: output render png filename (image of truss in given configuration)
 * ```fsize```: renderer resolution in pixels (width and height)
 * ```fcenter```: renderer camera center in meters
 * ```fzoom```: renderer camera zoom (size of visual elements remain unaffected)
@@ -200,9 +220,9 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 ```./bin/forcediagram filename gravity=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): concatenation of [Truss Problem Configuration](#truss-problem-configuration) and [Truss Solution Configuration](#truss-solution-configuration)
-* (stderr): error and help messages
-* ```filename```: output png visualization (image of truss in given configuration)
-* ```fsize```: visualization resolution in pixels (width and height)
-* ```fcenter```: visualization camera center in meters
-* ```fzoom```: visualization camera zoom (size of visual elements remain unaffected)
-* ```fscale```: visualization scale factor of visual elements
+* (stderr): error and usage messages
+* ```filename```: output diagram png filename (image of truss in given configuration)
+* ```fsize```: diagram resolution in pixels (width and height)
+* ```fcenter```: diagram camera center in meters
+* ```fzoom```: diagram camera zoom (size of visual elements remain unaffected)
+* ```fscale```: diagram scale factor of visual elements
