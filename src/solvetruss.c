@@ -208,19 +208,19 @@ int main(int argc, char **argv)
 	joints = malloc(jcount * sizeof(struct joint));
 	if(!joints)
 	{
-		fprintf(stderr, "error: create: joints array: %zdB allocation\n", jcount * sizeof(struct joint));
+		fprintf(stderr, "error: create: joints array: %zd bytes allocation\n", jcount * sizeof(struct joint));
 		return 1;
 	}
 	jaccelerations = malloc(jcount * sizeof(double *));
 	if(!jaccelerations)
 	{
-		fprintf(stderr, "error: create: jaccelerations array: %zdB allocation\n", jcount * sizeof(double *));
+		fprintf(stderr, "error: create: jaccelerations array: %zd bytes allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	jforces = malloc(jcount * sizeof(double *));
 	if(!jforces)
 	{
-		fprintf(stderr, "error: create: jforces array: %zdB allocation\n", jcount * sizeof(double *));
+		fprintf(stderr, "error: create: jforces array: %zd bytes allocation\n", jcount * sizeof(double *));
 		return 1;
 	}
 	for(int j = 0; j < jcount; j++)
@@ -242,13 +242,13 @@ int main(int argc, char **argv)
 		jaccelerations[j] = malloc(2 * sizeof(double));
 		if(!jaccelerations[j])
 		{
-			fprintf(stderr, "error: create: jacceleration array (%d): %zdB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: jacceleration array (%d): %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j])
 		{
-			fprintf(stderr, "error: create: jforce array (%d): %zdB allocation\n", j + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: jforce array (%d): %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int a = 0; a < 2; a++) jaccelerations[j][a], jforces[j][a] = 0.0;
@@ -267,31 +267,31 @@ int main(int argc, char **argv)
 	members = malloc(mcount * sizeof(struct member));
 	if(!members)
 	{
-		fprintf(stderr, "error: create: members array: %zdB allocation\n", mcount * sizeof(struct member));
+		fprintf(stderr, "error: create: members array: %zd bytes allocation\n", mcount * sizeof(struct member));
 		return 1;
 	}
 	mlengths = malloc(mcount * sizeof(double));
 	if(!mlengths)
 	{
-		fprintf(stderr, "error: create: mlengths array: %zdB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mlengths array: %zd bytes allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mdisplacements = malloc(mcount * sizeof(double));
 	if(!mdisplacements)
 	{
-		fprintf(stderr, "error: create: mdisplacements array: %zdB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mdisplacements array: %zd bytes allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mvelocities = malloc(mcount * sizeof(double));
 	if(!mvelocities)
 	{
-		fprintf(stderr, "error: create: mvelocities array: %zdB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mvelocities array: %zd bytes allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	mforces = malloc(mcount * sizeof(double));
 	if(!mforces)
 	{
-		fprintf(stderr, "error: create: mforces array: %zdB allocation\n", mcount * sizeof(double));
+		fprintf(stderr, "error: create: mforces array: %zd bytes allocation\n", mcount * sizeof(double));
 		return 1;
 	}
 	for(int m = 0; m < mcount; m++)
@@ -351,13 +351,13 @@ int main(int argc, char **argv)
 	supports = malloc(scount * sizeof(struct support));
 	if(!supports)
 	{
-		fprintf(stderr, "error: create: supports array: %zdB allocation\n", scount * sizeof(struct support));
+		fprintf(stderr, "error: create: supports array: %zd bytes allocation\n", scount * sizeof(struct support));
 		return 1;
 	}
 	sreactions = malloc(scount * sizeof(double *));
 	if(!sreactions)
 	{
-		fprintf(stderr, "error: create: sreactions array: %zdB allocation\n", scount * sizeof(double *));
+		fprintf(stderr, "error: create: sreactions array: %zd bytes allocation\n", scount * sizeof(double *));
 		return 1;
 	}
 	for(int s = 0; s < scount; s++)
@@ -401,7 +401,7 @@ int main(int argc, char **argv)
 		sreactions[s] = malloc(2 * sizeof(double));
 		if(!sreactions[s])
 		{
-			fprintf(stderr, "error: create: sreaction array (%d): %zdB allocation\n", s + 1, 2 * sizeof(double));
+			fprintf(stderr, "error: create: sreaction array (%d): %zd bytes allocation\n", s + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int a = 0; a < 2; a++) sreactions[s][a] = 0.0;
@@ -420,7 +420,7 @@ int main(int argc, char **argv)
 	loads = malloc(lcount * sizeof(struct load));
 	if(!loads)
 	{
-		fprintf(stderr, "error: create: loads array: %zdB allocation\n", lcount * sizeof(struct load));
+		fprintf(stderr, "error: create: loads array: %zd bytes allocation\n", lcount * sizeof(struct load));
 		return 1;
 	}
 	for(int l = 0; l < lcount; l++)

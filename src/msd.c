@@ -1,10 +1,11 @@
 #include <math.h>
+#ifdef MSDAXES
 
 struct mass
 {
 	double m;
-	double p[2];
-	double v[2];
+	double p[MSDAXES];
+	double v[MSDAXES];
 };
 
 struct spring
@@ -25,7 +26,7 @@ struct damper
 double mdistance(struct mass *m1, struct mass *m2)
 {
 	double d = 0.0;
-	for(int a = 0; a < 2; a++)
+	for(int a = 0; a < MSDAXES; a++)
 	{
 		double dp = m1->p[a] - m2->p[a];
 		d += dp * dp;
@@ -46,7 +47,7 @@ double dvelocity(struct damper *d)
 {
 	double l = mdistance(d->m1, d->m2);
 	double v = 0.0;
-	for(int a = 0; a < 2; a++)
+	for(int a = 0; a < MSDAXES; a++)
 	{
 		double dv = d->m1->v[a] - d->m2->v[a];
 		double dp = d->m1->p[a] - d->m2->p[a];
@@ -71,3 +72,5 @@ double dforce(struct damper *d)
 	double f = -c * v;
 	return f;
 }
+
+#endif

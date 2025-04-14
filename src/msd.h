@@ -1,7 +1,11 @@
+#ifndef MSDHEADER
+#define MSDHEADER
+#ifdef MSDAXES
+
 struct mass {
 	double m;
-	double p[2];
-	double v[2];
+	double p[MSDAXES];
+	double v[MSDAXES];
 };
 
 struct spring {
@@ -22,3 +26,6 @@ double sdisplacement(struct spring *s);
 double dvelocity(struct damper *d);
 double sforce(struct spring *s);
 double dforce(struct damper *d);
+
+#endif
+#endif
