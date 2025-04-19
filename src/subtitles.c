@@ -33,8 +33,8 @@ int render(void)
 		cairo_pattern_t *pattern;
 		pattern = cairo_pattern_create_linear(0.0, 0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) + 0.5 * slineheights[s] * ((double) flength),
 		                                      0.0, 0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) - 0.5 * slineheights[s] * ((double) flength));
-		cairo_pattern_add_color_stop_rgb(pattern, 0.0, 1.0, 1.0, 0.0);
-		cairo_pattern_add_color_stop_rgb(pattern, 1.0, 1.0, 0.2, 0.0);
+		cairo_pattern_add_color_stop_rgb(pattern, 0.2, 0.6, 0.6, 0.6);
+		cairo_pattern_add_color_stop_rgb(pattern, 0.8, 1.0, 1.0, 1.0);
 		cairo_set_source(context, pattern);
 		cairo_fill(context);
 	}
