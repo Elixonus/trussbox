@@ -8,6 +8,8 @@
 
 # Trussbox
 
+Design from [Simple 2D Constraint Solver Demo by Ange Yaghi](https://github.com/ange-yaghi/scs-2d-demo)
+
 ## Preview
 
 [Montage Video (2K60FPS)](./previewmt.mp4)
