@@ -84,9 +84,7 @@ void render_force(
 	cairo_rotate(context, atan2(force[1], force[0]));
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
-	{
 		cairo_translate(context, -0.07 * magnitude / ref_force * fzoom - 0.01, 0.0);
-	}
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
 	cairo_translate(context, 0.07 * magnitude / ref_force * fzoom + 0.005, 0.0);
@@ -216,16 +214,6 @@ int render(void)
 	}
 	cairo_restore(context);
 	cairo_restore(context);
-	for(int i = 0; i < fsize[1]; i++)
-	{
-		cairo_new_path(context);
-		cairo_rectangle(context, 0.95 * ((double) fsize[0]), (double) i, 0.2 * ((double) fsize[0]), 2.0);
-		double fake_force = ref_force * (1.0 - 2.0 * ((double) (i)) / ((double) (fsize[1] - 1)));
-		double color[3];
-		map_mforce_to_color(fake_force, color, ref_force);
-		cairo_set_source_rgb(context, color[0], color[1], color[2]);
-		cairo_fill(context);
-	}
 	cairo_destroy(context);
 	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
 	{

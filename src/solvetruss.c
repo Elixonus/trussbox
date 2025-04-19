@@ -85,7 +85,8 @@ void solve(void)
 	{
 		struct load *load = &loads[l];
 		int jindex;
-		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
+		for(int j = 0; j < jcount; j++)
+			if(&joints[j].mass == load->action.m)
 				jindex = j;
 		for(int a = 0; a < 2; a++)
 			jforces[jindex][a] += load->action.f[a];
@@ -129,10 +130,10 @@ void solve(void)
 	{
 		struct support *support = &supports[s];
 		int jindex;
-		for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
+		for(int j = 0; j < jcount; j++)
+			if(&joints[j].mass == support->constraint.m)
 				jindex = j;
 		for(int a = 0; a < 2; a++)
-		{
 			if(support->constraint.a[a])
 			{
 				support->constraint.m->p[a] = support->constraint.p[a];
@@ -140,7 +141,6 @@ void solve(void)
 				sreactions[s][a] = -jforces[jindex][a];
 				jforces[jindex][a] = 0.0;
 			}
-		}
 	}
 	time += dtime;
 	step++;

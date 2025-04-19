@@ -26,6 +26,8 @@ jobs:
         languages: ${{matrix.language}}
     - name: Setup (Dependencies)
       run: source setup.sh
+    - name: Setup terminal variable
+      run: export TERM=dumb
     - name: Build
       run: source build.sh
     - name: Perform CodeQL Analysis

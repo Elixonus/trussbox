@@ -20,11 +20,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmt.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmt.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmtpl.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmtpl.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/subtitles.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/subtitles.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +33,19 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -122,6 +132,25 @@
       <workItem from="1744919246292" duration="843000" />
       <workItem from="1745045172454" duration="379000" />
       <workItem from="1745079917607" duration="2943000" />
+      <workItem from="1745097784700" duration="402000" />
+      <workItem from="1745106932160" duration="3104000" />
+      <workItem from="1745112893652" duration="1220000" />
+      <workItem from="1745114509381" duration="555000" />
+      <workItem from="1745122392562" duration="1131000" />
+      <workItem from="1745168142686" duration="1431000" />
+      <workItem from="1745198917052" duration="1329000" />
+      <workItem from="1745203666791" duration="1407000" />
+      <workItem from="1745205113118" duration="3347000" />
+      <workItem from="1745208684203" duration="963000" />
+      <workItem from="1745212360432" duration="423000" />
+      <workItem from="1745213024134" duration="352000" />
+      <workItem from="1745213508632" duration="639000" />
+      <workItem from="1745214265312" duration="84000" />
+      <workItem from="1745263976612" duration="3250000" />
+      <workItem from="1745282060812" duration="5154000" />
+      <workItem from="1745294637449" duration="1197000" />
+      <workItem from="1745352968709" duration="2198000" />
+      <workItem from="1745355236337" duration="1450000" />
     </task>
     <servers />
   </component>

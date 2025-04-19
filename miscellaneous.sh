@@ -1,20 +1,22 @@
 #!/bin/bash
 set -eo pipefail
-ncolors=$(tput colors)
-if test -n "$ncolors" && test $ncolors -ge 9; then
-	bold="$(tput bold)"
-	underline="$(tput smul)"
-	standout="$(tput smso)"
-	normal="$(tput sgr0)"
-	fg_black="$(tput setaf 0)";   bg_black="$(tput setab 0)"
-	fg_red="$(tput setaf 1)";     bg_red="$(tput setab 1)"
-	fg_green="$(tput setaf 2)";   bg_green="$(tput setab 2)"
-	fg_yellow="$(tput setaf 3)";  bg_yellow="$(tput setab 3)"
-	fg_blue="$(tput setaf 4)";    bg_blue="$(tput setab 4)"
-	fg_magenta="$(tput setaf 5)"; bg_magenta="$(tput setab 5)"
-	fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
-	fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
-	fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+if [ "$TERM" != "dumb" ]; then
+	ncolors=$(tput colors)
+	if test -n "$ncolors" && test $ncolors -ge 9; then
+		bold="$(tput bold)"
+		underline="$(tput smul)"
+		standout="$(tput smso)"
+		normal="$(tput sgr0)"
+		fg_black="$(tput setaf 0)";   bg_black="$(tput setab 0)"
+		fg_red="$(tput setaf 1)";     bg_red="$(tput setab 1)"
+		fg_green="$(tput setaf 2)";   bg_green="$(tput setab 2)"
+		fg_yellow="$(tput setaf 3)";  bg_yellow="$(tput setab 3)"
+		fg_blue="$(tput setaf 4)";    bg_blue="$(tput setab 4)"
+		fg_magenta="$(tput setaf 5)"; bg_magenta="$(tput setab 5)"
+		fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
+		fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
+		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+	fi
 fi
 echo "* solving and rendering each of the miscellaneous systems"
 echo "|\\"

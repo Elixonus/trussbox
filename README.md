@@ -123,7 +123,7 @@ joint=3 force=<-10.0 -10.0>
    * syntax: ```joints=count``` (trailing newline)
    * number of joints in following body
 2. Joints Lines *Body*
-   * syntax: ```mass=float position=(float float) velocity=(float float)``` (trailing newline)
+   * syntax: ```mass=float position=(float float) velocity=<float float>``` (trailing newline)
    * each individual joint mass in kg, position vector in meters 
      and velocity vector in meters per second
 3. Members Count *Header*
@@ -202,7 +202,7 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 * (stdout): [Truss Solution Configuration](#truss-solution-configuration)
 * (stderr): error and usage messages
 * ```gravity```: gravitational acceleration of a free mass in meters per second squared
-* ```timef```: elapsed simulation time in seconds
+* ```timef```: last simulation time step time in seconds
 * ```srate```: frequency of simulation time steps in Hz
 
 ### Truss Renderer

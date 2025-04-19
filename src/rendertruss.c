@@ -78,6 +78,100 @@ int render(void)
 	cairo_scale(context, length, length);
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
+	cairo_set_line_cap(context, CAIRO_LINE_CAP_SQUARE);
+	double corner1[2] = {0.0, (double) fsize[1]};
+	cairo_device_to_user(context, &corner1[0], &corner1[1]);
+	double corner2[2] = {(double) fsize[0], 0.0};
+	cairo_device_to_user(context, &corner2[0], &corner2[1]);
+	double gstride1 = 0.1 * pow(4.0, round(log2(1.0 / fzoom) / 2.0));
+	double gstride2 = 0.5 * gstride1;
+	double gstride3 = 0.25 * gstride1;
+	double gpoint1[2];
+	double gpoint2[2];
+	cairo_new_path(context);
+	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
+	for(gpoint1[0] = gstride3 * floor(corner1[0] / gstride3); gpoint1[0] <= corner2[0]; gpoint1[0] += gstride3)
+	{
+		gpoint2[0] = gpoint1[0];
+		cairo_new_sub_path(context);
+		cairo_line_to(context, gpoint1[0], gpoint1[1]);
+		cairo_line_to(context, gpoint2[0], gpoint2[1]);
+		cairo_close_path(context);
+	}
+	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
+	for(gpoint1[1] = gstride3 * floor(corner1[1] / gstride3); gpoint1[1] <= corner2[1]; gpoint1[1] += gstride3)
+	{
+		gpoint2[1] = gpoint1[1];
+		cairo_new_sub_path(context);
+		cairo_line_to(context, gpoint1[0], gpoint1[1]);
+		cairo_line_to(context, gpoint2[0], gpoint2[1]);
+		cairo_close_path(context);
+	}
+	cairo_save(context);
+	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
+	cairo_set_line_width(context, 0.002);
+	cairo_set_source_rgb(context, 0.09, 0.09, 0.09);
+	cairo_stroke(context);
+	cairo_restore(context);
+	cairo_new_path(context);
+	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
+	for(gpoint1[0] = gstride2 * floor(corner1[0] / gstride2); gpoint1[0] <= corner2[0]; gpoint1[0] += gstride2)
+	{
+		gpoint2[0] = gpoint1[0];
+		cairo_new_sub_path(context);
+		cairo_line_to(context, gpoint1[0], gpoint1[1]);
+		cairo_line_to(context, gpoint2[0], gpoint2[1]);
+		cairo_close_path(context);
+	}
+	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
+	for(gpoint1[1] = gstride2 * floor(corner1[1] / gstride2); gpoint1[1] <= corner2[1]; gpoint1[1] += gstride2)
+	{
+		gpoint2[1] = gpoint1[1];
+		cairo_new_sub_path(context);
+		cairo_line_to(context, gpoint1[0], gpoint1[1]);
+		cairo_line_to(context, gpoint2[0], gpoint2[1]);
+		cairo_close_path(context);
+	}
+	cairo_save(context);
+	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
+	cairo_set_line_width(context, 0.002);
+	cairo_set_source_rgb(context, 0.145, 0.145, 0.145);
+	cairo_stroke(context);
+	cairo_restore(context);
+	cairo_new_path(context);
+	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
+	for(gpoint1[0] = gstride1 * floor(corner1[0] / gstride1); gpoint1[0] <= corner2[0]; gpoint1[0] += gstride1)
+	{
+		gpoint2[0] = gpoint1[0];
+		cairo_new_sub_path(context);
+		cairo_line_to(context, gpoint1[0], gpoint1[1]);
+		cairo_line_to(context, gpoint2[0], gpoint2[1]);
+		cairo_close_path(context);
+	}
+	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
+	for(gpoint1[1] = gstride1 * floor(corner1[1] / gstride1); gpoint1[1] <= corner2[1]; gpoint1[1] += gstride1)
+	{
+		gpoint2[1] = gpoint1[1];
+		cairo_new_sub_path(context);
+		cairo_line_to(context, gpoint1[0], gpoint1[1]);
+		cairo_line_to(context, gpoint2[0], gpoint2[1]);
+		cairo_close_path(context);
+	}
+	cairo_save(context);
+	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
+	cairo_set_line_width(context, 0.002);
+	cairo_set_source_rgb(context, 0.22, 0.22, 0.22);
+	cairo_stroke(context);
+	cairo_restore(context);
+	cairo_new_path(context);
+	cairo_line_to(context, corner1[0], corner1[1]);
+	cairo_line_to(context, corner2[0], corner1[1]);
+	cairo_line_to(context, corner2[0], corner2[1]);
+	cairo_line_to(context, corner1[0], corner2[1]);
+	cairo_close_path(context);
+	cairo_set_line_width(context, 0.004);
+	cairo_set_source_rgb(context, 0.22, 0.22, 0.22);
+	cairo_stroke(context);
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 	for(int s = 0; s < scount; s++)
@@ -207,10 +301,11 @@ int render(void)
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_stroke(context);
 		cairo_restore(context);
+		cairo_new_path(context);
 		cairo_save(context);
 		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_new_path(context);
+		cairo_new_sub_path(context);
 		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, tau);
 		cairo_close_path(context);
 		cairo_restore(context);
@@ -419,7 +514,8 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: index: support line (%d): joint parameter: %d does not exist\n", s + 1, jindex + 1);
 			return 1;
 		}
-		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass)
+		for(int s2 = 0; s2 < s; s2++)
+			if(supports[s2].constraint.m == &joints[jindex].mass)
 			{
 				fprintf(stderr, "error: index: support line (%d): joint parameter: %d already in use\n", s + 1, jindex + 1);
 				return 1;

@@ -15,5 +15,7 @@ jobs:
       run: sudo apt-get update && source setup.sh
     - name: Format shell scripts and source code
       run: source format.sh
+    - name: Setup terminal variable
+      run: export TERM=dumb
     - name: Compile source code of programs
       run: source build.sh
