@@ -18,7 +18,7 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* creating preview media"
+echo "* ${fg_yellow}creating${normal} preview media"
 echo "|\\"
 read -rep "create new montage? (y/n): " create_montage
 if ! [[
@@ -35,7 +35,7 @@ if [[ "$create_montage" == "y" || "$create_montage" == "Y" ]]
 then
 	source montage.sh | sed -u "s/^/| /"
 fi
-echo "| * solving and rendering preview example"
+echo "| * ${fg_yellow}solving and rendering${normal} preview example problem"
 echo "| |\\"
 cat warren.txt | sed "s/dampening=3.0e2/dampening=3.0e1/g" > warrenld.txt
 echo "\
@@ -53,9 +53,9 @@ warrenld.txt
 tmp/preview
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 rm -f warrenld.txt
-echo "| * copying preview media from tmp/ to ./"
+echo "| * ${fg_yellow}copying${normal} preview media from tmp/ to ./"
 cp tmp/preview/video.mp4 preview.mp4
 ffmpeg -sseof -3 -i tmp/preview/video.mp4 -vsync 0 -q:v 31 -update true -y preview.png -loglevel error
 cp tmp/preview/fdiagram.mp4 previewfd.mp4
@@ -65,7 +65,7 @@ ffmpeg -sseof -3 -i tmp/montage/miscellaneous/cantilever/video.mp4 -vsync 0 -q:v
 cp tmp/montage/parallel.mp4 previewmtpl.mp4
 ffmpeg -i tmp/montage/parallel.mp4 -vframes 1 -y previewmtpl.png -loglevel error
 echo "| |"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
-echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "* preview files can now be found at ${underline}./preview*${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "${bold}* preview files can now be found at ${underline}$(pwd)/preview*${normal}"

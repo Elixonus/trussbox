@@ -18,11 +18,11 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* solving and rendering each of the pendulums"
+echo "* ${fg_yellow}solving and rendering${normal} each of the pendulums"
 echo "|\\"
 mkdir -p tmp/pendulums
 rm -rf tmp/pendulums/*
-echo "| * solving and rendering normal pendulum"
+echo "| * ${fg_yellow}solving and rendering${normal} single pendulum problem"
 echo "| |\\"
 echo "\
 pendulum.txt
@@ -39,8 +39,8 @@ pendulum.txt
 tmp/pendulums/pendulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering double pendulum"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} double pendulum problem"
 echo "| |\\"
 echo "\
 doublependulum.txt
@@ -57,8 +57,8 @@ doublependulum.txt
 tmp/pendulums/doublependulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering double pendulum (roller)"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} double pendulum (roller) problem"
 echo "| |\\"
 echo "\
 doublependulumroller.txt
@@ -75,8 +75,8 @@ doublependulumroller.txt
 tmp/pendulums/doublependulumroller
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering decuple pendulum"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} decuple pendulum problem"
 echo "| |\\"
 echo "\
 decuplependulum.txt
@@ -93,7 +93,7 @@ decuplependulum.txt
 tmp/pendulums/decuplependulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
-echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "* pendulum files can now be found in ${underline}tmp/pendulums/${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "${bold}* pendulum files can now be found in ${underline}$(pwd)/tmp/pendulums${normal}"

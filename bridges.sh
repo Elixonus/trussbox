@@ -18,11 +18,11 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* solving and rendering each of the bridges"
+echo "* ${fg_yellow}solving and rendering${normal} each of the bridges"
 echo "|\\"
 mkdir -p tmp/bridges
 rm -rf tmp/bridges/*
-echo "| * solving and rendering warren bridge"
+echo "| * ${fg_yellow}solving and rendering${normal} warren bridge problem"
 echo "| |\\"
 echo "\
 warren.txt
@@ -39,8 +39,8 @@ warren.txt
 tmp/bridges/warren
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering pratt bridge"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} pratt bridge problem"
 echo "| |\\"
 echo "\
 pratt.txt
@@ -57,8 +57,8 @@ pratt.txt
 tmp/bridges/pratt
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering howe bridge"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} howe bridge problem"
 echo "| |\\"
 echo "\
 howe.txt
@@ -75,8 +75,8 @@ howe.txt
 tmp/bridges/howe
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering parker bridge"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} parker bridge problem"
 echo "| |\\"
 echo "\
 parker.txt
@@ -93,8 +93,8 @@ parker.txt
 tmp/bridges/parker
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering cambridge bridge"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} cambridge bridge problem"
 echo "| |\\"
 echo "\
 cambridge.txt
@@ -111,8 +111,8 @@ cambridge.txt
 tmp/bridges/cambridge
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering whipple bridge"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} whipple bridge problem"
 echo "| |\\"
 echo "\
 whipple.txt
@@ -129,7 +129,7 @@ whipple.txt
 tmp/bridges/whipple
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
-echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "* bridge files can now be found in ${underline}tmp/bridges/${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "${bold}* bridge files can now be found in ${underline}$(pwd)/tmp/bridges${normal}"

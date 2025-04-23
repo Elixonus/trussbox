@@ -18,11 +18,11 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* solving and rendering each of the miscellaneous systems"
+echo "* ${fg_yellow}solving and rendering${normal} each of the miscellaneous systems"
 echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
-echo "| * solving and rendering roof truss"
+echo "| * ${fg_yellow}solving and rendering${normal} roof truss problem"
 echo "| |\\"
 echo "\
 roof.txt
@@ -39,8 +39,8 @@ roof.txt
 tmp/miscellaneous/roof
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering cantilever"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} cantilever problem"
 echo "| |\\"
 echo "\
 cantilever.txt
@@ -57,8 +57,8 @@ cantilever.txt
 tmp/miscellaneous/cantilever
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering stadium truss"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} stadium truss problem"
 echo "| |\\"
 echo "\
 stadium.txt
@@ -75,8 +75,8 @@ stadium.txt
 tmp/miscellaneous/stadium
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * solving and rendering power transmission line tower truss"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}solving and rendering${normal} power transmission line tower truss problem"
 echo "| |\\"
 echo "\
 powertower.txt
@@ -93,7 +93,7 @@ powertower.txt
 tmp/miscellaneous/powertower
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
-echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "* miscellaneous files can now be found in ${underline}tmp/miscellaneous/${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "${bold}* miscellaneous files can now be found in ${underline}$(pwd)/tmp/miscellaneous${normal}"

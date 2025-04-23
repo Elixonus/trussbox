@@ -23,29 +23,29 @@ fi
 echo "* compiling programs"
 echo "|\\"
 mkdir -p bin
-echo -n "| * compiling mass spring damper library object"
+echo -n "| * ${fg_yellow}compiling${normal} mass spring damper library object"
 gcc -c src/msd.c -o bin/msd.o -DMSDAXES=2 -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling truss solver executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss solver executable"
 gcc src/solvetruss.c -o bin/solvetruss bin/msd.o -DMSDAXES=2 -lm -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling truss renderer executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss renderer executable"
 gcc src/rendertruss.c -o bin/rendertruss bin/msd.o -DMSDAXES=2 -lm $(pkg-config --cflags --libs cairo) -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling truss force diagram renderer executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss force diagram renderer executable"
 gcc src/forcediagram.c -o bin/forcediagram bin/msd.o -DMSDAXES=2 -lm $(pkg-config --cflags --libs cairo) -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling truss utilities executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss utilities executable"
 gcc src/trussutils.c -o bin/trussutils bin/msd.o -DMSDAXES=2 -lm -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling truss pipeline feedback executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss pipeline feedback executable"
 gcc src/feedback.c -o bin/feedback bin/msd.o -DMSDAXES=2 -lm -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling truss pipeline generator executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator executable"
 gcc src/pipeline.c -o bin/pipeline -lm -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo -n "| * compiling subtitles renderer executable"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} subtitles renderer executable"
 gcc src/subtitles.c -o bin/subtitles -lm $(pkg-config --cflags --libs cairo) -std=c23
-echo ": ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
-echo "* executables and object files can now be found in bin/"
+echo "${bold}* executables and object files can now be found in ${underline}$(pwd)/bin${normal}"

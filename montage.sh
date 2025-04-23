@@ -18,7 +18,7 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* creating a montage of each of the systems"
+echo "* ${fg_yellow}creating${normal} a montage of each of the systems"
 echo "|\\"
 read -rep "create new bridges output? (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
@@ -52,7 +52,7 @@ if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
 then
 	source pendulums.sh | sed -u "s/^/| /"
 fi
-echo "| * overlaying videos, force diagrams and subtitles"
+echo "| * ${fg_yellow}overlaying${normal} videos, force diagrams and subtitles"
 mkdir -p tmp/montage/bridges/warren
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.05 text=Warren Bridge
@@ -222,8 +222,8 @@ ffmpeg \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
 echo "| |"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * stitching each of the video solutions together"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}stitching${normal} each of the video solutions together"
 ffmpeg \
 	-i tmp/montage/bridges/warren/video.mp4 \
 	-i tmp/montage/bridges/pratt/video.mp4 \
@@ -244,8 +244,8 @@ ffmpeg \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
 echo "| |"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "| * stacking each of the video solutions together"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| * ${fg_yellow}stacking${normal} each of the video solutions together"
 ffmpeg \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
 	-t 10 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
@@ -281,7 +281,7 @@ ffmpeg \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
 echo "| |"
-echo "| > ${fg_white}${bg_green}TASK COMPLETE${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
-echo "> ${fg_white}${bg_green}TASK COMPLETE${normal}"
-echo "* montage files can now be found in ${underline}tmp/montage/${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "${bold}* montage files can now be found in ${underline}$(pwd)/tmp/montage${normal}"
