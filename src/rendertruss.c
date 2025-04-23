@@ -157,15 +157,6 @@ int render(void)
 	cairo_set_source_rgb(context, 0.22, 0.22, 0.22);
 	cairo_stroke(context);
 	cairo_restore(context);
-	cairo_new_path(context);
-	cairo_line_to(context, corner1[0], corner1[1]);
-	cairo_line_to(context, corner2[0], corner1[1]);
-	cairo_line_to(context, corner2[0], corner2[1]);
-	cairo_line_to(context, corner1[0], corner2[1]);
-	cairo_close_path(context);
-	cairo_set_line_width(context, 0.004);
-	cairo_set_source_rgb(context, 0.22, 0.22, 0.22);
-	cairo_stroke(context);
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 	for(int s = 0; s < scount; s++)
