@@ -50,7 +50,58 @@ int lcount;
 
 double epsilon = 1.0e-18;
 
-int main(int argc, char **argv)
+void print_truss_problem(void)
+{
+	printf("joints=%d\n", jcount);
+	for(int j = 0; j < jcount; j++)
+	{
+		struct joint *joint = &joints[j];
+		printf("mass=%.9e position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
+			   joint->mass.m, joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
+	}
+	printf("members=%d\n", mcount);
+	for(int m = 0; m < mcount; m++)
+	{
+		struct member *member = &members[m];
+		int jindex1, jindex2;
+		for(int j = 0; j < jcount; j++)
+		{
+			if(&joints[j].mass == member->spring.m1)
+				jindex1 = j;
+			if(&joints[j].mass == member->spring.m2)
+				jindex2 = j;
+		}
+		printf("joint1=%d joint2=%d stiffness=%.9e length0=%.9e dampening=%.9e\n",
+			   jindex1 + 1, jindex2 + 1, member->spring.k, member->spring.l0, member->damper.c);
+	}
+	printf("supports=%d\n", scount);
+	for(int s = 0; s < scount; s++)
+	{
+		struct support *support = &supports[s];
+		int jindex;
+		for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
+			jindex = j;
+		char axes[101];
+		if(support->constraint.a[0] && support->constraint.a[1])
+			sprintf(axes, "xy");
+		if(support->constraint.a[0] && !support->constraint.a[1])
+			sprintf(axes, "x");
+		if(!support->constraint.a[0] && support->constraint.a[1])
+			sprintf(axes, "y");
+		printf("joint=%d axes=%s\n", jindex + 1, axes);
+	}
+	printf("loads=%d\n", lcount);
+	for(int l = 0; l < lcount; l++)
+	{
+		struct load *load = &loads[l];
+		int jindex;
+		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
+			jindex = j;
+		printf("joint=%d force=<%.9e %.9e>\n", jindex + 1, load->action.f[0], load->action.f[1]);
+	}
+}
+
+int scan_truss_problem(void)
 {
 	if(scanf("joints=%d\n", &jcount) != 1)
 	{
@@ -238,10 +289,23 @@ int main(int argc, char **argv)
 		load.action.m = &joints[jindex].mass;
 		loads[l] = load;
 	}
+	return 0;
+}
+
+void free_truss_problem(void)
+{
+	free(joints);
+	free(members);
+	free(supports);
+	free(loads);
+}
+
+int main(int argc, char **argv)
+{
 	if(argc < 2)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 1+ provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s properties|transform|undeform ...\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s properties|transform|undeform (...)\n", argv[0]);
 		return 1;
 	}
 	if(strcmp(argv[1], "properties") == 0)
@@ -259,16 +323,11 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
 			return 1;
 		}
+		if(scan_truss_problem() != 0) return 1;
 		double mass = 0.0;
 		for(int j = 0; j < jcount; j++)
 			mass += joints[j].mass.m;
 		printf("mass=%.9e\n", mass);
-		double length = 0.0;
-		for(int m = 0; m < mcount; m++)
-			length += members[m].spring.l0;
-		printf("length=%.9e\n", length);
-		double density = length > epsilon ? mass / length : mass / epsilon;
-		printf("density=%.9e\n", density);
 		double center[2] = {0.0, 0.0};
 		for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
 				center[a] += joints[j].mass.m * joints[j].mass.p[a];
@@ -289,9 +348,11 @@ int main(int argc, char **argv)
 		for(int m = 0; m < mcount; m++)
 			energy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2.0);
 		printf("energy=%.9e\n", energy);
+		free_truss_problem();
 	}
 	else if(strcmp(argv[1], "transform") == 0)
 	{
+		if(scan_truss_problem() != 0) return 1;
 		for(int a = 2; a < argc; a++)
 		{
 			if(strncmp(argv[a], "translate", 9) == 0)
@@ -350,53 +411,8 @@ int main(int argc, char **argv)
 				return 1;
 			}
 		}
-		printf("joints=%d\n", jcount);
-		for(int j = 0; j < jcount; j++)
-		{
-			struct joint *joint = &joints[j];
-			printf("mass=%.9e position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
-			       joint->mass.m, joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
-		}
-		printf("members=%d\n", mcount);
-		for(int m = 0; m < mcount; m++)
-		{
-			struct member *member = &members[m];
-			int jindex1, jindex2;
-			for(int j = 0; j < jcount; j++)
-			{
-				if(&joints[j].mass == member->spring.m1)
-					jindex1 = j;
-				if(&joints[j].mass == member->spring.m2)
-					jindex2 = j;
-			}
-			printf("joint1=%d joint2=%d stiffness=%.9e length0=%.9e dampening=%.9e\n",
-			       jindex1 + 1, jindex2 + 1, member->spring.k, member->spring.l0, member->damper.c);
-		}
-		printf("supports=%d\n", scount);
-		for(int s = 0; s < scount; s++)
-		{
-			struct support *support = &supports[s];
-			int jindex;
-			for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
-					jindex = j;
-			char axes[101];
-			if(support->constraint.a[0] && support->constraint.a[1])
-				sprintf(axes, "xy");
-			if(support->constraint.a[0] && !support->constraint.a[1])
-				sprintf(axes, "x");
-			if(!support->constraint.a[0] && support->constraint.a[1])
-				sprintf(axes, "y");
-			printf("joint=%d axes=%s\n", jindex + 1, axes);
-		}
-		printf("loads=%d\n", lcount);
-		for(int l = 0; l < lcount; l++)
-		{
-			struct load *load = &loads[l];
-			int jindex;
-			for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
-					jindex = j;
-			printf("joint=%d force=<%.9e %.9e>\n", jindex + 1, load->action.f[0], load->action.f[1]);
-		}
+		print_truss_problem();
+		free_truss_problem();
 	}
 	else if(strcmp(argv[1], "undeform") == 0)
 	{
@@ -406,65 +422,16 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: arguments: %s undeform\n", argv[0]);
 			return 1;
 		}
+		if(scan_truss_problem() != 0) return 1;
 		for(int m = 0; m < mcount; m++)
 			members[m].spring.l0 = mdistance(members[m].spring.m1, members[m].spring.m2);
-		printf("joints=%d\n", jcount);
-		for(int j = 0; j < jcount; j++)
-		{
-			struct joint *joint = &joints[j];
-			printf("mass=%.9e position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
-			       joint->mass.m, joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
-		}
-		printf("members=%d\n", mcount);
-		for(int m = 0; m < mcount; m++)
-		{
-			struct member *member = &members[m];
-			int jindex1, jindex2;
-			for(int j = 0; j < jcount; j++)
-			{
-				if(&joints[j].mass == member->spring.m1)
-					jindex1 = j;
-				if(&joints[j].mass == member->spring.m2)
-					jindex2 = j;
-			}
-			printf("joint1=%d joint2=%d stiffness=%.9e length0=%.9e dampening=%.9e\n",
-			       jindex1 + 1, jindex2 + 1, member->spring.k, member->spring.l0, member->damper.c);
-		}
-		printf("supports=%d\n", scount);
-		for(int s = 0; s < scount; s++)
-		{
-			struct support *support = &supports[s];
-			int jindex;
-			for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
-					jindex = j;
-			char axes[101];
-			if(support->constraint.a[0] && support->constraint.a[1])
-				sprintf(axes, "xy");
-			if(support->constraint.a[0] && !support->constraint.a[1])
-				sprintf(axes, "x");
-			if(!support->constraint.a[0] && support->constraint.a[1])
-				sprintf(axes, "y");
-			printf("joint=%d axes=%s\n", jindex + 1, axes);
-		}
-		printf("loads=%d\n", lcount);
-		for(int l = 0; l < lcount; l++)
-		{
-			struct load *load = &loads[l];
-			int jindex;
-			for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
-					jindex = j;
-			printf("joint=%d force=<%.9e %.9e>\n", jindex + 1, load->action.f[0], load->action.f[1]);
-		}
+		print_truss_problem();
+		free_truss_problem();
 	}
-	else
 	{
 		fprintf(stderr, "error: parse: utility argument (1): %s\n", argv[1]);
 		fprintf(stderr, "usage: utility argument (1): properties|transform|undeform\n");
 		return 1;
 	}
-	free(joints);
-	free(members);
-	free(supports);
-	free(loads);
 	return 0;
 }

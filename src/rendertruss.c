@@ -84,13 +84,13 @@ int render(void)
 	double corner2[2] = {(double) fsize[0], 0.0};
 	cairo_device_to_user(context, &corner2[0], &corner2[1]);
 	double gstride1 = 0.1 * pow(4.0, round(log2(1.0 / fzoom) / 2.0));
-	double gstride2 = 0.5 * gstride1;
-	double gstride3 = 0.25 * gstride1;
+	double gstride2 = gstride1 / 2.0;
+	double gstride3 = gstride1 / 4.0;
 	double gpoint1[2];
 	double gpoint2[2];
 	cairo_new_path(context);
 	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
-	for(gpoint1[0] = gstride3 * floor(corner1[0] / gstride3); gpoint1[0] <= corner2[0]; gpoint1[0] += gstride3)
+	for(gpoint1[0] = gstride3 * floor((corner1[0] - 0.001) / gstride3); gpoint1[0] <= corner2[0] + 0.001; gpoint1[0] += gstride3)
 	{
 		gpoint2[0] = gpoint1[0];
 		cairo_new_sub_path(context);
@@ -99,7 +99,7 @@ int render(void)
 		cairo_close_path(context);
 	}
 	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
-	for(gpoint1[1] = gstride3 * floor(corner1[1] / gstride3); gpoint1[1] <= corner2[1]; gpoint1[1] += gstride3)
+	for(gpoint1[1] = gstride3 * floor((corner1[1] - 0.001) / gstride3); gpoint1[1] <= corner2[1] + 0.001; gpoint1[1] += gstride3)
 	{
 		gpoint2[1] = gpoint1[1];
 		cairo_new_sub_path(context);
@@ -115,7 +115,7 @@ int render(void)
 	cairo_restore(context);
 	cairo_new_path(context);
 	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
-	for(gpoint1[0] = gstride2 * floor(corner1[0] / gstride2); gpoint1[0] <= corner2[0]; gpoint1[0] += gstride2)
+	for(gpoint1[0] = gstride2 * floor((corner1[0] - 0.001) / gstride2); gpoint1[0] <= corner2[0] + 0.001; gpoint1[0] += gstride2)
 	{
 		gpoint2[0] = gpoint1[0];
 		cairo_new_sub_path(context);
@@ -124,7 +124,7 @@ int render(void)
 		cairo_close_path(context);
 	}
 	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
-	for(gpoint1[1] = gstride2 * floor(corner1[1] / gstride2); gpoint1[1] <= corner2[1]; gpoint1[1] += gstride2)
+	for(gpoint1[1] = gstride2 * floor((corner1[1] - 0.001) / gstride2); gpoint1[1] <= corner2[1] + 0.001; gpoint1[1] += gstride2)
 	{
 		gpoint2[1] = gpoint1[1];
 		cairo_new_sub_path(context);
@@ -140,7 +140,7 @@ int render(void)
 	cairo_restore(context);
 	cairo_new_path(context);
 	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
-	for(gpoint1[0] = gstride1 * floor(corner1[0] / gstride1); gpoint1[0] <= corner2[0]; gpoint1[0] += gstride1)
+	for(gpoint1[0] = gstride1 * floor((corner1[0] - 0.001) / gstride1); gpoint1[0] <= corner2[0] + 0.001; gpoint1[0] += gstride1)
 	{
 		gpoint2[0] = gpoint1[0];
 		cairo_new_sub_path(context);
@@ -149,7 +149,7 @@ int render(void)
 		cairo_close_path(context);
 	}
 	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
-	for(gpoint1[1] = gstride1 * floor(corner1[1] / gstride1); gpoint1[1] <= corner2[1]; gpoint1[1] += gstride1)
+	for(gpoint1[1] = gstride1 * floor((corner1[1] - 0.001) / gstride1); gpoint1[1] <= corner2[1] + 0.001; gpoint1[1] += gstride1)
 	{
 		gpoint2[1] = gpoint1[1];
 		cairo_new_sub_path(context);
@@ -347,7 +347,7 @@ int main(int argc, char **argv)
 	}
 	char *extension = strrchr(filename, '.');
 	if(!extension || strcmp(extension, ".png") != 0)
-		strncat(filename, ".png", sizeof(filename) - sizeof(char));
+		strcat(filename, ".png");
 	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fsize argument (2): %s\n", argv[2]);
