@@ -96,7 +96,6 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_line_to(context, gpoint1[0], gpoint1[1]);
 		cairo_line_to(context, gpoint2[0], gpoint2[1]);
-		cairo_close_path(context);
 	}
 	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
 	for(gpoint1[1] = gstride3 * floor((corner1[1] - 0.001) / gstride3); gpoint1[1] <= corner2[1] + 0.001; gpoint1[1] += gstride3)
@@ -105,7 +104,6 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_line_to(context, gpoint1[0], gpoint1[1]);
 		cairo_line_to(context, gpoint2[0], gpoint2[1]);
-		cairo_close_path(context);
 	}
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
@@ -121,7 +119,6 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_line_to(context, gpoint1[0], gpoint1[1]);
 		cairo_line_to(context, gpoint2[0], gpoint2[1]);
-		cairo_close_path(context);
 	}
 	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
 	for(gpoint1[1] = gstride2 * floor((corner1[1] - 0.001) / gstride2); gpoint1[1] <= corner2[1] + 0.001; gpoint1[1] += gstride2)
@@ -130,7 +127,6 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_line_to(context, gpoint1[0], gpoint1[1]);
 		cairo_line_to(context, gpoint2[0], gpoint2[1]);
-		cairo_close_path(context);
 	}
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
@@ -146,7 +142,6 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_line_to(context, gpoint1[0], gpoint1[1]);
 		cairo_line_to(context, gpoint2[0], gpoint2[1]);
-		cairo_close_path(context);
 	}
 	gpoint1[0] = corner1[0], gpoint2[0] = corner2[0];
 	for(gpoint1[1] = gstride1 * floor((corner1[1] - 0.001) / gstride1); gpoint1[1] <= corner2[1] + 0.001; gpoint1[1] += gstride1)
@@ -155,7 +150,6 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_line_to(context, gpoint1[0], gpoint1[1]);
 		cairo_line_to(context, gpoint2[0], gpoint2[1]);
-		cairo_close_path(context);
 	}
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);

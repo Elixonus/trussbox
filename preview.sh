@@ -35,7 +35,8 @@ if [[ "$create_montage" == "y" || "$create_montage" == "Y" ]]
 then
 	source montage.sh | sed -u "s/^/| /"
 fi
-echo "| * ${fg_yellow}solving and rendering${normal} preview example problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} preview example problem"
 echo "| |\\"
 cat warren.txt | sed "s/dampening=3.0e2/dampening=3.0e1/g" > warrenld.txt
 echo "\
@@ -55,7 +56,8 @@ tmp/preview
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 rm -f warrenld.txt
-echo "| * ${fg_yellow}copying${normal} preview media from tmp/ to ./"
+echo "| |"
+echo "| * ${fg_yellow}copying${normal} preview media from ${underline}$(pwd)/tmp${normal} to ${underline}$(pwd)${normal}"
 cp tmp/preview/video.mp4 preview.mp4
 ffmpeg -sseof -3 -i tmp/preview/video.mp4 -vsync 0 -q:v 31 -update true -y preview.png -loglevel error
 cp tmp/preview/fdiagram.mp4 previewfd.mp4
@@ -68,4 +70,5 @@ echo "| |"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "|"
 echo "${bold}* preview files can now be found at ${underline}$(pwd)/preview*${normal}"

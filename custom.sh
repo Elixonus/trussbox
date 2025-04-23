@@ -37,7 +37,7 @@ mkdir -p $dirname/solutions
 mkdir -p $dirname/prosols
 mkdir -p $dirname/frames
 mkdir -p $dirname/diagrams
-echo "* ${fg_yellow}creating${normal} pipeline for the problem"
+echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 ./bin/pipeline \
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
@@ -62,6 +62,7 @@ echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|"
 echo "* ${fg_yellow}running${normal} pipeline with parameters:
+|
 | ${fg_cyan}gravity${normal}=$gravity ${fg_gray}m/s^2${normal}
 | ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
 | ${fg_cyan}srate${normal}=$srate ${fg_gray}Hz${normal}
@@ -71,6 +72,7 @@ echo "* ${fg_yellow}running${normal} pipeline with parameters:
 | ${fg_cyan}fzoom${normal}=$fzoom
 | ${fg_cyan}fscale${normal}=$fscale"
 source $dirname/pipeline.sh
+echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|"
 echo "* ${fg_yellow}stitching${normal} video frames together"
@@ -81,4 +83,5 @@ ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -logleve
 rm -rf $dirname/diagrams
 echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "|"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"

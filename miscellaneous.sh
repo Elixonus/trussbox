@@ -18,11 +18,11 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* ${fg_yellow}solving and rendering${normal} each of the miscellaneous systems"
+echo "* ${fg_yellow}creating${normal} output for each of the miscellaneous systems"
 echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
-echo "| * ${fg_yellow}solving and rendering${normal} roof truss problem"
+echo "| * ${fg_yellow}working on${normal} roof truss problem"
 echo "| |\\"
 echo "\
 roof.txt
@@ -40,7 +40,8 @@ tmp/miscellaneous/roof
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} cantilever problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} cantilever problem"
 echo "| |\\"
 echo "\
 cantilever.txt
@@ -58,7 +59,8 @@ tmp/miscellaneous/cantilever
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} stadium truss problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} stadium truss problem"
 echo "| |\\"
 echo "\
 stadium.txt
@@ -76,7 +78,8 @@ tmp/miscellaneous/stadium
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} power transmission line tower truss problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} power transmission line tower truss problem"
 echo "| |\\"
 echo "\
 powertower.txt
@@ -96,4 +99,5 @@ echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "|"
 echo "${bold}* miscellaneous files can now be found in ${underline}$(pwd)/tmp/miscellaneous${normal}"

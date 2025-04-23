@@ -18,11 +18,11 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* ${fg_yellow}solving and rendering${normal} each of the pendulums"
+echo "* ${fg_yellow}creating${normal} output for each of the pendulums"
 echo "|\\"
 mkdir -p tmp/pendulums
 rm -rf tmp/pendulums/*
-echo "| * ${fg_yellow}solving and rendering${normal} single pendulum problem"
+echo "| * ${fg_yellow}working on${normal} single pendulum problem"
 echo "| |\\"
 echo "\
 pendulum.txt
@@ -40,7 +40,8 @@ tmp/pendulums/pendulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} double pendulum problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} double pendulum problem"
 echo "| |\\"
 echo "\
 doublependulum.txt
@@ -58,7 +59,8 @@ tmp/pendulums/doublependulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} double pendulum (roller) problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} double pendulum (roller) problem"
 echo "| |\\"
 echo "\
 doublependulumroller.txt
@@ -76,7 +78,8 @@ tmp/pendulums/doublependulumroller
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} decuple pendulum problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} decuple pendulum problem"
 echo "| |\\"
 echo "\
 decuplependulum.txt
@@ -96,4 +99,5 @@ echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "|"
 echo "${bold}* pendulum files can now be found in ${underline}$(pwd)/tmp/pendulums${normal}"

@@ -18,11 +18,11 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* ${fg_yellow}solving and rendering${normal} each of the bridges"
+echo "* ${fg_yellow}creating${normal} output for each of the bridges"
 echo "|\\"
 mkdir -p tmp/bridges
 rm -rf tmp/bridges/*
-echo "| * ${fg_yellow}solving and rendering${normal} warren bridge problem"
+echo "| * ${fg_yellow}working on${normal} warren bridge problem"
 echo "| |\\"
 echo "\
 warren.txt
@@ -40,7 +40,8 @@ tmp/bridges/warren
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} pratt bridge problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} pratt bridge problem"
 echo "| |\\"
 echo "\
 pratt.txt
@@ -58,7 +59,8 @@ tmp/bridges/pratt
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} howe bridge problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} howe bridge problem"
 echo "| |\\"
 echo "\
 howe.txt
@@ -76,7 +78,8 @@ tmp/bridges/howe
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} parker bridge problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} parker bridge problem"
 echo "| |\\"
 echo "\
 parker.txt
@@ -94,7 +97,8 @@ tmp/bridges/parker
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} cambridge bridge problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} cambridge bridge problem"
 echo "| |\\"
 echo "\
 cambridge.txt
@@ -112,7 +116,8 @@ tmp/bridges/cambridge
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| * ${fg_yellow}solving and rendering${normal} whipple bridge problem"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} whipple bridge problem"
 echo "| |\\"
 echo "\
 whipple.txt
@@ -132,4 +137,5 @@ echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "|"
 echo "${bold}* bridge files can now be found in ${underline}$(pwd)/tmp/bridges${normal}"
