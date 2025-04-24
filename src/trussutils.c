@@ -463,24 +463,88 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		if(scan_truss_problem() != 0) return 1;
-		char textart[50][51];
-		for(int y = 0; y < 50; y++)
+		char textart[25][52];
+		for(int r = 0; r < 25; r++)
 		{
-			for(int x = 0; x < 50; x++)
-				textart[y][x] = ' ';
-			textart[y][50] = '\n';
+			for(int c = 0; c < 50; c++)
+				textart[r][c] = ' ';
+			textart[r][50] = '\n', textart[r][51] = '\0';
 		}
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
 			int rowcol1[2] = {
-				(int) round(50.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1])))
+				(int) round(25.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
 				(int) round(50.0 * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
 			};
-			rowcol1[a] = ;
-			rowcol2[a] = ;
-			printf("row=%d,col=%d\n", rowcol1[0], rowcol1[1]);
+			int rowcol2[2] = {
+				(int) round(25.0 * (0.5 - fzoom * (member->spring.m2->p[1] - fcenter[1]))),
+				(int) round(50.0 * (0.5 + fzoom * (member->spring.m2->p[0] - fcenter[0])))
+			};
+			int r1 = rowcol1[0], c1 = rowcol1[1];
+			int r2 = rowcol2[0], c2 = rowcol2[1];
+			int dc = abs(c2 - c1), sc = c1 < c2 ? 1 : -1;
+			int dr = -abs(r2 - r1), sr = r1 < r2 ? 1 : -1;
+			int error1 = dc + dr, error2;
+			while(true)
+			{
+				printf("r1=%d, c1=%d\n", r1, c1);
+				if(r1 >= 0 && c1 >= 0 && r1 < 25 && c1 < 50)
+					textart[r1][c1] = '*';
+				if(c1 == c2 && r1 == r2) break;
+				error2 = 2 * error1;
+				if(error2 >= dr)
+				{
+					error1 += dr;
+					c1 += sc;
+				}
+				if(error2 <= dc)
+				{
+					error1 += dc;
+					r1 += sr;
+				}
+			}
 		}
+		for(int j = 0; j < jcount; j++)
+		{
+			struct joint *joint = &joints[j];
+			int rowcol[2] = {
+				(int) round(25.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
+				(int) round(50.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
+			};
+			if(rowcol[0] >= 0 && rowcol[1] >= 0 && rowcol[0] < 25 && rowcol[1] < 50)
+				textart[rowcol[0]][rowcol[1]] = '@';
+		}
+		for(int s = 0; s < scount; s++)
+		{
+			struct support *support = &supports[s];
+			int count = support->constraint.a[0] + support->constraint.a[1];
+			int rowcol[2] = {
+				(int) round(25.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
+				(int) round(50.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
+			};
+			if(rowcol[0] >= 0 && rowcol[1] >= 0 && rowcol[0] < 25 && rowcol[1] < 50)
+				textart[rowcol[0] + 1][rowcol[1] - 1] = '/';
+				textart[rowcol[0] + 1][rowcol[1] + 1] = '\\';
+				if(count == 2)
+				{
+					textart[rowcol[0] + 2][rowcol[1] - 2] = 'o';
+					textart[rowcol[0] + 2][rowcol[1] - 1] = 'o';
+					textart[rowcol[0] + 2][rowcol[1]] = 'o';
+					textart[rowcol[0] + 2][rowcol[1] + 1] = 'o';
+					textart[rowcol[0] + 2][rowcol[1] + 2] = 'o';
+				}
+				if(count == 1)
+				{
+					textart[rowcol[0] + 2][rowcol[1] - 2] = '-';
+					textart[rowcol[0] + 2][rowcol[1] - 1] = '-';
+					textart[rowcol[0] + 2][rowcol[1]] = '-';
+					textart[rowcol[0] + 2][rowcol[1] + 1] = '-';
+					textart[rowcol[0] + 2][rowcol[1] + 2] = '-';
+				}
+		}
+		for(int l = 0; l < 25; l++)
+			printf("%s", textart[l]);
 		free_truss_problem();
 	}
 	else {
