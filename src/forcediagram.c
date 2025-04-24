@@ -5,6 +5,9 @@
 #include <cairo.h>
 #include "msd.h"
 
+constexpr double pi = 4.0 * atan(1.0);
+constexpr double tau = 2.0 * pi;
+
 struct joint {
 	struct mass mass;
 };
@@ -62,8 +65,10 @@ void map_mforce_to_color(double force, double *color, double cutoff_force)
 	if(cutoff_force < epsilon) return;
 	double balance = force / cutoff_force;
 	balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
-	if(balance > 0.0)
-		color[0] = 1.0, color[1] = 1.0 - fabs(balance), color[2] = 1.0 - fabs(balance);
+	if(fabs(balance) < 0.05)
+		color[0] = 0.95, color[1] = 0.95, color[2] = 0.95;
+	else if(balance > 0.0)
+		color[0] = 1.0, color[1] = 1.0 - balance, color[2] = 1.0 - balance;
 	else
 		color[0] = 1.0 - fabs(balance), color[1] = 1.0 - fabs(balance), color[2] = 1.0;
 }
@@ -84,10 +89,10 @@ void render_force(
 	cairo_rotate(context, atan2(force[1], force[0]));
 	cairo_scale(context, fscale / fzoom, fscale / fzoom);
 	if(draw_head_at_point == true)
-		cairo_translate(context, -0.07 * magnitude / ref_force * fzoom - 0.01, 0.0);
+		cairo_translate(context, -0.07 * magnitude / ref_force - 0.01, 0.0);
 	cairo_new_path(context);
 	cairo_line_to(context, 0.0, 0.0);
-	cairo_translate(context, 0.07 * magnitude / ref_force * fzoom + 0.005, 0.0);
+	cairo_translate(context, 0.07 * magnitude / ref_force + 0.005, 0.0);
 	cairo_line_to(context, -0.01, 0.0);
 	cairo_line_to(context, -0.01, 0.005);
 	cairo_line_to(context, 0.0, 0.0);
@@ -205,15 +210,12 @@ int render(void)
 	cairo_stroke(context);
 	cairo_restore(context);
 	double ref_force = 0.0;
-	double sys_gravity_force = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
 		double force = gravity * joints[j].mass.m;
-		sys_gravity_force += force;
+		if(force > ref_force)
+			ref_force = force;
 	}
-	sys_gravity_force = fabs(sys_gravity_force);
-	if(sys_gravity_force > ref_force)
-		ref_force = sys_gravity_force;
 	for(int l = 0; l < lcount; l++)
 	{
 		double force = sqrt(pow(loads[l].action.f[0], 2.0) + pow(loads[l].action.f[1], 2.0));
@@ -223,14 +225,14 @@ int render(void)
 	for(int s = 0; s < scount; s++)
 	{
 		double force = sqrt(pow(sreactions[s][0], 2.0) + pow(sreactions[s][1], 2.0));
-		if(0.5 * force > ref_force)
-			ref_force = 0.5 * force;
+		if(force > ref_force)
+			ref_force = force;
 	}
 	for(int m = 0; m < mcount; m++)
 	{
 		double force = fabs(mforces[m]);
-		if(0.5 * force > ref_force)
-			ref_force = 0.5 * force;
+		if(force > ref_force)
+			ref_force = force;
 	}
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
