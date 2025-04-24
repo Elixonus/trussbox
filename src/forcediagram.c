@@ -135,7 +135,7 @@ int render(void)
 	cairo_device_to_user(context, &corner1[0], &corner1[1]);
 	double corner2[2] = {(double) fsize[0], 0.0};
 	cairo_device_to_user(context, &corner2[0], &corner2[1]);
-	double gstride1 = 0.1 * pow(4.0, round(log2(1.0 / fzoom) / 2.0));
+	double gstride1 = 0.1 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
 	double gstride2 = gstride1 / 2.0;
 	double gstride3 = gstride1 / 4.0;
 	double gpoint1[2];
@@ -325,7 +325,7 @@ int main(int argc, char **argv)
 {
 	if(argc != 7)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
+		fprintf(stderr, "error: count: arguments: %d of 7 provided\n", argc);
 		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}

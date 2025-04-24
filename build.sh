@@ -20,7 +20,7 @@ if [ "$TERM" != "dumb" ]; then
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
 	fi
 fi
-echo "* compiling programs"
+echo "* ${fg_yellow}compiling${normal} programs"
 echo "|\\"
 mkdir -p bin
 echo -n "| * ${fg_yellow}compiling${normal} mass spring damper library object"

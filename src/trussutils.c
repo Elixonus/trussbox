@@ -304,15 +304,15 @@ int main(int argc, char **argv)
 {
 	if(argc < 2)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 1+ provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: %s properties|transform|undeform (...)\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 2+ provided\n", argc);
+		fprintf(stderr, "usage: arguments: %s properties|transform|undeform|printart (...)\n", argv[0]);
 		return 1;
 	}
 	if(strcmp(argv[1], "properties") == 0)
 	{
 		if(argc != 3)
 		{
-			fprintf(stderr, "error: count: arguments: %d of 2 provided\n", argc - 1);
+			fprintf(stderr, "error: count: arguments: %d of 3 provided\n", argc);
 			fprintf(stderr, "usage: arguments: %s properties gravity=float\n", argv[0]);
 			return 1;
 		}
@@ -418,7 +418,7 @@ int main(int argc, char **argv)
 	{
 		if(argc != 2)
 		{
-			fprintf(stderr, "error: count: arguments: %d of 1 provided\n", argc - 1);
+			fprintf(stderr, "error: count: arguments: %d of 2 provided\n", argc);
 			fprintf(stderr, "usage: arguments: %s undeform\n", argv[0]);
 			return 1;
 		}
@@ -428,9 +428,64 @@ int main(int argc, char **argv)
 		print_truss_problem();
 		free_truss_problem();
 	}
+	else if(strcmp(argv[1], "printart") == 0)
 	{
+		if(argc != 5)
+		{
+			fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc);
+			fprintf(stderr, "usage: arguments: %s printart gravity=float fcenter=(float float) fzoom=float\n", argv[0]);
+			return 1;
+		}
+		double gravity;
+		if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+		{
+			fprintf(stderr, "error: parse: gravity argument (2): %s\n", argv[2]);
+			fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
+			return 1;
+		}
+		double fcenter[2];
+		if(sscanf(argv[3], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+		{
+			fprintf(stderr, "error: parse: fcenter argument (3): %s\n", argv[3]);
+			fprintf(stderr, "usage: fcenter argument (3): fcenter=(float float)\n");
+			return 1;
+		}
+		double fzoom;
+		if(sscanf(argv[4], "fzoom=%lf", &fzoom) != 1)
+		{
+			fprintf(stderr, "error: parse: fzoom argument (4): %s\n", argv[4]);
+			fprintf(stderr, "usage: fzoom argument (4): fzoom=float\n");
+			return 1;
+		}
+		if(fzoom < epsilon)
+		{
+			fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
+			return 1;
+		}
+		if(scan_truss_problem() != 0) return 1;
+		char textart[50][51];
+		for(int y = 0; y < 50; y++)
+		{
+			for(int x = 0; x < 50; x++)
+				textart[y][x] = ' ';
+			textart[y][50] = '\n';
+		}
+		for(int m = 0; m < mcount; m++)
+		{
+			struct member *member = &members[m];
+			int rowcol1[2] = {
+				(int) round(50.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1])))
+				(int) round(50.0 * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
+			};
+			rowcol1[a] = ;
+			rowcol2[a] = ;
+			printf("row=%d,col=%d\n", rowcol1[0], rowcol1[1]);
+		}
+		free_truss_problem();
+	}
+	else {
 		fprintf(stderr, "error: parse: utility argument (1): %s\n", argv[1]);
-		fprintf(stderr, "usage: utility argument (1): properties|transform|undeform\n");
+		fprintf(stderr, "usage: utility argument (1): properties|transform|undeform|printart\n");
 		return 1;
 	}
 	return 0;

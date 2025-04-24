@@ -150,7 +150,7 @@ int main(int argc, char **argv)
 {
 	if(argc != 4)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 3 provided\n", argc - 1);
+		fprintf(stderr, "error: count: arguments: %d of 4 provided\n", argc);
 		fprintf(stderr, "usage: arguments: %s gravity=float timef=float srate=float\n", argv[0]);
 		return 1;
 	}

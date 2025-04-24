@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 {
 	if(argc != 19)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 18 provided\n", argc - 1);
+		fprintf(stderr, "error: count: arguments: %d of 19 provided\n", argc);
 		fprintf(stderr, "usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
