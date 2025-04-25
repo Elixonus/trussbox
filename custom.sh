@@ -83,5 +83,9 @@ ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -logleve
 rm -rf $dirname/diagrams
 echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "|                  ASCII Text Art                  "
+echo "|"
+textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
+./bin/trussutils < "$dirname/problems/$(ls $dirname/problems | tail -n 1)" textart gravity=9.8 "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" | sed -u "s/^/| /"
 echo "|"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"

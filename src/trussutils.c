@@ -494,7 +494,7 @@ int main(int argc, char **argv)
 			int error1 = dc + dr, error2;
 			while(true)
 			{
-				setchar('*', r1, c1);
+				setchar('.', r1, c1);
 				if(c1 == c2 && r1 == r2) break;
 				error2 = 2 * error1;
 				if(error2 >= dr)
@@ -560,8 +560,38 @@ int main(int argc, char **argv)
 			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1);
 			else setchar('v', rowcol[0] + 1, rowcol[1]);
 		}
-		for(int l = 0; l < 25; l++)
-			printf("%s", textart[l]);
+		int rowstart = 0;
+		for(int r = 0; r < 25; r++)
+		{
+			bool blankline = true;
+			for(int c = 0; c < 50; c++)
+			{
+				if(textart[r][c] != ' ')
+				{
+					blankline = false;
+					break;
+				}
+			}
+			if(!blankline) break;
+			rowstart++;
+		}
+		int rowend = 24;
+		for(int r = 24; r > rowstart; r--)
+		{
+			bool blankline = true;
+			for(int c = 0; c < 50; c++)
+			{
+				if(textart[r][c] != ' ')
+				{
+					blankline = false;
+					break;
+				}
+			}
+			if(!blankline) break;
+			rowend--;
+		}
+		for(int r = rowstart; r <= rowend; r++)
+			printf("%s", textart[r]);
 		free_truss_problem();
 	}
 	else {
