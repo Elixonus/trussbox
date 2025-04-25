@@ -5,6 +5,7 @@
 #include "msd.h"
 
 constexpr double pi = 4.0 * atan(1.0);
+constexpr double tau = 2.0 * pi;
 
 struct joint
 {
@@ -305,7 +306,7 @@ int main(int argc, char **argv)
 	if(argc < 2)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 2+ provided\n", argc);
-		fprintf(stderr, "usage: arguments: %s properties|transform|undeform|printart (...)\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s properties|transform|undeform|textart (...)\n", argv[0]);
 		return 1;
 	}
 	if(strcmp(argv[1], "properties") == 0)
@@ -428,12 +429,12 @@ int main(int argc, char **argv)
 		print_truss_problem();
 		free_truss_problem();
 	}
-	else if(strcmp(argv[1], "printart") == 0)
+	else if(strcmp(argv[1], "textart") == 0)
 	{
 		if(argc != 5)
 		{
 			fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc);
-			fprintf(stderr, "usage: arguments: %s printart gravity=float fcenter=(float float) fzoom=float\n", argv[0]);
+			fprintf(stderr, "usage: arguments: %s textart gravity=float fcenter=(float float) fzoom=float\n", argv[0]);
 			return 1;
 		}
 		double gravity;
@@ -470,6 +471,11 @@ int main(int argc, char **argv)
 				textart[r][c] = ' ';
 			textart[r][50] = '\n', textart[r][51] = '\0';
 		}
+		void setchar(char ch, int r, int c)
+		{
+			if(r < 0 || c < 0 || r >= 25 || c >= 50) return;
+			textart[r][c] = ch;
+		}
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
@@ -488,9 +494,7 @@ int main(int argc, char **argv)
 			int error1 = dc + dr, error2;
 			while(true)
 			{
-				printf("r1=%d, c1=%d\n", r1, c1);
-				if(r1 >= 0 && c1 >= 0 && r1 < 25 && c1 < 50)
-					textart[r1][c1] = '*';
+				setchar('*', r1, c1);
 				if(c1 == c2 && r1 == r2) break;
 				error2 = 2 * error1;
 				if(error2 >= dr)
@@ -512,8 +516,7 @@ int main(int argc, char **argv)
 				(int) round(25.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
 				(int) round(50.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
-			if(rowcol[0] >= 0 && rowcol[1] >= 0 && rowcol[0] < 25 && rowcol[1] < 50)
-				textart[rowcol[0]][rowcol[1]] = '@';
+			setchar('@', rowcol[0], rowcol[1]);
 		}
 		for(int s = 0; s < scount; s++)
 		{
@@ -523,25 +526,39 @@ int main(int argc, char **argv)
 				(int) round(25.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
 				(int) round(50.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
-			if(rowcol[0] >= 0 && rowcol[1] >= 0 && rowcol[0] < 25 && rowcol[1] < 50)
-				textart[rowcol[0] + 1][rowcol[1] - 1] = '/';
-				textart[rowcol[0] + 1][rowcol[1] + 1] = '\\';
-				if(count == 2)
-				{
-					textart[rowcol[0] + 2][rowcol[1] - 2] = 'o';
-					textart[rowcol[0] + 2][rowcol[1] - 1] = 'o';
-					textart[rowcol[0] + 2][rowcol[1]] = 'o';
-					textart[rowcol[0] + 2][rowcol[1] + 1] = 'o';
-					textart[rowcol[0] + 2][rowcol[1] + 2] = 'o';
-				}
-				if(count == 1)
-				{
-					textart[rowcol[0] + 2][rowcol[1] - 2] = '-';
-					textart[rowcol[0] + 2][rowcol[1] - 1] = '-';
-					textart[rowcol[0] + 2][rowcol[1]] = '-';
-					textart[rowcol[0] + 2][rowcol[1] + 1] = '-';
-					textart[rowcol[0] + 2][rowcol[1] + 2] = '-';
-				}
+			setchar('/', rowcol[0] + 1, rowcol[1] - 1);
+			setchar('\\', rowcol[0] + 1, rowcol[1] + 1);
+			if(count == 2)
+			{
+				setchar('o', rowcol[0] + 2, rowcol[1] - 2);
+				setchar('o', rowcol[0] + 2, rowcol[1] - 1);
+				setchar('o', rowcol[0] + 2, rowcol[1]);
+				setchar('o', rowcol[0] + 2, rowcol[1] + 1);
+				setchar('o', rowcol[0] + 2, rowcol[1] + 2);
+			}
+			if(count == 1)
+			{
+				setchar('=', rowcol[0] + 2, rowcol[1] - 2);
+				setchar('=', rowcol[0] + 2, rowcol[1] - 1);
+				setchar('=', rowcol[0] + 2, rowcol[1]);
+				setchar('=', rowcol[0] + 2, rowcol[1] + 1);
+				setchar('=', rowcol[0] + 2, rowcol[1] + 2);
+			}
+		}
+		for(int l = 0; l < lcount; l++)
+		{
+			struct load *load = &loads[l];
+			double magnitude = sqrt(pow(load->action.f[0], 2.0) + pow(load->action.f[1], 2.0));
+			if(magnitude < epsilon) continue;
+			double angle = fmod(atan2(load->action.f[1], load->action.f[0]) + tau, tau);
+			int rowcol[2] = {
+				(int) round(25.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
+				(int) round(50.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
+			};
+			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1);
+			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1]);
+			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1);
+			else setchar('v', rowcol[0] + 1, rowcol[1]);
 		}
 		for(int l = 0; l < 25; l++)
 			printf("%s", textart[l]);
@@ -549,7 +566,7 @@ int main(int argc, char **argv)
 	}
 	else {
 		fprintf(stderr, "error: parse: utility argument (1): %s\n", argv[1]);
-		fprintf(stderr, "usage: utility argument (1): properties|transform|undeform|printart\n");
+		fprintf(stderr, "usage: utility argument (1): properties|transform|undeform|textart\n");
 		return 1;
 	}
 	return 0;

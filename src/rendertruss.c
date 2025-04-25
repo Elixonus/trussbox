@@ -84,8 +84,8 @@ int render(void)
 	double corner2[2] = {(double) fsize[0], 0.0};
 	cairo_device_to_user(context, &corner2[0], &corner2[1]);
 	double gstride1 = 0.1 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
-	double gstride2 = gstride1 / 2.0;
-	double gstride3 = gstride1 / 4.0;
+	double gstride2 = 0.5 * gstride1;
+	double gstride3 = 0.25 * gstride1;
 	double gpoint1[2];
 	double gpoint2[2];
 	cairo_new_path(context);
