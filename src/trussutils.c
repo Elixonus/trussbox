@@ -38,12 +38,18 @@ struct load
 };
 
 struct joint *joints;
+double **jforces;
 int jcount;
 
 struct member *members;
+double *mlengths;
+double *mdisplacements;
+double *mvelocities;
+double *mforces;
 int mcount;
 
 struct support *supports;
+double **sreactions;
 int scount;
 
 struct load *loads;
@@ -293,12 +299,69 @@ int scan_truss_problem(void)
 	return 0;
 }
 
+int scan_truss_solution(void)
+{
+	int jcount2;
+	if(scanf("joints=%d\n", &jcount2) != 1) return 1;
+	if(jcount2 != jcount) return 1;
+	jforces = malloc(jcount * sizeof(double *));
+	if(!jforces) return 1;
+	for(int j = 0; j < jcount; j++)
+	{
+		jforces[j] = malloc(2 * sizeof(double));
+		if(!jforces[j]) return 1;
+		if(scanf("force=<%lf %lf> position=(%*f %*f) velocity=<%*f %*f>\n",
+				 &jforces[j][0], &jforces[j][1]) != 2) return 1;
+	}
+	int mcount2;
+	if(scanf("members=%d\n", &mcount2) != 1) return 1;
+	if(mcount2 != mcount) return 1;
+	mlengths = malloc(mcount * sizeof(double));
+	if(!mlengths) return 1;
+	mdisplacements = malloc(mcount * sizeof(double));
+	if(!mdisplacements) return 1;
+	mvelocities = malloc(mcount * sizeof(double));
+	if(!mvelocities) return 1;
+	mforces = malloc(mcount * sizeof(double));
+	if(!mforces) return 1;
+	for(int m = 0; m < mcount; m++)
+	{
+		if(scanf("force=%lf displacement=%lf length=%lf velocity=%lf\n",
+				 &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4) return 1;
+	}
+	int scount2;
+	if(scanf("supports=%d\n", &scount2) != 1) return 1;
+	sreactions = malloc(scount * sizeof(double *));
+	if(!sreactions) return 1;
+	for(int s = 0; s < scount; s++)
+	{
+		sreactions[s] = malloc(2 * sizeof(double));
+		if(!sreactions[s]) return 1;
+		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
+	}
+	return 0;
+}
+
 void free_truss_problem(void)
 {
 	free(joints);
 	free(members);
 	free(supports);
 	free(loads);
+}
+
+void free_truss_solution(void)
+{
+	for(int j = 0; j < jcount; j++)
+		free(jforces[j]);
+	free(jforces);
+	free(mlengths);
+	free(mdisplacements);
+	free(mvelocities);
+	free(mforces);
+	for(int s = 0; s < scount; s++)
+		free(sreactions[s]);
+	free(sreactions);
 }
 
 int main(int argc, char **argv)
@@ -482,6 +545,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		if(scan_truss_problem() != 0) return 1;
+		if(scan_truss_solution() != 0) return 1;
 		char textart[25][52];
 		char colors[25][50];
 		for(int r = 0; r < 25; r++)
@@ -500,9 +564,50 @@ int main(int argc, char **argv)
 			if(usecolor)
 				colors[r][c] = clr;
 		}
+		double cutoff_force = 0.0;
+		for(int j = 0; j < jcount; j++)
+		{
+			double force = gravity * joints[j].mass.m;
+			if(force > cutoff_force)
+				cutoff_force = force;
+		}
+		for(int l = 0; l < lcount; l++)
+		{
+			double force = sqrt(pow(loads[l].action.f[0], 2.0) + pow(loads[l].action.f[1], 2.0));
+			if(force > cutoff_force)
+				cutoff_force = force;
+		}
+		for(int s = 0; s < scount; s++)
+		{
+			double force = sqrt(pow(sreactions[s][0], 2.0) + pow(sreactions[s][1], 2.0));
+			if(force > cutoff_force)
+				cutoff_force = force;
+		}
+		for(int m = 0; m < mcount; m++)
+		{
+			double force = fabs(mforces[m]);
+			if(force > cutoff_force)
+				cutoff_force = force;
+		}
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
+			double force = mforces[m];
+			char color;
+			if(cutoff_force < epsilon)
+			{
+				color = ' ';
+				goto bresenham;
+			}
+			double balance = force / cutoff_force;
+			balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
+			if(fabs(balance) < 0.2)
+				color = 'G';
+			else if(balance > 0.0)
+				color = 'r';
+			else
+				color = 'b';
+			bresenham:
 			int rowcol1[2] = {
 				(int) round(24.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
@@ -518,7 +623,7 @@ int main(int argc, char **argv)
 			int error1 = dc + dr, error2;
 			while(true)
 			{
-				setchar('.', r1, c1, 'r');
+				setchar('.', r1, c1, color);
 				if(c1 == c2 && r1 == r2) break;
 				error2 = 2 * error1;
 				if(error2 >= dr)
@@ -543,10 +648,10 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
 			};
-			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1, '0');
-			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1], '0');
-			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1, '0');
-			else setchar('v', rowcol[0] + 1, rowcol[1], '0');
+			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1, 'y');
+			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1], 'y');
+			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1, 'y');
+			else setchar('v', rowcol[0] + 1, rowcol[1], 'y');
 		}
 		for(int j = 0; j < jcount; j++)
 		{
@@ -555,7 +660,7 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
-			setchar('@', rowcol[0], rowcol[1], 'y');
+			setchar('@', rowcol[0], rowcol[1], ' ');
 		}
 		for(int s = 0; s < scount; s++)
 		{
@@ -565,24 +670,24 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
-			setchar('/', rowcol[0] + 1, rowcol[1] - 1, 'm');
-			setchar(' ', rowcol[0] + 1, rowcol[1], 'm');
-			setchar('\\', rowcol[0] + 1, rowcol[1] + 1, 'm');
+			setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
+			setchar(' ', rowcol[0] + 1, rowcol[1], ' ');
+			setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
 			if(count == 2)
 			{
-				setchar('=', rowcol[0] + 2, rowcol[1] - 2, 'm');
-				setchar('=', rowcol[0] + 2, rowcol[1] - 1, 'm');
-				setchar('=', rowcol[0] + 2, rowcol[1], 'm');
-				setchar('=', rowcol[0] + 2, rowcol[1] + 1, 'm');
-				setchar('=', rowcol[0] + 2, rowcol[1] + 2, 'm');
+				setchar('=', rowcol[0] + 2, rowcol[1] - 2, ' ');
+				setchar('=', rowcol[0] + 2, rowcol[1] - 1, ' ');
+				setchar('=', rowcol[0] + 2, rowcol[1], ' ');
+				setchar('=', rowcol[0] + 2, rowcol[1] + 1, ' ');
+				setchar('=', rowcol[0] + 2, rowcol[1] + 2, ' ');
 			}
 			if(count == 1)
 			{
-				setchar('o', rowcol[0] + 2, rowcol[1] - 2, 'm');
-				setchar('o', rowcol[0] + 2, rowcol[1] - 1, 'm');
-				setchar('o', rowcol[0] + 2, rowcol[1], 'm');
-				setchar('o', rowcol[0] + 2, rowcol[1] + 1, 'm');
-				setchar('o', rowcol[0] + 2, rowcol[1] + 2, 'm');
+				setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
+				setchar('o', rowcol[0] + 2, rowcol[1] - 1, ' ');
+				setchar('o', rowcol[0] + 2, rowcol[1], ' ');
+				setchar('o', rowcol[0] + 2, rowcol[1] + 1, ' ');
+				setchar('o', rowcol[0] + 2, rowcol[1] + 2, ' ');
 			}
 		}
 		int rowstart = 0;
@@ -633,8 +738,14 @@ int main(int argc, char **argv)
 							case 'y':
 								printf("echo -n \"$(tput setaf 3)\"\n");
 								break;
+							case 'b':
+								printf("echo -n \"$(tput setaf 4)\"\n");
+								break;
 							case 'm':
 								printf("echo -n \"$(tput setaf 5)\"\n");
+								break;
+							case 'G':
+								printf("echo -n \"$(tput setaf 8)\"\n");
 								break;
 						}
 					}
@@ -649,6 +760,7 @@ int main(int argc, char **argv)
 			else
 				printf("%s", textart[r]);
 		free_truss_problem();
+		free_truss_solution();
 	}
 	else {
 		fprintf(stderr, "error: parse: utility argument (1): %s\n", argv[1]);
