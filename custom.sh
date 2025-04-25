@@ -67,7 +67,7 @@ echo "* ${fg_yellow}running${normal} pipeline with parameters:
 | ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
 | ${fg_cyan}srate${normal}=$srate ${fg_gray}Hz${normal}
 | ${fg_cyan}frate${normal}=$frate ${fg_gray}Hz${normal}
-| ${fg_cyan}fsize${normal}=(${fwidth}x${fheight}) ${fg_gray}px${normal}
+| ${fg_cyan}fsize${normal}=(${fwidth} ${fg_gray}px${normal})x(${fheight} ${fg_gray}px${normal})
 | ${fg_cyan}fcenter${normal}=($fcenterx $fcentery) ${fg_gray}m${normal}
 | ${fg_cyan}fzoom${normal}=$fzoom
 | ${fg_cyan}fscale${normal}=$fscale"
@@ -86,6 +86,7 @@ echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|                  ASCII Text Art                  "
 echo "|"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
-./bin/trussutils < "$dirname/problems/$(ls $dirname/problems | tail -n 1)" textart gravity=9.8 "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" | sed -u "s/^/| /"
+./bin/trussutils < "$dirname/problems/$(ls $dirname/problems | tail -n 1)" > "$dirname/textart.sh" textart gravity=9.8 "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true
+source "$dirname/textart.sh" | sed -u "s/^/| /"
 echo "|"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"

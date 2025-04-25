@@ -65,8 +65,8 @@ void map_mforce_to_color(double force, double *color, double cutoff_force)
 	if(cutoff_force < epsilon) return;
 	double balance = force / cutoff_force;
 	balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
-	if(fabs(balance) < 0.05)
-		color[0] = 0.95, color[1] = 0.95, color[2] = 0.95;
+	if(fabs(balance) < 0.1)
+		color[0] = 0.9, color[1] = 0.9, color[2] = 0.9;
 	else if(balance > 0.0)
 		color[0] = 1.0, color[1] = 1.0 - balance, color[2] = 1.0 - balance;
 	else
@@ -99,6 +99,9 @@ void render_force(
 	cairo_line_to(context, -0.01, -0.005);
 	cairo_line_to(context, -0.01, 0.0);
 	cairo_close_path(context);
+	cairo_set_line_width(context, 0.008);
+	cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
+	cairo_stroke_preserve(context);
 	cairo_set_line_width(context, 0.005);
 	cairo_set_source_rgb(context, color[0], color[1], color[2]);
 	cairo_stroke_preserve(context);
@@ -136,8 +139,8 @@ int render(void)
 	double corner2[2] = {(double) fsize[0], 0.0};
 	cairo_device_to_user(context, &corner2[0], &corner2[1]);
 	double gstride1 = 0.1 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
-	double gstride2 = gstride1 / 2.0;
-	double gstride3 = gstride1 / 4.0;
+	double gstride2 = 0.5 * gstride1;
+	double gstride3 = 0.25 * gstride1;
 	double gpoint1[2];
 	double gpoint2[2];
 	cairo_new_path(context);

@@ -431,10 +431,10 @@ int main(int argc, char **argv)
 	}
 	else if(strcmp(argv[1], "textart") == 0)
 	{
-		if(argc != 5)
+		if(argc != 6)
 		{
-			fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc);
-			fprintf(stderr, "usage: arguments: %s textart gravity=float fcenter=(float float) fzoom=float\n", argv[0]);
+			fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc);
+			fprintf(stderr, "usage: arguments: %s textart gravity=float fcenter=(float float) fzoom=float color=true|false\n", argv[0]);
 			return 1;
 		}
 		double gravity;
@@ -463,18 +463,42 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 			return 1;
 		}
+		char colorarg[101];
+		if(sscanf(argv[5], "color=%100s", colorarg) != 1)
+		{
+			fprintf(stderr, "error: parse: color argument (5): %s\n", argv[5]);
+			fprintf(stderr, "usage: color argument (5): color=true|false\n");
+			return 1;
+		}
+		bool usecolor;
+		if(strcmp(colorarg, "true") == 0)
+			usecolor = true;
+		else if(strcmp(colorarg, "false") == 0)
+			usecolor = false;
+		else
+		{
+			fprintf(stderr, "error: parse: color argument: %s not an option\n", colorarg);
+			fprintf(stderr, "usage: color argument: color=true|false\n");
+			return 1;
+		}
 		if(scan_truss_problem() != 0) return 1;
 		char textart[25][52];
+		char colors[25][50];
 		for(int r = 0; r < 25; r++)
 		{
 			for(int c = 0; c < 50; c++)
+			{
 				textart[r][c] = ' ';
+				if(usecolor) colors[r][c] = ' ';
+			}
 			textart[r][50] = '\n', textart[r][51] = '\0';
 		}
-		void setchar(char ch, int r, int c)
+		void setchar(char ch, int r, int c, char clr)
 		{
 			if(r < 0 || c < 0 || r >= 25 || c >= 50) return;
 			textart[r][c] = ch;
+			if(usecolor)
+				colors[r][c] = clr;
 		}
 		for(int m = 0; m < mcount; m++)
 		{
@@ -494,7 +518,7 @@ int main(int argc, char **argv)
 			int error1 = dc + dr, error2;
 			while(true)
 			{
-				setchar('.', r1, c1);
+				setchar('.', r1, c1, 'r');
 				if(c1 == c2 && r1 == r2) break;
 				error2 = 2 * error1;
 				if(error2 >= dr)
@@ -519,10 +543,10 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
 			};
-			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1);
-			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1]);
-			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1);
-			else setchar('v', rowcol[0] + 1, rowcol[1]);
+			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1, '0');
+			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1], '0');
+			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1, '0');
+			else setchar('v', rowcol[0] + 1, rowcol[1], '0');
 		}
 		for(int j = 0; j < jcount; j++)
 		{
@@ -531,7 +555,7 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
-			setchar('@', rowcol[0], rowcol[1]);
+			setchar('@', rowcol[0], rowcol[1], 'y');
 		}
 		for(int s = 0; s < scount; s++)
 		{
@@ -541,24 +565,24 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
-			setchar('/', rowcol[0] + 1, rowcol[1] - 1);
-			setchar(' ', rowcol[0] + 1, rowcol[1]);
-			setchar('\\', rowcol[0] + 1, rowcol[1] + 1);
+			setchar('/', rowcol[0] + 1, rowcol[1] - 1, 'm');
+			setchar(' ', rowcol[0] + 1, rowcol[1], 'm');
+			setchar('\\', rowcol[0] + 1, rowcol[1] + 1, 'm');
 			if(count == 2)
 			{
-				setchar('=', rowcol[0] + 2, rowcol[1] - 2);
-				setchar('=', rowcol[0] + 2, rowcol[1] - 1);
-				setchar('=', rowcol[0] + 2, rowcol[1]);
-				setchar('=', rowcol[0] + 2, rowcol[1] + 1);
-				setchar('=', rowcol[0] + 2, rowcol[1] + 2);
+				setchar('=', rowcol[0] + 2, rowcol[1] - 2, 'm');
+				setchar('=', rowcol[0] + 2, rowcol[1] - 1, 'm');
+				setchar('=', rowcol[0] + 2, rowcol[1], 'm');
+				setchar('=', rowcol[0] + 2, rowcol[1] + 1, 'm');
+				setchar('=', rowcol[0] + 2, rowcol[1] + 2, 'm');
 			}
 			if(count == 1)
 			{
-				setchar('o', rowcol[0] + 2, rowcol[1] - 2);
-				setchar('o', rowcol[0] + 2, rowcol[1] - 1);
-				setchar('o', rowcol[0] + 2, rowcol[1]);
-				setchar('o', rowcol[0] + 2, rowcol[1] + 1);
-				setchar('o', rowcol[0] + 2, rowcol[1] + 2);
+				setchar('o', rowcol[0] + 2, rowcol[1] - 2, 'm');
+				setchar('o', rowcol[0] + 2, rowcol[1] - 1, 'm');
+				setchar('o', rowcol[0] + 2, rowcol[1], 'm');
+				setchar('o', rowcol[0] + 2, rowcol[1] + 1, 'm');
+				setchar('o', rowcol[0] + 2, rowcol[1] + 2, 'm');
 			}
 		}
 		int rowstart = 0;
@@ -592,7 +616,38 @@ int main(int argc, char **argv)
 			rowend--;
 		}
 		for(int r = rowstart; r <= rowend; r++)
-			printf("%s", textart[r]);
+			if(usecolor)
+			{
+				for(int c = 0; c < 51; c++)
+				{
+					if(c < 50)
+					{
+						switch(colors[r][c])
+						{
+							case 'r':
+								printf("echo -n \"$(tput setaf 1)\"\n");
+								break;
+							case 'g':
+								printf("echo -n \"$(tput setaf 2)\"\n");
+								break;
+							case 'y':
+								printf("echo -n \"$(tput setaf 3)\"\n");
+								break;
+							case 'm':
+								printf("echo -n \"$(tput setaf 5)\"\n");
+								break;
+						}
+					}
+					if(textart[r][c] == '\\')
+						printf("echo -n \"\\\\\"\n");
+					else
+						printf("echo -n \"%c\"\n", textart[r][c]);
+					if(c < 50)
+						printf("echo -n \"$(tput sgr0)\"\n");
+				}
+			}
+			else
+				printf("%s", textart[r]);
 		free_truss_problem();
 	}
 	else {

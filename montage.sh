@@ -64,7 +64,7 @@ ffmpeg \
 	-i tmp/bridges/warren/video.mp4 \
 	-i tmp/bridges/warren/fdiagram.mp4 \
 	-i tmp/montage/bridges/warren/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/warren/video.mp4 \
 	-loglevel error
@@ -76,7 +76,7 @@ ffmpeg \
 	-i tmp/bridges/pratt/video.mp4 \
 	-i tmp/bridges/pratt/fdiagram.mp4 \
 	-i tmp/montage/bridges/pratt/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/pratt/video.mp4 \
 	-loglevel error
@@ -88,7 +88,7 @@ ffmpeg \
 	-i tmp/bridges/howe/video.mp4 \
 	-i tmp/bridges/howe/fdiagram.mp4 \
 	-i tmp/montage/bridges/howe/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/howe/video.mp4 \
 	-loglevel error
@@ -100,7 +100,7 @@ ffmpeg \
 	-i tmp/bridges/parker/video.mp4 \
 	-i tmp/bridges/parker/fdiagram.mp4 \
 	-i tmp/montage/bridges/parker/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/parker/video.mp4 \
 	-loglevel error
@@ -112,7 +112,7 @@ ffmpeg \
 	-i tmp/bridges/cambridge/video.mp4 \
 	-i tmp/bridges/cambridge/fdiagram.mp4 \
 	-i tmp/montage/bridges/cambridge/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/cambridge/video.mp4 \
 	-loglevel error
@@ -124,7 +124,7 @@ ffmpeg \
 	-i tmp/bridges/whipple/video.mp4 \
 	-i tmp/bridges/whipple/fdiagram.mp4 \
 	-i tmp/montage/bridges/whipple/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/whipple/video.mp4 \
 	-loglevel error
@@ -136,7 +136,7 @@ ffmpeg \
 	-i tmp/miscellaneous/roof/video.mp4 \
 	-i tmp/miscellaneous/roof/fdiagram.mp4 \
 	-i tmp/montage/miscellaneous/roof/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/roof/video.mp4 \
 	-loglevel error
@@ -148,7 +148,7 @@ ffmpeg \
 	-i tmp/miscellaneous/cantilever/video.mp4 \
 	-i tmp/miscellaneous/cantilever/fdiagram.mp4 \
 	-i tmp/montage/miscellaneous/cantilever/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-loglevel error
@@ -160,7 +160,7 @@ ffmpeg \
 	-i tmp/miscellaneous/stadium/video.mp4 \
 	-i tmp/miscellaneous/stadium/fdiagram.mp4 \
 	-i tmp/montage/miscellaneous/stadium/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/stadium/video.mp4 \
 	-loglevel error
@@ -172,7 +172,7 @@ ffmpeg \
 	-i tmp/miscellaneous/powertower/video.mp4 \
 	-i tmp/miscellaneous/powertower/fdiagram.mp4 \
 	-i tmp/montage/miscellaneous/powertower/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertower/video.mp4 \
 	-loglevel error
@@ -184,7 +184,7 @@ ffmpeg \
 	-i tmp/pendulums/pendulum/video.mp4 \
 	-i tmp/pendulums/pendulum/fdiagram.mp4 \
 	-i tmp/montage/pendulums/pendulum/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/pendulum/video.mp4 \
 	-loglevel error
@@ -196,7 +196,7 @@ ffmpeg \
 	-i tmp/pendulums/doublependulum/video.mp4 \
 	-i tmp/pendulums/doublependulum/fdiagram.mp4 \
 	-i tmp/montage/pendulums/doublependulum/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/doublependulum/video.mp4 \
 	-loglevel error
@@ -208,7 +208,7 @@ ffmpeg \
 	-i tmp/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/pendulums/doublependulumroller/fdiagram.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-loglevel error
@@ -220,7 +220,7 @@ ffmpeg \
 	-i tmp/pendulums/decuplependulum/video.mp4 \
 	-i tmp/pendulums/decuplependulum/fdiagram.mp4 \
 	-i tmp/montage/pendulums/decuplependulum/subtitles.png \
-	-filter_complex "[1:v]scale=640:360[y];[0:v][y]overlay[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
@@ -252,20 +252,20 @@ echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| |"
 echo "| * ${fg_yellow}stacking${normal} each of the video solutions together"
 ffmpeg \
-	-t 10 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/bridges/howe/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/roof/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
-	-t 10 -stream_loop -1 -i tmp/montage/pendulums/decuplependulum/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/bridges/howe/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/roof/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-filter_complex "\
 		[0:v]scale=480:-1[v0]; \
 		[1:v]scale=480:-1[v1]; \
