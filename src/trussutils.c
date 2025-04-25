@@ -480,12 +480,12 @@ int main(int argc, char **argv)
 		{
 			struct member *member = &members[m];
 			int rowcol1[2] = {
-				(int) round(25.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
-				(int) round(50.0 * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
+				(int) round(24.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
+				(int) round(49.0 * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
 			};
 			int rowcol2[2] = {
-				(int) round(25.0 * (0.5 - fzoom * (member->spring.m2->p[1] - fcenter[1]))),
-				(int) round(50.0 * (0.5 + fzoom * (member->spring.m2->p[0] - fcenter[0])))
+				(int) round(24.0 * (0.5 - fzoom * (member->spring.m2->p[1] - fcenter[1]))),
+				(int) round(49.0 * (0.5 + fzoom * (member->spring.m2->p[0] - fcenter[0])))
 			};
 			int r1 = rowcol1[0], c1 = rowcol1[1];
 			int r2 = rowcol2[0], c2 = rowcol2[1];
@@ -509,12 +509,27 @@ int main(int argc, char **argv)
 				}
 			}
 		}
+		for(int l = 0; l < lcount; l++)
+		{
+			struct load *load = &loads[l];
+			double magnitude = sqrt(pow(load->action.f[0], 2.0) + pow(load->action.f[1], 2.0));
+			if(magnitude < epsilon) continue;
+			double angle = fmod(atan2(load->action.f[1], load->action.f[0]) + tau, tau);
+			int rowcol[2] = {
+				(int) round(24.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
+				(int) round(49.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
+			};
+			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1);
+			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1]);
+			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1);
+			else setchar('v', rowcol[0] + 1, rowcol[1]);
+		}
 		for(int j = 0; j < jcount; j++)
 		{
 			struct joint *joint = &joints[j];
 			int rowcol[2] = {
-				(int) round(25.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
-				(int) round(50.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
+				(int) round(24.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
+				(int) round(49.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
 			setchar('@', rowcol[0], rowcol[1]);
 		}
@@ -523,20 +538,13 @@ int main(int argc, char **argv)
 			struct support *support = &supports[s];
 			int count = support->constraint.a[0] + support->constraint.a[1];
 			int rowcol[2] = {
-				(int) round(25.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
-				(int) round(50.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
+				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
+				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
 			setchar('/', rowcol[0] + 1, rowcol[1] - 1);
+			setchar(' ', rowcol[0] + 1, rowcol[1]);
 			setchar('\\', rowcol[0] + 1, rowcol[1] + 1);
 			if(count == 2)
-			{
-				setchar('o', rowcol[0] + 2, rowcol[1] - 2);
-				setchar('o', rowcol[0] + 2, rowcol[1] - 1);
-				setchar('o', rowcol[0] + 2, rowcol[1]);
-				setchar('o', rowcol[0] + 2, rowcol[1] + 1);
-				setchar('o', rowcol[0] + 2, rowcol[1] + 2);
-			}
-			if(count == 1)
 			{
 				setchar('=', rowcol[0] + 2, rowcol[1] - 2);
 				setchar('=', rowcol[0] + 2, rowcol[1] - 1);
@@ -544,21 +552,14 @@ int main(int argc, char **argv)
 				setchar('=', rowcol[0] + 2, rowcol[1] + 1);
 				setchar('=', rowcol[0] + 2, rowcol[1] + 2);
 			}
-		}
-		for(int l = 0; l < lcount; l++)
-		{
-			struct load *load = &loads[l];
-			double magnitude = sqrt(pow(load->action.f[0], 2.0) + pow(load->action.f[1], 2.0));
-			if(magnitude < epsilon) continue;
-			double angle = fmod(atan2(load->action.f[1], load->action.f[0]) + tau, tau);
-			int rowcol[2] = {
-				(int) round(25.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
-				(int) round(50.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
-			};
-			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1);
-			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1]);
-			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1);
-			else setchar('v', rowcol[0] + 1, rowcol[1]);
+			if(count == 1)
+			{
+				setchar('o', rowcol[0] + 2, rowcol[1] - 2);
+				setchar('o', rowcol[0] + 2, rowcol[1] - 1);
+				setchar('o', rowcol[0] + 2, rowcol[1]);
+				setchar('o', rowcol[0] + 2, rowcol[1] + 1);
+				setchar('o', rowcol[0] + 2, rowcol[1] + 2);
+			}
 		}
 		int rowstart = 0;
 		for(int r = 0; r < 25; r++)
