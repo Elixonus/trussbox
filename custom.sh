@@ -85,7 +85,7 @@ echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|                    ASCII Text Art"
 echo "|"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
-./bin/trussutils < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)" > "$dirname/textart.sh" textart gravity=9.8 "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true
+./bin/trussutils < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)" > "$dirname/textart.sh" textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true
 rm -rf $dirname/prosols
 source "$dirname/textart.sh" | sed -u "s/^/| /"
 rm -f "$dirname/textart.sh"

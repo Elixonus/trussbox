@@ -497,28 +497,21 @@ int main(int argc, char **argv)
 		if(argc != 6)
 		{
 			fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc);
-			fprintf(stderr, "usage: arguments: %s textart gravity=float fcenter=(float float) fzoom=float color=true|false\n", argv[0]);
-			return 1;
-		}
-		double gravity;
-		if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
-		{
-			fprintf(stderr, "error: parse: gravity argument (2): %s\n", argv[2]);
-			fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
+			fprintf(stderr, "usage: arguments: %s textart fcenter=(float float) fzoom=float color=true|false vcrop=true|false\n", argv[0]);
 			return 1;
 		}
 		double fcenter[2];
-		if(sscanf(argv[3], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+		if(sscanf(argv[2], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 		{
-			fprintf(stderr, "error: parse: fcenter argument (3): %s\n", argv[3]);
-			fprintf(stderr, "usage: fcenter argument (3): fcenter=(float float)\n");
+			fprintf(stderr, "error: parse: fcenter argument (2): %s\n", argv[2]);
+			fprintf(stderr, "usage: fcenter argument (2): fcenter=(float float)\n");
 			return 1;
 		}
 		double fzoom;
-		if(sscanf(argv[4], "fzoom=%lf", &fzoom) != 1)
+		if(sscanf(argv[3], "fzoom=%lf", &fzoom) != 1)
 		{
-			fprintf(stderr, "error: parse: fzoom argument (4): %s\n", argv[4]);
-			fprintf(stderr, "usage: fzoom argument (4): fzoom=float\n");
+			fprintf(stderr, "error: parse: fzoom argument (3): %s\n", argv[3]);
+			fprintf(stderr, "usage: fzoom argument (3): fzoom=float\n");
 			return 1;
 		}
 		if(fzoom < epsilon)
@@ -527,10 +520,10 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		char colorarg[101];
-		if(sscanf(argv[5], "color=%100s", colorarg) != 1)
+		if(sscanf(argv[4], "color=%100s", colorarg) != 1)
 		{
-			fprintf(stderr, "error: parse: color argument (5): %s\n", argv[5]);
-			fprintf(stderr, "usage: color argument (5): color=true|false\n");
+			fprintf(stderr, "error: parse: color argument (4): %s\n", argv[4]);
+			fprintf(stderr, "usage: color argument (4): color=true|false\n");
 			return 1;
 		}
 		bool usecolor;
@@ -542,6 +535,24 @@ int main(int argc, char **argv)
 		{
 			fprintf(stderr, "error: parse: color argument: %s not an option\n", colorarg);
 			fprintf(stderr, "usage: color argument: color=true|false\n");
+			return 1;
+		}
+		char croparg[101];
+		if(sscanf(argv[5], "vcrop=%100s", croparg) != 1)
+		{
+			fprintf(stderr, "error: parse: vcrop argument (5): %s\n", argv[5]);
+			fprintf(stderr, "usage: vcrop argument (5): vcrop=true|false\n");
+			return 1;
+		}
+		bool docrop;
+		if(strcmp(croparg, "true") == 0)
+			docrop = true;
+		else if(strcmp(croparg, "false") == 0)
+			docrop = false;
+		else
+		{
+			fprintf(stderr, "error: parse: vcrop argument: %s not an option\n", croparg);
+			fprintf(stderr, "usage: vcrop argument: vcrop=true|false\n");
 			return 1;
 		}
 		if(scan_truss_problem() != 0) return 1;
@@ -565,12 +576,6 @@ int main(int argc, char **argv)
 				colors[r][c] = clr;
 		}
 		double cutoff_force = 0.0;
-		for(int j = 0; j < jcount; j++)
-		{
-			double force = gravity * joints[j].mass.m;
-			if(force > cutoff_force)
-				cutoff_force = force;
-		}
 		for(int l = 0; l < lcount; l++)
 		{
 			double force = sqrt(pow(loads[l].action.f[0], 2.0) + pow(loads[l].action.f[1], 2.0));
@@ -666,59 +671,166 @@ int main(int argc, char **argv)
 		{
 			struct support *support = &supports[s];
 			int count = support->constraint.a[0] + support->constraint.a[1];
+			double ncenter[2] = {0.0, 0.0};
+			int ncount = 0;
+			for(int m = 0; m < mcount; m++)
+			{
+				struct member *member = &members[m];
+				if(member->spring.m1 == support->constraint.m)
+				{
+					for(int a = 0; a < 2; a++)
+						ncenter[a] += member->spring.m2->p[a];
+					ncount++;
+				}
+				if(member->spring.m2 == support->constraint.m)
+				{
+					for(int a = 0; a < 2; a++)
+						ncenter[a] += member->spring.m1->p[a];
+					ncount++;
+				}
+			}
+			for(int a = 0; a < 2; a++)
+			{
+				if(ncount > 0)
+					ncenter[a] /= ncount;
+				else
+					ncenter[a] = support->constraint.m->p[a];
+			}
+			double polarity;
+			if(count == 2 || (count == 1 && support->constraint.a[1]))
+				polarity = ncenter[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
+			if(count == 1 && support->constraint.a[0])
+				polarity = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
 			int rowcol[2] = {
 				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
-			setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
-			setchar(' ', rowcol[0] + 1, rowcol[1], ' ');
-			setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
-			if(count == 2)
+			if(count == 2 || (count == 1 && support->constraint.a[1]))
 			{
-				setchar('=', rowcol[0] + 2, rowcol[1] - 2, ' ');
-				setchar('=', rowcol[0] + 2, rowcol[1] - 1, ' ');
-				setchar('=', rowcol[0] + 2, rowcol[1], ' ');
-				setchar('=', rowcol[0] + 2, rowcol[1] + 1, ' ');
-				setchar('=', rowcol[0] + 2, rowcol[1] + 2, ' ');
-			}
-			if(count == 1)
-			{
-				setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
-				setchar('o', rowcol[0] + 2, rowcol[1] - 1, ' ');
-				setchar('o', rowcol[0] + 2, rowcol[1], ' ');
-				setchar('o', rowcol[0] + 2, rowcol[1] + 1, ' ');
-				setchar('o', rowcol[0] + 2, rowcol[1] + 2, ' ');
-			}
-		}
-		int rowstart = 0;
-		for(int r = 0; r < 25; r++)
-		{
-			bool blankline = true;
-			for(int c = 0; c < 50; c++)
-			{
-				if(textart[r][c] != ' ')
+				if(polarity > 0.0)
 				{
-					blankline = false;
-					break;
+					setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
+					setchar(' ', rowcol[0] + 1, rowcol[1], ' ');
+					setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
+					if(count == 2)
+					{
+						setchar('=', rowcol[0] + 2, rowcol[1] - 2, ' ');
+						setchar('=', rowcol[0] + 2, rowcol[1] - 1, ' ');
+						setchar('=', rowcol[0] + 2, rowcol[1], ' ');
+						setchar('=', rowcol[0] + 2, rowcol[1] + 1, ' ');
+						setchar('=', rowcol[0] + 2, rowcol[1] + 2, ' ');
+					}
+					if(count == 1)
+					{
+						setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
+						setchar('o', rowcol[0] + 2, rowcol[1] - 1, ' ');
+						setchar('o', rowcol[0] + 2, rowcol[1], ' ');
+						setchar('o', rowcol[0] + 2, rowcol[1] + 1, ' ');
+						setchar('o', rowcol[0] + 2, rowcol[1] + 2, ' ');
+					}
+				}
+				else
+				{
+					setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
+					setchar(' ', rowcol[0] - 1, rowcol[1], ' ');
+					setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
+					if(count == 2)
+					{
+						setchar('=', rowcol[0] - 2, rowcol[1] - 2, ' ');
+						setchar('=', rowcol[0] - 2, rowcol[1] - 1, ' ');
+						setchar('=', rowcol[0] - 2, rowcol[1], ' ');
+						setchar('=', rowcol[0] - 2, rowcol[1] + 1, ' ');
+						setchar('=', rowcol[0] - 2, rowcol[1] + 2, ' ');
+					}
+					if(count == 1)
+					{
+						setchar('o', rowcol[0] - 2, rowcol[1] - 2, ' ');
+						setchar('o', rowcol[0] - 2, rowcol[1] - 1, ' ');
+						setchar('o', rowcol[0] - 2, rowcol[1], ' ');
+						setchar('o', rowcol[0] - 2, rowcol[1] + 1, ' ');
+						setchar('o', rowcol[0] - 2, rowcol[1] + 2, ' ');
+					}
 				}
 			}
-			if(!blankline) break;
-			rowstart++;
-		}
-		int rowend = 24;
-		for(int r = 24; r > rowstart; r--)
-		{
-			bool blankline = true;
-			for(int c = 0; c < 50; c++)
+			if(count == 1 && support->constraint.a[0])
 			{
-				if(textart[r][c] != ' ')
+				if(polarity > 0.0)
 				{
-					blankline = false;
-					break;
+					setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
+					setchar(' ', rowcol[0], rowcol[1] - 1, ' ');
+					setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
+					if(count == 2)
+					{
+						setchar('[', rowcol[0] - 2, rowcol[1] - 2, ' ');
+						setchar('[', rowcol[0] - 1, rowcol[1] - 2, ' ');
+						setchar('[', rowcol[0], rowcol[1] - 2, ' ');
+						setchar('[', rowcol[0] + 1, rowcol[1] - 2, ' ');
+						setchar('[', rowcol[0] + 2, rowcol[1] - 2, ' ');
+					}
+					if(count == 1)
+					{
+						setchar('o', rowcol[0] - 2, rowcol[1] - 2, ' ');
+						setchar('o', rowcol[0] - 1, rowcol[1] - 2, ' ');
+						setchar('o', rowcol[0], rowcol[1] - 2, ' ');
+						setchar('o', rowcol[0] + 1, rowcol[1] - 2, ' ');
+						setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
+					}
+				}
+				else
+				{
+					setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
+					setchar(' ', rowcol[0], rowcol[1] + 1, ' ');
+					setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
+					if(count == 2)
+					{
+						setchar('[', rowcol[0] - 2, rowcol[1] + 2, ' ');
+						setchar('[', rowcol[0] - 1, rowcol[1] + 2, ' ');
+						setchar('[', rowcol[0], rowcol[1] + 2, ' ');
+						setchar('[', rowcol[0] + 1, rowcol[1] + 2, ' ');
+						setchar('[', rowcol[0] + 2, rowcol[1] + 2, ' ');
+					}
+					if(count == 1)
+					{
+						setchar('o', rowcol[0] - 2, rowcol[1] + 2, ' ');
+						setchar('o', rowcol[0] - 1, rowcol[1] + 2, ' ');
+						setchar('o', rowcol[0], rowcol[1] + 2, ' ');
+						setchar('o', rowcol[0] + 1, rowcol[1] + 2, ' ');
+						setchar('o', rowcol[0] + 2, rowcol[1] + 2, ' ');
+					}
 				}
 			}
-			if(!blankline) break;
-			rowend--;
+		}
+		int rowstart = 0, rowend = 24;
+		if(docrop)
+		{
+			for(int r = 0; r < 25; r++)
+			{
+				bool blankline = true;
+				for(int c = 0; c < 50; c++)
+				{
+					if(textart[r][c] != ' ')
+					{
+						blankline = false;
+						break;
+					}
+				}
+				if(!blankline) break;
+				rowstart++;
+			}
+			for(int r = 24; r > rowstart; r--)
+			{
+				bool blankline = true;
+				for(int c = 0; c < 50; c++)
+				{
+					if(textart[r][c] != ' ')
+					{
+						blankline = false;
+						break;
+					}
+				}
+				if(!blankline) break;
+				rowend--;
+			}
 		}
 		for(int r = rowstart; r <= rowend; r++)
 			if(usecolor)
