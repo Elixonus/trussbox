@@ -131,10 +131,8 @@ int main(void)
 				fprintf(stderr, "error: index: member line (%d) (problem): joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
 			}
-		member.spring.m1 = &joints[jindex1].mass;
-		member.spring.m2 = &joints[jindex2].mass;
-		member.damper.m1 = &joints[jindex1].mass;
-		member.damper.m2 = &joints[jindex2].mass;
+		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
+		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon)
 		{
 			fprintf(stderr, "error: limit: member line (%d) (problem): length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);

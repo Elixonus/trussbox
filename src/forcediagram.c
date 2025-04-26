@@ -414,10 +414,8 @@ int main(int argc, char **argv)
 			    members[m2].spring.m2 == &joints[jindex2].mass) ||
 			   (members[m2].spring.m1 == &joints[jindex2].mass &&
 			    members[m2].spring.m2 == &joints[jindex1].mass)) return 1;
-		member.spring.m1 = &joints[jindex1].mass;
-		member.spring.m2 = &joints[jindex2].mass;
-		member.damper.m1 = &joints[jindex1].mass;
-		member.damper.m2 = &joints[jindex2].mass;
+		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
+		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon) return 1;
 		members[m] = member;
 	}

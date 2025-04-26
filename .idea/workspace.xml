@@ -20,13 +20,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preview.sh" beforeDir="false" afterPath="$PROJECT_DIR$/preview.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewfd.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewfd.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewfd.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewfd.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmt.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmtpl.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmtpl.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup.sh" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +164,8 @@
       <workItem from="1745540221271" duration="12287000" />
       <workItem from="1745609329629" duration="14716000" />
       <workItem from="1745627673790" duration="197000" />
-      <workItem from="1745628036401" duration="5365000" />
+      <workItem from="1745628036401" duration="5428000" />
+      <workItem from="1745687066972" duration="3252000" />
     </task>
     <servers />
   </component>

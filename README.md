@@ -183,7 +183,7 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 4. Members Lines *Body*
    * syntax: ```force=float displacement=float length=float velocity=float``` (trailing newline)
    * each individual member tension force (negative 
-     for compression) in Newtons, displacement from 
+     for in tension and positive for in compression) in Newtons, displacement from 
      resting length in meters, current measured length 
      in meters and velocity of expansion in meters 
      per second
