@@ -26,7 +26,7 @@ echo "| * ${fg_yellow}working on${normal} roof truss problem"
 echo "| |\\"
 echo "\
 roof.txt
-9.8
+-9.8
 2.0
 10000.0
 60.0
@@ -45,7 +45,7 @@ echo "| * ${fg_yellow}working on${normal} cantilever problem"
 echo "| |\\"
 echo "\
 cantilever.txt
-9.8
+-9.8
 3.0
 100000.0
 60.0

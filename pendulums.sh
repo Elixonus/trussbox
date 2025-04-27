@@ -26,7 +26,7 @@ echo "| * ${fg_yellow}working on${normal} single pendulum problem"
 echo "| |\\"
 echo "\
 pendulum.txt
-9.8
+-9.8
 10.0
 10000.0
 60.0
@@ -45,7 +45,7 @@ echo "| * ${fg_yellow}working on${normal} double pendulum problem"
 echo "| |\\"
 echo "\
 doublependulum.txt
-9.8
+-9.8
 10.0
 10000.0
 60.0
@@ -64,7 +64,7 @@ echo "| * ${fg_yellow}working on${normal} double pendulum (roller) problem"
 echo "| |\\"
 echo "\
 doublependulumroller.txt
-9.8
+-9.8
 10.0
 10000.0
 60.0
@@ -83,7 +83,7 @@ echo "| * ${fg_yellow}working on${normal} decuple pendulum problem"
 echo "| |\\"
 echo "\
 decuplependulum.txt
-9.8
+-9.8
 10.0
 10000.0
 60.0

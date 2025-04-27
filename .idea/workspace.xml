@@ -20,7 +20,15 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" afterPath="$PROJECT_DIR$/setup.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bridges.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bridges.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom.sh" beforeDir="false" afterPath="$PROJECT_DIR$/custom.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miscellaneous.sh" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pendulums.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pendulums.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preview.sh" beforeDir="false" afterPath="$PROJECT_DIR$/preview.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +173,8 @@
       <workItem from="1745609329629" duration="14716000" />
       <workItem from="1745627673790" duration="197000" />
       <workItem from="1745628036401" duration="5428000" />
-      <workItem from="1745687066972" duration="3252000" />
+      <workItem from="1745687066972" duration="3324000" />
+      <workItem from="1745728453952" duration="1026000" />
     </task>
     <servers />
   </component>

@@ -19,7 +19,7 @@ if [ "$TERM" != "dumb" ]; then
 	fi
 fi
 read -rep "problem filename: " filename
-read -rep "gravitational acceleration (m/s^2): " gravity
+read -rep "gravitational acceleration (m/s^2): " gacceleration
 read -rep "final time (s): " timef
 read -rep "step rate (Hz): " srate
 read -rep "frame rate (Hz): " frate
@@ -49,7 +49,7 @@ echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 	prosols_dirname=$dirname/prosols \
 	frames_dirname=$dirname/frames \
 	diagrams_dirname=$dirname/diagrams \
-	gravity=$gravity \
+	gacceleration=$gacceleration \
 	timef=$timef \
 	srate=$srate \
 	frate=$frate \
@@ -63,7 +63,7 @@ echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|"
 echo "* ${fg_yellow}running${normal} pipeline with parameters:
 |
-| ${fg_cyan}gravity${normal}=$gravity ${fg_gray}m/s^2${normal}
+| ${fg_cyan}gacceleration${normal}=$gacceleration ${fg_gray}m/s^2${normal}
 | ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
 | ${fg_cyan}srate${normal}=$srate ${fg_gray}Hz${normal}
 | ${fg_cyan}frate${normal}=$frate ${fg_gray}Hz${normal}

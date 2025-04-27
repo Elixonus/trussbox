@@ -50,7 +50,7 @@ int scount;
 struct load *loads;
 int lcount;
 
-double gravity;
+double gacceleration;
 
 int fsize[2];
 double fcenter[2];
@@ -215,7 +215,7 @@ int render(void)
 	double ref_force = 0.0;
 	for(int j = 0; j < jcount; j++)
 	{
-		double force = gravity * joints[j].mass.m;
+		double force = fabs(gacceleration * joints[j].mass.m);
 		if(force > ref_force)
 			ref_force = force;
 	}
@@ -308,7 +308,7 @@ int render(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		double force[2] = {0.0, -gravity * joint->mass.m};
+		double force[2] = {0.0, gacceleration * joint->mass.m};
 		double color[3] = {0.0, 0.0, 0.0};
 		render_force(context, force, joint->mass.p, ref_force, color, true);
 	}
@@ -329,7 +329,7 @@ int main(int argc, char **argv)
 	if(argc != 7)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 7 provided\n", argc);
-		fprintf(stderr, "usage: arguments: %s filename gravity=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s filename gacceleration=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
@@ -341,10 +341,10 @@ int main(int argc, char **argv)
 	char *extension = strrchr(filename, '.');
 	if(!extension || strcmp(extension, ".png") != 0)
 		strcat(filename, ".png");
-	if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+	if(sscanf(argv[2], "gacceleration=%lf", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument (2): %s\n", argv[2]);
-		fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument (2): %s\n", argv[2]);
+		fprintf(stderr, "usage: gacceleration argument (2): gacceleration=float\n");
 		return 1;
 	}
 	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)

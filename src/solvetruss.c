@@ -53,7 +53,7 @@ int scount;
 struct load *loads;
 int lcount;
 
-double gravity;
+double gacceleration;
 double dtime;
 double time;
 double timef;
@@ -79,7 +79,7 @@ void solve(void)
 		struct joint *joint = &joints[j];
 		for(int a = 0; a < 2; a++)
 			jforces[j][a] = 0.0;
-		jforces[j][1] = -gravity * joint->mass.m;
+		jforces[j][1] = gacceleration * joint->mass.m;
 	}
 	for(int l = 0; l < lcount; l++)
 	{
@@ -151,13 +151,13 @@ int main(int argc, char **argv)
 	if(argc != 4)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 4 provided\n", argc);
-		fprintf(stderr, "usage: arguments: %s gravity=float timef=float srate=float\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s gacceleration=float timef=float srate=float\n", argv[0]);
 		return 1;
 	}
-	if(sscanf(argv[1], "gravity=%lf", &gravity) != 1)
+	if(sscanf(argv[1], "gacceleration=%lf", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument (1): %s\n", argv[1]);
-		fprintf(stderr, "usage: gravity argument (1): gravity=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument (1): %s\n", argv[1]);
+		fprintf(stderr, "usage: gacceleration argument (1): gacceleration=float\n");
 		return 1;
 	}
 	if(sscanf(argv[2], "timef=%lf", &timef) != 1)

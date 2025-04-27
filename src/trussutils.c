@@ -375,14 +375,14 @@ int main(int argc, char **argv)
 		if(argc != 3)
 		{
 			fprintf(stderr, "error: count: arguments: %d of 3 provided\n", argc);
-			fprintf(stderr, "usage: arguments: %s properties gravity=float\n", argv[0]);
+			fprintf(stderr, "usage: arguments: %s properties gacceleration=float\n", argv[0]);
 			return 1;
 		}
-		double gravity;
-		if(sscanf(argv[2], "gravity=%lf", &gravity) != 1)
+		double gacceleration;
+		if(sscanf(argv[2], "gacceleration=%lf", &gacceleration) != 1)
 		{
-			fprintf(stderr, "error: parse: gravity argument (2): %s\n", argv[2]);
-			fprintf(stderr, "usage: gravity argument (2): gravity=float\n");
+			fprintf(stderr, "error: parse: gacceleration argument (2): %s\n", argv[2]);
+			fprintf(stderr, "usage: gacceleration argument (2): gacceleration=float\n");
 			return 1;
 		}
 		if(scan_truss_problem() != 0) return 1;
@@ -403,7 +403,7 @@ int main(int argc, char **argv)
 		double energy = 0.0;
 		for(int j = 0; j < jcount; j++)
 		{
-			energy += gravity * joints[j].mass.m * joints[j].mass.p[1];
+			energy -= gacceleration * joints[j].mass.m * joints[j].mass.p[1];
 			double speed = sqrt(pow(joints[j].mass.v[0], 2.0) + pow(joints[j].mass.v[1], 2.0));
 			energy += 0.5 * joints[j].mass.m * pow(speed, 2.0);
 		}

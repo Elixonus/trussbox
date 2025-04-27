@@ -183,7 +183,7 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 4. Members Lines *Body*
    * syntax: ```force=float displacement=float length=float velocity=float``` (trailing newline)
    * each individual member tension force (negative 
-     for in tension and positive for in compression) in Newtons, displacement from 
+     for in tension, positive for in compression) in Newtons, displacement from 
      resting length in meters, current measured length 
      in meters and velocity of expansion in meters 
      per second
@@ -196,12 +196,13 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ### Truss Solver
 
-```./bin/solvetruss gravity=float timef=float srate=float < problem.txt```
+```./bin/solvetruss gacceleration=float timef=float srate=float < problem.txt```
 
 * (stdin): [Truss Problem Configuration](#truss-problem-configuration)
 * (stdout): [Truss Solution Configuration](#truss-solution-configuration)
 * (stderr): error and usage messages
-* ```gravity```: gravitational acceleration of a free mass in meters per second squared
+* ```gacceleration```: gravitational acceleration of a free mass in meters per second squared
+  (negative for downwards, positive for upwards)
 * ```timef```: last simulation time step time in seconds
 * ```srate```: frequency of simulation time steps in Hz
 
@@ -219,11 +220,13 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
 
 ### Truss Force Diagram
 
-```./bin/forcediagram filename gravity=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
+```./bin/forcediagram filename gacceleration=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): concatenation of [Truss Problem Configuration](#truss-problem-configuration) and [Truss Solution Configuration](#truss-solution-configuration)
 * (stderr): error and usage messages
 * ```filename```: output diagram png filename (image of truss in given configuration)
+* ```gacceleration```: gravitational acceleration of a free mass in meters per second squared
+  (negative for downwards, positive for upwards)
 * ```fsize```: diagram resolution in pixels (width and height)
 * ```fcenter```: diagram camera center in meters
 * ```fzoom```: diagram camera zoom (size of visual elements remain unaffected)

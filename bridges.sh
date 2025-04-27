@@ -26,7 +26,7 @@ echo "| * ${fg_yellow}working on${normal} warren bridge problem"
 echo "| |\\"
 echo "\
 warren.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0
@@ -45,7 +45,7 @@ echo "| * ${fg_yellow}working on${normal} pratt bridge problem"
 echo "| |\\"
 echo "\
 pratt.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0
@@ -64,7 +64,7 @@ echo "| * ${fg_yellow}working on${normal} howe bridge problem"
 echo "| |\\"
 echo "\
 howe.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0
@@ -83,7 +83,7 @@ echo "| * ${fg_yellow}working on${normal} parker bridge problem"
 echo "| |\\"
 echo "\
 parker.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0
@@ -102,7 +102,7 @@ echo "| * ${fg_yellow}working on${normal} cambridge bridge problem"
 echo "| |\\"
 echo "\
 cambridge.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0
@@ -121,7 +121,7 @@ echo "| * ${fg_yellow}working on${normal} whipple bridge problem"
 echo "| |\\"
 echo "\
 whipple.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0

@@ -41,7 +41,7 @@ echo "| |\\"
 cat warren.txt | sed "s/dampening=3.0e2/dampening=3.0e1/g" > warrenld.txt
 echo "\
 warrenld.txt
-9.8
+-9.8
 3.0
 10000.0
 60.0

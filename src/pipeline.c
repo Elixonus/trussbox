@@ -11,7 +11,7 @@ char solutions_dirname[1001];
 char prosols_dirname[1001];
 char frames_dirname[1001];
 char diagrams_dirname[1001];
-double gravity;
+double gacceleration;
 double dtime;
 double timef;
 int step;
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 	if(argc != 19)
 	{
 		fprintf(stderr, "error: count: arguments: %d of 19 provided\n", argc);
-		fprintf(stderr, "usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gravity=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "usage: arguments: %s solvetruss_executable=string rendertruss_executable=string forcediagram_executable=string feedback_executable=string problem_filename=string problems_dirname=string solutions_dirname=string prosols_dirname=string frames_dirname=string diagrams_dirname=string gacceleration=float timef=float srate=float frate=float fsize=integerxinteger fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
 		return 1;
 	}
 	if(sscanf(argv[1], "solvetruss_executable=%1000s", solvetruss_executable) != 1)
@@ -94,10 +94,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: diagrams_dirname argument (10): diagrams_dirname=string\n");
 		return 1;
 	}
-	if(sscanf(argv[11], "gravity=%lf", &gravity) != 1)
+	if(sscanf(argv[11], "gacceleration=%lf", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: parse: gravity argument (11)\n");
-		fprintf(stderr, "usage: gravity argument (11): gravity=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument (11)\n");
+		fprintf(stderr, "usage: gacceleration argument (11): gacceleration=float\n");
 		return 1;
 	}
 	if(sscanf(argv[12], "timef=%lf", &timef) != 1)
@@ -202,16 +202,16 @@ int main(int argc, char **argv)
 			rendertruss_executable, frames_dirname, frame + 1, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, problems_dirname, frame + 1
 		);
 		printf(
-			"\"./%s\" gravity=%.9e timef=%.9e srate=%.9e < \"%s/%09d.txt\" > \"%s/%09d.txt\"\n",
-			solvetruss_executable, gravity, timef / ((double) (framef + 1)), srate, problems_dirname, frame + 1, solutions_dirname, frame + 1
+			"\"./%s\" gacceleration=%.9e timef=%.9e srate=%.9e < \"%s/%09d.txt\" > \"%s/%09d.txt\"\n",
+			solvetruss_executable, gacceleration, timef / ((double) (framef + 1)), srate, problems_dirname, frame + 1, solutions_dirname, frame + 1
 		);
 		printf(
 			"cat \"%s/%09d.txt\" \"%s/%09d.txt\" > \"%s/%09d.txt\"\n",
 			problems_dirname, frame + 1, solutions_dirname, frame + 1, prosols_dirname, frame + 1
 		);
 		printf(
-			"\"./%s\" \"%s/%09d.png\" gravity=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < \"%s/%09d.txt\"\n",
-			forcediagram_executable, diagrams_dirname, frame + 1, gravity, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, prosols_dirname, frame + 1
+			"\"./%s\" \"%s/%09d.png\" gacceleration=%.9e fsize=%dx%d \"fcenter=(%.9e %.9e)\" fzoom=%.9e fscale=%.9e < \"%s/%09d.txt\"\n",
+			forcediagram_executable, diagrams_dirname, frame + 1, gacceleration, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, prosols_dirname, frame + 1
 		);
 		printf(
 			"\"./%s\" < \"%s/%09d.txt\" > \"%s/%09d.txt\"\n",
