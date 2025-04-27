@@ -18,18 +18,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bridges.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bridges.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom.sh" beforeDir="false" afterPath="$PROJECT_DIR$/custom.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscellaneous.sh" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pendulums.sh" beforeDir="false" afterPath="$PROJECT_DIR$/pendulums.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preview.sh" beforeDir="false" afterPath="$PROJECT_DIR$/preview.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
-    </list>
+    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="renamed gravity parameter, changed sign convention and fixed typos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,18 +30,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Elixonus&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Elixonus/trussbox.git&quot;,
+    &quot;accountId&quot;: &quot;09ca41d7-eecc-4c8d-bda8-a96f12b46cce&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/forcediagram.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/solvetruss.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/trussutils.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -174,11 +168,26 @@
       <workItem from="1745627673790" duration="197000" />
       <workItem from="1745628036401" duration="5428000" />
       <workItem from="1745687066972" duration="3324000" />
-      <workItem from="1745728453952" duration="1026000" />
+      <workItem from="1745728453952" duration="9357000" />
+      <workItem from="1745774787207" duration="2075000" />
+      <workItem from="1745784664945" duration="381000" />
     </task>
+    <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
+      <option name="closed" value="true" />
+      <created>1745730172959</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745730172959</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="renamed gravity parameter, changed sign convention and fixed typos" />
+    <option name="LAST_COMMIT_MESSAGE" value="renamed gravity parameter, changed sign convention and fixed typos" />
   </component>
 </project>

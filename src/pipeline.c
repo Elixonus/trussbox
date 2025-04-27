@@ -36,74 +36,74 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[1], "solvetruss_executable=%1000s", solvetruss_executable) != 1)
 	{
-		fprintf(stderr, "error: parse: solvetruss_executable argument (1)\n");
-		fprintf(stderr, "usage: solvetruss_executable argument (1): solvetruss_executable=string\n");
+		fprintf(stderr, "error: parse: solvetruss_executable argument 1\n");
+		fprintf(stderr, "usage: solvetruss_executable argument 1: solvetruss_executable=string\n");
 		return 1;
 	}
 	if(sscanf(argv[2], "rendertruss_executable=%1000s", rendertruss_executable) != 1)
 	{
-		fprintf(stderr, "error: parse: rendertruss_executable argument (2)\n");
-		fprintf(stderr, "usage: rendertruss_executable argument (2): rendertruss_executable=string\n");
+		fprintf(stderr, "error: parse: rendertruss_executable argument 2\n");
+		fprintf(stderr, "usage: rendertruss_executable argument 2: rendertruss_executable=string\n");
 		return 1;
 	}
 	if(sscanf(argv[3], "forcediagram_executable=%1000s", forcediagram_executable) != 1)
 	{
-		fprintf(stderr, "error: parse: forcediagram_executable argument (3)\n");
-		fprintf(stderr, "usage: forcediagram_executable argument (3): forcediagram_executable=string\n");
+		fprintf(stderr, "error: parse: forcediagram_executable argument 3\n");
+		fprintf(stderr, "usage: forcediagram_executable argument 3: forcediagram_executable=string\n");
 		return 1;
 	}
 	if(sscanf(argv[4], "feedback_executable=%1000s", feedback_executable) != 1)
 	{
-		fprintf(stderr, "error: parse: feedback_executable argument (4)\n");
-		fprintf(stderr, "usage: feedback_executable argument (4): feedback_executable=string\n");
+		fprintf(stderr, "error: parse: feedback_executable argument 4\n");
+		fprintf(stderr, "usage: feedback_executable argument 4: feedback_executable=string\n");
 		return 1;
 	}
 	if(sscanf(argv[5], "problem_filename=%1000s", problem_filename) != 1)
 	{
-		fprintf(stderr, "error: parse: problem_filename argument (5)\n");
-		fprintf(stderr, "usage: problem_filename argument (5): problem_filename=string\n");
+		fprintf(stderr, "error: parse: problem_filename argument 5\n");
+		fprintf(stderr, "usage: problem_filename argument 5: problem_filename=string\n");
 		return 1;
 	}
 	if(sscanf(argv[6], "problems_dirname=%1000s", problems_dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: problems_dirname argument (6)\n");
-		fprintf(stderr, "usage: problems_dirname argument (6): problems_dirname=string\n");
+		fprintf(stderr, "error: parse: problems_dirname argument 6\n");
+		fprintf(stderr, "usage: problems_dirname argument 6: problems_dirname=string\n");
 		return 1;
 	}
 	if(sscanf(argv[7], "solutions_dirname=%1000s", solutions_dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: solutions_dirname argument (7)\n");
-		fprintf(stderr, "usage: solutions_dirname argument (7): solutions_dirname=string\n");
+		fprintf(stderr, "error: parse: solutions_dirname argument 7\n");
+		fprintf(stderr, "usage: solutions_dirname argument 7: solutions_dirname=string\n");
 		return 1;
 	}
 	if(sscanf(argv[8], "prosols_dirname=%1000s", prosols_dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: prosols_dirname argument (8)\n");
-		fprintf(stderr, "usage: prosols_dirname argument (8): prosols_dirname=string\n");
+		fprintf(stderr, "error: parse: prosols_dirname argument 8\n");
+		fprintf(stderr, "usage: prosols_dirname argument 8: prosols_dirname=string\n");
 		return 1;
 	}
 	if(sscanf(argv[9], "frames_dirname=%1000s", frames_dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: frames_dirname argument (9)\n");
-		fprintf(stderr, "usage: frames_dirname argument (9): frames_dirname=string\n");
+		fprintf(stderr, "error: parse: frames_dirname argument 9\n");
+		fprintf(stderr, "usage: frames_dirname argument 9: frames_dirname=string\n");
 		return 1;
 	}
 	if(sscanf(argv[10], "diagrams_dirname=%1000s", diagrams_dirname) != 1)
 	{
-		fprintf(stderr, "error: parse: diagrams_dirname argument (10)\n");
-		fprintf(stderr, "usage: diagrams_dirname argument (10): diagrams_dirname=string\n");
+		fprintf(stderr, "error: parse: diagrams_dirname argument 10\n");
+		fprintf(stderr, "usage: diagrams_dirname argument 10: diagrams_dirname=string\n");
 		return 1;
 	}
 	if(sscanf(argv[11], "gacceleration=%lf", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: parse: gacceleration argument (11)\n");
-		fprintf(stderr, "usage: gacceleration argument (11): gacceleration=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument 11\n");
+		fprintf(stderr, "usage: gacceleration argument 11: gacceleration=float\n");
 		return 1;
 	}
 	if(sscanf(argv[12], "timef=%lf", &timef) != 1)
 	{
-		fprintf(stderr, "error: parse: timef argument (12)\n");
-		fprintf(stderr, "usage: timef argument (12): timef=float\n");
+		fprintf(stderr, "error: parse: timef argument 12\n");
+		fprintf(stderr, "usage: timef argument 12: timef=float\n");
 		return 1;
 	}
 	if(timef < epsilon)
@@ -113,8 +113,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[13], "srate=%lf", &srate) != 1)
 	{
-		fprintf(stderr, "error: parse: srate argument (13)\n");
-		fprintf(stderr, "usage: srate argument (13): srate=float\n");
+		fprintf(stderr, "error: parse: srate argument 13\n");
+		fprintf(stderr, "usage: srate argument 13: srate=float\n");
 		return 1;
 	}
 	if(srate < epsilon)
@@ -136,8 +136,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[14], "frate=%lf", &frate) != 1)
 	{
-		fprintf(stderr, "error: parse: frate argument (14)\n");
-		fprintf(stderr, "usage: frate argument (14): frate=float\n");
+		fprintf(stderr, "error: parse: frate argument 14\n");
+		fprintf(stderr, "usage: frate argument 14: frate=float\n");
 		return 1;
 	}
 	if(frate < epsilon)
@@ -153,8 +153,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[15], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument (15)\n");
-		fprintf(stderr, "usage: fsize argument (15): fsize=integerxinteger\n");
+		fprintf(stderr, "error: parse: fsize argument 15\n");
+		fprintf(stderr, "usage: fsize argument 15: fsize=integerxinteger\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
@@ -164,14 +164,14 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[16], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument (16)\n");
-		fprintf(stderr, "usage: fcenter argument (16): fcenter=(float float)\n");
+		fprintf(stderr, "error: parse: fcenter argument 16\n");
+		fprintf(stderr, "usage: fcenter argument 16: fcenter=(float float)\n");
 		return 1;
 	}
 	if(sscanf(argv[17], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument (17)\n");
-		fprintf(stderr, "usage: fzoom argument (17): fzoom=float\n");
+		fprintf(stderr, "error: parse: fzoom argument 17\n");
+		fprintf(stderr, "usage: fzoom argument 17: fzoom=float\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
@@ -181,8 +181,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[18], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument (18)\n");
-		fprintf(stderr, "usage: fscale argument (18): fscale=float\n");
+		fprintf(stderr, "error: parse: fscale argument 18\n");
+		fprintf(stderr, "usage: fscale argument 18: fscale=float\n");
 		return 1;
 	}
 	if(fscale < epsilon)
@@ -219,8 +219,6 @@ int main(int argc, char **argv)
 		);
 		frame++;
 		while(step * (framef + 1) < frame * (stepf + 1))
-		{
 			step++;
-		}
 	}
 }

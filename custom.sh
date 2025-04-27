@@ -82,12 +82,11 @@ ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -logleve
 rm -rf $dirname/diagrams
 echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|                    ASCII Text Art"
 echo "|"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
-./bin/trussutils < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)" > "$dirname/textart.sh" textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true
+./bin/trussutils < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)" > "$dirname/textart.sh" textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true "title=ASCII Text Art Truss Representation"
 rm -rf $dirname/prosols
 source "$dirname/textart.sh" | sed -u "s/^/| /"
-rm -f "$dirname/textart.sh"
+# rm -f "$dirname/textart.sh"
 echo "|"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"
