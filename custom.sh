@@ -30,13 +30,8 @@ read -rep "frame center y (m): " fcentery
 read -rep "frame zoom: " fzoom
 read -rep "frame scale: " fscale
 read -rep "output dirname: " dirname
+rm -rf $dirname
 mkdir -p $dirname
-rm -rf $dirname/*
-mkdir -p $dirname/problems
-mkdir -p $dirname/solutions
-mkdir -p $dirname/prosols
-mkdir -p $dirname/frames
-mkdir -p $dirname/diagrams
 echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 ./bin/pipeline \
 	solvetruss_executable=bin/solvetruss \
@@ -44,11 +39,7 @@ echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 	forcediagram_executable=bin/forcediagram \
 	feedback_executable=bin/feedback \
 	problem_filename=$filename \
-	problems_dirname=$dirname/problems \
-	solutions_dirname=$dirname/solutions \
-	prosols_dirname=$dirname/prosols \
-	frames_dirname=$dirname/frames \
-	diagrams_dirname=$dirname/diagrams \
+	output_dirname=$dirname \
 	gacceleration=$gacceleration \
 	timef=$timef \
 	srate=$srate \
@@ -85,8 +76,8 @@ echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
 ./bin/trussutils < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)" > "$dirname/textart.sh" textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true "title=ASCII Text Art Truss Representation"
-rm -rf $dirname/prosols
+rm -rf "$dirname/prosols"
 source "$dirname/textart.sh" | sed -u "s/^/| /"
-# rm -f "$dirname/textart.sh"
+rm -f "$dirname/textart.sh"
 echo "|"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"
