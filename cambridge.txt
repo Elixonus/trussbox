@@ -9,22 +9,22 @@ mass=1.0 position=(0.375 0.25) velocity=<0.0 0.0>
 mass=1.0 position=(0.625 0.25) velocity=<0.0 0.0>
 mass=1.0 position=(0.875 0.2) velocity=<0.0 0.0>
 members=15
-joint1=1 joint2=2 stiffness=3.0e3 length0=0.25 dampening=3.0e2
-joint1=2 joint2=3 stiffness=3.0e3 length0=0.25 dampening=3.0e2
-joint1=3 joint2=4 stiffness=3.0e3 length0=0.25 dampening=3.0e2
-joint1=4 joint2=5 stiffness=3.0e3 length0=0.25 dampening=3.0e2
-joint1=6 joint2=7 stiffness=3.0e3 length0=0.2549509757 dampening=3.0e2
-joint1=7 joint2=8 stiffness=3.0e3 length0=0.25 dampening=3.0e2
-joint1=8 joint2=9 stiffness=3.0e3 length0=0.2549509757 dampening=3.0e2
-joint1=1 joint2=6 stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
-joint1=2 joint2=7 stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
-joint1=3 joint2=8 stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
-joint1=4 joint2=9 stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
-joint1=2 joint2=6 stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
-joint1=3 joint2=7 stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
-joint1=4 joint2=8 stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
-joint1=5 joint2=9 stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
+joint1=[1] joint2=[2] stiffness=3.0e3 length0=0.25 dampening=3.0e2
+joint1=[2] joint2=[3] stiffness=3.0e3 length0=0.25 dampening=3.0e2
+joint1=[3] joint2=[4] stiffness=3.0e3 length0=0.25 dampening=3.0e2
+joint1=[4] joint2=[5] stiffness=3.0e3 length0=0.25 dampening=3.0e2
+joint1=[6] joint2=[7] stiffness=3.0e3 length0=0.2549509757 dampening=3.0e2
+joint1=[7] joint2=[8] stiffness=3.0e3 length0=0.25 dampening=3.0e2
+joint1=[8] joint2=[9] stiffness=3.0e3 length0=0.2549509757 dampening=3.0e2
+joint1=[1] joint2=[6] stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
+joint1=[2] joint2=[7] stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
+joint1=[3] joint2=[8] stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
+joint1=[4] joint2=[9] stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
+joint1=[2] joint2=[6] stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
+joint1=[3] joint2=[7] stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
+joint1=[4] joint2=[8] stiffness=3.0e3 length0=0.2795084972 dampening=3.0e2
+joint1=[5] joint2=[9] stiffness=3.0e3 length0=0.2358495283 dampening=3.0e2
 supports=2
-joint=1 axes=xy
-joint=5 axes=y
+joint=[1] axes=xy
+joint=[5] axes=y
 loads=0

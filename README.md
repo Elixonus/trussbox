@@ -110,13 +110,13 @@ mass=1.0 position=(0.0 0.0) velocity=<0.0 0.0>
 mass=1.0 position=(1.0 0.0) velocity=<0.0 0.0>
 mass=1.0 position=(1.0 1.0) velocity=<0.0 0.0>
 members=3
-joint1=1 joint2=2 stiffness=3.0e3 length0=1.0 dampening=3.0e2
-joint1=2 joint2=3 stiffness=3.0e3 length0=1.0 dampening=3.0e2
-joint1=3 joint2=1 stiffness=3.0e3 length0=1.0 dampening=3.0e2
+joint1=[1] joint2=[2] stiffness=3.0e3 length0=1.0 dampening=3.0e2
+joint1=[2] joint2=[3] stiffness=3.0e3 length0=1.0 dampening=3.0e2
+joint1=[3] joint2=[1] stiffness=3.0e3 length0=1.0 dampening=3.0e2
 supports=1
-joint=1 axes=xy
+joint=[1] axes=xy
 loads=1
-joint=3 force=<-10.0 -10.0>
+joint=[3] force=<-10.0 -10.0>
 ```
 
 1. Joints Count *Header*
@@ -130,7 +130,7 @@ joint=3 force=<-10.0 -10.0>
    * syntax: ```members=count``` (trailing newline)
    * number of members in following body
 4. Members Lines *Body*
-   * syntax: ```joint1=index joint2=index stiffness=float length0=float dampening=float``` (trailing newline)
+   * syntax: ```joint1=[index] joint2=[index] stiffness=float length0=float dampening=float``` (trailing newline)
    * each individual member joints connection indices, stiffness 
      of spring component in Newtons per meter, resting length in 
      meters and dampening of damper component in Newton seconds per 
@@ -139,7 +139,7 @@ joint=3 force=<-10.0 -10.0>
    * syntax: ```supports=count``` (trailing newline)
    * number of supports in following body
 6. Supports Lines *Body*
-   * syntax: ```joint=index axes=xy|x|y``` (trailing newline)
+   * syntax: ```joint=[index] axes=xy|x|y``` (trailing newline)
    * each individual support joint binding and axes of reactions
    * if ```axes=xy```, support is of type pin
    * if ```axes=x```, support is of type vertical roller
@@ -148,7 +148,7 @@ joint=3 force=<-10.0 -10.0>
    * syntax: ```loads=count``` (trailing newline)
    * number of loads in following body
 8. Loads Lines *Body*
-   * syntax: ```joint=index force=<float float>``` (trailing newline)
+   * syntax: ```joint=[index] force=<float float>``` (trailing newline)
    * each individual point load joint binding and global space 
      force vector in Newtons
 

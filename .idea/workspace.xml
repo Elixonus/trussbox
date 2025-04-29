@@ -18,16 +18,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="renamed gravity parameter, changed sign convention and fixed typos">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/feedback.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/feedback.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/warren.txt" beforeDir="false" afterPath="$PROJECT_DIR$/warren.txt" afterDir="false" />
-    </list>
+    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="renamed gravity parameter, changed sign convention and fixed typos" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -185,6 +176,7 @@
       <workItem from="1745728453952" duration="9357000" />
       <workItem from="1745774787207" duration="2075000" />
       <workItem from="1745784664945" duration="5574000" />
+      <workItem from="1745897335498" duration="1543000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

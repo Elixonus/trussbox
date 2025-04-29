@@ -8,20 +8,20 @@ mass=1.0 position=(0.25 0.2) velocity=<0.0 0.0>
 mass=1.0 position=(0.5 0.25) velocity=<0.0 0.0>
 mass=1.0 position=(0.75 0.2) velocity=<0.0 0.0>
 members=13
-joint1=1 joint2=2 stiffness=5.0e3 length0=0.25 dampening=3.0e2
-joint1=2 joint2=3 stiffness=5.0e3 length0=0.25 dampening=3.0e2
-joint1=3 joint2=4 stiffness=5.0e3 length0=0.25 dampening=3.0e2
-joint1=4 joint2=5 stiffness=5.0e3 length0=0.25 dampening=3.0e2
-joint1=1 joint2=6 stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
-joint1=6 joint2=7 stiffness=5.0e3 length0=0.25495097568 dampening=3.0e2
-joint1=7 joint2=8 stiffness=5.0e3 length0=0.25495097568 dampening=3.0e2
-joint1=8 joint2=5 stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
-joint1=2 joint2=6 stiffness=5.0e3 length0=0.2 dampening=3.0e2
-joint1=3 joint2=7 stiffness=5.0e3 length0=0.25 dampening=3.0e2
-joint1=4 joint2=8 stiffness=5.0e3 length0=0.2 dampening=3.0e2
-joint1=3 joint2=6 stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
-joint1=8 joint2=3 stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
+joint1=[1] joint2=[2] stiffness=5.0e3 length0=0.25 dampening=3.0e2
+joint1=[2] joint2=[3] stiffness=5.0e3 length0=0.25 dampening=3.0e2
+joint1=[3] joint2=[4] stiffness=5.0e3 length0=0.25 dampening=3.0e2
+joint1=[4] joint2=[5] stiffness=5.0e3 length0=0.25 dampening=3.0e2
+joint1=[1] joint2=[6] stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
+joint1=[6] joint2=[7] stiffness=5.0e3 length0=0.25495097568 dampening=3.0e2
+joint1=[7] joint2=[8] stiffness=5.0e3 length0=0.25495097568 dampening=3.0e2
+joint1=[8] joint2=[5] stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
+joint1=[2] joint2=[6] stiffness=5.0e3 length0=0.2 dampening=3.0e2
+joint1=[3] joint2=[7] stiffness=5.0e3 length0=0.25 dampening=3.0e2
+joint1=[4] joint2=[8] stiffness=5.0e3 length0=0.2 dampening=3.0e2
+joint1=[3] joint2=[6] stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
+joint1=[8] joint2=[3] stiffness=5.0e3 length0=0.32015621187 dampening=3.0e2
 supports=2
-joint=1 axes=xy
-joint=5 axes=y
+joint=[1] axes=xy
+joint=[5] axes=y
 loads=0
