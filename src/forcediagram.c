@@ -328,14 +328,14 @@ int main(int argc, char **argv)
 {
 	if(argc != 7)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 7 provided\n", argc);
-		fprintf(stderr, "usage: arguments: %s filename gacceleration=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: filename gacceleration=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n");
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
 	{
-		fprintf(stderr, "error: parse: filename argument 1: %s\n", argv[1]);
-		fprintf(stderr, "usage: filename argument 1: string\n");
+		fprintf(stderr, "error: parse: filename argument [1]\n");
+		fprintf(stderr, "usage: filename argument [1]: string\n");
 		return 1;
 	}
 	char *extension = strrchr(filename, '.');
@@ -343,14 +343,14 @@ int main(int argc, char **argv)
 		strcat(filename, ".png");
 	if(sscanf(argv[2], "gacceleration=%lf", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: parse: gacceleration argument 2: %s\n", argv[2]);
-		fprintf(stderr, "usage: gacceleration argument 2: gacceleration=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument [2]\n");
+		fprintf(stderr, "usage: gacceleration argument [2]: gacceleration=float\n");
 		return 1;
 	}
 	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument 3: %s\n", argv[3]);
-		fprintf(stderr, "usage: fsize argument 3: fsize=widthxheight\n");
+		fprintf(stderr, "error: parse: fsize argument [3]\n");
+		fprintf(stderr, "usage: fsize argument [3]: fsize=widthxheight\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
@@ -360,14 +360,14 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[4], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument 4: %s\n", argv[4]);
-		fprintf(stderr, "usage: fcenter argument 4: fcenter=(float float)\n");
+		fprintf(stderr, "error: parse: fcenter argument [4]\n");
+		fprintf(stderr, "usage: fcenter argument [4]: fcenter=(float float)\n");
 		return 1;
 	}
 	if(sscanf(argv[5], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument 5: %s\n", argv[5]);
-		fprintf(stderr, "usage: fzoom argument 5: fzoom=float\n");
+		fprintf(stderr, "error: parse: fzoom argument [5]\n");
+		fprintf(stderr, "usage: fzoom argument [5]: fzoom=float\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
@@ -377,8 +377,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[6], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument 6: %s\n", argv[6]);
-		fprintf(stderr, "usage: fscale argument 6: fscale=float\n");
+		fprintf(stderr, "error: parse: fscale argument [6]\n");
+		fprintf(stderr, "usage: fscale argument [6]: fscale=float\n");
 		return 1;
 	}
 	if(fscale < epsilon)
@@ -405,7 +405,7 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5) return 1;
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
@@ -427,7 +427,7 @@ int main(int argc, char **argv)
 		int jindex;
 		char axes[3];
 		struct support support;
-		if(scanf("joint=%d axes=%2s\n", &jindex, axes) != 2) return 1;
+		if(scanf("joint=[%d] axes=%2s\n", &jindex, axes) != 2) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass) return 1;
@@ -450,7 +450,7 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		if(scanf("joint=%d force=<%lf %lf>\n",
+		if(scanf("joint=[%d] force=<%lf %lf>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;

@@ -131,7 +131,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.145, 0.145, 0.145);
+	cairo_set_source_rgb(context, 0.14, 0.14, 0.14);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -318,14 +318,14 @@ int main(int argc, char **argv)
 {
 	if(argc != 6)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc);
-		fprintf(stderr, "usage: arguments: %s filename fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n", argv[0]);
+		fprintf(stderr, "error: count: arguments: %d of 5 provided\n", argc - 1);
+		fprintf(stderr, "usage: arguments: filename fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n");
 		return 1;
 	}
 	if(sscanf(argv[1], "%1000s", filename) != 1)
 	{
-		fprintf(stderr, "error: parse: filename argument 1: %s\n", argv[1]);
-		fprintf(stderr, "usage: filename argument 1: string\n");
+		fprintf(stderr, "error: parse: filename argument [1]\n");
+		fprintf(stderr, "usage: filename argument [1]: string\n");
 		return 1;
 	}
 	char *extension = strrchr(filename, '.');
@@ -333,8 +333,8 @@ int main(int argc, char **argv)
 		strcat(filename, ".png");
 	if(sscanf(argv[2], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument 2: %s\n", argv[2]);
-		fprintf(stderr, "usage: fsize argument 2: fsize=widthxheight\n");
+		fprintf(stderr, "error: parse: fsize argument [2]\n");
+		fprintf(stderr, "usage: fsize argument [2]: fsize=widthxheight\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
@@ -344,14 +344,14 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[3], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument 3: %s\n", argv[3]);
-		fprintf(stderr, "usage: fcenter argument 3: fcenter=(float float)\n");
+		fprintf(stderr, "error: parse: fcenter argument [3]\n");
+		fprintf(stderr, "usage: fcenter argument [3]: fcenter=(float float)\n");
 		return 1;
 	}
 	if(sscanf(argv[4], "fzoom=%lf", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument 4: %s\n", argv[4]);
-		fprintf(stderr, "usage: fzoom argument 4: fzoom=float\n");
+		fprintf(stderr, "error: parse: fzoom argument [4]\n");
+		fprintf(stderr, "usage: fzoom argument [4]: fzoom=float\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
@@ -361,8 +361,8 @@ int main(int argc, char **argv)
 	}
 	if(sscanf(argv[5], "fscale=%lf", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument 5: %s\n", argv[5]);
-		fprintf(stderr, "usage: fscale argument 5: fscale=float\n");
+		fprintf(stderr, "error: parse: fscale argument [5]\n");
+		fprintf(stderr, "usage: fscale argument [5]: fscale=float\n");
 		return 1;
 	}
 	if(fscale < epsilon)
@@ -393,13 +393,13 @@ int main(int argc, char **argv)
 		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
-			fprintf(stderr, "error: parse: joint line %d\n", j + 1);
+			fprintf(stderr, "error: parse: joint line [%d]\n", j + 1);
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=(float float)\n");
 			return 1;
 		}
 		if(joint.mass.m < epsilon)
 		{
-			fprintf(stderr, "error: limit: joint line %d: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint line [%d]: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
 			return 1;
 		}
 		joints[j] = joint;
@@ -425,22 +425,22 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=%d joint2=%d stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
-			fprintf(stderr, "error: parse: member line %d\n", m + 1);
-			fprintf(stderr, "usage: member line: joint1=index joint2=index stiffness=float length0=float dampening=float\n");
+			fprintf(stderr, "error: parse: member line [%d]\n", m + 1);
+			fprintf(stderr, "usage: member line: joint1=[index] joint2=[index] stiffness=float length0=float dampening=float\n");
 			return 1;
 		}
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount)
 		{
-			fprintf(stderr, "error: index: member line %d: joint1 parameter: %d does not exist\n", m + 1, jindex1 + 1);
+			fprintf(stderr, "error: index: member line [%d]: joint1 parameter: [%d] does not exist\n", m + 1, jindex1 + 1);
 			return 1;
 		}
 		if(jindex2 < 0 || jindex2 >= jcount)
 		{
-			fprintf(stderr, "error: index: member line %d: joint2 parameter: %d does not exist\n", m + 1, jindex2 + 1);
+			fprintf(stderr, "error: index: member line [%d]: joint2 parameter: [%d] does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
@@ -449,14 +449,14 @@ int main(int argc, char **argv)
 			   (members[m2].spring.m1 == &joints[jindex2].mass &&
 			    members[m2].spring.m2 == &joints[jindex1].mass))
 			{
-				fprintf(stderr, "error: index: member line %d: joint1 and joint2 parameters: (%d and %d) or (%d and %d) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
+				fprintf(stderr, "error: index: member line [%d]: joint1 and joint2 parameters: ([%d] and [%d]) or ([%d] and [%d]) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
 				return 1;
 			}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon)
 		{
-			fprintf(stderr, "error: limit: member line %d: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
 			return 1;
 		}
 		members[m] = member;
@@ -483,22 +483,22 @@ int main(int argc, char **argv)
 		int jindex;
 		char axes[101];
 		struct support support;
-		if(scanf("joint=%d axes=%100s\n", &jindex, axes) != 2)
+		if(scanf("joint=[%d] axes=%100s\n", &jindex, axes) != 2)
 		{
-			fprintf(stderr, "error: parse: support line %d\n", s + 1);
-			fprintf(stderr, "usage: support line: joint=index axes=xy|x|y\n");
+			fprintf(stderr, "error: parse: support line [%d]\n", s + 1);
+			fprintf(stderr, "usage: support line: joint=[index] axes=xy|x|y\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: support line %d: joint parameter: %d does not exist\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support line [%d]: joint parameter: [%d] does not exist\n", s + 1, jindex + 1);
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++)
 			if(supports[s2].constraint.m == &joints[jindex].mass)
 			{
-				fprintf(stderr, "error: index: support line %d: joint parameter: %d already in use\n", s + 1, jindex + 1);
+				fprintf(stderr, "error: index: support line [%d]: joint parameter: [%d] already in use\n", s + 1, jindex + 1);
 				return 1;
 			}
 		support.constraint.m = &joints[jindex].mass;
@@ -510,7 +510,7 @@ int main(int argc, char **argv)
 			support.constraint.a[0] = false, support.constraint.a[1] = true;
 		else
 		{
-			fprintf(stderr, "error: parse: support line %d: axes parameter: %s not an option\n", s + 1, axes);
+			fprintf(stderr, "error: parse: support line [%d]: axes parameter: not an option\n", s + 1);
 			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
