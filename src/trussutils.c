@@ -561,7 +561,8 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		if(scan_truss_problem() != 0) return 1;
-		if(scan_truss_solution() != 0) return 1;
+		if(usecolor)
+			if(scan_truss_solution() != 0) return 1;
 		char textart[25][52];
 		char colors[25][50];
 		for(int r = 0; r < 25; r++)
@@ -580,43 +581,51 @@ int main(int argc, char **argv)
 			if(usecolor)
 				colors[r][c] = clr;
 		}
-		double cutoff_force = 0.0;
-		for(int l = 0; l < lcount; l++)
+		double cutoff_force;
+		if(usecolor)
 		{
-			double force = sqrt(pow(loads[l].action.f[0], 2.0) + pow(loads[l].action.f[1], 2.0));
-			if(force > cutoff_force)
-				cutoff_force = force;
-		}
-		for(int s = 0; s < scount; s++)
-		{
-			double force = sqrt(pow(sreactions[s][0], 2.0) + pow(sreactions[s][1], 2.0));
-			if(force > cutoff_force)
-				cutoff_force = force;
-		}
-		for(int m = 0; m < mcount; m++)
-		{
-			double force = fabs(mforces[m]);
-			if(force > cutoff_force)
-				cutoff_force = force;
+			cutoff_force = 0.0;
+			for(int l = 0; l < lcount; l++)
+			{
+				double force = sqrt(pow(loads[l].action.f[0], 2.0) + pow(loads[l].action.f[1], 2.0));
+				if(force > cutoff_force)
+					cutoff_force = force;
+			}
+			for(int s = 0; s < scount; s++)
+			{
+				double force = sqrt(pow(sreactions[s][0], 2.0) + pow(sreactions[s][1], 2.0));
+				if(force > cutoff_force)
+					cutoff_force = force;
+			}
+			for(int m = 0; m < mcount; m++)
+			{
+				double force = fabs(mforces[m]);
+				if(force > cutoff_force)
+					cutoff_force = force;
+			}
 		}
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
-			double force = mforces[m];
+			double force;
 			char color;
-			if(cutoff_force < epsilon)
+			if(usecolor)
 			{
-				color = 'G';
-				goto bresenham;
+				force = mforces[m];
+				if(cutoff_force < epsilon)
+				{
+					color = 'G';
+					goto bresenham;
+				}
+				double balance = force / cutoff_force;
+				balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
+				if(fabs(balance) < 0.2)
+					color = 'G';
+				else if(balance > 0.0)
+					color = 'r';
+				else
+					color = 'b';
 			}
-			double balance = force / cutoff_force;
-			balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
-			if(fabs(balance) < 0.2)
-				color = 'G';
-			else if(balance > 0.0)
-				color = 'r';
-			else
-				color = 'b';
 			bresenham:
 			int rowcol1[2] = {
 				(int) round(24.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
@@ -670,7 +679,7 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
-			setchar('@', rowcol[0], rowcol[1], ' ');
+			setchar('O', rowcol[0], rowcol[1], ' ');
 		}
 		for(int s = 0; s < scount; s++)
 		{
@@ -841,7 +850,12 @@ int main(int argc, char **argv)
 		{
 			int padding = (50 - strlen(title)) / 2;
 			if(usecolor)
-				printf("echo -n \"%*s%s%*s\n\"\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
+			{
+				printf("echo -n \"$(tput setaf 0)\"\n");
+				printf("echo -n \"$(tput setab 7)\"\n");
+				printf("echo -n \"%*s%s%*s\"\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
+				printf("echo \"$(tput sgr0)\"\n");
+			}
 			else
 				printf("%*s%s%*s\n", padding, "", title, 50 - padding, "");
 		}
@@ -885,7 +899,8 @@ int main(int argc, char **argv)
 			else
 				printf("%s", textart[r]);
 		free_truss_problem();
-		free_truss_solution();
+		if(usecolor)
+			free_truss_solution();
 	}
 	else {
 		fprintf(stderr, "error: parse: utility argument [1]\n");

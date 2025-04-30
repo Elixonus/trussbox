@@ -22,10 +22,10 @@ echo "* ${fg_yellow}creating${normal} output for each of the miscellaneous syste
 echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
-echo "| * ${fg_yellow}working on${normal} roof truss problem"
+echo "| * ${fg_yellow}working on${normal} fink roof truss problem"
 echo "| |\\"
 echo "\
-roof.txt
+fink.txt
 -9.8
 2.0
 10000.0
@@ -36,12 +36,31 @@ roof.txt
 0.125
 1.0
 1.0
-tmp/miscellaneous/roof
+tmp/miscellaneous/fink
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| |"
-echo "| * ${fg_yellow}working on${normal} cantilever problem"
+echo "| * ${fg_yellow}working on${normal} scissor roof truss problem"
+echo "| |\\"
+echo "\
+scissor.txt
+-9.8
+3.0
+10000.0
+60.0
+1920
+1080
+0.0
+2.5
+0.1
+1.0
+tmp/miscellaneous/scissor
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} box cantilever problem"
 echo "| |\\"
 echo "\
 cantilever.txt
@@ -94,6 +113,25 @@ powertower.txt
 0.08
 0.7
 tmp/miscellaneous/powertower
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} power transmission line tower cross variant truss problem"
+echo "| |\\"
+echo "\
+powertowercross.txt
+0.0
+4.0
+1000000.0
+60.0
+1920
+1080
+0.0
+4.8
+0.08
+0.7
+tmp/miscellaneous/powertowercross
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"

@@ -128,21 +128,33 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/bridges/whipple/video.mp4 \
 	-loglevel error
-mkdir -p tmp/montage/miscellaneous/roof
+mkdir -p tmp/montage/miscellaneous/fink
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.05 text=Roof
-" | ./bin/subtitles tmp/montage/miscellaneous/roof/subtitles.png fsize=1920x1080
+center=(0.0 -0.4) lineheight=0.05 text=Fink Roof
+" | ./bin/subtitles tmp/montage/miscellaneous/fink/subtitles.png fsize=1920x1080
 ffmpeg \
-	-i tmp/miscellaneous/roof/video.mp4 \
-	-i tmp/miscellaneous/roof/fdiagram.mp4 \
-	-i tmp/montage/miscellaneous/roof/subtitles.png \
+	-i tmp/miscellaneous/fink/video.mp4 \
+	-i tmp/miscellaneous/fink/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/fink/subtitles.png \
 	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
-	-y tmp/montage/miscellaneous/roof/video.mp4 \
+	-y tmp/montage/miscellaneous/fink/video.mp4 \
+	-loglevel error
+mkdir -p tmp/montage/miscellaneous/scissor
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.05 text=Scissor Roof
+" | ./bin/subtitles tmp/montage/miscellaneous/scissor/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/scissor/video.mp4 \
+	-i tmp/miscellaneous/scissor/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/scissor/subtitles.png \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/scissor/video.mp4 \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/cantilever
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.05 text=Cantilever
+center=(0.0 -0.4) lineheight=0.05 text=Box Cantilever
 " | ./bin/subtitles tmp/montage/miscellaneous/cantilever/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/cantilever/video.mp4 \
@@ -175,6 +187,18 @@ ffmpeg \
 	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertower/video.mp4 \
+	-loglevel error
+mkdir -p tmp/montage/miscellaneous/powertowercross
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.05 text=Power Transmission Tower
+" | ./bin/subtitles tmp/montage/miscellaneous/powertowercross/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/powertowercross/video.mp4 \
+	-i tmp/miscellaneous/powertowercross/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/powertowercross/subtitles.png \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-loglevel error
 mkdir -p tmp/montage/pendulums/pendulum
 echo "subtitles=1
@@ -235,15 +259,17 @@ ffmpeg \
 	-i tmp/montage/bridges/parker/video.mp4 \
 	-i tmp/montage/bridges/cambridge/video.mp4 \
 	-i tmp/montage/bridges/whipple/video.mp4 \
-	-i tmp/montage/miscellaneous/roof/video.mp4 \
+	-i tmp/montage/miscellaneous/fink/video.mp4 \
+	-i tmp/montage/miscellaneous/scissor/video.mp4 \
 	-i tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-i tmp/montage/miscellaneous/powertower/video.mp4 \
+	-i tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-i tmp/montage/pendulums/pendulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/montage/pendulums/decuplependulum/video.mp4 \
-	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v]concat=n=14:v=1[v]" \
+	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v][14:v][15:v]concat=n=16:v=1[v]" \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
@@ -258,10 +284,12 @@ ffmpeg \
 	-t 20 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/roof/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/fink/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/scissor/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
@@ -281,7 +309,9 @@ ffmpeg \
 		[11:v]scale=480:-1[v11]; \
 		[12:v]scale=480:-1[v12]; \
 		[13:v]scale=480:-1[v13]; \
-		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10][v11][v12][v13]xstack=inputs=14:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1|w0+w1+w2_h0+h1|0_h0+h1+h2|w0_h0+h1+h2:fill=black[v]" \
+		[14:v]scale=480:-1[v14]; \
+		[15:v]scale=480:-1[v15]; \
+		[v0][v1][v2][v3][v4][v5][v6][v7][v8][v9][v10][v11][v12][v13][v14][v15]xstack=inputs=16:layout=0_0|w0_0|w0+w1_0|w0+w1+w2_0|0_h0|w0_h0|w0+w1_h0|w0+w1+w2_h0|0_h0+h1|w0_h0+h1|w0+w1_h0+h1|w0+w1+w2_h0+h1|0_h0+h1+h2|w0_h0+h1+h2|w0+w1_h0+h1+h2|w0+w1+w2_h0+h1+h2:fill=black[v]" \
 	-map "[v]" \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error

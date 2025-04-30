@@ -83,7 +83,7 @@ int render(void)
 	cairo_device_to_user(context, &corner1[0], &corner1[1]);
 	double corner2[2] = {(double) fsize[0], 0.0};
 	cairo_device_to_user(context, &corner2[0], &corner2[1]);
-	double gstride1 = 0.1 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
+	double gstride1 = 0.125 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
 	double gstride2 = 0.5 * gstride1;
 	double gstride3 = 0.25 * gstride1;
 	double gpoint1[2];
@@ -108,7 +108,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.09, 0.09, 0.09);
+	cairo_set_source_rgb(context, 0.1, 0.1, 0.1);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -131,7 +131,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.14, 0.14, 0.14);
+	cairo_set_source_rgb(context, 0.15, 0.15, 0.15);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);

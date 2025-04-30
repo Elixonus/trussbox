@@ -163,7 +163,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.955, 0.955, 0.955);
+	cairo_set_source_rgb(context, 0.95, 0.95, 0.95);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -186,7 +186,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.9275, 0.9275, 0.9275);
+	cairo_set_source_rgb(context, 0.925, 0.925, 0.925);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
