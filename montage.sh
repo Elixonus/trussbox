@@ -190,7 +190,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/powertowercross
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.04 text=Power Transmission Tower
+center=(0.0 -0.4) lineheight=0.04 text=Power Transmission Tower Cross Variation
 " | ./bin/subtitles tmp/montage/miscellaneous/powertowercross/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/powertowercross/video.mp4 \

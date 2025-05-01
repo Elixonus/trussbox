@@ -67,13 +67,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: output_dirname argument [6]: output_dirname=string\n");
 		return 1;
 	}
-	if(sscanf(argv[7], "gacceleration=%lf", &gacceleration) != 1)
+	if(sscanf(argv[7], "gacceleration=%le", &gacceleration) != 1)
 	{
 		fprintf(stderr, "error: parse: gacceleration argument [7]\n");
 		fprintf(stderr, "usage: gacceleration argument [7]: gacceleration=float\n");
 		return 1;
 	}
-	if(sscanf(argv[8], "timef=%lf", &timef) != 1)
+	if(sscanf(argv[8], "timef=%le", &timef) != 1)
 	{
 		fprintf(stderr, "error: parse: timef argument [8]\n");
 		fprintf(stderr, "usage: timef argument [8]: timef=float\n");
@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[9], "srate=%lf", &srate) != 1)
+	if(sscanf(argv[9], "srate=%le", &srate) != 1)
 	{
 		fprintf(stderr, "error: parse: srate argument [9]\n");
 		fprintf(stderr, "usage: srate argument [9]: srate=float\n");
@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf);
 		return 1;
 	}
-	if(sscanf(argv[10], "frate=%lf", &frate) != 1)
+	if(sscanf(argv[10], "frate=%le", &frate) != 1)
 	{
 		fprintf(stderr, "error: parse: frate argument [10]\n");
 		fprintf(stderr, "usage: frate argument [10]: frate=float\n");
@@ -135,13 +135,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
 		return 1;
 	}
-	if(sscanf(argv[12], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+	if(sscanf(argv[12], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fcenter argument [12]\n");
 		fprintf(stderr, "usage: fcenter argument [12]: fcenter=(float float)\n");
 		return 1;
 	}
-	if(sscanf(argv[13], "fzoom=%lf", &fzoom) != 1)
+	if(sscanf(argv[13], "fzoom=%le", &fzoom) != 1)
 	{
 		fprintf(stderr, "error: parse: fzoom argument [13]\n");
 		fprintf(stderr, "usage: fzoom argument [13]: fzoom=float\n");
@@ -152,7 +152,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[14], "fscale=%lf", &fscale) != 1)
+	if(sscanf(argv[14], "fscale=%le", &fscale) != 1)
 	{
 		fprintf(stderr, "error: parse: fscale argument [14]\n");
 		fprintf(stderr, "usage: fscale argument [14]: fscale=float\n");

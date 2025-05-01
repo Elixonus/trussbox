@@ -341,7 +341,7 @@ int main(int argc, char **argv)
 	char *extension = strrchr(filename, '.');
 	if(!extension || strcmp(extension, ".png") != 0)
 		strcat(filename, ".png");
-	if(sscanf(argv[2], "gacceleration=%lf", &gacceleration) != 1)
+	if(sscanf(argv[2], "gacceleration=%le", &gacceleration) != 1)
 	{
 		fprintf(stderr, "error: parse: gacceleration argument [2]\n");
 		fprintf(stderr, "usage: gacceleration argument [2]: gacceleration=float\n");
@@ -358,13 +358,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
 		return 1;
 	}
-	if(sscanf(argv[4], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+	if(sscanf(argv[4], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fcenter argument [4]\n");
 		fprintf(stderr, "usage: fcenter argument [4]: fcenter=(float float)\n");
 		return 1;
 	}
-	if(sscanf(argv[5], "fzoom=%lf", &fzoom) != 1)
+	if(sscanf(argv[5], "fzoom=%le", &fzoom) != 1)
 	{
 		fprintf(stderr, "error: parse: fzoom argument [5]\n");
 		fprintf(stderr, "usage: fzoom argument [5]: fzoom=float\n");
@@ -375,7 +375,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[6], "fscale=%lf", &fscale) != 1)
+	if(sscanf(argv[6], "fscale=%le", &fscale) != 1)
 	{
 		fprintf(stderr, "error: parse: fscale argument [6]\n");
 		fprintf(stderr, "usage: fscale argument [6]: fscale=float\n");
@@ -393,7 +393,7 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5) return 1;
 		if(joint.mass.m < epsilon) return 1;
 		joints[j] = joint;
@@ -405,7 +405,7 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5) return 1;
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
@@ -450,7 +450,7 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		if(scanf("joint=[%d] force=<%lf %lf>\n",
+		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
@@ -466,7 +466,7 @@ int main(int argc, char **argv)
 	{
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j]) return 1;
-		if(scanf("force=<%lf %lf> position=(%*f %*f) velocity=<%*f %*f>\n",
+		if(scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
 		         &jforces[j][0], &jforces[j][1]) != 2) return 1;
 	}
 	int mcount2;
@@ -482,7 +482,7 @@ int main(int argc, char **argv)
 	if(!mforces) return 1;
 	for(int m = 0; m < mcount; m++)
 	{
-		if(scanf("force=%lf displacement=%lf length=%lf velocity=%lf\n",
+		if(scanf("force=%le displacement=%le length=%le velocity=%le\n",
 		         &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4) return 1;
 	}
 	int scount2;
@@ -493,7 +493,7 @@ int main(int argc, char **argv)
 	{
 		sreactions[s] = malloc(2 * sizeof(double));
 		if(!sreactions[s]) return 1;
-		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
+		if(scanf("reaction=<%le %le>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
 	}
 	if(render() != 0) return 1;
 	free(joints);

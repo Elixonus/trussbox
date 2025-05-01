@@ -63,7 +63,7 @@ void print_truss_problem(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		printf("mass=%.9e position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
+		printf("mass=%.9le position=(%.9le %.9le) velocity=<%.9le %.9le>\n",
 			   joint->mass.m, joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
 	}
 	printf("members=%d\n", mcount);
@@ -78,7 +78,7 @@ void print_truss_problem(void)
 			if(&joints[j].mass == member->spring.m2)
 				jindex2 = j;
 		}
-		printf("joint1=[%d] joint2=[%d] stiffness=%.9e length0=%.9e dampening=%.9e\n",
+		printf("joint1=[%d] joint2=[%d] stiffness=%.9le length0=%.9le dampening=%.9le\n",
 			   jindex1 + 1, jindex2 + 1, member->spring.k, member->spring.l0, member->damper.c);
 	}
 	printf("supports=%d\n", scount);
@@ -104,7 +104,7 @@ void print_truss_problem(void)
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == load->action.m)
 			jindex = j;
-		printf("joint=[%d] force=<%.9e %.9e>\n", jindex + 1, load->action.f[0], load->action.f[1]);
+		printf("joint=[%d] force=<%.9le %.9le>\n", jindex + 1, load->action.f[0], load->action.f[1]);
 	}
 }
 
@@ -130,7 +130,7 @@ int scan_truss_problem(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line [%d]\n", j + 1);
@@ -165,7 +165,7 @@ int scan_truss_problem(void)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line [%d]\n", m + 1);
@@ -278,7 +278,7 @@ int scan_truss_problem(void)
 	{
 		int jindex;
 		struct load load;
-		if(scanf("joint=[%d] force=<%lf %lf>\n",
+		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{
 			fprintf(stderr, "error: parse: load line [%d]\n", l + 1);
@@ -325,7 +325,7 @@ int scan_truss_solution(void)
 			fprintf(stderr, "error: create: jforces array: %zd bytes allocation\n", 2 * sizeof(double));
 			return 1;
 		}
-		if(scanf("force=<%lf %lf> position=(%*f %*f) velocity=<%*f %*f>\n",
+		if(scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
 				 &jforces[j][0], &jforces[j][1]) != 2)
 		{
 			fprintf(stderr, "error: parse: joint line [%d] (solution)\n", j + 1);
@@ -371,7 +371,7 @@ int scan_truss_solution(void)
 	}
 	for(int m = 0; m < mcount; m++)
 	{
-		if(scanf("force=%lf displacement=%lf length=%lf velocity=%lf\n",
+		if(scanf("force=%le displacement=%le length=%le velocity=%le\n",
 				 &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4)
 		{
 			fprintf(stderr, "error: parse: member line [%d] (solution)\n", m + 1);
@@ -405,7 +405,7 @@ int scan_truss_solution(void)
 			fprintf(stderr, "error: create: sreactions array: %zd bytes allocation\n", 2 * sizeof(double));
 			return 1;
 		}
-		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2)
+		if(scanf("reaction=<%le %le>\n", &sreactions[s][0], &sreactions[s][1]) != 2)
 		{
 			fprintf(stderr, "error: parse: support line [%d] (solution)\n", s + 1);
 			fprintf(stderr, "usage: support line (solution): reaction=<float float>\n");
@@ -454,7 +454,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		double gacceleration;
-		if(sscanf(argv[2], "gacceleration=%lf", &gacceleration) != 1)
+		if(sscanf(argv[2], "gacceleration=%le", &gacceleration) != 1)
 		{
 			fprintf(stderr, "error: parse: gacceleration argument [2]\n");
 			fprintf(stderr, "usage: gacceleration argument [2]: gacceleration=float\n");
@@ -464,17 +464,17 @@ int main(int argc, char **argv)
 		double mass = 0.0;
 		for(int j = 0; j < jcount; j++)
 			mass += joints[j].mass.m;
-		printf("mass=%.9e\n", mass);
+		printf("mass=%.9le\n", mass);
 		double center[2] = {0.0, 0.0};
 		for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
 				center[a] += joints[j].mass.m * joints[j].mass.p[a];
 		for(int a = 0; a < 2; a++)
 			center[a] /= mass;
-		printf("center=(%.9e %.9e)\n", center[0], center[1]);
+		printf("center=(%.9le %.9le)\n", center[0], center[1]);
 		double momentum[2] = {0.0, 0.0};
 		for(int j = 0; j < jcount; j++) for(int a = 0; a < 2; a++)
 				momentum[a] += joints[j].mass.m * joints[j].mass.v[a];
-		printf("momentum=<%.9e %.9e>\n", momentum[0], momentum[1]);
+		printf("momentum=<%.9le %.9le>\n", momentum[0], momentum[1]);
 		double energy = 0.0;
 		for(int j = 0; j < jcount; j++)
 		{
@@ -484,7 +484,7 @@ int main(int argc, char **argv)
 		}
 		for(int m = 0; m < mcount; m++)
 			energy += 0.5 * members[m].spring.k * pow(sdisplacement(&members[m].spring), 2.0);
-		printf("energy=%.9e\n", energy);
+		printf("energy=%.9le\n", energy);
 		free_truss_problem();
 	}
 	else if(strcmp(argv[1], "transform") == 0)
@@ -495,7 +495,7 @@ int main(int argc, char **argv)
 			if(strncmp(argv[a], "translate", 9) == 0)
 			{
 				double translation[2];
-				if(sscanf(argv[a], "translate=<%lf %lf>", &translation[0], &translation[1]) != 2)
+				if(sscanf(argv[a], "translate=<%le %le>", &translation[0], &translation[1]) != 2)
 				{
 					fprintf(stderr, "error: parse: translate argument [%d]\n", a);
 					fprintf(stderr, "usage: translate argument: translate=<float float>\n");
@@ -507,7 +507,7 @@ int main(int argc, char **argv)
 			else if(strncmp(argv[a], "rotate", 6) == 0)
 			{
 				double rotation;
-				if(sscanf(argv[a], "rotate=%lf", &rotation) != 1)
+				if(sscanf(argv[a], "rotate=%le", &rotation) != 1)
 				{
 					fprintf(stderr, "error: parse: rotate argument [%d]\n", a);
 					fprintf(stderr, "usage: rotate argument: rotate=float\n");
@@ -530,7 +530,7 @@ int main(int argc, char **argv)
 			else if(strncmp(argv[a], "scale", 5) == 0)
 			{
 				double scale;
-				if(sscanf(argv[a], "scale=%lf", &scale) != 1)
+				if(sscanf(argv[a], "scale=%le", &scale) != 1)
 				{
 					fprintf(stderr, "error: parse: scale argument [%d]\n", a);
 					fprintf(stderr, "usage: scale argument: scale=float\n");
@@ -574,14 +574,14 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		double fcenter[2];
-		if(sscanf(argv[2], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+		if(sscanf(argv[2], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
 		{
 			fprintf(stderr, "error: parse: fcenter argument [2]\n");
 			fprintf(stderr, "usage: fcenter argument [2]: fcenter=(float float)\n");
 			return 1;
 		}
 		double fzoom;
-		if(sscanf(argv[3], "fzoom=%lf", &fzoom) != 1)
+		if(sscanf(argv[3], "fzoom=%le", &fzoom) != 1)
 		{
 			fprintf(stderr, "error: parse: fzoom argument [3]\n");
 			fprintf(stderr, "usage: fzoom argument [3]: fzoom=float\n");

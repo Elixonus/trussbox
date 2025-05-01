@@ -69,7 +69,7 @@ int main(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line [%d] (problem)\n", j + 1);
@@ -104,7 +104,7 @@ int main(void)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line [%d] (problem)\n", m + 1);
@@ -217,7 +217,7 @@ int main(void)
 	{
 		int jindex;
 		struct load load;
-		if(scanf("joint=[%d] force=<%lf %lf>\n", &jindex, &load.action.f[0], &load.action.f[1]) != 3)
+		if(scanf("joint=[%d] force=<%le %le>\n", &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{
 			fprintf(stderr, "error: parse: load line [%d] (problem)\n", l + 1);
 			fprintf(stderr, "usage: load line (problem): joint=[index] force=<float float>\n");
@@ -247,7 +247,7 @@ int main(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		if(scanf("force=<%*f %*f> position=(%lf %lf) velocity=<%lf %lf>\n",
+		if(scanf("force=<%*f %*f> position=(%le %le) velocity=<%le %le>\n",
 		         &joint->mass.p[0], &joint->mass.p[1], &joint->mass.v[0], &joint->mass.v[1]) != 4)
 		{
 			fprintf(stderr, "error: parse: joint line [%d] (solution)\n", j + 1);

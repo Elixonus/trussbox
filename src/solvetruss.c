@@ -154,13 +154,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: arguments: gacceleration=float timef=float srate=float\n");
 		return 1;
 	}
-	if(sscanf(argv[1], "gacceleration=%lf", &gacceleration) != 1)
+	if(sscanf(argv[1], "gacceleration=%le", &gacceleration) != 1)
 	{
 		fprintf(stderr, "error: parse: gacceleration argument [1]\n");
 		fprintf(stderr, "usage: gacceleration argument [1]: gacceleration=float\n");
 		return 1;
 	}
-	if(sscanf(argv[2], "timef=%lf", &timef) != 1)
+	if(sscanf(argv[2], "timef=%le", &timef) != 1)
 	{
 		fprintf(stderr, "error: parse: timef argument [2]\n");
 		fprintf(stderr, "usage: timef argument [2]: timef=float\n");
@@ -171,7 +171,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[3], "srate=%lf", &srate) != 1)
+	if(sscanf(argv[3], "srate=%le", &srate) != 1)
 	{
 		fprintf(stderr, "error: parse: srate argument [3]\n");
 		fprintf(stderr, "usage: srate argument [3]: srate=float\n");
@@ -226,7 +226,7 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line [%d]\n", j + 1);
@@ -298,7 +298,7 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line [%d]\n", m + 1);
@@ -426,7 +426,7 @@ int main(int argc, char **argv)
 	{
 		int jindex;
 		struct load load;
-		if(scanf("joint=[%d] force=<%lf %lf>\n",
+		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{
 			fprintf(stderr, "error: parse: load line [%d]\n", l + 1);
@@ -448,19 +448,19 @@ int main(int argc, char **argv)
 	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{
-		printf("force=<%.9e %.9e> position=(%.9e %.9e) velocity=<%.9e %.9e>\n",
+		printf("force=<%.9le %.9le> position=(%.9le %.9le) velocity=<%.9le %.9le>\n",
 		       jforces[j][0], jforces[j][1], joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
 	}
 	printf("members=%d\n", mcount);
 	for(int m = 0; m < mcount; m++)
 	{
-		printf("force=%.9e displacement=%.9e length=%.9e velocity=%.9e\n",
+		printf("force=%.9le displacement=%.9le length=%.9le velocity=%.9le\n",
 		       mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]);
 	}
 	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)
 	{
-		printf("reaction=<%.9e %.9e>\n", sreactions[s][0], sreactions[s][1]);
+		printf("reaction=<%.9le %.9le>\n", sreactions[s][0], sreactions[s][1]);
 	}
 	free(joints);
 	for(int j = 0; j < jcount; j++)

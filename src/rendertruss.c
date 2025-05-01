@@ -351,13 +351,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
 		return 1;
 	}
-	if(sscanf(argv[3], "fcenter=(%lf %lf)", &fcenter[0], &fcenter[1]) != 2)
+	if(sscanf(argv[3], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
 	{
 		fprintf(stderr, "error: parse: fcenter argument [3]\n");
 		fprintf(stderr, "usage: fcenter argument [3]: fcenter=(float float)\n");
 		return 1;
 	}
-	if(sscanf(argv[4], "fzoom=%lf", &fzoom) != 1)
+	if(sscanf(argv[4], "fzoom=%le", &fzoom) != 1)
 	{
 		fprintf(stderr, "error: parse: fzoom argument [4]\n");
 		fprintf(stderr, "usage: fzoom argument [4]: fzoom=float\n");
@@ -368,7 +368,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[5], "fscale=%lf", &fscale) != 1)
+	if(sscanf(argv[5], "fscale=%le", &fscale) != 1)
 	{
 		fprintf(stderr, "error: parse: fscale argument [5]\n");
 		fprintf(stderr, "usage: fscale argument [5]: fscale=float\n");
@@ -399,7 +399,7 @@ int main(int argc, char **argv)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint joint;
-		if(scanf("mass=%lf position=(%lf %lf) velocity=<%lf %lf>\n",
+		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line [%d]\n", j + 1);
@@ -434,7 +434,7 @@ int main(int argc, char **argv)
 	{
 		int jindex1, jindex2;
 		struct member member;
-		if(scanf("joint1=[%d] joint2=[%d] stiffness=%lf length0=%lf dampening=%lf\n",
+		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
 			fprintf(stderr, "error: parse: member line [%d]\n", m + 1);

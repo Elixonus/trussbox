@@ -140,7 +140,7 @@ echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
 echo "| |\\"
 echo "\
 strandbeest.txt
--9.8
+0.0
 8.0
 100000.0
 60.0
