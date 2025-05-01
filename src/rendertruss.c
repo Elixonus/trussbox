@@ -108,7 +108,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.1, 0.1, 0.1);
+	cairo_set_source_rgb(context, 0.08, 0.08, 0.08);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -131,7 +131,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.15, 0.15, 0.15);
+	cairo_set_source_rgb(context, 0.14, 0.14, 0.14);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -157,6 +157,12 @@ int render(void)
 	cairo_set_source_rgb(context, 0.22, 0.22, 0.22);
 	cairo_stroke(context);
 	cairo_restore(context);
+	cairo_new_path(context);
+	cairo_rectangle(context, corner1[0], corner1[1], corner2[0] - corner1[0], corner2[1] - corner1[1]);
+	cairo_close_path(context);
+	cairo_set_line_width(context, 0.008);
+	cairo_set_source_rgb(context, 0.25, 0.25, 0.25);
+	cairo_stroke(context);
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 	for(int s = 0; s < scount; s++)
@@ -244,12 +250,13 @@ int render(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
+		struct support *support = nullptr;
 		for(int s = 0; s < scount; s++)
 		{
-			struct support *support = &supports[s];
-			if(support->constraint.m == &joint->mass)
-				goto end;
+			if(supports[s].constraint.m == &joint->mass)
+				support = &supports[s];
 		}
+		if(support != nullptr) continue;
 		cairo_save(context);
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
@@ -267,7 +274,6 @@ int render(void)
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
 		cairo_restore(context);
-		end:
 	}
 	for(int m = 0; m < mcount; m++)
 	{

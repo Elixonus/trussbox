@@ -300,42 +300,117 @@ int scan_truss_problem(void)
 int scan_truss_solution(void)
 {
 	int jcount2;
-	if(scanf("joints=%d\n", &jcount2) != 1) return 1;
-	if(jcount2 != jcount) return 1;
+	if(scanf("joints=%d\n", &jcount2) != 1)
+	{
+		fprintf(stderr, "error: parse: joints parameter (solution)\n");
+		fprintf(stderr, "usage: joints parameter (solution): joints=count\n");
+		return 1;
+	}
+	if(jcount2 != jcount)
+	{
+		fprintf(stderr, "error: mismatch: joints parameters: %d and %d\n", jcount, jcount2);
+		return 1;
+	}
 	jforces = malloc(jcount * sizeof(double *));
-	if(!jforces) return 1;
+	if(!jforces)
+	{
+		fprintf(stderr, "error: create: jforces array: %zd bytes allocation\n", jcount * sizeof(double *));
+		return 1;
+	}
 	for(int j = 0; j < jcount; j++)
 	{
 		jforces[j] = malloc(2 * sizeof(double));
-		if(!jforces[j]) return 1;
+		if(!jforces[j])
+		{
+			fprintf(stderr, "error: create: jforces array: %zd bytes allocation\n", 2 * sizeof(double));
+			return 1;
+		}
 		if(scanf("force=<%lf %lf> position=(%*f %*f) velocity=<%*f %*f>\n",
-				 &jforces[j][0], &jforces[j][1]) != 2) return 1;
+				 &jforces[j][0], &jforces[j][1]) != 2)
+		{
+			fprintf(stderr, "error: parse: joint line [%d] (solution)\n", j + 1);
+			fprintf(stderr, "usage: joint line (solution): mass=float position=(float float) velocity=(float float)\n");
+			return 1;
+		}
 	}
 	int mcount2;
-	if(scanf("members=%d\n", &mcount2) != 1) return 1;
-	if(mcount2 != mcount) return 1;
+	if(scanf("members=%d\n", &mcount2) != 1)
+	{
+		fprintf(stderr, "error: parse: members parameter (solution)\n");
+		fprintf(stderr, "usage: members parameter (solution): members=count\n");
+		return 1;
+	}
+	if(mcount2 != mcount)
+	{
+		fprintf(stderr, "error: mismatch: members parameters: %d and %d\n", mcount, mcount2);
+		return 1;
+	}
 	mlengths = malloc(mcount * sizeof(double));
-	if(!mlengths) return 1;
+	if(!mlengths)
+	{
+		fprintf(stderr, "error: create: mlengths array: %zd bytes allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	mdisplacements = malloc(mcount * sizeof(double));
-	if(!mdisplacements) return 1;
+	if(!mdisplacements)
+	{
+		fprintf(stderr, "error: create: mdisplacements array: %zd bytes allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	mvelocities = malloc(mcount * sizeof(double));
-	if(!mvelocities) return 1;
+	if(!mvelocities)
+	{
+		fprintf(stderr, "error: create: mvelocities array: %zd bytes allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	mforces = malloc(mcount * sizeof(double));
-	if(!mforces) return 1;
+	if(!mforces)
+	{
+		fprintf(stderr, "error: create: mforces array: %zd bytes allocation\n", mcount * sizeof(double));
+		return 1;
+	}
 	for(int m = 0; m < mcount; m++)
 	{
 		if(scanf("force=%lf displacement=%lf length=%lf velocity=%lf\n",
-				 &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4) return 1;
+				 &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4)
+		{
+			fprintf(stderr, "error: parse: member line [%d] (solution)\n", m + 1);
+			fprintf(stderr, "usage: member line (solution): force=float displacement=float length=float velocity=float\n");
+			return 1;
+		}
 	}
 	int scount2;
-	if(scanf("supports=%d\n", &scount2) != 1) return 1;
+	if(scanf("supports=%d\n", &scount2) != 1)
+	{
+		fprintf(stderr, "error: parse: supports parameter (solution)\n");
+		fprintf(stderr, "usage: supports parameter (solution): supports=count\n");
+		return 1;
+	}
+	if(scount2 != scount)
+	{
+		fprintf(stderr, "error: mismatch: supports parameters: %d and %d\n", scount, scount2);
+		return 1;
+	}
 	sreactions = malloc(scount * sizeof(double *));
-	if(!sreactions) return 1;
+	if(!sreactions)
+	{
+		fprintf(stderr, "error: create: sreactions array: %zd bytes allocation\n", scount * sizeof(double *));
+		return 1;
+	}
 	for(int s = 0; s < scount; s++)
 	{
 		sreactions[s] = malloc(2 * sizeof(double));
-		if(!sreactions[s]) return 1;
-		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2) return 1;
+		if(!sreactions[s])
+		{
+			fprintf(stderr, "error: create: sreactions array: %zd bytes allocation\n", 2 * sizeof(double));
+			return 1;
+		}
+		if(scanf("reaction=<%lf %lf>\n", &sreactions[s][0], &sreactions[s][1]) != 2)
+		{
+			fprintf(stderr, "error: parse: support line [%d] (solution)\n", s + 1);
+			fprintf(stderr, "usage: support line (solution): reaction=<float float>\n");
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -642,7 +717,20 @@ int main(int argc, char **argv)
 			int error1 = dc + dr, error2;
 			while(true)
 			{
-				setchar('.', r1, c1, color);
+				bool bc = error2 >= dr, br = error2 <= dc;
+				if(bc && br)
+				{
+					if(sc == sr)
+						setchar('\\', r1, c1, color);
+					else
+						setchar('/', r1, c1, color);
+				}
+				else if(bc)
+					setchar('-', r1, c1, color);
+				else if(br)
+					setchar('|', r1, c1, color);
+				else
+					setchar('*', r1, c1, color);
 				if(c1 == c2 && r1 == r2) break;
 				error2 = 2 * error1;
 				if(error2 >= dr)
