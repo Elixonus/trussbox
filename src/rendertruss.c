@@ -160,9 +160,12 @@ int render(void)
 	cairo_new_path(context);
 	cairo_rectangle(context, corner1[0], corner1[1], corner2[0] - corner1[0], corner2[1] - corner1[1]);
 	cairo_close_path(context);
+	cairo_save(context);
+	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.008);
 	cairo_set_source_rgb(context, 0.25, 0.25, 0.25);
 	cairo_stroke(context);
+	cairo_restore(context);
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 	for(int s = 0; s < scount; s++)
