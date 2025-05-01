@@ -58,7 +58,7 @@ echo "| |"
 echo "| * ${fg_yellow}overlaying${normal} videos, force diagrams and subtitles"
 mkdir -p tmp/montage/bridges/warren
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Warren Bridge
+center=(0.0 -0.4) lineheight=0.04 text=Warren Bridge
 " | ./bin/subtitles tmp/montage/bridges/warren/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/bridges/warren/video.mp4 \
@@ -70,7 +70,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/bridges/pratt
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Pratt Bridge
+center=(0.0 -0.4) lineheight=0.04 text=Pratt Bridge
 " | ./bin/subtitles tmp/montage/bridges/pratt/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/bridges/pratt/video.mp4 \
@@ -82,7 +82,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/bridges/howe
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Howe Bridge
+center=(0.0 -0.4) lineheight=0.04 text=Howe Bridge
 " | ./bin/subtitles tmp/montage/bridges/howe/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/bridges/howe/video.mp4 \
@@ -94,7 +94,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/bridges/parker
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Parker Bridge
+center=(0.0 -0.4) lineheight=0.04 text=Parker Bridge
 " | ./bin/subtitles tmp/montage/bridges/parker/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/bridges/parker/video.mp4 \
@@ -106,7 +106,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/bridges/cambridge
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Cambridge Bridge
+center=(0.0 -0.4) lineheight=0.04 text=Cambridge Bridge
 " | ./bin/subtitles tmp/montage/bridges/cambridge/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/bridges/cambridge/video.mp4 \
@@ -118,7 +118,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/bridges/whipple
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Whipple Bridge
+center=(0.0 -0.4) lineheight=0.04 text=Whipple Bridge
 " | ./bin/subtitles tmp/montage/bridges/whipple/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/bridges/whipple/video.mp4 \
@@ -130,7 +130,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/fink
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Fink Roof
+center=(0.0 -0.4) lineheight=0.04 text=Fink Roof
 " | ./bin/subtitles tmp/montage/miscellaneous/fink/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/fink/video.mp4 \
@@ -142,7 +142,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/scissor
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Scissor Roof
+center=(0.0 -0.4) lineheight=0.04 text=Scissor Roof
 " | ./bin/subtitles tmp/montage/miscellaneous/scissor/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/scissor/video.mp4 \
@@ -154,7 +154,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/cantilever
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Box Cantilever
+center=(0.0 -0.4) lineheight=0.04 text=Box Cantilever
 " | ./bin/subtitles tmp/montage/miscellaneous/cantilever/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/cantilever/video.mp4 \
@@ -166,7 +166,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/stadium
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Stadium
+center=(0.0 -0.4) lineheight=0.04 text=Stadium
 " | ./bin/subtitles tmp/montage/miscellaneous/stadium/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/stadium/video.mp4 \
@@ -178,7 +178,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/powertower
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Power Transmission Tower
+center=(0.0 -0.4) lineheight=0.04 text=Power Transmission Tower
 " | ./bin/subtitles tmp/montage/miscellaneous/powertower/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/powertower/video.mp4 \
@@ -190,7 +190,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/powertowercross
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Power Transmission Tower
+center=(0.0 -0.4) lineheight=0.04 text=Power Transmission Tower
 " | ./bin/subtitles tmp/montage/miscellaneous/powertowercross/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/miscellaneous/powertowercross/video.mp4 \
@@ -200,9 +200,21 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-loglevel error
+mkdir -p tmp/montage/miscellaneous/strandbeest
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.04 text=Theo Jansen's Strandbeest
+" | ./bin/subtitles tmp/montage/miscellaneous/strandbeest/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/strandbeest/video.mp4 \
+	-i tmp/miscellaneous/strandbeest/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/strandbeest/subtitles.png \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/strandbeest/video.mp4 \
+	-loglevel error
 mkdir -p tmp/montage/pendulums/pendulum
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Single Pendulum
+center=(0.0 -0.4) lineheight=0.04 text=Single Pendulum
 " | ./bin/subtitles tmp/montage/pendulums/pendulum/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/pendulums/pendulum/video.mp4 \
@@ -214,7 +226,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/pendulums/doublependulum
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Double Pendulum
+center=(0.0 -0.4) lineheight=0.04 text=Double Pendulum
 " | ./bin/subtitles tmp/montage/pendulums/doublependulum/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/pendulums/doublependulum/video.mp4 \
@@ -226,7 +238,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/pendulums/doublependulumroller
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Double Pendulum with Roller Support
+center=(0.0 -0.4) lineheight=0.04 text=Double Pendulum with Roller Support
 " | ./bin/subtitles tmp/montage/pendulums/doublependulumroller/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/pendulums/doublependulumroller/video.mp4 \
@@ -238,7 +250,7 @@ ffmpeg \
 	-loglevel error
 mkdir -p tmp/montage/pendulums/decuplependulum
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.03 text=Decuple Pendulum
+center=(0.0 -0.4) lineheight=0.04 text=Decuple Pendulum
 " | ./bin/subtitles tmp/montage/pendulums/decuplependulum/subtitles.png fsize=1920x1080
 ffmpeg \
 	-i tmp/pendulums/decuplependulum/video.mp4 \
@@ -265,11 +277,12 @@ ffmpeg \
 	-i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-i tmp/montage/miscellaneous/powertowercross/video.mp4 \
+	-i tmp/montage/miscellaneous/strandbeest/video.mp4 \
 	-i tmp/montage/pendulums/pendulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/montage/pendulums/decuplependulum/video.mp4 \
-	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v][14:v][15:v]concat=n=16:v=1[v]" \
+	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v][14:v][15:v][16:v]concat=n=17:v=1[v]" \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
@@ -290,10 +303,10 @@ ffmpeg \
 	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertowercross/video.mp4 \
+	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/strandbeest/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-filter_complex "\
 		[0:v]scale=480:-1[v0]; \
 		[1:v]scale=480:-1[v1]; \

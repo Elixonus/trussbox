@@ -20,10 +20,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="renamed gravity parameter, changed sign convention and fixed typos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miscellaneous.sh" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/montage.sh" beforeDir="false" afterPath="$PROJECT_DIR$/montage.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/subtitles.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/subtitles.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -187,6 +186,7 @@
       <workItem from="1745979859021" duration="12509000" />
       <workItem from="1746035570468" duration="4310000" />
       <workItem from="1746053178497" duration="4468000" />
+      <workItem from="1746059054863" duration="5635000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

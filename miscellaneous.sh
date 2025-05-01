@@ -135,6 +135,25 @@ tmp/miscellaneous/powertowercross
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| |"
+echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
+echo "| |\\"
+echo "\
+strandbeest.txt
+-9.8
+8.0
+100000.0
+60.0
+1920
+1080
+0.0
+-0.5
+0.2
+1.0
+tmp/miscellaneous/strandbeest
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|"

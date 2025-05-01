@@ -25,10 +25,10 @@ int render(void)
 		cairo_text_extents(context, stexts[s], &extents);
 		cairo_new_path(context);
 		cairo_rectangle(context,
-		                0.5 * ((double) fsize[0]) + scenters[s][0] * ((double) fsize[0]) - 0.5 * extents.width - 0.025 * flength,
-		                0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) - 0.5 * extents.height - 0.025 * flength,
-		                extents.width + 0.05 * flength,
-		                extents.height + 0.05 * flength);
+		                0.5 * ((double) fsize[0]) + scenters[s][0] * ((double) fsize[0]) - 0.5 * extents.width - 0.02 * flength,
+		                0.5 * ((double) fsize[1]) - scenters[s][1] * ((double) fsize[1]) - 0.5 * extents.height - 0.02 * flength,
+		                extents.width + 0.04 * flength,
+		                extents.height + 0.04 * flength);
 		cairo_close_path(context);
 		cairo_set_line_width(context, 0.005 * flength);
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
