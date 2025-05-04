@@ -185,7 +185,7 @@ int main(int argc, char **argv)
 	stepf = ((int) round(srate * timef)) - 1;
 	if(stepf < 0)
 	{
-		fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf);
+		fprintf(stderr, "error: limit: stepf variable: %d not positive nor zero\n", stepf);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1)

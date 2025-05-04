@@ -317,7 +317,7 @@ int render(void)
 	cairo_destroy(context);
 	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
 	{
-		fprintf(stderr, "error: create: image file: %s\n", filename);
+		fprintf(stderr, "error: create: image file\n");
 		return 1;
 	}
 	cairo_surface_destroy(surface);
@@ -326,31 +326,25 @@ int render(void)
 
 int main(int argc, char **argv)
 {
-	if(argc != 7)
+	if(argc < 2 || sscanf(argv[1], "%1000s", filename) != 1)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 6 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: filename gacceleration=float fsize=widthxheight fcenter=(float float) fzoom=float fscale=float\n");
-		return 1;
-	}
-	if(sscanf(argv[1], "%1000s", filename) != 1)
-	{
-		fprintf(stderr, "error: parse: filename argument [1]\n");
-		fprintf(stderr, "usage: filename argument [1]: string\n");
+		fprintf(stderr, "error: parse: filename argument\n");
+		fprintf(stderr, "usage: filename argument: string\n");
 		return 1;
 	}
 	char *extension = strrchr(filename, '.');
 	if(!extension || strcmp(extension, ".png") != 0)
 		strcat(filename, ".png");
-	if(sscanf(argv[2], "gacceleration=%le", &gacceleration) != 1)
+	if(argc < 3 || sscanf(argv[2], "gacceleration=%le", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: parse: gacceleration argument [2]\n");
-		fprintf(stderr, "usage: gacceleration argument [2]: gacceleration=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument\n");
+		fprintf(stderr, "usage: gacceleration argument: gacceleration=float\n");
 		return 1;
 	}
-	if(sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
+	if(argc < 4 || sscanf(argv[3], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fsize argument [3]\n");
-		fprintf(stderr, "usage: fsize argument [3]: fsize=widthxheight\n");
+		fprintf(stderr, "error: parse: fsize argument\n");
+		fprintf(stderr, "usage: fsize argument: fsize=widthxheight\n");
 		return 1;
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
@@ -358,16 +352,16 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
 		return 1;
 	}
-	if(sscanf(argv[4], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
+	if(argc < 5 || sscanf(argv[4], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
 	{
-		fprintf(stderr, "error: parse: fcenter argument [4]\n");
-		fprintf(stderr, "usage: fcenter argument [4]: fcenter=(float float)\n");
+		fprintf(stderr, "error: parse: fcenter argument\n");
+		fprintf(stderr, "usage: fcenter argument: fcenter=(float float)\n");
 		return 1;
 	}
-	if(sscanf(argv[5], "fzoom=%le", &fzoom) != 1)
+	if(argc < 6 || sscanf(argv[5], "fzoom=%le", &fzoom) != 1)
 	{
-		fprintf(stderr, "error: parse: fzoom argument [5]\n");
-		fprintf(stderr, "usage: fzoom argument [5]: fzoom=float\n");
+		fprintf(stderr, "error: parse: fzoom argument\n");
+		fprintf(stderr, "usage: fzoom argument: fzoom=float\n");
 		return 1;
 	}
 	if(fzoom < epsilon)
@@ -375,10 +369,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[6], "fscale=%le", &fscale) != 1)
+	if(argc < 7 || sscanf(argv[6], "fscale=%le", &fscale) != 1)
 	{
-		fprintf(stderr, "error: parse: fscale argument [6]\n");
-		fprintf(stderr, "usage: fscale argument [6]: fscale=float\n");
+		fprintf(stderr, "error: parse: fscale argument\n");
+		fprintf(stderr, "usage: fscale argument: fscale=float\n");
 		return 1;
 	}
 	if(fscale < epsilon)

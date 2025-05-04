@@ -316,7 +316,7 @@ int render(void)
 	cairo_destroy(context);
 	if(cairo_surface_write_to_png(surface, filename) != CAIRO_STATUS_SUCCESS)
 	{
-		fprintf(stderr, "error: create: image file: %s\n", filename);
+		fprintf(stderr, "error: create: image file\n");
 		return 1;
 	}
 	cairo_surface_destroy(surface);
