@@ -148,22 +148,16 @@ void solve(void)
 
 int main(int argc, char **argv)
 {
-	if(argc != 4)
+	if(argc < 2 || sscanf(argv[1], "gacceleration=%le", &gacceleration) != 1)
 	{
-		fprintf(stderr, "error: count: arguments: %d of 3 provided\n", argc - 1);
-		fprintf(stderr, "usage: arguments: gacceleration=float timef=float srate=float\n");
+		fprintf(stderr, "error: parse: gacceleration argument\n");
+		fprintf(stderr, "usage: gacceleration argument: gacceleration=float\n");
 		return 1;
 	}
-	if(sscanf(argv[1], "gacceleration=%le", &gacceleration) != 1)
+	if(argc < 3 || sscanf(argv[2], "timef=%le", &timef) != 1)
 	{
-		fprintf(stderr, "error: parse: gacceleration argument [1]\n");
-		fprintf(stderr, "usage: gacceleration argument [1]: gacceleration=float\n");
-		return 1;
-	}
-	if(sscanf(argv[2], "timef=%le", &timef) != 1)
-	{
-		fprintf(stderr, "error: parse: timef argument [2]\n");
-		fprintf(stderr, "usage: timef argument [2]: timef=float\n");
+		fprintf(stderr, "error: parse: timef argument\n");
+		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
 	if(timef < epsilon)
@@ -171,10 +165,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
 		return 1;
 	}
-	if(sscanf(argv[3], "srate=%le", &srate) != 1)
+	if(argc < 4 || sscanf(argv[3], "srate=%le", &srate) != 1)
 	{
-		fprintf(stderr, "error: parse: srate argument [3]\n");
-		fprintf(stderr, "usage: srate argument [3]: srate=float\n");
+		fprintf(stderr, "error: parse: srate argument\n");
+		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
 	if(srate < epsilon)
@@ -229,26 +223,26 @@ int main(int argc, char **argv)
 		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
-			fprintf(stderr, "error: parse: joint line [%d]\n", j + 1);
-			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=(float float)\n");
+			fprintf(stderr, "error: parse: joint [%d] line\n", j + 1);
+			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
 		if(joint.mass.m < epsilon)
 		{
-			fprintf(stderr, "error: limit: joint line [%d]: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
 			return 1;
 		}
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
 		if(!jaccelerations[j])
 		{
-			fprintf(stderr, "error: create: jacceleration array: %zd bytes allocation\n", 2 * sizeof(double));
+			fprintf(stderr, "error: create: jacceleration [%d] array: %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j])
 		{
-			fprintf(stderr, "error: create: jforce array: %zd bytes allocation\n", 2 * sizeof(double));
+			fprintf(stderr, "error: create: jforce [%d] array: %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int a = 0; a < 2; a++) jaccelerations[j][a], jforces[j][a] = 0.0;
@@ -301,35 +295,41 @@ int main(int argc, char **argv)
 		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
-			fprintf(stderr, "error: parse: member line [%d]\n", m + 1);
+			fprintf(stderr, "error: parse: member [%d] line\n", m + 1);
 			fprintf(stderr, "usage: member line: joint1=[index] joint2=[index] stiffness=float length0=float dampening=float\n");
 			return 1;
 		}
 		jindex1--, jindex2--;
 		if(jindex1 < 0 || jindex1 >= jcount)
 		{
-			fprintf(stderr, "error: index: member line [%d]: joint1 parameter: [%d] does not exist\n", m + 1, jindex1 + 1);
+			fprintf(stderr, "error: index: member [%d] line: joint1 parameter: [%d] does not exist\n", m + 1, jindex1 + 1);
 			return 1;
 		}
 		if(jindex2 < 0 || jindex2 >= jcount)
 		{
-			fprintf(stderr, "error: index: member line [%d]: joint2 parameter: [%d] does not exist\n", m + 1, jindex2 + 1);
+			fprintf(stderr, "error: index: member [%d] line: joint2 parameter: [%d] does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
 		for(int m2 = 0; m2 < m; m2++)
-			if((members[m2].spring.m1 == &joints[jindex1].mass &&
-			    members[m2].spring.m2 == &joints[jindex2].mass) ||
-			   (members[m2].spring.m1 == &joints[jindex2].mass &&
-			    members[m2].spring.m2 == &joints[jindex1].mass))
+		{
+			if(members[m2].spring.m1 == &joints[jindex1].mass &&
+			   members[m2].spring.m2 == &joints[jindex2].mass)
 			{
-				fprintf(stderr, "error: index: member line [%d]: joint1 and joint2 parameters: ([%d] and [%d]) or ([%d] and [%d]) already in use\n", m + 1, jindex1 + 1, jindex2 + 1, jindex2 + 1, jindex1 + 1);
+				fprintf(stderr, "error: index: member [%d] line: joint1 and joint2 parameters: [%d] and [%d] already in use\n", m + 1, jindex1 + 1, jindex2 + 1);
 				return 1;
 			}
+			if(members[m2].spring.m1 == &joints[jindex2].mass &&
+			   members[m2].spring.m2 == &joints[jindex1].mass)
+			{
+				fprintf(stderr, "error: index: member [%d] line: joint1 and joint2 parameters: [%d] and [%d] already in use\n", m + 1, jindex2 + 1, jindex1 + 1);
+				return 1;
+			}
+		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
 		if(member.spring.l0 < epsilon)
 		{
-			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
 			return 1;
 		}
 		members[m] = member;
@@ -365,20 +365,20 @@ int main(int argc, char **argv)
 		struct support support;
 		if(scanf("joint=[%d] axes=%100s\n", &jindex, axes) != 2)
 		{
-			fprintf(stderr, "error: parse: support line [%d]\n", s + 1);
+			fprintf(stderr, "error: parse: support [%d] line\n", s + 1);
 			fprintf(stderr, "usage: support line: joint=[index] axes=xy|x|y\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: support line [%d]: joint parameter: [%d] does not exist\n", s + 1, jindex + 1);
+			fprintf(stderr, "error: index: support [%d] line: joint parameter: [%d] does not exist\n", s + 1, jindex + 1);
 			return 1;
 		}
 		for(int s2 = 0; s2 < s; s2++)
 			if(supports[s2].constraint.m == &joints[jindex].mass)
 			{
-				fprintf(stderr, "error: index: support line [%d]: joint parameter: [%d] already in use\n", s + 1, jindex + 1);
+				fprintf(stderr, "error: index: support [%d] line: joint parameter: [%d] already in use\n", s + 1, jindex + 1);
 				return 1;
 			}
 		support.constraint.m = &joints[jindex].mass;
@@ -390,7 +390,7 @@ int main(int argc, char **argv)
 			support.constraint.a[0] = false, support.constraint.a[1] = true;
 		else
 		{
-			fprintf(stderr, "error: parse: support line [%d]: axes parameter: not an option\n", s + 1);
+			fprintf(stderr, "error: parse: support [%d] line: axes parameter: not an option\n", s + 1);
 			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
 			return 1;
 		}
@@ -400,7 +400,7 @@ int main(int argc, char **argv)
 		sreactions[s] = malloc(2 * sizeof(double));
 		if(!sreactions[s])
 		{
-			fprintf(stderr, "error: create: sreaction array: %zd bytes allocation\n", 2 * sizeof(double));
+			fprintf(stderr, "error: create: sreaction [%d] array: %zd bytes allocation\n", s + 1, 2 * sizeof(double));
 			return 1;
 		}
 		for(int a = 0; a < 2; a++) sreactions[s][a] = 0.0;
@@ -429,14 +429,14 @@ int main(int argc, char **argv)
 		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{
-			fprintf(stderr, "error: parse: load line [%d]\n", l + 1);
+			fprintf(stderr, "error: parse: load [%d] line\n", l + 1);
 			fprintf(stderr, "usage: load line: joint=[index] force=<float float>\n");
 			return 1;
 		}
 		jindex--;
 		if(jindex < 0 || jindex >= jcount)
 		{
-			fprintf(stderr, "error: index: load line [%d]: joint parameter: [%d] does not exist\n", l + 1, jindex + 1);
+			fprintf(stderr, "error: index: load [%d] line: joint parameter: [%d] does not exist\n", l + 1, jindex + 1);
 			return 1;
 		}
 		load.action.m = &joints[jindex].mass;

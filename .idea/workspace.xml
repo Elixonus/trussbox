@@ -20,11 +20,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="renamed gravity parameter, changed sign convention and fixed typos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/miscellaneous.sh" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/montage.sh" beforeDir="false" afterPath="$PROJECT_DIR$/montage.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/feedback.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/feedback.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
@@ -194,6 +190,12 @@
       <workItem from="1746059054863" duration="5903000" />
       <workItem from="1746069394199" duration="295000" />
       <workItem from="1746126976948" duration="3410000" />
+      <workItem from="1746150092654" duration="1355000" />
+      <workItem from="1746156955539" duration="5402000" />
+      <workItem from="1746214250885" duration="4822000" />
+      <workItem from="1746247192603" duration="5475000" />
+      <workItem from="1746296367570" duration="2933000" />
+      <workItem from="1746306162344" duration="10246000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

@@ -73,7 +73,7 @@ int main(void)
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5)
 		{
 			fprintf(stderr, "error: parse: joint line [%d] (problem)\n", j + 1);
-			fprintf(stderr, "usage: joint line (problem): mass=float position=(float float) velocity=(float float)\n");
+			fprintf(stderr, "usage: joint line (problem): mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
 		if(joint.mass.m < epsilon)
@@ -251,7 +251,7 @@ int main(void)
 		         &joint->mass.p[0], &joint->mass.p[1], &joint->mass.v[0], &joint->mass.v[1]) != 4)
 		{
 			fprintf(stderr, "error: parse: joint line [%d] (solution)\n", j + 1);
-			fprintf(stderr, "usage: joint line (solution): mass=float position=(float float) velocity=(float float)\n");
+			fprintf(stderr, "usage: joint line (solution): force=<float float> position=(float float) velocity=<float float>\n");
 			return 1;
 		}
 	}
