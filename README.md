@@ -92,7 +92,7 @@ tmp/warren
 
 **or**
 
-```$ ./montage.sh```
+```./montage.sh```
 
 ## Usage
 

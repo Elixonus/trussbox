@@ -922,13 +922,11 @@ int main(int argc, char **argv)
 			int padding = (50 - strlen(title)) / 2;
 			if(usecolor)
 			{
-				printf("echo -n \"$(tput setaf 0)\"\n");
-				printf("echo -n \"$(tput setab 7)\"\n");
-				printf("echo -n \"%*s%s%*s\"\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
-				printf("echo \"$(tput sgr0)\"\n");
+				printf("\e[0;30m\e[47m%*s%s%*s\e[0m\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
 			}
 			else
-				printf("%*s%s%*s\n", padding, "", title, 50 - padding, "");
+				printf("%*s%s%*s\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
+			printf("%*s\n", 50, "");
 		}
 		for(int r = rowstart; r <= rowend; r++)
 			if(usecolor)
@@ -940,31 +938,28 @@ int main(int argc, char **argv)
 						switch(colors[r][c])
 						{
 							case 'r':
-								printf("echo -n \"$(tput setaf 1)\"\n");
+								printf("\e[0;31m");
 								break;
 							case 'g':
-								printf("echo -n \"$(tput setaf 2)\"\n");
+								printf("\e[0;32m");
 								break;
 							case 'y':
-								printf("echo -n \"$(tput setaf 3)\"\n");
+								printf("\e[0;33m");
 								break;
 							case 'b':
-								printf("echo -n \"$(tput setaf 4)\"\n");
+								printf("\e[0;34m");
 								break;
 							case 'm':
-								printf("echo -n \"$(tput setaf 5)\"\n");
+								printf("\e[0;35m");
 								break;
 							case 'G':
-								printf("echo -n \"$(tput setaf 8)\"\n");
+								printf("\e[38;5;238m");
 								break;
 						}
 					}
-					if(textart[r][c] == '\\')
-						printf("echo -n \"\\\\\"\n");
-					else
-						printf("echo -n \"%c\"\n", textart[r][c]);
+					printf("%c", textart[r][c]);
 					if(c < 50)
-						printf("echo -n \"$(tput sgr0)\"\n");
+						printf("\e[0m");
 				}
 			}
 			else
