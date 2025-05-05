@@ -154,20 +154,15 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: gacceleration argument: gacceleration=float\n");
 		return 1;
 	}
-	if(isnan(gacceleration) || fabs(gacceleration) > 1.0 / EPSILON)
-	{
-		fprintf(stderr, "error: limit: gacceleration argument: %.1le not between %.1le to %.1le\n", gacceleration, -1.0 / EPSILON, 1.0 / EPSILON);
-		return 1;
-	}
 	if(argc < 3 || sscanf(argv[2], "timef=%le", &timef) != 1)
 	{
 		fprintf(stderr, "error: parse: timef argument\n");
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(isnan(timef) || timef < EPSILON || timef > 1.0 / EPSILON)
+	if(timef < EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1le not between %.1le to %.1le\n", timef, EPSILON, 1.0 / EPSILON);
+		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, EPSILON);
 		return 1;
 	}
 	if(argc < 4 || sscanf(argv[3], "srate=%le", &srate) != 1)
@@ -176,16 +171,21 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(isnan(srate) || srate < EPSILON || srate > 1.0 / EPSILON)
+	if(srate < EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1le not between %.1le to %.1le\n", srate, EPSILON, 1.0 / EPSILON);
+		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
+	if(dtime < EPSILON)
+	{
+		fprintf(stderr, "error: limit: dtime expression: %.1le not greater than %.1le\n", srate, EPSILON);
+		return 1;
+	}
 	stepf = ((int) round(srate * timef)) - 1;
 	if(stepf < 0)
 	{
-		fprintf(stderr, "error: limit: stepf variable: %d not positive nor zero\n", stepf);
+		fprintf(stderr, "error: limit: stepf expression: %d not positive\n", stepf + 1);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1)
@@ -225,23 +225,6 @@ int main(int argc, char **argv)
 		{
 			fprintf(stderr, "error: parse: joint [%d] line\n", j + 1);
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=<float float>\n");
-			return 1;
-		}
-		if(isnan(joint.mass.m) || joint.mass.m < EPSILON || joint.mass.m > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1le not between %.1le to %.1le\n", j + 1, joint.mass.m, EPSILON, 1.0 / EPSILON);
-			return 1;
-		}
-		if(isnan(joint.mass.p[0]) || isnan(joint.mass.p[1]) || fabs(joint.mass.p[0]) > 1.0 / EPSILON || fabs(joint.mass.p[1]) > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: joint [%d] line: position parameter: (%.1le %.1le) not between (%.1le %.1le) to (%.1le %.1le)\n",
-			                j + 1, joint.mass.p[0], joint.mass.p[1], -1.0 / EPSILON, -1.0 / EPSILON, 1.0 / EPSILON, 1.0 / EPSILON);
-			return 1;
-		}
-		if(isnan(joint.mass.v[0]) || isnan(joint.mass.v[1]) || fabs(joint.mass.v[0]) > 1.0 / EPSILON || fabs(joint.mass.v[1]) > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: joint [%d] line: velocity parameter: <%.1le %.1le> not between <%.1le %.1le> to <%.1le %.1le>\n",
-			                j + 1, joint.mass.v[0], joint.mass.v[1], -1.0 / EPSILON, -1.0 / EPSILON, 1.0 / EPSILON, 1.0 / EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -339,21 +322,6 @@ int main(int argc, char **argv)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(fabs(member.spring.k) > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: member [%d] line: stiffness parameter: %.1le not between %.1le to %.1le\n", m + 1, member.spring.k, -1.0 / EPSILON, 1.0 / EPSILON);
-			return 1;
-		}
-		if(member.spring.l0 < EPSILON || member.spring.l0 > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1le not between %.1le to %.1le\n", m + 1, member.spring.l0, EPSILON, 1.0 / EPSILON);
-			return 1;
-		}
-		if(fabs(member.damper.c) > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: member [%d] line: damper parameter: %.1le not between %.1le to %.1le\n", m + 1, member.damper.c, -1.0 / EPSILON, 1.0 / EPSILON);
-			return 1;
-		}
 		members[m] = member;
 		mlengths[m] = 0.0, mdisplacements[m] = 0.0, mvelocities[m] = 0.0, mforces[m] = 0.0;
 	}
@@ -462,33 +430,11 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		load.action.m = &joints[jindex].mass;
-		if(isnan(load.action.f[0]) || isnan(load.action.f[1]) || fabs(load.action.f[0]) > 1.0 / EPSILON || fabs(load.action.f[1]) > 1.0 / EPSILON)
-		{
-			fprintf(stderr, "error: limit: load [%d] line: force parameter: <%.1le %.1le> not between <%.1le %.1le> to <%.1le %.1le>\n",
-			                l + 1, load.action.f[0], load.action.f[1], -1.0 / EPSILON, -1.0 / EPSILON, 1.0 / EPSILON, 1.0 / EPSILON);
-			return 1;
-		}
 		loads[l] = load;
 	}
 	time = 0.0, step = 0;
 	while(step <= stepf)
 		solve();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{
@@ -498,15 +444,11 @@ int main(int argc, char **argv)
 	}
 	printf("members=%d\n", mcount);
 	for(int m = 0; m < mcount; m++)
-	{
 		printf("force=%.9le displacement=%.9le length=%.9le velocity=%.9le\n",
 		       mforces[m], mdisplacements[m], mlengths[m], mvelocities[m]);
-	}
 	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)
-	{
 		printf("reaction=<%.9le %.9le>\n", sreactions[s][0], sreactions[s][1]);
-	}
 	free(joints);
 	for(int j = 0; j < jcount; j++)
 	{
