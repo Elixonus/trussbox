@@ -46,15 +46,12 @@ then
 fi
 if [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" ]]
 then
-	echo "| |"
 	source miscellaneous.sh | sed -u "s/^/| /"
 fi
 if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
 then
-	echo "| |"
 	source pendulums.sh | sed -u "s/^/| /"
 fi
-echo "| |"
 echo "| * ${fg_yellow}overlaying${normal} videos, force diagrams and subtitles"
 mkdir -p tmp/montage/bridges/warren
 echo "subtitles=1
@@ -260,9 +257,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
-echo "| |"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}stitching${normal} each of the video solutions together"
 ffmpeg \
 	-i tmp/montage/bridges/warren/video.mp4 \
@@ -286,9 +281,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
-echo "| |"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}stacking${normal} each of the video solutions together"
 ffmpeg \
 	-t 20 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
@@ -328,9 +321,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
-echo "| |"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 echo "${bold}* montage files can now be found in ${underline}$(pwd)/tmp/montage${normal}"

@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#define MSDAXES 2
 #include "msd.h"
 
-constexpr double pi = 4.0 * atan(1.0);
-constexpr double tau = 2.0 * pi;
+#define EPSILON 1.0e-18
+
+constexpr double PI = 4.0 * atan(1.0);
+constexpr double TAU = 2.0 * PI;
 
 struct joint
 {
@@ -54,8 +57,6 @@ int scount;
 
 struct load *loads;
 int lcount;
-
-double epsilon = 1.0e-18;
 
 void print_truss_problem(void)
 {
@@ -137,9 +138,9 @@ int scan_truss_problem(void)
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
-		if(joint.mass.m < epsilon)
+		if(joint.mass.m < EPSILON)
 		{
-			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -200,9 +201,9 @@ int scan_truss_problem(void)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < epsilon)
+		if(member.spring.l0 < EPSILON)
 		{
-			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, EPSILON);
 			return 1;
 		}
 		members[m] = member;
@@ -508,7 +509,7 @@ int main(int argc, char **argv)
 					fprintf(stderr, "usage: rotate argument: rotate=float\n");
 					return 1;
 				}
-				double radians = pi / 180.0 * rotation;
+				double radians = PI / 180.0 * rotation;
 				for(int j = 0; j < jcount; j++)
 				{
 					double position[2] = {joints[j].mass.p[0], joints[j].mass.p[1]};
@@ -570,9 +571,9 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: fzoom argument: fzoom=float\n");
 			return 1;
 		}
-		if(fzoom < epsilon)
+		if(fzoom < EPSILON)
 		{
-			fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
+			fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
 			return 1;
 		}
 		char colorarg[101];
@@ -670,7 +671,7 @@ int main(int argc, char **argv)
 			if(usecolor)
 			{
 				force = mforces[m];
-				if(cutoff_force < epsilon)
+				if(cutoff_force < EPSILON)
 				{
 					color = 'G';
 					goto bresenham;
@@ -732,15 +733,15 @@ int main(int argc, char **argv)
 		{
 			struct load *load = &loads[l];
 			double magnitude = sqrt(pow(load->action.f[0], 2.0) + pow(load->action.f[1], 2.0));
-			if(magnitude < epsilon) continue;
-			double angle = fmod(atan2(load->action.f[1], load->action.f[0]) + tau, tau);
+			if(magnitude < EPSILON) continue;
+			double angle = fmod(atan2(load->action.f[1], load->action.f[0]) + TAU, TAU);
 			int rowcol[2] = {
 				(int) round(24.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
 			};
-			if(angle < 0.25 * pi || angle > 1.75 * pi) setchar('>', rowcol[0], rowcol[1] + 1, 'y');
-			else if(angle < 0.75 * pi) setchar('^', rowcol[0] - 1, rowcol[1], 'y');
-			else if(angle < 1.25 * pi) setchar('<', rowcol[0], rowcol[1] - 1, 'y');
+			if(angle < 0.25 * PI || angle > 1.75 * PI) setchar('>', rowcol[0], rowcol[1] + 1, 'y');
+			else if(angle < 0.75 * PI) setchar('^', rowcol[0] - 1, rowcol[1], 'y');
+			else if(angle < 1.25 * PI) setchar('<', rowcol[0], rowcol[1] - 1, 'y');
 			else setchar('v', rowcol[0] + 1, rowcol[1], 'y');
 		}
 		for(int j = 0; j < jcount; j++)

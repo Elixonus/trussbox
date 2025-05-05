@@ -49,11 +49,8 @@ echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 	fzoom=$fzoom \
 	fscale=$fscale \
 	> $dirname/pipeline.sh
-echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 echo "* ${fg_yellow}running${normal} pipeline with parameters:
-|
 | ${fg_cyan}gacceleration${normal}=$gacceleration ${fg_gray}m/s^2${normal}
 | ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
 | ${fg_cyan}srate${normal}=$srate ${fg_gray}Hz${normal}
@@ -63,19 +60,14 @@ echo "* ${fg_yellow}running${normal} pipeline with parameters:
 | ${fg_cyan}fzoom${normal}=$fzoom
 | ${fg_cyan}fscale${normal}=$fscale"
 source $dirname/pipeline.sh
-echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 echo "* ${fg_yellow}stitching${normal} video frames together"
 ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
 rm -rf $dirname/frames
 ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
 rm -rf $dirname/diagrams
-echo "|"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
 ./bin/trussutils textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true "title=ASCII Text Art Truss Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)" | sed -u "s/^/| /"
 rm -rf "$dirname/prosols"
-echo "|"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"

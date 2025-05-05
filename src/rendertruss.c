@@ -3,10 +3,13 @@
 #include <math.h>
 #include <string.h>
 #include <cairo.h>
+#define MSDAXES 2
 #include "msd.h"
 
-constexpr double pi = 4.0 * atan(1.0);
-constexpr double tau = 2.0 * pi;
+#define EPSILON 1.0e-18
+
+constexpr double PI = 4.0 * atan(1.0);
+constexpr double TAU = 2.0 * PI;
 
 struct joint
 {
@@ -43,7 +46,6 @@ double fcenter[2];
 double fzoom;
 double fscale;
 
-double epsilon = 1.0e-18;
 char filename[1005];
 
 int render(void)
@@ -86,8 +88,7 @@ int render(void)
 	double gstride1 = 0.125 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
 	double gstride2 = 0.5 * gstride1;
 	double gstride3 = 0.25 * gstride1;
-	double gpoint1[2];
-	double gpoint2[2];
+	double gpoint1[2], gpoint2[2];
 	cairo_new_path(context);
 	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
 	for(gpoint1[0] = gstride3 * floor((corner1[0] - 0.001) / gstride3); gpoint1[0] <= corner2[0] + 0.001; gpoint1[0] += gstride3)
@@ -177,7 +178,7 @@ int render(void)
 		int count = support->constraint.a[0] + support->constraint.a[1];
 		if(count == 0) continue;
 		if(support->constraint.a[0] && !support->constraint.a[1])
-			cairo_rotate(context, -0.5 * pi);
+			cairo_rotate(context, -0.5 * PI);
 		cairo_new_path(context);
 		double ncenter[2] = {0.0, 0.0};
 		int ncount = 0;
@@ -210,9 +211,9 @@ int render(void)
 		if(count == 1 && support->constraint.a[0])
 			polarity = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
 		if(polarity > 0.0)
-			cairo_arc(context, 0.0, 0.0, 0.02, 0.0, pi);
+			cairo_arc(context, 0.0, 0.0, 0.02, 0.0, PI);
 		else
-			cairo_arc_negative(context, 0.0, 0.0, 0.02, 0.0, pi);
+			cairo_arc_negative(context, 0.0, 0.0, 0.02, 0.0, PI);
 		cairo_scale(context, 1.0, polarity);
 		cairo_line_to(context, -0.02, -0.02);
 		cairo_line_to(context, 0.02, -0.02);
@@ -223,19 +224,19 @@ int render(void)
 		if(count == 1)
 		{
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.055, -0.0425, 0.0075, 0.0, tau);
+			cairo_arc(context, 0.055, -0.0425, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0275, -0.0425, 0.0075, 0.0, tau);
+			cairo_arc(context, 0.0275, -0.0425, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0, -0.0425, 0.0075, 0.0, tau);
+			cairo_arc(context, 0.0, -0.0425, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.0275, -0.0425, 0.0075, 0.0, tau);
+			cairo_arc(context, -0.0275, -0.0425, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.055, -0.0425, 0.0075, 0.0, tau);
+			cairo_arc(context, -0.055, -0.0425, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 		}
 		cairo_set_line_width(context, 0.01);
@@ -244,7 +245,7 @@ int render(void)
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_fill(context);
 		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
@@ -264,7 +265,7 @@ int render(void)
 		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
@@ -272,7 +273,7 @@ int render(void)
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_fill(context);
 		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
@@ -298,14 +299,14 @@ int render(void)
 		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_sub_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_restore(context);
 		cairo_save(context);
 		cairo_translate(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_sub_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, tau);
+		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_restore(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
@@ -357,9 +358,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: fzoom argument: fzoom=float\n");
 		return 1;
 	}
-	if(fzoom < epsilon)
+	if(fzoom < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
+		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
 		return 1;
 	}
 	if(argc < 6 || sscanf(argv[5], "fscale=%le", &fscale) != 1)
@@ -368,9 +369,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: fscale argument: fscale=float\n");
 		return 1;
 	}
-	if(fscale < epsilon)
+	if(fscale < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
+		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, EPSILON);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1)
@@ -400,9 +401,9 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
-		if(joint.mass.m < epsilon)
+		if(joint.mass.m < EPSILON)
 		{
-			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -463,9 +464,9 @@ int main(int argc, char **argv)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < epsilon)
+		if(member.spring.l0 < EPSILON)
 		{
-			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, EPSILON);
 			return 1;
 		}
 		members[m] = member;

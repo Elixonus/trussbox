@@ -2,6 +2,8 @@
 #include <string.h>
 #include <math.h>
 
+#define EPSILON 1.0e-18
+
 char solvetruss_executable[1001];
 char rendertruss_executable[1001];
 char forcediagram_executable[1001];
@@ -21,7 +23,6 @@ int fsize[2];
 double fcenter[2];
 double fzoom;
 double fscale;
-double epsilon = 1.0e-18;
 
 int main(int argc, char **argv)
 {
@@ -73,9 +74,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(timef < epsilon)
+	if(timef < EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
+		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, EPSILON);
 		return 1;
 	}
 	if(argc < 10 || sscanf(argv[9], "srate=%le", &srate) != 1)
@@ -84,15 +85,15 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(srate < epsilon)
+	if(srate < EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1e not greater than %.1e\n", srate, epsilon);
+		fprintf(stderr, "error: limit: srate argument: %.1e not greater than %.1e\n", srate, EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
-	if(dtime < epsilon)
+	if(dtime < EPSILON)
 	{
-		fprintf(stderr, "error: limit: dtime variable: %.1e not greater than %.1e\n", dtime, epsilon);
+		fprintf(stderr, "error: limit: dtime variable: %.1e not greater than %.1e\n", dtime, EPSILON);
 		return 1;
 	}
 	stepf = ((int) round(srate * timef)) - 1;
@@ -107,9 +108,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: frate argument: frate=float\n");
 		return 1;
 	}
-	if(frate < epsilon)
+	if(frate < EPSILON)
 	{
-		fprintf(stderr, "error: limit: frate argument: %.1e not greater than %.1e\n", frate, epsilon);
+		fprintf(stderr, "error: limit: frate argument: %.1e not greater than %.1e\n", frate, EPSILON);
 		return 1;
 	}
 	framef = ((int) round(frate * timef)) - 1;
@@ -141,9 +142,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: fzoom argument: fzoom=float\n");
 		return 1;
 	}
-	if(fzoom < epsilon)
+	if(fzoom < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
+		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
 		return 1;
 	}
 	if(argc < 15 || sscanf(argv[14], "fscale=%le", &fscale) != 1)
@@ -152,9 +153,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: fscale argument: fscale=float\n");
 		return 1;
 	}
-	if(fscale < epsilon)
+	if(fscale < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
+		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, EPSILON);
 		return 1;
 	}
 	printf("#!/bin/bash\n");

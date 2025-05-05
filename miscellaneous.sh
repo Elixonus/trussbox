@@ -40,7 +40,6 @@ tmp/miscellaneous/fink
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} scissor roof truss problem"
 echo "| |\\"
 echo "\
@@ -59,7 +58,6 @@ tmp/miscellaneous/scissor
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} box cantilever problem"
 echo "| |\\"
 echo "\
@@ -78,7 +76,6 @@ tmp/miscellaneous/cantilever
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} stadium truss problem"
 echo "| |\\"
 echo "\
@@ -97,7 +94,6 @@ tmp/miscellaneous/stadium
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower truss problem"
 echo "| |\\"
 echo "\
@@ -116,7 +112,6 @@ tmp/miscellaneous/powertower
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower cross variant truss problem"
 echo "| |\\"
 echo "\
@@ -135,7 +130,6 @@ tmp/miscellaneous/powertowercross
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
 echo "| |\\"
 echo "\
@@ -156,5 +150,4 @@ echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 echo "${bold}* miscellaneous files can now be found in ${underline}$(pwd)/tmp/miscellaneous${normal}"

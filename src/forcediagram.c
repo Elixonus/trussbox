@@ -3,10 +3,10 @@
 #include <math.h>
 #include <string.h>
 #include <cairo.h>
+#define MSDAXES 2
 #include "msd.h"
 
-constexpr double pi = 4.0 * atan(1.0);
-constexpr double tau = 2.0 * pi;
+#define EPSILON 1.0e-18
 
 struct joint {
 	struct mass mass;
@@ -57,12 +57,11 @@ double fcenter[2];
 double fzoom;
 double fscale;
 
-double epsilon = 1.0e-18;
 char filename[1005];
 
 void map_mforce_to_color(double force, double *color, double cutoff_force)
 {
-	if(cutoff_force < epsilon) return;
+	if(cutoff_force < EPSILON) return;
 	double balance = force / cutoff_force;
 	balance = balance < 1.0 ? (balance > -1.0 ? balance : -1.0) : 1.0;
 	if(fabs(balance) < 0.1)
@@ -78,7 +77,7 @@ void render_force(
 	double color[3], bool draw_head_at_point
 )
 {
-	if(ref_force < epsilon) return;
+	if(ref_force < EPSILON) return;
 	double magnitude = 0.0;
 	for(int a = 0; a < 2; a++)
 		magnitude += pow(force[a], 2.0);
@@ -141,8 +140,7 @@ int render(void)
 	double gstride1 = 0.1 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
 	double gstride2 = 0.5 * gstride1;
 	double gstride3 = 0.25 * gstride1;
-	double gpoint1[2];
-	double gpoint2[2];
+	double gpoint1[2], gpoint2[2];
 	cairo_new_path(context);
 	gpoint1[1] = corner1[1], gpoint2[1] = corner2[1];
 	for(gpoint1[0] = gstride3 * floor((corner1[0] - 0.001) / gstride3); gpoint1[0] <= corner2[0] + 0.001; gpoint1[0] += gstride3)
@@ -273,7 +271,7 @@ int render(void)
 	for(int m = 0; m < mcount; m++)
 	{
 		struct member *member = &members[m];
-		if(mlengths[m] < epsilon) continue;
+		if(mlengths[m] < EPSILON) continue;
 		double direction[2];
 		double forces[2][2];
 		for(int a = 0; a < 2; a++)
@@ -364,9 +362,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: fzoom argument: fzoom=float\n");
 		return 1;
 	}
-	if(fzoom < epsilon)
+	if(fzoom < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, epsilon);
+		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
 		return 1;
 	}
 	if(argc < 7 || sscanf(argv[6], "fscale=%le", &fscale) != 1)
@@ -375,9 +373,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: fscale argument: fscale=float\n");
 		return 1;
 	}
-	if(fscale < epsilon)
+	if(fscale < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, epsilon);
+		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, EPSILON);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1) return 1;
@@ -389,7 +387,7 @@ int main(int argc, char **argv)
 		struct joint joint;
 		if(scanf("mass=%le position=(%le %le) velocity=<%le %le>\n",
 		         &joint.mass.m, &joint.mass.p[0], &joint.mass.p[1], &joint.mass.v[0], &joint.mass.v[1]) != 5) return 1;
-		if(joint.mass.m < epsilon) return 1;
+		if(joint.mass.m < EPSILON) return 1;
 		joints[j] = joint;
 	}
 	if(scanf("members=%d\n", &mcount) != 1) return 1;
@@ -410,7 +408,7 @@ int main(int argc, char **argv)
 			    members[m2].spring.m2 == &joints[jindex1].mass)) return 1;
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < epsilon) return 1;
+		if(member.spring.l0 < EPSILON) return 1;
 		members[m] = member;
 	}
 	if(scanf("supports=%d\n", &scount) != 1) return 1;

@@ -40,7 +40,6 @@ tmp/pendulums/pendulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} double pendulum problem"
 echo "| |\\"
 echo "\
@@ -59,7 +58,6 @@ tmp/pendulums/doublependulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} double pendulum (roller) problem"
 echo "| |\\"
 echo "\
@@ -78,7 +76,6 @@ tmp/pendulums/doublependulumroller
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} decuple pendulum problem"
 echo "| |\\"
 echo "\
@@ -99,5 +96,4 @@ echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 echo "${bold}* pendulum files can now be found in ${underline}$(pwd)/tmp/pendulums${normal}"

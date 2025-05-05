@@ -27,19 +27,19 @@ echo -n "| * ${fg_yellow}compiling${normal} mass spring damper library object"
 gcc -c src/msd.c -o bin/msd.o -DMSDAXES=2 -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss solver executable"
-gcc src/solvetruss.c -o bin/solvetruss bin/msd.o -DMSDAXES=2 -lm -std=c23
+gcc src/solvetruss.c -o bin/solvetruss bin/msd.o -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss renderer executable"
-gcc src/rendertruss.c -o bin/rendertruss bin/msd.o -DMSDAXES=2 -lm $(pkg-config --cflags --libs cairo) -std=c23
+gcc src/rendertruss.c -o bin/rendertruss bin/msd.o -lm $(pkg-config --cflags --libs cairo) -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss force diagram renderer executable"
-gcc src/forcediagram.c -o bin/forcediagram bin/msd.o -DMSDAXES=2 -lm $(pkg-config --cflags --libs cairo) -std=c23
+gcc src/forcediagram.c -o bin/forcediagram bin/msd.o -lm $(pkg-config --cflags --libs cairo) -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss utilities executable"
-gcc src/trussutils.c -o bin/trussutils bin/msd.o -DMSDAXES=2 -lm -std=c23
+gcc src/trussutils.c -o bin/trussutils bin/msd.o -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss pipeline feedback executable"
-gcc src/feedback.c -o bin/feedback bin/msd.o -DMSDAXES=2 -lm -std=c23
+gcc src/feedback.c -o bin/feedback bin/msd.o -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator executable"
 gcc src/pipeline.c -o bin/pipeline -lm -std=c23

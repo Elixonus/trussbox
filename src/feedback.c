@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MSDAXES 2
 #include "msd.h"
+
+#define EPSILON 1.0e-18
 
 struct joint
 {
@@ -45,8 +48,6 @@ int scount;
 struct load *loads;
 int lcount;
 
-double epsilon = 1.0e-18;
-
 int main(void)
 {
 	if(scanf("joints=%d\n", &jcount) != 1)
@@ -76,9 +77,9 @@ int main(void)
 			fprintf(stderr, "usage: joint line (problem): mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
-		if(joint.mass.m < epsilon)
+		if(joint.mass.m < EPSILON)
 		{
-			fprintf(stderr, "error: limit: joint [%d] line (problem): mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint [%d] line (problem): mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -133,9 +134,9 @@ int main(void)
 			}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < epsilon)
+		if(member.spring.l0 < EPSILON)
 		{
-			fprintf(stderr, "error: limit: member [%d] line (problem): length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member [%d] line (problem): length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, EPSILON);
 			return 1;
 		}
 		members[m] = member;

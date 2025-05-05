@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#define MSDAXES 2
 #include "msd.h"
 
-#define EPSILON 1e-18
+#define EPSILON 1.0e-18
 
 struct joint
 {

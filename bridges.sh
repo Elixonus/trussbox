@@ -40,7 +40,6 @@ tmp/bridges/warren
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} pratt bridge problem"
 echo "| |\\"
 echo "\
@@ -59,7 +58,6 @@ tmp/bridges/pratt
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} howe bridge problem"
 echo "| |\\"
 echo "\
@@ -78,7 +76,6 @@ tmp/bridges/howe
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} parker bridge problem"
 echo "| |\\"
 echo "\
@@ -97,7 +94,6 @@ tmp/bridges/parker
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} cambridge bridge problem"
 echo "| |\\"
 echo "\
@@ -116,7 +112,6 @@ tmp/bridges/cambridge
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "| |"
 echo "| * ${fg_yellow}working on${normal} whipple bridge problem"
 echo "| |\\"
 echo "\
@@ -137,5 +132,4 @@ echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "|"
 echo "${bold}* bridge files can now be found in ${underline}$(pwd)/tmp/bridges${normal}"
