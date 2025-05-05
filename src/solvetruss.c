@@ -4,6 +4,8 @@
 #include <string.h>
 #include "msd.h"
 
+#define EPSILON 1e-18
+
 struct joint
 {
 	struct mass mass;
@@ -61,8 +63,6 @@ int step;
 int stepf;
 double srate;
 
-double epsilon = 1.0e-18;
-
 void solve(void)
 {
 	for(int j = 0; j < jcount; j++)
@@ -95,7 +95,7 @@ void solve(void)
 	{
 		struct member *member = &members[m];
 		double length = mdistance(member->spring.m1, member->spring.m2);
-		if(length < epsilon) continue;
+		if(length < EPSILON) continue;
 		double force = sforce(&member->spring) + dforce(&member->damper);
 		double direction[2];
 		int jindex1, jindex2;
@@ -154,15 +154,20 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: gacceleration argument: gacceleration=float\n");
 		return 1;
 	}
+	if(isnan(gacceleration) || fabs(gacceleration) > 1.0 / EPSILON)
+	{
+		fprintf(stderr, "error: limit: gacceleration argument: %.1le not between %.1le to %.1le\n", gacceleration, -1.0 / EPSILON, 1.0 / EPSILON);
+		return 1;
+	}
 	if(argc < 3 || sscanf(argv[2], "timef=%le", &timef) != 1)
 	{
 		fprintf(stderr, "error: parse: timef argument\n");
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(timef < epsilon)
+	if(isnan(timef) || timef < EPSILON || timef > 1.0 / EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, epsilon);
+		fprintf(stderr, "error: limit: timef argument: %.1le not between %.1le to %.1le\n", timef, EPSILON, 1.0 / EPSILON);
 		return 1;
 	}
 	if(argc < 4 || sscanf(argv[3], "srate=%le", &srate) != 1)
@@ -171,17 +176,12 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(srate < epsilon)
+	if(isnan(srate) || srate < EPSILON || srate > 1.0 / EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1e not greater than %.1e\n", srate, epsilon);
+		fprintf(stderr, "error: limit: srate argument: %.1le not between %.1le to %.1le\n", srate, EPSILON, 1.0 / EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
-	if(dtime < epsilon)
-	{
-		fprintf(stderr, "error: limit: dtime variable: %.1e not greater than %.1e\n", dtime, epsilon);
-		return 1;
-	}
 	stepf = ((int) round(srate * timef)) - 1;
 	if(stepf < 0)
 	{
@@ -227,9 +227,21 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
-		if(joint.mass.m < epsilon)
+		if(isnan(joint.mass.m) || joint.mass.m < EPSILON || joint.mass.m > 1.0 / EPSILON)
 		{
-			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, epsilon);
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1le not between %.1le to %.1le\n", j + 1, joint.mass.m, EPSILON, 1.0 / EPSILON);
+			return 1;
+		}
+		if(isnan(joint.mass.p[0]) || isnan(joint.mass.p[1]) || fabs(joint.mass.p[0]) > 1.0 / EPSILON || fabs(joint.mass.p[1]) > 1.0 / EPSILON)
+		{
+			fprintf(stderr, "error: limit: joint [%d] line: position parameter: (%.1le %.1le) not between (%.1le %.1le) to (%.1le %.1le)\n",
+			                j + 1, joint.mass.p[0], joint.mass.p[1], -1.0 / EPSILON, -1.0 / EPSILON, 1.0 / EPSILON, 1.0 / EPSILON);
+			return 1;
+		}
+		if(isnan(joint.mass.v[0]) || isnan(joint.mass.v[1]) || fabs(joint.mass.v[0]) > 1.0 / EPSILON || fabs(joint.mass.v[1]) > 1.0 / EPSILON)
+		{
+			fprintf(stderr, "error: limit: joint [%d] line: velocity parameter: <%.1le %.1le> not between <%.1le %.1le> to <%.1le %.1le>\n",
+			                j + 1, joint.mass.v[0], joint.mass.v[1], -1.0 / EPSILON, -1.0 / EPSILON, 1.0 / EPSILON, 1.0 / EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -327,9 +339,19 @@ int main(int argc, char **argv)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < epsilon)
+		if(fabs(member.spring.k) > 1.0 / EPSILON)
 		{
-			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, epsilon);
+			fprintf(stderr, "error: limit: member [%d] line: stiffness parameter: %.1le not between %.1le to %.1le\n", m + 1, member.spring.k, -1.0 / EPSILON, 1.0 / EPSILON);
+			return 1;
+		}
+		if(member.spring.l0 < EPSILON || member.spring.l0 > 1.0 / EPSILON)
+		{
+			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1le not between %.1le to %.1le\n", m + 1, member.spring.l0, EPSILON, 1.0 / EPSILON);
+			return 1;
+		}
+		if(fabs(member.damper.c) > 1.0 / EPSILON)
+		{
+			fprintf(stderr, "error: limit: member [%d] line: damper parameter: %.1le not between %.1le to %.1le\n", m + 1, member.damper.c, -1.0 / EPSILON, 1.0 / EPSILON);
 			return 1;
 		}
 		members[m] = member;
@@ -440,16 +462,39 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		load.action.m = &joints[jindex].mass;
+		if(isnan(load.action.f[0]) || isnan(load.action.f[1]) || fabs(load.action.f[0]) > 1.0 / EPSILON || fabs(load.action.f[1]) > 1.0 / EPSILON)
+		{
+			fprintf(stderr, "error: limit: load [%d] line: force parameter: <%.1le %.1le> not between <%.1le %.1le> to <%.1le %.1le>\n",
+			                l + 1, load.action.f[0], load.action.f[1], -1.0 / EPSILON, -1.0 / EPSILON, 1.0 / EPSILON, 1.0 / EPSILON);
+			return 1;
+		}
 		loads[l] = load;
 	}
 	time = 0.0, step = 0;
 	while(step <= stepf)
 		solve();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	printf("joints=%d\n", jcount);
 	for(int j = 0; j < jcount; j++)
 	{
+		struct joint *joint = &joints[j];
 		printf("force=<%.9le %.9le> position=(%.9le %.9le) velocity=<%.9le %.9le>\n",
-		       jforces[j][0], jforces[j][1], joints[j].mass.p[0], joints[j].mass.p[1], joints[j].mass.v[0], joints[j].mass.v[1]);
+		       jforces[j][0], jforces[j][1], joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
 	}
 	printf("members=%d\n", mcount);
 	for(int m = 0; m < mcount; m++)

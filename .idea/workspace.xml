@@ -18,10 +18,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="renamed gravity parameter, changed sign convention and fixed typos">
+    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom.sh" beforeDir="false" afterPath="$PROJECT_DIR$/custom.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,10 +47,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/forcediagram.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/pipeline.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/solvetruss.c" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/trussutils.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -200,6 +197,9 @@
       <workItem from="1746382478082" duration="3656000" />
       <workItem from="1746388093732" duration="505000" />
       <workItem from="1746390123351" duration="3203000" />
+      <workItem from="1746393495291" duration="286000" />
+      <workItem from="1746397395289" duration="347000" />
+      <workItem from="1746411894499" duration="7166000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />
@@ -209,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745730172959</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added large number and nan check for truss solver (input only atm)">
+      <option name="closed" value="true" />
+      <created>1746417305390</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746417305390</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -217,6 +225,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="renamed gravity parameter, changed sign convention and fixed typos" />
-    <option name="LAST_COMMIT_MESSAGE" value="renamed gravity parameter, changed sign convention and fixed typos" />
+    <MESSAGE value="added large number and nan check for truss solver (input only atm)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added large number and nan check for truss solver (input only atm)" />
   </component>
 </project>
