@@ -2,7 +2,7 @@
 set -eo pipefail
 if [ "$TERM" != "dumb" ]; then
 	ncolors=$(tput colors)
-	if test -n "$ncolors" && test $ncolors -ge 9; then
+	if test -n "$ncolors" && test $ncolors -ge 28; then
 		bold="$(tput bold)"
 		underline="$(tput smul)"
 		standout="$(tput smso)"
@@ -16,8 +16,20 @@ if [ "$TERM" != "dumb" ]; then
 		fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
 		fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+		fg_blue_misc="$(tput setaf 27)"
 	fi
 fi
+update_start_time() {
+	start_time=$(date +%s)
+}
+print_elapsed_time() {
+	local current_time=$(date +%s)
+	local delta_time=$((current_time - start_time))
+	local hours=$((delta_time / 3600))
+	local minutes=$(((delta_time % 3600) / 60))
+	local seconds=$((delta_time % 60))
+	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
+}
 echo "* ${fg_yellow}creating${normal} a montage of each of the systems"
 echo "|\\"
 read -rep "create new bridges output? (y/n): " create_bridges
@@ -53,6 +65,7 @@ then
 	source pendulums.sh | sed -u "s/^/| /"
 fi
 echo "| * ${fg_yellow}overlaying${normal} videos, force diagrams and subtitles"
+update_start_time
 mkdir -p tmp/montage/bridges/warren
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.04 text=Warren Bridge
@@ -257,8 +270,9 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}stitching${normal} each of the video solutions together"
+update_start_time
 ffmpeg \
 	-i tmp/montage/bridges/warren/video.mp4 \
 	-i tmp/montage/bridges/pratt/video.mp4 \
@@ -281,8 +295,9 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}stacking${normal} each of the video solutions together"
+update_start_time
 ffmpeg \
 	-t 20 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
 	-t 20 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
@@ -321,7 +336,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* montage files can now be found in ${underline}$(pwd)/tmp/montage${normal}"

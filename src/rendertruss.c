@@ -343,7 +343,7 @@ int main(int argc, char **argv)
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
 	{
-		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
+		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than %dx%d nor matching\n", fsize[0], fsize[1], 64, 64);
 		return 1;
 	}
 	if(argc < 4 || sscanf(argv[3], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
@@ -360,7 +360,7 @@ int main(int argc, char **argv)
 	}
 	if(fzoom < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
+		fprintf(stderr, "error: limit: fzoom argument: %.1le not greater than %.1le\n", fzoom, EPSILON);
 		return 1;
 	}
 	if(argc < 6 || sscanf(argv[5], "fscale=%le", &fscale) != 1)
@@ -371,7 +371,7 @@ int main(int argc, char **argv)
 	}
 	if(fscale < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, EPSILON);
+		fprintf(stderr, "error: limit: fscale argument: %.1le not greater than %.1le\n", fscale, EPSILON);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1)
@@ -382,7 +382,7 @@ int main(int argc, char **argv)
 	}
 	if(jcount < 0)
 	{
-		fprintf(stderr, "error: count: joints parameter: %d not positive nor zero\n", jcount);
+		fprintf(stderr, "error: count: joints parameter: %d not positive nor %d\n", jcount, 0);
 		return 1;
 	}
 	joints = malloc(jcount * sizeof(struct joint));
@@ -403,7 +403,7 @@ int main(int argc, char **argv)
 		}
 		if(joint.mass.m < EPSILON)
 		{
-			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, EPSILON);
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1le not greater than %.1le\n", j + 1, joint.mass.m, EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -416,7 +416,7 @@ int main(int argc, char **argv)
 	}
 	if(mcount < 0)
 	{
-		fprintf(stderr, "error: count: members parameter: %d not positive nor zero\n", mcount);
+		fprintf(stderr, "error: count: members parameter: %d not positive nor %d\n", mcount, 0);
 		return 1;
 	}
 	members = malloc(mcount * sizeof(struct member));
@@ -464,9 +464,9 @@ int main(int argc, char **argv)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < EPSILON)
+		if(member.spring.l0 < -EPSILON)
 		{
-			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, EPSILON);
+			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, -EPSILON);
 			return 1;
 		}
 		members[m] = member;
@@ -479,7 +479,7 @@ int main(int argc, char **argv)
 	}
 	if(scount < 0)
 	{
-		fprintf(stderr, "error: count: supports parameter: %d not positive nor zero\n", scount);
+		fprintf(stderr, "error: count: supports parameter: %d not positive nor %d\n", scount, 0);
 		return 1;
 	}
 	supports = malloc(scount * sizeof(struct support));

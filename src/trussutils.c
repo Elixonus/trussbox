@@ -119,7 +119,7 @@ int scan_truss_problem(void)
 	}
 	if(jcount < 0)
 	{
-		fprintf(stderr, "error: count: joints parameter: %d not positive nor zero\n", jcount);
+		fprintf(stderr, "error: count: joints parameter: %d not positive nor %d\n", jcount, 0);
 		return 1;
 	}
 	joints = malloc(jcount * sizeof(struct joint));
@@ -140,7 +140,7 @@ int scan_truss_problem(void)
 		}
 		if(joint.mass.m < EPSILON)
 		{
-			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1e not greater than %.1e\n", j + 1, joint.mass.m, EPSILON);
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1le not greater than %.1le\n", j + 1, joint.mass.m, EPSILON);
 			return 1;
 		}
 		joints[j] = joint;
@@ -153,7 +153,7 @@ int scan_truss_problem(void)
 	}
 	if(mcount < 0)
 	{
-		fprintf(stderr, "error: count: members parameter: %d not positive nor zero\n", mcount);
+		fprintf(stderr, "error: count: members parameter: %d not positive nor %d\n", mcount, 0);
 		return 1;
 	}
 	members = malloc(mcount * sizeof(struct member));
@@ -201,9 +201,9 @@ int scan_truss_problem(void)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < EPSILON)
+		if(member.spring.l0 < -EPSILON)
 		{
-			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1e not greater than %.1e\n", m + 1, member.spring.l0, EPSILON);
+			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, -EPSILON);
 			return 1;
 		}
 		members[m] = member;
@@ -216,7 +216,7 @@ int scan_truss_problem(void)
 	}
 	if(scount < 0)
 	{
-		fprintf(stderr, "error: count: supports parameter: %d not positive nor zero\n", scount);
+		fprintf(stderr, "error: count: supports parameter: %d not positive nor %d\n", scount, 0);
 		return 1;
 	}
 	supports = malloc(scount * sizeof(struct support));
@@ -272,7 +272,7 @@ int scan_truss_problem(void)
 	}
 	if(lcount < 0)
 	{
-		fprintf(stderr, "error: count: loads parameter: %d not positive nor zero\n", lcount);
+		fprintf(stderr, "error: count: loads parameter: %d not positive nor %d\n", lcount, 0);
 		return 1;
 	}
 	loads = malloc(lcount * sizeof(struct load));
@@ -573,7 +573,7 @@ int main(int argc, char **argv)
 		}
 		if(fzoom < EPSILON)
 		{
-			fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
+			fprintf(stderr, "error: limit: fzoom argument: %.1le not greater than %.1le\n", fzoom, EPSILON);
 			return 1;
 		}
 		char colorarg[101];

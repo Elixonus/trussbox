@@ -347,7 +347,7 @@ int main(int argc, char **argv)
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
 	{
-		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
+		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than %dx%d nor matching\n", fsize[0], fsize[1], 64, 64);
 		return 1;
 	}
 	if(argc < 5 || sscanf(argv[4], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)

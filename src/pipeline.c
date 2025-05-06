@@ -74,9 +74,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(timef < EPSILON)
+	if(timef < -EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1e not greater than %.1e\n", timef, EPSILON);
+		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, -EPSILON);
 		return 1;
 	}
 	if(argc < 10 || sscanf(argv[9], "srate=%le", &srate) != 1)
@@ -85,21 +85,16 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(srate < EPSILON)
+	if(srate < -EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1e not greater than %.1e\n", srate, EPSILON);
+		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, -EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
-	if(dtime < EPSILON)
-	{
-		fprintf(stderr, "error: limit: dtime variable: %.1e not greater than %.1e\n", dtime, EPSILON);
-		return 1;
-	}
 	stepf = ((int) round(srate * timef)) - 1;
 	if(stepf < 0)
 	{
-		fprintf(stderr, "error: limit: stepf variable: %d not positive nor zero\n", stepf);
+		fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf + 1);
 		return 1;
 	}
 	if(argc < 11 || sscanf(argv[10], "frate=%le", &frate) != 1)
@@ -108,15 +103,15 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: frate argument: frate=float\n");
 		return 1;
 	}
-	if(frate < EPSILON)
+	if(frate < -EPSILON)
 	{
-		fprintf(stderr, "error: limit: frate argument: %.1e not greater than %.1e\n", frate, EPSILON);
+		fprintf(stderr, "error: limit: frate argument: %.1le not greater than %.1le\n", frate, -EPSILON);
 		return 1;
 	}
 	framef = ((int) round(frate * timef)) - 1;
 	if(framef < 0)
 	{
-		fprintf(stderr, "error: limit: framef variable: %d not positive nor zero\n", framef);
+		fprintf(stderr, "error: limit: framef variable: %d not positive\n", framef + 1);
 		return 1;
 	}
 	if(argc < 12 || sscanf(argv[11], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
@@ -127,7 +122,7 @@ int main(int argc, char **argv)
 	}
 	if(fsize[0] < 64 || fsize[1] < 64)
 	{
-		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than 64x64 nor matching\n", fsize[0], fsize[1]);
+		fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than %dx%d nor matching\n", fsize[0], fsize[1], 64, 64);
 		return 1;
 	}
 	if(argc < 13 || sscanf(argv[12], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
@@ -144,7 +139,7 @@ int main(int argc, char **argv)
 	}
 	if(fzoom < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fzoom argument: %.1e not greater than %.1e\n", fzoom, EPSILON);
+		fprintf(stderr, "error: limit: fzoom argument: %.1le not greater than %.1le\n", fzoom, EPSILON);
 		return 1;
 	}
 	if(argc < 15 || sscanf(argv[14], "fscale=%le", &fscale) != 1)
@@ -155,7 +150,7 @@ int main(int argc, char **argv)
 	}
 	if(fscale < EPSILON)
 	{
-		fprintf(stderr, "error: limit: fscale argument: %.1e not greater than %.1e\n", fscale, EPSILON);
+		fprintf(stderr, "error: limit: fscale argument: %.1le not greater than %.1le\n", fscale, EPSILON);
 		return 1;
 	}
 	printf("#!/bin/bash\n");

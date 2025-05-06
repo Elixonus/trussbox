@@ -161,9 +161,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(timef < EPSILON)
+	if(timef < -EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, EPSILON);
+		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, -EPSILON);
 		return 1;
 	}
 	if(argc < 4 || sscanf(argv[3], "srate=%le", &srate) != 1)
@@ -172,21 +172,16 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(srate < EPSILON)
+	if(srate < -EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, EPSILON);
+		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, -EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
-	if(dtime < EPSILON)
-	{
-		fprintf(stderr, "error: limit: dtime expression: %.1le not greater than %.1le\n", srate, EPSILON);
-		return 1;
-	}
 	stepf = ((int) round(srate * timef)) - 1;
 	if(stepf < 0)
 	{
-		fprintf(stderr, "error: limit: stepf expression: %d not positive\n", stepf + 1);
+		fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf + 1);
 		return 1;
 	}
 	if(scanf("joints=%d\n", &jcount) != 1)
@@ -197,7 +192,7 @@ int main(int argc, char **argv)
 	}
 	if(jcount < 0)
 	{
-		fprintf(stderr, "error: count: joints parameter: %d not positive nor zero\n", jcount);
+		fprintf(stderr, "error: count: joints parameter: %d not positive nor %d\n", jcount, 0);
 		return 1;
 	}
 	joints = malloc(jcount * sizeof(struct joint));
@@ -228,6 +223,11 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: joint line: mass=float position=(float float) velocity=<float float>\n");
 			return 1;
 		}
+		if(joint.mass.m < EPSILON)
+		{
+			fprintf(stderr, "error: limit: joint [%d] line: mass parameter: %.1le not greater than %.1le\n", j + 1, joint.mass.m, EPSILON);
+			return 1;
+		}
 		joints[j] = joint;
 		jaccelerations[j] = malloc(2 * sizeof(double));
 		if(!jaccelerations[j])
@@ -241,7 +241,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: create: jforce [%d] array: %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
-		for(int a = 0; a < 2; a++) jaccelerations[j][a], jforces[j][a] = 0.0;
+		for(int a = 0; a < 2; a++) jaccelerations[j][a] = 0.0, jforces[j][a] = 0.0;
 	}
 	if(scanf("members=%d\n", &mcount) != 1)
 	{
@@ -251,7 +251,7 @@ int main(int argc, char **argv)
 	}
 	if(mcount < 0)
 	{
-		fprintf(stderr, "error: count: members parameter: %d not positive nor zero\n", mcount);
+		fprintf(stderr, "error: count: members parameter: %d not positive nor %d\n", mcount, 0);
 		return 1;
 	}
 	members = malloc(mcount * sizeof(struct member));
@@ -323,6 +323,11 @@ int main(int argc, char **argv)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
+		if(member.spring.l0 < -EPSILON)
+		{
+			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, -EPSILON);
+			return 1;
+		}
 		members[m] = member;
 		mlengths[m] = 0.0, mdisplacements[m] = 0.0, mvelocities[m] = 0.0, mforces[m] = 0.0;
 	}
@@ -334,7 +339,7 @@ int main(int argc, char **argv)
 	}
 	if(scount < 0)
 	{
-		fprintf(stderr, "error: count: supports parameter: %d not positive nor zero\n", scount);
+		fprintf(stderr, "error: count: supports parameter: %d not positive nor %d\n", scount, 0);
 		return 1;
 	}
 	supports = malloc(scount * sizeof(struct support));
@@ -404,7 +409,7 @@ int main(int argc, char **argv)
 	}
 	if(lcount < 0)
 	{
-		fprintf(stderr, "error: count: loads parameter: %d not positive nor zero\n", lcount);
+		fprintf(stderr, "error: count: loads parameter: %d not positive nor %d\n", lcount, 0);
 		return 1;
 	}
 	loads = malloc(lcount * sizeof(struct load));

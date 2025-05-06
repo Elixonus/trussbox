@@ -52,7 +52,7 @@ fink.txt
 tmp/miscellaneous/fink
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} scissor roof truss problem"
 echo "| |\\"
 update_start_time
@@ -71,7 +71,7 @@ scissor.txt
 tmp/miscellaneous/scissor
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} box cantilever problem"
 echo "| |\\"
 update_start_time
@@ -90,7 +90,7 @@ cantilever.txt
 tmp/miscellaneous/cantilever
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} stadium truss problem"
 echo "| |\\"
 update_start_time
@@ -109,7 +109,7 @@ stadium.txt
 tmp/miscellaneous/stadium
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower truss problem"
 echo "| |\\"
 update_start_time
@@ -128,7 +128,7 @@ powertower.txt
 tmp/miscellaneous/powertower
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower cross variant truss problem"
 echo "| |\\"
 update_start_time
@@ -147,7 +147,7 @@ powertowercross.txt
 tmp/miscellaneous/powertowercross
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
 echo "| |\\"
 update_start_time
@@ -166,7 +166,7 @@ strandbeest.txt
 tmp/miscellaneous/strandbeest
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* miscellaneous files can now be found in ${underline}$(pwd)/tmp/miscellaneous${normal}"

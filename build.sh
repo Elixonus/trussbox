@@ -4,7 +4,7 @@ shopt -s expand_aliases
 alias gcc="gcc-14"
 if [ "$TERM" != "dumb" ]; then
 	ncolors=$(tput colors)
-	if test -n "$ncolors" && test $ncolors -ge 9; then
+	if test -n "$ncolors" && test $ncolors -ge 28; then
 		bold="$(tput bold)"
 		underline="$(tput smul)"
 		standout="$(tput smso)"
@@ -18,10 +18,23 @@ if [ "$TERM" != "dumb" ]; then
 		fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
 		fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+		fg_blue_misc="$(tput setaf 27)"
 	fi
 fi
+update_start_time() {
+	start_time=$(date +%s)
+}
+print_elapsed_time() {
+	local current_time=$(date +%s)
+	local delta_time=$((current_time - start_time))
+	local hours=$((delta_time / 3600))
+	local minutes=$(((delta_time % 3600) / 60))
+	local seconds=$((delta_time % 60))
+	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
+}
 echo "* ${fg_yellow}compiling${normal} programs"
 echo "|\\"
+update_start_time
 mkdir -p bin
 echo -n "| * ${fg_yellow}compiling${normal} mass spring damper library object"
 gcc -c src/msd.c -o bin/msd.o -DMSDAXES=2 -std=c23
@@ -48,4 +61,5 @@ echo -n "| * ${fg_yellow}compiling${normal} subtitles renderer executable"
 gcc src/subtitles.c -o bin/subtitles -lm $(pkg-config --cflags --libs cairo) -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "${bold}* executables and object files can now be found in ${underline}$(pwd)/bin${normal}"
