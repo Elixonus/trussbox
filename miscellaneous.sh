@@ -2,7 +2,7 @@
 set -eo pipefail
 if [ "$TERM" != "dumb" ]; then
 	ncolors=$(tput colors)
-	if test -n "$ncolors" && test $ncolors -ge 9; then
+	if test -n "$ncolors" && test $ncolors -ge 28; then
 		bold="$(tput bold)"
 		underline="$(tput smul)"
 		standout="$(tput smso)"
@@ -16,14 +16,27 @@ if [ "$TERM" != "dumb" ]; then
 		fg_cyan="$(tput setaf 6)";    bg_cyan="$(tput setab 6)"
 		fg_white="$(tput setaf 7)";   bg_white="$(tput setab 7)"
 		fg_gray="$(tput setaf 8)";    bg_gray="$(tput setab 8)"
+		fg_blue_misc="$(tput setaf 27)"
 	fi
 fi
+update_start_time() {
+	start_time=$(date +%s)
+}
+print_elapsed_time() {
+	local current_time=$(date +%s)
+	local delta_time=$((current_time - start_time))
+	local hours=$((delta_time / 3600))
+	local minutes=$(((delta_time % 3600) / 60))
+	local seconds=$((delta_time % 60))
+	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
+}
 echo "* ${fg_yellow}creating${normal} output for each of the miscellaneous systems"
 echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
 echo "| * ${fg_yellow}working on${normal} fink roof truss problem"
 echo "| |\\"
+update_start_time
 echo "\
 fink.txt
 -9.8
@@ -39,9 +52,10 @@ fink.txt
 tmp/miscellaneous/fink
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| * ${fg_yellow}working on${normal} scissor roof truss problem"
 echo "| |\\"
+update_start_time
 echo "\
 scissor.txt
 -9.8
@@ -57,9 +71,10 @@ scissor.txt
 tmp/miscellaneous/scissor
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| * ${fg_yellow}working on${normal} box cantilever problem"
 echo "| |\\"
+update_start_time
 echo "\
 cantilever.txt
 -9.8
@@ -75,9 +90,10 @@ cantilever.txt
 tmp/miscellaneous/cantilever
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| * ${fg_yellow}working on${normal} stadium truss problem"
 echo "| |\\"
+update_start_time
 echo "\
 stadium.txt
 0.0
@@ -93,9 +109,10 @@ stadium.txt
 tmp/miscellaneous/stadium
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower truss problem"
 echo "| |\\"
+update_start_time
 echo "\
 powertower.txt
 0.0
@@ -111,9 +128,10 @@ powertower.txt
 tmp/miscellaneous/powertower
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower cross variant truss problem"
 echo "| |\\"
+update_start_time
 echo "\
 powertowercross.txt
 0.0
@@ -129,9 +147,10 @@ powertowercross.txt
 tmp/miscellaneous/powertowercross
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
 echo "| |\\"
+update_start_time
 echo "\
 strandbeest.txt
 0.0
@@ -147,7 +166,7 @@ strandbeest.txt
 tmp/miscellaneous/strandbeest
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* miscellaneous files can now be found in ${underline}$(pwd)/tmp/miscellaneous${normal}"
