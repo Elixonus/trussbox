@@ -50,7 +50,7 @@ update_start_time
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
 	forcediagram_executable=bin/forcediagram \
-	feedback_executable=bin/feedback \
+	trussutils_executable=bin/trussutils \
 	problem_filename=$filename \
 	output_dirname=$dirname \
 	gacceleration=$gacceleration \

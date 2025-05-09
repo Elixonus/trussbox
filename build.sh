@@ -51,9 +51,6 @@ echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss utilities executable"
 gcc src/trussutils.c -o bin/trussutils bin/msd.o -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo -n "| * ${fg_yellow}compiling${normal} truss pipeline feedback executable"
-gcc src/feedback.c -o bin/feedback bin/msd.o -lm -std=c23
-echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator executable"
 gcc src/pipeline.c -o bin/pipeline -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"

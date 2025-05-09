@@ -304,7 +304,7 @@ int scan_truss_problem(void)
 	return 0;
 }
 
-int scan_truss_solution(void)
+int scan_truss_solution(bool update_truss_problem)
 {
 	int jcount2;
 	if(scanf("joints=%d\n", &jcount2) != 1)
@@ -332,8 +332,11 @@ int scan_truss_solution(void)
 			fprintf(stderr, "error: create: jforce [%d] array: %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
-		if(scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
-				 &jforces[j][0], &jforces[j][1]) != 2)
+		if(update_truss_problem ?
+		   (scanf("force=<%le %le> position=(%le %le) velocity=<%le %le>\n",
+		          &jforces[j][0], &jforces[j][1], &joints[j].mass.p[0], &joints[j].mass.p[1], &joints[j].mass.v[0], &joints[j].mass.v[1]) != 6) :
+		   (scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
+		          &jforces[j][0], &jforces[j][1]) != 2))
 		{
 			fprintf(stderr, "error: parse: joint [%d] line (solution)\n", j + 1);
 			fprintf(stderr, "usage: joint line (solution): mass=float position=(float float) velocity=(float float)\n");
@@ -555,6 +558,13 @@ int main(int argc, char **argv)
 		print_truss_problem();
 		free_truss_problem();
 	}
+	else if(strcmp(argv[1], "feedback") == 0)
+	{
+		if(scan_truss_problem() != 0) return 1;
+		if(scan_truss_solution(true) != 0) return 1;
+		print_truss_problem();
+		free_truss_problem();
+	}
 	else if(strcmp(argv[1], "textart") == 0)
 	{
 		double fcenter[2];
@@ -621,7 +631,7 @@ int main(int argc, char **argv)
 		}
 		if(scan_truss_problem() != 0) return 1;
 		if(usecolor)
-			if(scan_truss_solution() != 0) return 1;
+			if(scan_truss_solution(false) != 0) return 1;
 		char textart[25][52];
 		char colors[25][50];
 		for(int r = 0; r < 25; r++)
@@ -972,7 +982,7 @@ int main(int argc, char **argv)
 	else {
 		utilargerr:
 		fprintf(stderr, "error: parse: utility argument\n");
-		fprintf(stderr, "usage: utility argument: properties|transform|undeform|textart\n");
+		fprintf(stderr, "usage: utility argument: properties|transform|undeform|feedback|textart\n");
 		return 1;
 	}
 	return 0;
