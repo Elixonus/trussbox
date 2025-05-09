@@ -184,6 +184,11 @@ int scan_truss_problem(void)
 			fprintf(stderr, "error: index: member [%d] line: joint2 parameter: [%d] does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
+		if(jindex1 == jindex2)
+		{
+			fprintf(stderr, "error: index: member [%d] line: joint1 and joint2 parameters: [%d] and [%d] cannot match\n", m + 1, jindex1 + 1, jindex2 + 1);
+			return 1;
+		}
 		for(int m2 = 0; m2 < m; m2++)
 		{
 			if(members[m2].spring.m1 == &joints[jindex1].mass &&
@@ -201,9 +206,9 @@ int scan_truss_problem(void)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < -EPSILON)
+		if(member.spring.l0 < EPSILON)
 		{
-			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, -EPSILON);
+			fprintf(stderr, "error: limit: member line [%d]: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, EPSILON);
 			return 1;
 		}
 		members[m] = member;
@@ -304,7 +309,7 @@ int scan_truss_problem(void)
 	return 0;
 }
 
-int scan_truss_solution(void)
+int scan_truss_solution(bool update_truss_problem)
 {
 	int jcount2;
 	if(scanf("joints=%d\n", &jcount2) != 1)
@@ -332,8 +337,11 @@ int scan_truss_solution(void)
 			fprintf(stderr, "error: create: jforce [%d] array: %zd bytes allocation\n", j + 1, 2 * sizeof(double));
 			return 1;
 		}
-		if(scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
-				 &jforces[j][0], &jforces[j][1]) != 2)
+		if(update_truss_problem ?
+		   (scanf("force=<%le %le> position=(%le %le) velocity=<%le %le>\n",
+		          &jforces[j][0], &jforces[j][1], &joints[j].mass.p[0], &joints[j].mass.p[1], &joints[j].mass.v[0], &joints[j].mass.v[1]) != 6) :
+		   (scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
+		          &jforces[j][0], &jforces[j][1]) != 2))
 		{
 			fprintf(stderr, "error: parse: joint [%d] line (solution)\n", j + 1);
 			fprintf(stderr, "usage: joint line (solution): mass=float position=(float float) velocity=(float float)\n");
@@ -555,6 +563,13 @@ int main(int argc, char **argv)
 		print_truss_problem();
 		free_truss_problem();
 	}
+	else if(strcmp(argv[1], "feedback") == 0)
+	{
+		if(scan_truss_problem() != 0) return 1;
+		if(scan_truss_solution(true) != 0) return 1;
+		print_truss_problem();
+		free_truss_problem();
+	}
 	else if(strcmp(argv[1], "textart") == 0)
 	{
 		double fcenter[2];
@@ -621,7 +636,7 @@ int main(int argc, char **argv)
 		}
 		if(scan_truss_problem() != 0) return 1;
 		if(usecolor)
-			if(scan_truss_solution() != 0) return 1;
+			if(scan_truss_solution(false) != 0) return 1;
 		char textart[25][52];
 		char colors[25][50];
 		for(int r = 0; r < 25; r++)
@@ -751,7 +766,7 @@ int main(int argc, char **argv)
 				(int) round(24.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
-			setchar('O', rowcol[0], rowcol[1], ' ');
+			setchar('*', rowcol[0], rowcol[1], ' ');
 		}
 		for(int s = 0; s < scount; s++)
 		{
@@ -795,6 +810,8 @@ int main(int argc, char **argv)
 			{
 				if(polarity > 0.0)
 				{
+					setchar('[', rowcol[0], rowcol[1] - 1, ' ');
+					setchar(']', rowcol[0], rowcol[1] + 1, ' ');
 					setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
 					setchar(' ', rowcol[0] + 1, rowcol[1], ' ');
 					setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
@@ -817,6 +834,8 @@ int main(int argc, char **argv)
 				}
 				else
 				{
+					setchar('[', rowcol[0], rowcol[1] - 1, ' ');
+					setchar(']', rowcol[0], rowcol[1] + 1, ' ');
 					setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
 					setchar(' ', rowcol[0] - 1, rowcol[1], ' ');
 					setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
@@ -842,47 +861,29 @@ int main(int argc, char **argv)
 			{
 				if(polarity > 0.0)
 				{
+					setchar('-', rowcol[0] - 1, rowcol[1], ' ');
+					setchar('-', rowcol[0] + 1, rowcol[1], ' ');
 					setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
 					setchar(' ', rowcol[0], rowcol[1] - 1, ' ');
 					setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
-					if(count == 2)
-					{
-						setchar('[', rowcol[0] - 2, rowcol[1] - 2, ' ');
-						setchar('[', rowcol[0] - 1, rowcol[1] - 2, ' ');
-						setchar('[', rowcol[0], rowcol[1] - 2, ' ');
-						setchar('[', rowcol[0] + 1, rowcol[1] - 2, ' ');
-						setchar('[', rowcol[0] + 2, rowcol[1] - 2, ' ');
-					}
-					if(count == 1)
-					{
-						setchar('o', rowcol[0] - 2, rowcol[1] - 2, ' ');
-						setchar('o', rowcol[0] - 1, rowcol[1] - 2, ' ');
-						setchar('o', rowcol[0], rowcol[1] - 2, ' ');
-						setchar('o', rowcol[0] + 1, rowcol[1] - 2, ' ');
-						setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
-					}
+					setchar('o', rowcol[0] - 2, rowcol[1] - 2, ' ');
+					setchar('o', rowcol[0] - 1, rowcol[1] - 2, ' ');
+					setchar('o', rowcol[0], rowcol[1] - 2, ' ');
+					setchar('o', rowcol[0] + 1, rowcol[1] - 2, ' ');
+					setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
 				}
 				else
 				{
+					setchar('-', rowcol[0] - 1, rowcol[1], ' ');
+					setchar('-', rowcol[0] + 1, rowcol[1], ' ');
 					setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
 					setchar(' ', rowcol[0], rowcol[1] + 1, ' ');
 					setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
-					if(count == 2)
-					{
-						setchar('[', rowcol[0] - 2, rowcol[1] + 2, ' ');
-						setchar('[', rowcol[0] - 1, rowcol[1] + 2, ' ');
-						setchar('[', rowcol[0], rowcol[1] + 2, ' ');
-						setchar('[', rowcol[0] + 1, rowcol[1] + 2, ' ');
-						setchar('[', rowcol[0] + 2, rowcol[1] + 2, ' ');
-					}
-					if(count == 1)
-					{
-						setchar('o', rowcol[0] - 2, rowcol[1] + 2, ' ');
-						setchar('o', rowcol[0] - 1, rowcol[1] + 2, ' ');
-						setchar('o', rowcol[0], rowcol[1] + 2, ' ');
-						setchar('o', rowcol[0] + 1, rowcol[1] + 2, ' ');
-						setchar('o', rowcol[0] + 2, rowcol[1] + 2, ' ');
-					}
+					setchar('o', rowcol[0] - 2, rowcol[1] + 2, ' ');
+					setchar('o', rowcol[0] - 1, rowcol[1] + 2, ' ');
+					setchar('o', rowcol[0], rowcol[1] + 2, ' ');
+					setchar('o', rowcol[0] + 1, rowcol[1] + 2, ' ');
+					setchar('o', rowcol[0] + 2, rowcol[1] + 2, ' ');
 				}
 			}
 		}
@@ -972,7 +973,7 @@ int main(int argc, char **argv)
 	else {
 		utilargerr:
 		fprintf(stderr, "error: parse: utility argument\n");
-		fprintf(stderr, "usage: utility argument: properties|transform|undeform|textart\n");
+		fprintf(stderr, "usage: utility argument: properties|transform|undeform|feedback|textart\n");
 		return 1;
 	}
 	return 0;

@@ -20,10 +20,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/feedback.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/feedback.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,19 +78,20 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Elias Dobrin/Documents/GitHub/trussbox&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Elias Dobrin/Documents/GitHub/trussbox/tmp&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C/C++&quot;,
     &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\tmp" />
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox" />
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\tmp\test" />
     </key>
@@ -210,7 +207,20 @@
       <workItem from="1746588980342" duration="6145000" />
       <workItem from="1746635807266" duration="610000" />
       <workItem from="1746636475403" duration="7430000" />
-      <workItem from="1746658276209" duration="4221000" />
+      <workItem from="1746658276209" duration="4309000" />
+      <workItem from="1746733620852" duration="611000" />
+      <workItem from="1746759616297" duration="4765000" />
+      <workItem from="1746818729172" duration="6180000" />
+      <workItem from="1746898254067" duration="1532000" />
+      <workItem from="1746906153234" duration="68000" />
+      <workItem from="1746909628172" duration="5544000" />
+      <workItem from="1746915886328" duration="6442000" />
+      <workItem from="1746993848909" duration="2453000" />
+      <workItem from="1746998218166" duration="3820000" />
+      <workItem from="1747014602718" duration="4986000" />
+      <workItem from="1747025954430" duration="630000" />
+      <workItem from="1747026632980" duration="1181000" />
+      <workItem from="1747028250444" duration="643000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

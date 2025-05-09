@@ -137,7 +137,7 @@ int render(void)
 	cairo_device_to_user(context, &corner1[0], &corner1[1]);
 	double corner2[2] = {(double) fsize[0], 0.0};
 	cairo_device_to_user(context, &corner2[0], &corner2[1]);
-	double gstride1 = 0.1 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
+	double gstride1 = 0.125 * pow(4.0, round(0.5 * log2(1.0 / fzoom)));
 	double gstride2 = 0.5 * gstride1;
 	double gstride3 = 0.25 * gstride1;
 	double gpoint1[2], gpoint2[2];
@@ -400,7 +400,7 @@ int main(int argc, char **argv)
 		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5) return 1;
 		jindex1--, jindex2--;
-		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount) return 1;
+		if(jindex1 < 0 || jindex1 >= jcount || jindex2 < 0 || jindex2 >= jcount || jindex1 == jindex2) return 1;
 		for(int m2 = 0; m2 < m; m2++)
 			if((members[m2].spring.m1 == &joints[jindex1].mass &&
 			    members[m2].spring.m2 == &joints[jindex2].mass) ||

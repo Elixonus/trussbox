@@ -161,9 +161,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(timef < -EPSILON)
+	if(timef < EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, -EPSILON);
+		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, EPSILON);
 		return 1;
 	}
 	if(argc < 4 || sscanf(argv[3], "srate=%le", &srate) != 1)
@@ -172,13 +172,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(srate < -EPSILON)
+	if(srate < EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, -EPSILON);
+		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
-	stepf = ((int) round(srate * timef)) - 1;
+	stepf = ((int) floor(srate * timef)) - 1;
 	if(stepf < 0)
 	{
 		fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf + 1);
@@ -306,6 +306,11 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: index: member [%d] line: joint2 parameter: [%d] does not exist\n", m + 1, jindex2 + 1);
 			return 1;
 		}
+		if(jindex1 == jindex2)
+		{
+			fprintf(stderr, "error: index: member [%d] line: joint1 and joint2 parameters: [%d] and [%d] cannot match\n", m + 1, jindex1 + 1, jindex2 + 1);
+			return 1;
+		}
 		for(int m2 = 0; m2 < m; m2++)
 		{
 			if(members[m2].spring.m1 == &joints[jindex1].mass &&
@@ -323,9 +328,9 @@ int main(int argc, char **argv)
 		}
 		member.spring.m1 = &joints[jindex1].mass, member.spring.m2 = &joints[jindex2].mass;
 		member.damper.m1 = &joints[jindex1].mass, member.damper.m2 = &joints[jindex2].mass;
-		if(member.spring.l0 < -EPSILON)
+		if(member.spring.l0 < EPSILON)
 		{
-			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, -EPSILON);
+			fprintf(stderr, "error: limit: member [%d] line: length0 parameter: %.1le not greater than %.1le\n", m + 1, member.spring.l0, EPSILON);
 			return 1;
 		}
 		members[m] = member;

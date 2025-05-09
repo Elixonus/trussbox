@@ -7,7 +7,7 @@
 char solvetruss_executable[1001];
 char rendertruss_executable[1001];
 char forcediagram_executable[1001];
-char feedback_executable[1001];
+char trussutils_executable[1001];
 char problem_filename[1001];
 char output_dirname[1001];
 double gacceleration;
@@ -44,10 +44,10 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: forcediagram_executable argument: forcediagram_executable=string\n");
 		return 1;
 	}
-	if(argc < 5 || sscanf(argv[4], "feedback_executable=%1000s", feedback_executable) != 1)
+	if(argc < 5 || sscanf(argv[4], "trussutils_executable=%1000s", trussutils_executable) != 1)
 	{
-		fprintf(stderr, "error: parse: feedback_executable argument\n");
-		fprintf(stderr, "usage: feedback_executable argument: feedback_executable=string\n");
+		fprintf(stderr, "error: parse: trussutils_executable argument\n");
+		fprintf(stderr, "usage: trussutils_executable argument: trussutils_executable=string\n");
 		return 1;
 	}
 	if(argc < 6 || sscanf(argv[5], "problem_filename=%1000s", problem_filename) != 1)
@@ -74,9 +74,9 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: timef argument: timef=float\n");
 		return 1;
 	}
-	if(timef < -EPSILON)
+	if(timef < EPSILON)
 	{
-		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, -EPSILON);
+		fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, EPSILON);
 		return 1;
 	}
 	if(argc < 10 || sscanf(argv[9], "srate=%le", &srate) != 1)
@@ -85,13 +85,13 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: srate argument: srate=float\n");
 		return 1;
 	}
-	if(srate < -EPSILON)
+	if(srate < EPSILON)
 	{
-		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, -EPSILON);
+		fprintf(stderr, "error: limit: srate argument: %.1le not greater than %.1le\n", srate, EPSILON);
 		return 1;
 	}
 	dtime = 1.0 / srate;
-	stepf = ((int) round(srate * timef)) - 1;
+	stepf = ((int) floor(srate * timef)) - 1;
 	if(stepf < 0)
 	{
 		fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf + 1);
@@ -103,12 +103,12 @@ int main(int argc, char **argv)
 		fprintf(stderr, "usage: frate argument: frate=float\n");
 		return 1;
 	}
-	if(frate < -EPSILON)
+	if(frate < EPSILON)
 	{
-		fprintf(stderr, "error: limit: frate argument: %.1le not greater than %.1le\n", frate, -EPSILON);
+		fprintf(stderr, "error: limit: frate argument: %.1le not greater than %.1le\n", frate, EPSILON);
 		return 1;
 	}
-	framef = ((int) round(frate * timef)) - 1;
+	framef = ((int) floor(frate * timef)) - 1;
 	if(framef < 0)
 	{
 		fprintf(stderr, "error: limit: framef variable: %d not positive\n", framef + 1);
@@ -196,15 +196,15 @@ int main(int argc, char **argv)
 				"\"./%s\" \"%s/diagrams/%09d.png\" gacceleration=%.9le fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le < \"%s/prosols/%09d.txt\"\n",
 				forcediagram_executable, output_dirname, frame + 1, gacceleration, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, output_dirname, frame + 1
 			);
-		if(strlen(feedback_executable) > 0 && feedback_executable[0] == '/')
+		if(strlen(trussutils_executable) > 0 && trussutils_executable[0] == '/')
 			printf(
-				"\"%s\" < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
-				feedback_executable, output_dirname, frame + 1, output_dirname, frame + 2
+				"\"%s\" feedback < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
+				trussutils_executable, output_dirname, frame + 1, output_dirname, frame + 2
 			);
 		else
 			printf(
-				"\"./%s\" < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
-				feedback_executable, output_dirname, frame + 1, output_dirname, frame + 2
+				"\"./%s\" feedback < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
+				trussutils_executable, output_dirname, frame + 1, output_dirname, frame + 2
 			);
 		frame++;
 		while(step * (framef + 1) < frame * (stepf + 1))
