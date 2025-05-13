@@ -270,7 +270,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}stitching${normal} each of the video solutions together"
 update_start_time
 ffmpeg \
@@ -295,7 +295,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}stacking${normal} each of the video solutions together"
 update_start_time
 ffmpeg \
@@ -336,7 +336,7 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/parallel.mp4 \
 	-loglevel error
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* montage files can now be found in ${underline}$(pwd)/tmp/montage${normal}"

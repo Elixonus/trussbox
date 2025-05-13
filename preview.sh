@@ -66,7 +66,7 @@ warrenld.txt
 tmp/preview
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 rm -f warrenld.txt
 echo "| * ${fg_yellow}copying${normal} preview media from ${underline}$(pwd)/tmp${normal} to ${underline}$(pwd)${normal}"
 update_start_time
@@ -78,7 +78,7 @@ cp tmp/montage/video.mp4 previewmt.mp4
 ffmpeg -i tmp/montage/miscellaneous/powertower/video.mp4 -vf "select=eq(n\,0)" -vframes 1 -y previewmt.png -loglevel error
 cp tmp/montage/parallel.mp4 previewmtpl.mp4
 ffmpeg -i tmp/montage/parallel.mp4 -vframes 1 -y previewmtpl.png -loglevel error
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* preview files can now be found at ${underline}$(pwd)/preview*${normal}"

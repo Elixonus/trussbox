@@ -52,7 +52,7 @@ pendulum.txt
 tmp/pendulums/pendulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} double pendulum problem"
 echo "| |\\"
 update_start_time
@@ -71,7 +71,7 @@ doublependulum.txt
 tmp/pendulums/doublependulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} double pendulum (roller) problem"
 echo "| |\\"
 update_start_time
@@ -90,7 +90,7 @@ doublependulumroller.txt
 tmp/pendulums/doublependulumroller
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} decuple pendulum problem"
 echo "| |\\"
 update_start_time
@@ -109,7 +109,7 @@ decuplependulum.txt
 tmp/pendulums/decuplependulum
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
-echo "| > ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* pendulum files can now be found in ${underline}$(pwd)/tmp/pendulums${normal}"

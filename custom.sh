@@ -50,7 +50,7 @@ update_start_time
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
 	forcediagram_executable=bin/forcediagram \
-	feedback_executable=bin/feedback \
+	trussutils_executable=bin/trussutils \
 	problem_filename=$filename \
 	output_dirname=$dirname \
 	gacceleration=$gacceleration \
@@ -62,7 +62,7 @@ update_start_time
 	fzoom=$fzoom \
 	fscale=$fscale \
 	> $dirname/pipeline.sh
-echo "> ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "* ${fg_yellow}running${normal} pipeline with parameters:
 | ${fg_cyan}gacceleration${normal}=$gacceleration ${fg_gray}m/s^2${normal}
 | ${fg_cyan}timef${normal}=$timef ${fg_gray}s${normal}
@@ -74,14 +74,14 @@ echo "* ${fg_yellow}running${normal} pipeline with parameters:
 | ${fg_cyan}fscale${normal}=$fscale"
 update_start_time
 source $dirname/pipeline.sh
-echo "> ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "* ${fg_yellow}stitching${normal} video frames together"
 update_start_time
-ffmpeg -r $frate -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
+ffmpeg -r "$frate" -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
 rm -rf $dirname/frames
-ffmpeg -r $frate -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
+ffmpeg -r "$frate" -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
 rm -rf $dirname/diagrams
-echo "> ${fg_blue_misc}$(print_elapsed_time)${normal} - ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
 ./bin/trussutils textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true "title=ASCII Text Art Truss Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)"
 rm -rf "$dirname/prosols"
