@@ -89,14 +89,14 @@ void print_truss_problem(void)
 		int jindex;
 		for(int j = 0; j < jcount; j++) if(&joints[j].mass == support->constraint.m)
 			jindex = j;
-		char axes[101];
+		char axes[3];
 		if(support->constraint.a[0] && support->constraint.a[1])
 			sprintf(axes, "xy");
 		if(support->constraint.a[0] && !support->constraint.a[1])
 			sprintf(axes, "x");
 		if(!support->constraint.a[0] && support->constraint.a[1])
 			sprintf(axes, "y");
-		printf("joint=[%d] axes=%s\n", jindex + 1, axes);
+		printf("joint=[%d] axes={%s}\n", jindex + 1, axes);
 	}
 	printf("loads=%d\n", lcount);
 	for(int l = 0; l < lcount; l++)
@@ -233,12 +233,12 @@ int scan_truss_problem(void)
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
-		char axes[101];
+		char axes[3];
 		struct support support;
-		if(scanf("joint=[%d] axes=%100s\n", &jindex, axes) != 2)
+		if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2)
 		{
 			fprintf(stderr, "error: parse: support [%d] line\n", s + 1);
-			fprintf(stderr, "usage: support line: joint=[index] axes=xy|x|y\n");
+			fprintf(stderr, "usage: support line: joint=[index] axes={xy|x|y}\n");
 			return 1;
 		}
 		jindex--;
@@ -262,7 +262,7 @@ int scan_truss_problem(void)
 		else
 		{
 			fprintf(stderr, "error: parse: support [%d] line: axes parameter: not an option\n", s + 1);
-			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
+			fprintf(stderr, "usage: support line: axes parameter: axes={xy|x|y}\n");
 			return 1;
 		}
 		for(int a = 0; a < 2; a++)

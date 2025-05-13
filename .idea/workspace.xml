@@ -19,11 +19,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
-      <change afterPath="$PROJECT_DIR$/src/pipeline.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cambridge.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cambridge.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cantilever.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cantilever.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decuplependulum.txt" beforeDir="false" afterPath="$PROJECT_DIR$/decuplependulum.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doublependulum.txt" beforeDir="false" afterPath="$PROJECT_DIR$/doublependulum.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doublependulumroller.txt" beforeDir="false" afterPath="$PROJECT_DIR$/doublependulumroller.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fink.txt" beforeDir="false" afterPath="$PROJECT_DIR$/fink.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/howe.txt" beforeDir="false" afterPath="$PROJECT_DIR$/howe.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parker.txt" beforeDir="false" afterPath="$PROJECT_DIR$/parker.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pendulum.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pendulum.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/powertower.txt" beforeDir="false" afterPath="$PROJECT_DIR$/powertower.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/powertowercross.txt" beforeDir="false" afterPath="$PROJECT_DIR$/powertowercross.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pratt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pratt.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scissor.txt" beforeDir="false" afterPath="$PROJECT_DIR$/scissor.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stadium.txt" beforeDir="false" afterPath="$PROJECT_DIR$/stadium.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/strandbeest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/strandbeest.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/warren.txt" beforeDir="false" afterPath="$PROJECT_DIR$/warren.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whipple.txt" beforeDir="false" afterPath="$PROJECT_DIR$/whipple.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +68,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock://C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/solvetruss.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/test.c" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -97,6 +116,9 @@
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\tmp" />
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox" />
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\tmp\test" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\src" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
