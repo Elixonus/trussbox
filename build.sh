@@ -54,6 +54,9 @@ echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator executable"
 gcc src/pipeline.c -o bin/pipeline -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator object"
+gcc -c src/pipeline.c -o bin/pipeline.o -lm -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} subtitles renderer executable"
 gcc src/subtitles.c -o bin/subtitles -lm $(pkg-config --cflags --libs cairo) -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
