@@ -419,7 +419,7 @@ int main(int argc, char **argv)
 		int jindex;
 		char axes[3];
 		struct support support;
-		if(scanf("joint=[%d] axes=%2s\n", &jindex, axes) != 2) return 1;
+		if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
 		for(int s2 = 0; s2 < s; s2++) if(supports[s2].constraint.m == &joints[jindex].mass) return 1;

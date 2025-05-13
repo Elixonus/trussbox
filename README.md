@@ -114,7 +114,7 @@ joint1=[1] joint2=[2] stiffness=3.0e3 length0=1.0 dampening=3.0e2
 joint1=[2] joint2=[3] stiffness=3.0e3 length0=1.0 dampening=3.0e2
 joint1=[3] joint2=[1] stiffness=3.0e3 length0=1.0 dampening=3.0e2
 supports=1
-joint=[1] axes=xy
+joint=[1] axes={xy}
 loads=1
 joint=[3] force=<-10.0 -10.0>
 ```
@@ -139,11 +139,11 @@ joint=[3] force=<-10.0 -10.0>
    * syntax: ```supports=count``` (trailing newline)
    * number of supports in following body
 6. Supports Lines *Body*
-   * syntax: ```joint=[index] axes=xy|x|y``` (trailing newline)
+   * syntax: ```joint=[index] axes={xy|x|y}``` (trailing newline)
    * each individual support joint binding and axes of reactions
-   * if ```axes=xy```, support is of type pin
-   * if ```axes=x```, support is of type vertical roller
-   * if ```axes=y```, support is of type horizontal roller
+   * if ```axes={xy}```, support is of type pin
+   * if ```axes={x}```, support is of type vertical roller
+   * if ```axes={y}```, support is of type horizontal roller
 7. Loads Count *Header*
    * syntax: ```loads=count``` (trailing newline)
    * number of loads in following body

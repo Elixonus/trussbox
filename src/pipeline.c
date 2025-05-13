@@ -25,9 +25,9 @@ double fcenter[2];
 double fzoom;
 double fscale;
 
-void allocate_string(char *string, int count)
+void allocate_string(char **string, int count)
 {
-	string = malloc(count * sizeof(char));
+	*string = malloc((count + 1) * sizeof(char));
 }
 
 void free_string(char *string)
@@ -37,12 +37,12 @@ void free_string(char *string)
 
 void allocate_paths(int character_count_each)
 {
-	allocate_string(solvetruss_executable, 1001);
-	allocate_string(rendertruss_executable, 1001);
-	allocate_string(forcediagram_executable, 1001);
-	allocate_string(trussutils_executable, 1001);
-	allocate_string(problem_filename, 1001);
-	allocate_string(output_dirname, 1001);
+	allocate_string(&solvetruss_executable, character_count_each);
+	allocate_string(&rendertruss_executable, character_count_each);
+	allocate_string(&forcediagram_executable, character_count_each);
+	allocate_string(&trussutils_executable, character_count_each);
+	allocate_string(&problem_filename, character_count_each);
+	allocate_string(&output_dirname, character_count_each);
 }
 
 void free_paths(void)
@@ -154,6 +154,7 @@ void forcediagram(FILE *command_stream)
 
 int main(int argc, char **argv)
 {
+	allocate_paths(1000);
 	if(argc < 2 || sscanf(argv[1], "solvetruss_executable=%1000s", solvetruss_executable) != 1)
 	{
 		fprintf(stderr, "error: parse: solvetruss_executable argument\n");
@@ -291,4 +292,5 @@ int main(int argc, char **argv)
 		feedback_solution_into_problem(stdout);
 		progress_frame_and_step();
 	}
+	free_paths();
 }

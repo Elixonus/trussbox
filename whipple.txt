@@ -24,6 +24,6 @@ joint1=[2] joint2=[8] stiffness=3.0e3 length0=0.5590169944 dampening=3.0e2
 joint1=[3] joint2=[8] stiffness=3.0e3 length0=0.3535533906 dampening=3.0e2
 joint1=[5] joint2=[8] stiffness=3.0e3 length0=0.3535533905 dampening=3.0e2
 supports=2
-joint=[1] axes=xy
-joint=[5] axes=y
+joint=[1] axes={xy}
+joint=[5] axes={y}
 loads=0
