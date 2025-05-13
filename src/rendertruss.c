@@ -496,12 +496,12 @@ int main(int argc, char **argv)
 	for(int s = 0; s < scount; s++)
 	{
 		int jindex;
-		char axes[101];
+		char axes[3];
 		struct support support;
-		if(scanf("joint=[%d] axes=%100s\n", &jindex, axes) != 2)
+		if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2)
 		{
 			fprintf(stderr, "error: parse: support [%d] line\n", s + 1);
-			fprintf(stderr, "usage: support line: joint=[index] axes=xy|x|y\n");
+			fprintf(stderr, "usage: support line: joint=[index] axes={xy|x|y}\n");
 			return 1;
 		}
 		jindex--;
@@ -526,7 +526,7 @@ int main(int argc, char **argv)
 		else
 		{
 			fprintf(stderr, "error: parse: support [%d] line: axes parameter: not an option\n", s + 1);
-			fprintf(stderr, "usage: support line: axes parameter: axes=xy|x|y\n");
+			fprintf(stderr, "usage: support line: axes parameter: axes={xy|x|y}\n");
 			return 1;
 		}
 		for(int a = 0; a < 2; a++)
