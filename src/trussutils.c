@@ -455,7 +455,11 @@ void free_truss_solution(void)
 int main(int argc, char **argv)
 {
 	if(argc < 2) goto utilargerr;
-	if(strcmp(argv[1], "properties") == 0)
+	if(strcmp(argv[1], "genpipeline") == 0)
+	{
+
+	}
+	else if(strcmp(argv[1], "properties") == 0)
 	{
 		double gacceleration;
 		if(argc < 3 || sscanf(argv[2], "gacceleration=%le", &gacceleration) != 1)
@@ -973,7 +977,7 @@ int main(int argc, char **argv)
 	else {
 		utilargerr:
 		fprintf(stderr, "error: parse: utility argument\n");
-		fprintf(stderr, "usage: utility argument: properties|transform|undeform|feedback|textart\n");
+		fprintf(stderr, "usage: utility argument: genpipeline|properties|transform|undeform|feedback|textart\n");
 		return 1;
 	}
 	return 0;

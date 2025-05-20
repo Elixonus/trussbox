@@ -60,6 +60,11 @@ void initialize_frame_and_step(void)
 	step = 0, frame = 0;
 }
 
+bool check_frame(void)
+{
+	return frame <= framef;
+}
+
 void progress_frame_and_step(void)
 {
 	frame++;
@@ -283,7 +288,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	initialize(stdout);
-	while(frame <= framef)
+	while(check_frame())
 	{
 		rendertruss(stdout);
 		solvetruss(stdout);
