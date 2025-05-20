@@ -46,7 +46,7 @@ rm -rf $dirname
 mkdir -p $dirname
 echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 update_start_time
-./bin/pipeline \
+./bin/trussutils genpipeline \
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
 	forcediagram_executable=bin/forcediagram \
