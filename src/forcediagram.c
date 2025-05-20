@@ -67,9 +67,9 @@ void map_mforce_to_color(double force, double *color, double cutoff_force)
 	if(fabs(balance) < 0.1)
 		color[0] = 0.9, color[1] = 0.9, color[2] = 0.9;
 	else if(balance > 0.0)
-		color[0] = 1.0, color[1] = 1.0 - balance, color[2] = 1.0 - balance;
-	else
 		color[0] = 1.0 - fabs(balance), color[1] = 1.0 - fabs(balance), color[2] = 1.0;
+	else
+		color[0] = 1.0, color[1] = 1.0 - fabs(balance), color[2] = 1.0 - fabs(balance);
 }
 
 void render_force(
@@ -277,8 +277,8 @@ int render(void)
 		for(int a = 0; a < 2; a++)
 		{
 			direction[a] = (member->spring.m2->p[a] - member->spring.m1->p[a]) / mlengths[m];
-			forces[0][a] = -mforces[m] * direction[a];
-			forces[1][a] = mforces[m] * direction[a];
+			forces[0][a] = mforces[m] * direction[a];
+			forces[1][a] = -mforces[m] * direction[a];
 		}
 		double color[3] = {0.0, 0.0, 0.0};
 		render_force(context, forces[0], member->spring.m1->p, ref_force, color, false);

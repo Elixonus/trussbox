@@ -1,4 +1,3 @@
-[![Quality](https://github.com/Elixonus/trussbox/actions/workflows/quality.yml/badge.svg)](https://github.com/Elixonus/trussbox/actions/workflows/quality.yml)
 [![Build](https://github.com/Elixonus/trussbox/actions/workflows/build.yml/badge.svg)](https://github.com/Elixonus/trussbox/actions/workflows/build.yml)
 [![Issues](https://img.shields.io/github/issues/Elixonus/trussbox)](https://github.com/Elixonus/trussbox/issues)
 ![Language](https://img.shields.io/badge/Language-C23-blue)
@@ -20,13 +19,13 @@ Design from [Simple 2D Constraint Solver Demo by Ange Yaghi](https://github.com/
 
 [![Montage (Parallel) Image](./previewmtpl.png)](./previewmtpl.mp4)
 
-[Warren Truss Bridge Video (2K60FPS)](./preview.mp4)
+[Warren Bridge Truss Video (2K60FPS)](./preview.mp4)
 
-[![Warren Truss Bridge Image](./preview.png)](./preview.mp4)
+[![Warren Bridge Truss Image](./preview.png)](./preview.mp4)
 
-[Warren Truss Bridge Force Diagram Video (2K60FPS)](./previewfd.mp4)
+[Warren Bridge Truss Force Diagram Video (2K60FPS)](./previewfd.mp4)
 
-[![Warren Truss Bridge Force Diagram](./previewfd.png)](./previewfd.mp4)
+[![Warren Bridge Truss Force Diagram](./previewfd.png)](./previewfd.mp4)
 
 ## Steps
 
@@ -162,9 +161,9 @@ force=<0.000000000e+00 0.000000000e+00> position=(0.000000000e+00 0.000000000e+0
 force=<0.000000000e+00 0.000000000e+00> position=(1.000000000e+00 0.000000000e+00) velocity=<0.000000000e+00 0.000000000e+00>
 force=<-8.886796564e+02 -8.886796564e+02> position=(1.000000000e+00 1.000000000e+00) velocity=<-4.443398282e-16 -4.443398282e-16>
 members=3
-force=-0.000000000e+00 displacement=0.000000000e+00 length=1.000000000e+00 velocity=0.000000000e+00
-force=-0.000000000e+00 displacement=0.000000000e+00 length=1.000000000e+00 velocity=0.000000000e+00
-force=-1.242640687e+03 displacement=4.142135624e-01 length=1.414213562e+00 velocity=0.000000000e+00
+force=0.000000000e+00 displacement=0.000000000e+00 length=1.000000000e+00 velocity=0.000000000e+00
+force=0.000000000e+00 displacement=0.000000000e+00 length=1.000000000e+00 velocity=0.000000000e+00
+force=1.242640687e+03 displacement=4.142135624e-01 length=1.414213562e+00 velocity=0.000000000e+00
 supports=1
 reaction=<-8.786796564e+02 -8.786796564e+02>
 ```
@@ -182,8 +181,8 @@ reaction=<-8.786796564e+02 -8.786796564e+02>
    * number of members in following body
 4. Members Lines *Body*
    * syntax: ```force=float displacement=float length=float velocity=float``` (trailing newline)
-   * each individual member tension force (negative 
-     for in tension, positive for in compression) in Newtons, displacement from 
+   * each individual member tension force (positive 
+     for in tension, negative for in compression) in Newtons, displacement from 
      resting length in meters, current measured length 
      in meters and velocity of expansion in meters 
      per second

@@ -110,8 +110,8 @@ void solve(void)
 		for(int a = 0; a < 2; a++)
 		{
 			direction[a] = (joints[jindex2].mass.p[a] - joints[jindex1].mass.p[a]) / length;
-			jforces[jindex1][a] -= direction[a] * force;
-			jforces[jindex2][a] += direction[a] * force;
+			jforces[jindex1][a] += direction[a] * force;
+			jforces[jindex2][a] -= direction[a] * force;
 		}
 		mforces[m] = force;
 		mlengths[m] = length;
