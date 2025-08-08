@@ -19,14 +19,6 @@ Design from [Simple 2D Constraint Solver Demo by Ange Yaghi](https://github.com/
 
 [![Montage (Parallel) Image](./previewmtpl.png)](./previewmtpl.mp4)
 
-[Warren Bridge Truss Video (2K60FPS)](./preview.mp4)
-
-[![Warren Bridge Truss Image](./preview.png)](./preview.mp4)
-
-[Warren Bridge Truss Force Diagram Video (2K60FPS)](./previewfd.mp4)
-
-[![Warren Bridge Truss Force Diagram](./previewfd.png)](./previewfd.mp4)
-
 ## Steps
 
 ### Pre-Requirements

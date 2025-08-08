@@ -21,6 +21,15 @@
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/preview.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preview.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/preview.sh" beforeDir="false" afterPath="$PROJECT_DIR$/preview.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewfd.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewfd.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmt.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmtpl.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmtpl.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +55,10 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/src/test.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/forcediagram.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/msd.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/solvetruss.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/trussutils.c" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -237,7 +249,12 @@
       <workItem from="1747969212591" duration="2840000" />
       <workItem from="1748052443914" duration="3117000" />
       <workItem from="1749074230926" duration="3284000" />
-      <workItem from="1749250001484" duration="1760000" />
+      <workItem from="1749250001484" duration="2548000" />
+      <workItem from="1752338277410" duration="1404000" />
+      <workItem from="1754099983339" duration="5400000" />
+      <workItem from="1754197212546" duration="1228000" />
+      <workItem from="1754238780586" duration="3119000" />
+      <workItem from="1754631948658" duration="2345000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />
