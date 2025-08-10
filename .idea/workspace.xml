@@ -19,8 +19,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
-      <change afterPath="$PROJECT_DIR$/walschaerts.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/oilwell.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -247,7 +246,8 @@
       <workItem from="1754197212546" duration="1228000" />
       <workItem from="1754238780586" duration="3119000" />
       <workItem from="1754631948658" duration="2794000" />
-      <workItem from="1754779767854" duration="17951000" />
+      <workItem from="1754779767854" duration="18516000" />
+      <workItem from="1754844049504" duration="8434000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />
