@@ -48,6 +48,9 @@ echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss force diagram renderer executable"
 gcc src/forcediagram.c -o bin/forcediagram bin/msd.o -lm $(pkg-config --cflags --libs cairo) -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss swept area renderer executable"
+gcc src/sweptarea.c -o bin/sweptarea bin/msd.o -lm $(pkg-config --cflags --libs cairo) -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator object"
 gcc -c src/pipeline.c -o bin/pipeline.o -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
