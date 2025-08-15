@@ -34,7 +34,7 @@ echo "* ${fg_yellow}creating${normal} output for each of the bridges"
 echo "|\\"
 mkdir -p tmp/bridges
 rm -rf tmp/bridges/*
-echo "| * ${fg_yellow}working on${normal} warren bridge problem"
+echo "| * ${fg_yellow}working on${normal} Warren bridge problem"
 echo "| |\\"
 update_start_time
 echo "\
@@ -53,7 +53,7 @@ tmp/bridges/warren
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} pratt bridge problem"
+echo "| * ${fg_yellow}working on${normal} Pratt bridge problem"
 echo "| |\\"
 update_start_time
 echo "\
@@ -72,7 +72,7 @@ tmp/bridges/pratt
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} howe bridge problem"
+echo "| * ${fg_yellow}working on${normal} Howe bridge problem"
 echo "| |\\"
 update_start_time
 echo "\
@@ -91,7 +91,7 @@ tmp/bridges/howe
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} parker bridge problem"
+echo "| * ${fg_yellow}working on${normal} Parker bridge problem"
 echo "| |\\"
 update_start_time
 echo "\
@@ -110,7 +110,7 @@ tmp/bridges/parker
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} cambridge bridge problem"
+echo "| * ${fg_yellow}working on${normal} Cambridge bridge problem"
 echo "| |\\"
 update_start_time
 echo "\
@@ -129,7 +129,7 @@ tmp/bridges/cambridge
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} whipple bridge problem"
+echo "| * ${fg_yellow}working on${normal} Whipple bridge problem"
 echo "| |\\"
 update_start_time
 echo "\

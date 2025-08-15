@@ -18,7 +18,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)" />
+    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
+      <change beforePath="$PROJECT_DIR$/bridges.sh" beforeDir="false" afterPath="$PROJECT_DIR$/bridges.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miscellaneous.sh" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/montage.sh" beforeDir="false" afterPath="$PROJECT_DIR$/montage.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmt.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.mp4" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -247,6 +252,7 @@
       <workItem from="1754844049504" duration="10309000" />
       <workItem from="1755133604893" duration="12049000" />
       <workItem from="1755201997513" duration="3960000" />
+      <workItem from="1755206061759" duration="10219000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

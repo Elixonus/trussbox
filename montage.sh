@@ -210,6 +210,42 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-loglevel error
+mkdir -p tmp/montage/miscellaneous/oilwell
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.04 text=Oil Well
+" | ./bin/subtitles tmp/montage/miscellaneous/oilwell/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/oilwell/video.mp4 \
+	-i tmp/miscellaneous/oilwell/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/oilwell/subtitles.png \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/oilwell/video.mp4 \
+	-loglevel error
+mkdir -p tmp/montage/miscellaneous/landinggear
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.04 text=Airplane Landing Gear
+" | ./bin/subtitles tmp/montage/miscellaneous/landinggear/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/landinggear/video.mp4 \
+	-i tmp/miscellaneous/landinggear/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/landinggear/subtitles.png \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/landinggear/video.mp4 \
+	-loglevel error
+mkdir -p tmp/montage/miscellaneous/bakervalvegear
+echo "subtitles=1
+center=(0.0 -0.4) lineheight=0.04 text=Locomotive Baker Valve Gear
+" | ./bin/subtitles tmp/montage/miscellaneous/bakervalvegear/subtitles.png fsize=1920x1080
+ffmpeg \
+	-i tmp/miscellaneous/bakervalvegear/video.mp4 \
+	-i tmp/miscellaneous/bakervalvegear/fdiagram.mp4 \
+	-i tmp/montage/miscellaneous/bakervalvegear/subtitles.png \
+	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-map "[v]" \
+	-y tmp/montage/miscellaneous/bakervalvegear/video.mp4 \
+	-loglevel error
 mkdir -p tmp/montage/miscellaneous/strandbeest
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.04 text=Theo Jansen's Strandbeest
@@ -286,12 +322,15 @@ ffmpeg \
 	-i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-i tmp/montage/miscellaneous/powertowercross/video.mp4 \
+	-i tmp/montage/miscellaneous/oilwell/video.mp4 \
+	-i tmp/montage/miscellaneous/landinggear/video.mp4 \
+	-i tmp/montage/miscellaneous/bakervalvegear/video.mp4 \
 	-i tmp/montage/miscellaneous/strandbeest/video.mp4 \
 	-i tmp/montage/pendulums/pendulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/montage/pendulums/decuplependulum/video.mp4 \
-	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v][14:v][15:v][16:v]concat=n=17:v=1[v]" \
+	-filter_complex "[0:v][1:v][2:v][3:v][4:v][5:v][6:v][7:v][8:v][9:v][10:v][11:v][12:v][13:v][14:v][15:v][16:v][17:v][18:v][19:v]concat=n=20:v=1[v]" \
 	-map "[v]" \
 	-y tmp/montage/video.mp4 \
 	-loglevel error

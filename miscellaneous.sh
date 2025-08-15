@@ -34,7 +34,7 @@ echo "* ${fg_yellow}creating${normal} output for each of the miscellaneous syste
 echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
-echo "| * ${fg_yellow}working on${normal} fink roof truss problem"
+echo "| * ${fg_yellow}working on${normal} Fink roof truss problem"
 echo "| |\\"
 update_start_time
 echo "\
@@ -145,6 +145,63 @@ powertowercross.txt
 0.08
 0.7
 tmp/miscellaneous/powertowercross
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
+echo "| * ${fg_yellow}working on${normal} oil well truss problem"
+echo "| |\\"
+update_start_time
+echo "\
+oilwell.txt
+0.0
+7.0
+1000000.0
+60.0
+1920
+1080
+20.0
+13.0
+0.03
+1.0
+tmp/miscellaneous/oilwell
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
+echo "| * ${fg_yellow}working on${normal} landing gear truss problem"
+echo "| |\\"
+update_start_time
+echo "\
+landinggear.txt
+-9.8
+7.0
+1000000.0
+60.0
+1920
+1080
+15.0
+12.0
+0.05
+1.0
+tmp/miscellaneous/landinggear
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
+echo "| * ${fg_yellow}working on${normal} Baker valve gear truss problem"
+echo "| |\\"
+update_start_time
+echo "\
+bakervalvegear.txt
+0.0
+10.0
+1000000.0
+60.0
+1920
+1080
+22.0
+10.0
+0.035
+1.0
+tmp/miscellaneous/bakervalvegear
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
