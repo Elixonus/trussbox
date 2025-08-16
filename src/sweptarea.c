@@ -98,35 +98,42 @@ int render(void)
 	cairo_scale(context, length, length);
 	cairo_scale(context, fzoom, fzoom);
 	cairo_translate(context, -fcenter[0], -fcenter[1]);
-
-
-
-
-
-
-	for(int f = 0; f < fcount; f++)
+	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
+	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
+	for(int m = 0; m < frames[0].mcount; m++)
 	{
-		for(int m = 0; m < frames[f].mcount; m++)
+		cairo_new_path(context);
+		for(int f = 0; f < fcount - 1; f++)
 		{
-			struct member *member = &frames[f].members[m];
-			cairo_new_path(context);
-			cairo_line_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
-			cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
-			cairo_save(context);
-			cairo_scale(context, fscale / fzoom, fscale / fzoom);
-			cairo_set_line_width(context, 0.0225);
-			cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-			cairo_stroke_preserve(context);
-			cairo_set_line_width(context, 0.0125);
-			cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
-			cairo_stroke(context);
-			cairo_restore(context);
+			struct frame *frame1 = &frames[f], *frame2 = &frames[f + 1];
+			struct member *member1 = &frame1->members[m], *member2 = &frame2->members[m];
+			cairo_new_sub_path(context);
+			cairo_line_to(context, member1->spring.m1->p[0], member1->spring.m1->p[1]);
+			cairo_line_to(context, member1->spring.m2->p[0], member1->spring.m2->p[1]);
+			cairo_line_to(context, member2->spring.m2->p[0], member2->spring.m2->p[1]);
+			cairo_line_to(context, member2->spring.m1->p[0], member2->spring.m1->p[1]);
+			cairo_close_path(context);
 		}
+		cairo_save(context);
+		cairo_scale(context, fscale / fzoom, fscale / fzoom);
+		double color[3];
+		if(m % 6 == 0) color[0] = 1.0, color[1] = 0.0, color[2] = 0.0;
+		if(m % 6 == 1) color[0] = 1.0, color[1] = 0.5, color[2] = 0.0;
+		if(m % 6 == 2) color[0] = 1.0, color[1] = 1.0, color[2] = 0.0;
+		if(m % 6 == 3) color[0] = 0.0, color[1] = 1.0, color[2] = 0.0;
+		if(m % 6 == 4) color[0] = 0.0, color[1] = 0.85, color[2] = 1.0;
+		if(m % 6 == 5) color[0] = 1.0, color[1] = 0.0, color[2] = 1.0;
+		cairo_push_group(context);
+		cairo_set_line_width(context, 0.02);
+		cairo_set_source_rgb(context, 0.5 * color[0], 0.5 * color[1], 0.5 * color[2]);
+		cairo_stroke_preserve(context);
+		cairo_set_line_width(context, 0.01);
+		cairo_set_source_rgb(context, color[0], color[1], color[2]);
+		cairo_stroke(context);
+		cairo_pop_group_to_source(context);
+		cairo_paint_with_alpha(context, 0.5);
+		cairo_restore(context);
 	}
-
-
-
-
 	cairo_restore(context);
 	cairo_restore(context);
 	cairo_destroy(context);
@@ -207,13 +214,6 @@ int main(int argc, char **argv)
 	for(int f = 0; f < fcount; f++)
 	{
 		struct frame *frame = &frames[f];
-
-
-
-
-
-
-
 		if(scanf("joints=%d\n", &frame->jcount) != 1)
 		{
 			fprintf(stderr, "error: parse: joints parameter\n");
@@ -225,6 +225,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: joints parameter: %d not positive nor %d\n", frame->jcount, 0);
 			return 1;
 		}
+		if(f > 0 && frame->jcount != frames[f - 1].jcount) return 1;
 		frame->joints = malloc(frame->jcount * sizeof(struct joint));
 		if(!frame->joints)
 		{
@@ -259,6 +260,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: members parameter: %d not positive nor %d\n", frame->mcount, 0);
 			return 1;
 		}
+		if(f > 0 && frame->mcount != frames[f - 1].mcount) return 1;
 		frame->members = malloc(frame->mcount * sizeof(struct member));
 		if(!frame->members)
 		{
@@ -327,6 +329,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: supports parameter: %d not positive nor %d\n", frame->scount, 0);
 			return 1;
 		}
+		if(f > 0 && frame->scount != frames[f - 1].scount) return 1;
 		frame->supports = malloc(frame->scount * sizeof(struct support));
 		if(!frame->supports)
 		{
@@ -384,6 +387,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: loads parameter: %d not positive nor %d\n", frame->lcount, 0);
 			return 1;
 		}
+		if(f > 0 && frame->lcount != frames[f - 1].lcount) return 1;
 		frame->loads = malloc(frame->lcount * sizeof(struct load));
 		if(!frame->loads)
 		{
