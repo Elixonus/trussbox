@@ -19,9 +19,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bakervalvegear.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bakervalvegear.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sweptarea.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/sweptarea.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oilwell.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pumpjack.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmt.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmt.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/previewmtpl.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmtpl.mp4" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +263,9 @@
       <workItem from="1755314669119" duration="1250000" />
       <workItem from="1755315960605" duration="5006000" />
       <workItem from="1755361976809" duration="3476000" />
-      <workItem from="1755378564995" duration="3274000" />
+      <workItem from="1755378564995" duration="9096000" />
+      <workItem from="1755387874811" duration="966000" />
+      <workItem from="1755391649311" duration="1839000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

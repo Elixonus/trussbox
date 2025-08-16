@@ -6,6 +6,7 @@
 char *solvetruss_executable;
 char *rendertruss_executable;
 char *forcediagram_executable;
+char *sweptarea_executable;
 char *trussutils_executable;
 char *problem_filename;
 char *output_dirname;
@@ -38,6 +39,7 @@ void allocate_paths(int character_count_each)
 	allocate_string(&solvetruss_executable, character_count_each);
 	allocate_string(&rendertruss_executable, character_count_each);
 	allocate_string(&forcediagram_executable, character_count_each);
+	allocate_string(&sweptarea_executable, character_count_each);
 	allocate_string(&trussutils_executable, character_count_each);
 	allocate_string(&problem_filename, character_count_each);
 	allocate_string(&output_dirname, character_count_each);
@@ -48,6 +50,7 @@ void free_paths(void)
 	free_string(solvetruss_executable);
 	free_string(rendertruss_executable);
 	free_string(forcediagram_executable);
+	free_string(sweptarea_executable);
 	free_string(trussutils_executable);
 	free_string(problem_filename);
 	free_string(output_dirname);
@@ -152,5 +155,19 @@ void forcediagram(FILE *command_stream)
 		printf(
 			"\"./%s\" \"%s/diagrams/%09d.png\" gacceleration=%.9le fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le < \"%s/prosols/%09d.txt\"\n",
 			forcediagram_executable, output_dirname, frame + 1, gacceleration, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, output_dirname, frame + 1
+		);
+}
+
+void sweptarea(FILE *command_stream)
+{
+	if(strlen(sweptarea_executable) > 0 && sweptarea_executable[0] == '/')
+		printf(
+			"cat \"%s/problems/\"* | \"%s\" \"%s/sweptarea.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le fcount=%d\n",
+			output_dirname, sweptarea_executable, output_dirname, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, frame + 1
+		);
+	else
+		printf(
+			"cat \"%s/problems/\"* | \"./%s\" \"%s/sweptarea.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le fcount=%d\n",
+			output_dirname, sweptarea_executable, output_dirname, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, frame + 1
 		);
 }

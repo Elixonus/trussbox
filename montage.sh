@@ -64,7 +64,7 @@ if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
 then
 	source pendulums.sh | sed -u "s/^/| /"
 fi
-echo "| * ${fg_yellow}overlaying${normal} videos, force diagrams and subtitles"
+echo "| * ${fg_yellow}preparing${normal} montage videos"
 update_start_time
 mkdir -p tmp/montage/bridges/warren
 echo "subtitles=1
@@ -73,8 +73,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Warren Bridge
 ffmpeg \
 	-i tmp/bridges/warren/video.mp4 \
 	-i tmp/bridges/warren/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/bridges/warren/sweptarea.png \
 	-i tmp/montage/bridges/warren/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/warren/video.mp4 \
 	-loglevel error
@@ -85,8 +86,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Pratt Bridge
 ffmpeg \
 	-i tmp/bridges/pratt/video.mp4 \
 	-i tmp/bridges/pratt/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/bridges/pratt/sweptarea.png \
 	-i tmp/montage/bridges/pratt/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/pratt/video.mp4 \
 	-loglevel error
@@ -97,8 +99,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Howe Bridge
 ffmpeg \
 	-i tmp/bridges/howe/video.mp4 \
 	-i tmp/bridges/howe/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/bridges/howe/sweptarea.png \
 	-i tmp/montage/bridges/howe/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/howe/video.mp4 \
 	-loglevel error
@@ -109,8 +112,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Parker Bridge
 ffmpeg \
 	-i tmp/bridges/parker/video.mp4 \
 	-i tmp/bridges/parker/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/bridges/parker/sweptarea.png \
 	-i tmp/montage/bridges/parker/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/parker/video.mp4 \
 	-loglevel error
@@ -121,8 +125,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Cambridge Bridge
 ffmpeg \
 	-i tmp/bridges/cambridge/video.mp4 \
 	-i tmp/bridges/cambridge/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/bridges/cambridge/sweptarea.png \
 	-i tmp/montage/bridges/cambridge/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/cambridge/video.mp4 \
 	-loglevel error
@@ -133,8 +138,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Whipple Bridge
 ffmpeg \
 	-i tmp/bridges/whipple/video.mp4 \
 	-i tmp/bridges/whipple/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/bridges/whipple/sweptarea.png \
 	-i tmp/montage/bridges/whipple/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/bridges/whipple/video.mp4 \
 	-loglevel error
@@ -145,8 +151,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Fink Roof
 ffmpeg \
 	-i tmp/miscellaneous/fink/video.mp4 \
 	-i tmp/miscellaneous/fink/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/fink/sweptarea.png \
 	-i tmp/montage/miscellaneous/fink/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/fink/video.mp4 \
 	-loglevel error
@@ -157,8 +164,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Scissor Roof
 ffmpeg \
 	-i tmp/miscellaneous/scissor/video.mp4 \
 	-i tmp/miscellaneous/scissor/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/scissor/sweptarea.png \
 	-i tmp/montage/miscellaneous/scissor/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/scissor/video.mp4 \
 	-loglevel error
@@ -169,8 +177,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Box Cantilever
 ffmpeg \
 	-i tmp/miscellaneous/cantilever/video.mp4 \
 	-i tmp/miscellaneous/cantilever/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/cantilever/sweptarea.png \
 	-i tmp/montage/miscellaneous/cantilever/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/cantilever/video.mp4 \
 	-loglevel error
@@ -181,8 +190,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Stadium
 ffmpeg \
 	-i tmp/miscellaneous/stadium/video.mp4 \
 	-i tmp/miscellaneous/stadium/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/stadium/sweptarea.png \
 	-i tmp/montage/miscellaneous/stadium/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/stadium/video.mp4 \
 	-loglevel error
@@ -193,8 +203,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Power Transmission Tower
 ffmpeg \
 	-i tmp/miscellaneous/powertower/video.mp4 \
 	-i tmp/miscellaneous/powertower/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/powertower/sweptarea.png \
 	-i tmp/montage/miscellaneous/powertower/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertower/video.mp4 \
 	-loglevel error
@@ -205,22 +216,24 @@ center=(0.0 -0.4) lineheight=0.04 text=Power Transmission Tower Cross Variation
 ffmpeg \
 	-i tmp/miscellaneous/powertowercross/video.mp4 \
 	-i tmp/miscellaneous/powertowercross/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/powertowercross/sweptarea.png \
 	-i tmp/montage/miscellaneous/powertowercross/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-loglevel error
-mkdir -p tmp/montage/miscellaneous/oilwell
+mkdir -p tmp/montage/miscellaneous/pumpjack
 echo "subtitles=1
-center=(0.0 -0.4) lineheight=0.04 text=Oil Well
-" | ./bin/subtitles tmp/montage/miscellaneous/oilwell/subtitles.png fsize=1920x1080
+center=(0.0 -0.4) lineheight=0.04 text=Pump Jack
+" | ./bin/subtitles tmp/montage/miscellaneous/pumpjack/subtitles.png fsize=1920x1080
 ffmpeg \
-	-i tmp/miscellaneous/oilwell/video.mp4 \
-	-i tmp/miscellaneous/oilwell/fdiagram.mp4 \
-	-i tmp/montage/miscellaneous/oilwell/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-i tmp/miscellaneous/pumpjack/video.mp4 \
+	-i tmp/miscellaneous/pumpjack/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/pumpjack/sweptarea.png \
+	-i tmp/montage/miscellaneous/pumpjack/subtitles.png \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
-	-y tmp/montage/miscellaneous/oilwell/video.mp4 \
+	-y tmp/montage/miscellaneous/pumpjack/video.mp4 \
 	-loglevel error
 mkdir -p tmp/montage/miscellaneous/landinggear
 echo "subtitles=1
@@ -229,8 +242,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Airplane Landing Gear
 ffmpeg \
 	-i tmp/miscellaneous/landinggear/video.mp4 \
 	-i tmp/miscellaneous/landinggear/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/landinggear/sweptarea.png \
 	-i tmp/montage/miscellaneous/landinggear/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/landinggear/video.mp4 \
 	-loglevel error
@@ -241,8 +255,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Locomotive Baker Valve Gear
 ffmpeg \
 	-i tmp/miscellaneous/bakervalvegear/video.mp4 \
 	-i tmp/miscellaneous/bakervalvegear/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/bakervalvegear/sweptarea.png \
 	-i tmp/montage/miscellaneous/bakervalvegear/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/bakervalvegear/video.mp4 \
 	-loglevel error
@@ -253,8 +268,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Theo Jansen's Strandbeest
 ffmpeg \
 	-i tmp/miscellaneous/strandbeest/video.mp4 \
 	-i tmp/miscellaneous/strandbeest/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/strandbeest/sweptarea.png \
 	-i tmp/montage/miscellaneous/strandbeest/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/strandbeest/video.mp4 \
 	-loglevel error
@@ -265,8 +281,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Single Pendulum
 ffmpeg \
 	-i tmp/pendulums/pendulum/video.mp4 \
 	-i tmp/pendulums/pendulum/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/pendulums/pendulum/sweptarea.png \
 	-i tmp/montage/pendulums/pendulum/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/pendulum/video.mp4 \
 	-loglevel error
@@ -277,8 +294,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Double Pendulum
 ffmpeg \
 	-i tmp/pendulums/doublependulum/video.mp4 \
 	-i tmp/pendulums/doublependulum/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/pendulums/doublependulum/sweptarea.png \
 	-i tmp/montage/pendulums/doublependulum/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/doublependulum/video.mp4 \
 	-loglevel error
@@ -289,8 +307,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Double Pendulum with Roller Support
 ffmpeg \
 	-i tmp/pendulums/doublependulumroller/video.mp4 \
 	-i tmp/pendulums/doublependulumroller/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/pendulums/doublependulumroller/sweptarea.png \
 	-i tmp/montage/pendulums/doublependulumroller/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-loglevel error
@@ -301,8 +320,9 @@ center=(0.0 -0.4) lineheight=0.04 text=Decuple Pendulum
 ffmpeg \
 	-i tmp/pendulums/decuplependulum/video.mp4 \
 	-i tmp/pendulums/decuplependulum/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/pendulums/decuplependulum/sweptarea.png \
 	-i tmp/montage/pendulums/decuplependulum/subtitles.png \
-	-filter_complex "[0:v][1:v]concat=n=2:v=1[z];[z][2:v]overlay[v]" \
+	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
 	-y tmp/montage/pendulums/decuplependulum/video.mp4 \
 	-loglevel error
@@ -322,7 +342,7 @@ ffmpeg \
 	-i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-i tmp/montage/miscellaneous/powertowercross/video.mp4 \
-	-i tmp/montage/miscellaneous/oilwell/video.mp4 \
+	-i tmp/montage/miscellaneous/pumpjack/video.mp4 \
 	-i tmp/montage/miscellaneous/landinggear/video.mp4 \
 	-i tmp/montage/miscellaneous/bakervalvegear/video.mp4 \
 	-i tmp/montage/miscellaneous/strandbeest/video.mp4 \
@@ -338,22 +358,22 @@ echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(prin
 echo "| * ${fg_yellow}stacking${normal} each of the video solutions together"
 update_start_time
 ffmpeg \
-	-t 20 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/bridges/howe/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/fink/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/scissor/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/powertowercross/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/miscellaneous/strandbeest/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
-	-t 20 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/bridges/warren/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/bridges/pratt/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/bridges/howe/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/bridges/parker/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/bridges/cambridge/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/bridges/whipple/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/fink/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/scissor/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/cantilever/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/powertowercross/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/strandbeest/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
 	-filter_complex "\
 		[0:v]scale=480:-1[v0]; \
 		[1:v]scale=480:-1[v1]; \

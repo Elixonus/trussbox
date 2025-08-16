@@ -148,11 +148,11 @@ tmp/miscellaneous/powertowercross
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} oil well truss problem"
+echo "| * ${fg_yellow}working on${normal} pump jack truss problem"
 echo "| |\\"
 update_start_time
 echo "\
-oilwell.txt
+pumpjack.txt
 0.0
 7.0
 1000000.0
@@ -163,7 +163,7 @@ oilwell.txt
 13.0
 0.03
 1.0
-tmp/miscellaneous/oilwell
+tmp/miscellaneous/pumpjack
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"

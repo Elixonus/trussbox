@@ -62,14 +62,8 @@ int render(void)
 		fprintf(stderr, "error: create: image context\n");
 		return 1;
 	}
-	cairo_save(context);
-	cairo_new_path(context);
-	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
-	cairo_close_path(context);
-	cairo_clip(context);
 	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 	cairo_paint(context);
-	cairo_restore(context);
 	cairo_save(context);
 	cairo_translate(context, 0.0, 0.5 * ((double) fsize[1]));
 	cairo_scale(context, 1.0, -1.0);
