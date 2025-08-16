@@ -68,7 +68,7 @@ char filename[1005];
 
 int render(void)
 {
-	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, fsize[0], fsize[1]);
+	cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, fsize[0], fsize[1]);
 	if(cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS)
 	{
 		fprintf(stderr, "error: create: image surface\n");
@@ -80,14 +80,6 @@ int render(void)
 		fprintf(stderr, "error: create: image context\n");
 		return 1;
 	}
-	cairo_save(context);
-	cairo_new_path(context);
-	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
-	cairo_close_path(context);
-	cairo_clip(context);
-	cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-	cairo_paint(context);
-	cairo_restore(context);
 	cairo_save(context);
 	cairo_translate(context, 0.0, 0.5 * ((double) fsize[1]));
 	cairo_scale(context, 1.0, -1.0);
@@ -102,6 +94,14 @@ int render(void)
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
 	for(int m = 0; m < frames[0].mcount; m++)
 	{
+		double color[3];
+		cairo_push_group(context);
+		if(m % 6 == 0) color[0] = 1.0, color[1] = 0.0, color[2] = 0.0;
+		if(m % 6 == 1) color[0] = 1.0, color[1] = 0.5, color[2] = 0.0;
+		if(m % 6 == 2) color[0] = 1.0, color[1] = 1.0, color[2] = 0.0;
+		if(m % 6 == 3) color[0] = 0.0, color[1] = 1.0, color[2] = 0.0;
+		if(m % 6 == 4) color[0] = 0.0, color[1] = 0.85, color[2] = 1.0;
+		if(m % 6 == 5) color[0] = 1.0, color[1] = 0.0, color[2] = 1.0;
 		cairo_new_path(context);
 		for(int f = 0; f < fcount - 1; f++)
 		{
@@ -116,23 +116,25 @@ int render(void)
 		}
 		cairo_save(context);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		double color[3];
-		if(m % 6 == 0) color[0] = 1.0, color[1] = 0.0, color[2] = 0.0;
-		if(m % 6 == 1) color[0] = 1.0, color[1] = 0.5, color[2] = 0.0;
-		if(m % 6 == 2) color[0] = 1.0, color[1] = 1.0, color[2] = 0.0;
-		if(m % 6 == 3) color[0] = 0.0, color[1] = 1.0, color[2] = 0.0;
-		if(m % 6 == 4) color[0] = 0.0, color[1] = 0.85, color[2] = 1.0;
-		if(m % 6 == 5) color[0] = 1.0, color[1] = 0.0, color[2] = 1.0;
-		cairo_push_group(context);
-		cairo_set_line_width(context, 0.02);
-		cairo_set_source_rgb(context, 0.5 * color[0], 0.5 * color[1], 0.5 * color[2]);
-		cairo_stroke_preserve(context);
 		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, color[0], color[1], color[2]);
 		cairo_stroke(context);
+		cairo_restore(context);
+		for(int f = 0; f < fcount - 1; f++)
+		{
+			struct frame *frame1 = &frames[f], *frame2 = &frames[f + 1];
+			struct member *member1 = &frame1->members[m], *member2 = &frame2->members[m];
+			cairo_new_path(context);
+			cairo_line_to(context, member1->spring.m1->p[0], member1->spring.m1->p[1]);
+			cairo_line_to(context, member1->spring.m2->p[0], member1->spring.m2->p[1]);
+			cairo_line_to(context, member2->spring.m2->p[0], member2->spring.m2->p[1]);
+			cairo_line_to(context, member2->spring.m1->p[0], member2->spring.m1->p[1]);
+			cairo_close_path(context);
+			cairo_set_source_rgb(context, color[0], color[1], color[2]);
+			cairo_fill(context);
+		}
 		cairo_pop_group_to_source(context);
 		cairo_paint_with_alpha(context, 0.5);
-		cairo_restore(context);
 	}
 	cairo_restore(context);
 	cairo_restore(context);
