@@ -1,6 +1,7 @@
 extern char *solvetruss_executable;
 extern char *rendertruss_executable;
 extern char *forcediagram_executable;
+extern char *sweptarea_executable;
 extern char *trussutils_executable;
 extern char *problem_filename;
 extern char *output_dirname;
@@ -33,3 +34,4 @@ void feedback_solution_into_problem(FILE *command_stream);
 void solvetruss(FILE *command_stream);
 void rendertruss(FILE *command_stream);
 void forcediagram(FILE *command_stream);
+void sweptarea(FILE *command_stream);

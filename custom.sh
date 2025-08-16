@@ -50,6 +50,7 @@ update_start_time
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
 	forcediagram_executable=bin/forcediagram \
+	sweptarea_executable=bin/sweptarea \
 	trussutils_executable=bin/trussutils \
 	problem_filename=$filename \
 	output_dirname=$dirname \

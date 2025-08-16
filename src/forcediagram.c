@@ -115,13 +115,8 @@ int render(void)
 	if(cairo_surface_status(surface) != CAIRO_STATUS_SUCCESS) return 1;
 	cairo_t *context = cairo_create(surface);
 	if(cairo_status(context) != CAIRO_STATUS_SUCCESS) return 1;
-	cairo_save(context);
-	cairo_new_path(context);
-	cairo_rectangle(context, 0.0, 0.0, (double) fsize[0], (double) fsize[1]);
-	cairo_clip(context);
 	cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 	cairo_paint(context);
-	cairo_restore(context);
 	cairo_save(context);
 	cairo_translate(context, 0.0, 0.5 * ((double) fsize[1]));
 	cairo_scale(context, 1.0, -1.0);

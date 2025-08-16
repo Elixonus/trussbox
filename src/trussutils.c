@@ -477,31 +477,37 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: forcediagram_executable argument: forcediagram_executable=string\n");
 			return 1;
 		}
-		if(argc < 6 || sscanf(argv[5], "trussutils_executable=%1000s", trussutils_executable) != 1)
+		if(argc < 6 || sscanf(argv[5], "sweptarea_executable=%1000s", sweptarea_executable) != 1)
+		{
+			fprintf(stderr, "error: parse: sweptarea_executable argument\n");
+			fprintf(stderr, "usage: sweptarea_executable argument: sweptarea_executable=string\n");
+			return 1;
+		}
+		if(argc < 7 || sscanf(argv[6], "trussutils_executable=%1000s", trussutils_executable) != 1)
 		{
 			fprintf(stderr, "error: parse: trussutils_executable argument\n");
 			fprintf(stderr, "usage: trussutils_executable argument: trussutils_executable=string\n");
 			return 1;
 		}
-		if(argc < 7 || sscanf(argv[6], "problem_filename=%1000s", problem_filename) != 1)
+		if(argc < 8 || sscanf(argv[7], "problem_filename=%1000s", problem_filename) != 1)
 		{
 			fprintf(stderr, "error: parse: problem_filename argument\n");
 			fprintf(stderr, "usage: problem_filename argument: problem_filename=string\n");
 			return 1;
 		}
-		if(argc < 8 || sscanf(argv[7], "output_dirname=%1000s", output_dirname) != 1)
+		if(argc < 9 || sscanf(argv[8], "output_dirname=%1000s", output_dirname) != 1)
 		{
 			fprintf(stderr, "error: parse: output_dirname argument\n");
 			fprintf(stderr, "usage: output_dirname argument: output_dirname=string\n");
 			return 1;
 		}
-		if(argc < 9 || sscanf(argv[8], "gacceleration=%le", &gacceleration) != 1)
+		if(argc < 10 || sscanf(argv[9], "gacceleration=%le", &gacceleration) != 1)
 		{
 			fprintf(stderr, "error: parse: gacceleration argument\n");
 			fprintf(stderr, "usage: gacceleration argument: gacceleration=float\n");
 			return 1;
 		}
-		if(argc < 10 || sscanf(argv[9], "timef=%le", &timef) != 1)
+		if(argc < 11 || sscanf(argv[10], "timef=%le", &timef) != 1)
 		{
 			fprintf(stderr, "error: parse: timef argument\n");
 			fprintf(stderr, "usage: timef argument: timef=float\n");
@@ -512,7 +518,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: timef argument: %.1le not greater than %.1le\n", timef, EPSILON);
 			return 1;
 		}
-		if(argc < 11 || sscanf(argv[10], "srate=%le", &srate) != 1)
+		if(argc < 12 || sscanf(argv[11], "srate=%le", &srate) != 1)
 		{
 			fprintf(stderr, "error: parse: srate argument\n");
 			fprintf(stderr, "usage: srate argument: srate=float\n");
@@ -530,7 +536,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: stepf variable: %d not positive\n", stepf + 1);
 			return 1;
 		}
-		if(argc < 12 || sscanf(argv[11], "frate=%le", &frate) != 1)
+		if(argc < 13 || sscanf(argv[12], "frate=%le", &frate) != 1)
 		{
 			fprintf(stderr, "error: parse: frate argument\n");
 			fprintf(stderr, "usage: frate argument: frate=float\n");
@@ -547,7 +553,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: framef variable: %d not positive\n", framef + 1);
 			return 1;
 		}
-		if(argc < 13 || sscanf(argv[12], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
+		if(argc < 14 || sscanf(argv[13], "fsize=%dx%d", &fsize[0], &fsize[1]) != 2)
 		{
 			fprintf(stderr, "error: parse: fsize argument\n");
 			fprintf(stderr, "usage: fsize argument: fsize=integerxinteger\n");
@@ -558,13 +564,13 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: fsize argument: %dx%d not larger than %dx%d nor matching\n", fsize[0], fsize[1], 64, 64);
 			return 1;
 		}
-		if(argc < 14 || sscanf(argv[13], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
+		if(argc < 15 || sscanf(argv[14], "fcenter=(%le %le)", &fcenter[0], &fcenter[1]) != 2)
 		{
 			fprintf(stderr, "error: parse: fcenter argument\n");
 			fprintf(stderr, "usage: fcenter argument: fcenter=(float float)\n");
 			return 1;
 		}
-		if(argc < 15 || sscanf(argv[14], "fzoom=%le", &fzoom) != 1)
+		if(argc < 16 || sscanf(argv[15], "fzoom=%le", &fzoom) != 1)
 		{
 			fprintf(stderr, "error: parse: fzoom argument\n");
 			fprintf(stderr, "usage: fzoom argument: fzoom=float\n");
@@ -575,7 +581,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: fzoom argument: %.1le not greater than %.1le\n", fzoom, EPSILON);
 			return 1;
 		}
-		if(argc < 16 || sscanf(argv[15], "fscale=%le", &fscale) != 1)
+		if(argc < 17 || sscanf(argv[16], "fscale=%le", &fscale) != 1)
 		{
 			fprintf(stderr, "error: parse: fscale argument\n");
 			fprintf(stderr, "usage: fscale argument: fscale=float\n");
@@ -596,6 +602,7 @@ int main(int argc, char **argv)
 			feedback_solution_into_problem(stdout);
 			progress_frame_and_step();
 		}
+		sweptarea(stdout);
 		free_paths();
 	}
 	else if(strcmp(argv[1], "properties") == 0)
