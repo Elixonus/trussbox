@@ -7,7 +7,7 @@
 
 # Trussbox
 
-Design from [Simple 2D Constraint Solver Demo by Ange Yaghi](https://github.com/ange-yaghi/scs-2d-demo)
+Rendering design from [Simple 2D Constraint Solver Demo by Ange Yaghi](https://github.com/ange-yaghi/scs-2d-demo)
 
 ## Preview
 
