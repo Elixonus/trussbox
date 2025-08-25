@@ -458,7 +458,7 @@ int main(int argc, char **argv)
 	if(argc < 2) goto utilargerr;
 	if(strcmp(argv[1], "genpipeline") == 0)
 	{
-		allocate_paths(1000);
+		allocate_executable_and_input_output_paths(1000);
 		if(argc < 3 || sscanf(argv[2], "solvetruss_executable=%1000s", solvetruss_executable) != 1)
 		{
 			fprintf(stderr, "error: parse: solvetruss_executable argument\n");
@@ -592,18 +592,18 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: fscale argument: %.1le not greater than %.1le\n", fscale, EPSILON);
 			return 1;
 		}
-		initialize(stdout);
-		while(check_frame())
+		start_pipeline(stdout);
+		while(continue_current_frame())
 		{
-			rendertruss(stdout);
-			solvetruss(stdout);
-			concatenate_problem_and_solution(stdout);
-			forcediagram(stdout);
-			feedback_solution_into_problem(stdout);
-			progress_frame_and_step();
+			print_pipeline_rendertruss_command(stdout);
+			print_pipeline_solvetruss_command(stdout);
+			print_pipeline_concatenate_problem_and_solution_command(stdout);
+			print_pipeline_forcediagram_command(stdout);
+			print_pipeline_feedback_solution_into_problem_command(stdout);
+			progress_current_frame_and_step_number();
 		}
-		sweptarea(stdout);
-		free_paths();
+		print_pipeline_sweptarea_command(stdout);
+		free_executable_and_input_output_paths();
 	}
 	else if(strcmp(argv[1], "properties") == 0)
 	{

@@ -3,6 +3,27 @@
 #include <string.h>
 #include <math.h>
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// STEPS TO CREATE SIMULATION PIPELINE
+// 1. call "allocate_executable_and_input_output_paths(1000);"
+//    to prepare string variables for modification.
+// 2. manually set all global variables of this file from outside.
+//    to find some of the parameters involving math:
+//      * dtime = 1.0 / srate;
+//      * stepf = ((int) floor(srate * timef)) - 1;
+//      * framef = ((int) floor(frate * timef)) - 1;
+// 3. call "start_pipeline(stdout);"
+// 4. call the following lines in a while loop with this order with "continue_current_frame()" as the condition:
+//    1. call "print_pipeline_rendertruss_command(stdout);"
+//    2. call "print_pipeline_solvetruss_command(stdout);"
+//    3. call "print_pipeline_concatenate_problem_and_solution_command(stdout);"
+//    4. call "print_pipeline_forcediagram_command(stdout);"
+//    5. call "print_pipeline_feedback_solution_into_problem_command(stdout);"
+//    6. call "progress_current_frame_and_step_number();"
+// 5. call "print_pipeline_sweptarea_command(stdout);"
+// 6. call "free_executable_and_input_output_paths();"
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 char *solvetruss_executable;
 char *rendertruss_executable;
 char *forcediagram_executable;
@@ -34,7 +55,7 @@ void free_string(char *string)
 	free(string);
 }
 
-void allocate_paths(int character_count_each)
+void allocate_executable_and_input_output_paths(int character_count_each)
 {
 	allocate_string(&solvetruss_executable, character_count_each);
 	allocate_string(&rendertruss_executable, character_count_each);
@@ -45,7 +66,7 @@ void allocate_paths(int character_count_each)
 	allocate_string(&output_dirname, character_count_each);
 }
 
-void free_paths(void)
+void free_executable_and_input_output_paths(void)
 {
 	free_string(solvetruss_executable);
 	free_string(rendertruss_executable);
@@ -56,30 +77,30 @@ void free_paths(void)
 	free_string(output_dirname);
 }
 
-void initialize_frame_and_step(void)
+void reset_current_frame_and_step_number(void)
 {
 	step = 0, frame = 0;
 }
 
-bool check_frame(void)
+bool continue_current_frame(void)
 {
 	return frame <= framef;
 }
 
-void progress_frame_and_step(void)
+void progress_current_frame_and_step_number(void)
 {
 	frame++;
 	while(step * (framef + 1) < frame * (stepf + 1))
 		step++;
 }
 
-void initialize_bash(FILE *command_stream)
+void print_pipeline_header_commands(FILE *command_stream)
 {
 	printf("#!/bin/bash\n");
 	printf("set -eo pipefail\n");
 }
 
-void initialize_files_and_directories(FILE *command_stream)
+void print_pipeline_manage_files_and_directories_commands(FILE *command_stream)
 {
 	printf("mkdir -p \"%s\"\n", output_dirname);
 	printf("rm -rf \"%s/problems\" \"%s/solutions\" \"%s/prosols\" \"%s/frames\" \"%s/diagrams\"\n", output_dirname, output_dirname, output_dirname, output_dirname, output_dirname);
@@ -87,14 +108,14 @@ void initialize_files_and_directories(FILE *command_stream)
 	printf("cp \"%s\" \"%s/problems/%09d.txt\"\n", problem_filename, output_dirname, 1);
 }
 
-void initialize(FILE *command_stream)
+void start_pipeline(FILE *command_stream)
 {
-	initialize_bash(command_stream);
-	initialize_files_and_directories(command_stream);
-	initialize_frame_and_step();
+	print_pipeline_header_commands(command_stream);
+	print_pipeline_manage_files_and_directories_commands(command_stream);
+	reset_current_frame_and_step_number();
 }
 
-void concatenate_problem_and_solution(FILE *command_stream)
+void print_pipeline_concatenate_problem_and_solution_command(FILE *command_stream)
 {
 	printf(
 		"cat \"%s/problems/%09d.txt\" \"%s/solutions/%09d.txt\" > \"%s/prosols/%09d.txt\"\n",
@@ -102,7 +123,7 @@ void concatenate_problem_and_solution(FILE *command_stream)
 	);
 }
 
-void feedback_solution_into_problem(FILE *command_stream)
+void print_pipeline_feedback_solution_into_problem_command(FILE *command_stream)
 {
 	if(strlen(trussutils_executable) > 0 && trussutils_executable[0] == '/')
 		printf(
@@ -116,7 +137,7 @@ void feedback_solution_into_problem(FILE *command_stream)
 		);
 }
 
-void solvetruss(FILE *command_stream)
+void print_pipeline_solvetruss_command(FILE *command_stream)
 {
 	if(strlen(solvetruss_executable) > 0 && solvetruss_executable[0] == '/')
 		printf(
@@ -130,7 +151,7 @@ void solvetruss(FILE *command_stream)
 		);
 }
 
-void rendertruss(FILE *command_stream)
+void print_pipeline_rendertruss_command(FILE *command_stream)
 {
 	if(strlen(rendertruss_executable) > 0 && rendertruss_executable[0] == '/')
 		printf(
@@ -144,7 +165,7 @@ void rendertruss(FILE *command_stream)
 		);
 }
 
-void forcediagram(FILE *command_stream)
+void print_pipeline_forcediagram_command(FILE *command_stream)
 {
 	if(strlen(forcediagram_executable) > 0 && forcediagram_executable[0] == '/')
 		printf(
@@ -158,7 +179,7 @@ void forcediagram(FILE *command_stream)
 		);
 }
 
-void sweptarea(FILE *command_stream)
+void print_pipeline_sweptarea_command(FILE *command_stream)
 {
 	if(strlen(sweptarea_executable) > 0 && sweptarea_executable[0] == '/')
 		printf(
