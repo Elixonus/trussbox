@@ -45,10 +45,28 @@ if [[ "$create_montage" == "y" || "$create_montage" == "Y" ]]
 then
 	source montage.sh | sed -u "s/^/| /"
 fi
-cp tmp/montage/video.mp4 previewmt.mp4
-ffmpeg -i tmp/montage/miscellaneous/powertower/video.mp4 -vf "select=eq(n\,0)" -vframes 1 -y previewmt.png -loglevel error
-cp tmp/montage/parallel.mp4 previewmtpl.mp4
-ffmpeg -i tmp/montage/parallel.mp4 -vframes 1 -y previewmtpl.png -loglevel error
+cp tmp/montage/video.mp4 previewmontage.mp4
+ffmpeg -i tmp/montage/miscellaneous/powertower/video.mp4 -vframes 1 -y previewmontage.png -loglevel error
+cp tmp/montage/parallel.mp4 previewmontageparallel.mp4
+ffmpeg -i tmp/montage/parallel.mp4 -vframes 1 -y previewmontageparallel.png -loglevel error
+echo "\
+strandbeest.txt
+0.0
+8.0
+100000.0
+60.0
+1920
+1080
+0.0
+-0.5
+0.2
+1.0
+tmp/previewexample
+" | source custom.sh > /dev/null
+ffmpeg -i tmp/previewexample/video.mp4 -vframes 1 -y previewexampleframe.png -loglevel error
+ffmpeg -i tmp/previewexample/fdiagram.mp4 -vframes 1 -y previewexamplefdiagram.png -loglevel error
+cp tmp/previewexample/sweptarea.png previewexamplesweptarea.png
+rm -rf tmp/previewexample
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo "${bold}* preview files can now be found at ${underline}$(pwd)/preview*${normal}"
