@@ -58,6 +58,7 @@ struct frame
 
 struct frame *frames;
 int fcount;
+int flimit;
 
 int fsize[2];
 double fcenter[2];
@@ -205,25 +206,32 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fscale argument: %.1le not greater than %.1le\n", fscale, EPSILON);
 		return 1;
 	}
-	if(argc < 7 || sscanf(argv[6], "fcount=%d", &fcount) != 1)
-	{
-		fprintf(stderr, "error: parse: fcount argument\n");
-		fprintf(stderr, "usage: fcount argument: fcount=count\n");
-	}
-	if(fcount < 0)
-	{
-		fprintf(stderr, "error: count: fcount argument: %d not positive nor %d\n", fcount, 0);
-		return 1;
-	}
-	frames = malloc(fcount * sizeof(struct frame));
+	flimit = 1;
+	frames = malloc(flimit * sizeof(struct frame));
 	if(!frames)
 	{
-		fprintf(stderr, "error: create: frames array: %zd bytes allocation\n", fcount * sizeof(struct frame));
+		fprintf(stderr, "error: create: frames array: %zd bytes allocation\n", flimit * sizeof(struct frame));
+		return 1;
 	}
-	for(int f = 0; f < fcount; f++)
+	while(true)
 	{
-		struct frame *frame = &frames[f];
-		if(scanf("joints=%d\n", &frame->jcount) != 1)
+		if(fcount >= flimit)
+		{
+			struct frame *swap = realloc(frames, 2 * flimit * sizeof(struct frame));
+			if(swap == NULL)
+			{
+				fprintf(stderr, "error: resize: frames array: %zd bytes allocation\n", 2 * flimit * sizeof(struct frame));
+				return 1;
+			}
+			frames = swap;
+			flimit *= 2;
+		}
+		struct frame *frame = &frames[fcount];
+		int scan = scanf("joints=%d\n", &frame->jcount);
+		if(scan == EOF)
+			break;
+		fcount++;
+		if(scan != 1)
 		{
 			fprintf(stderr, "error: parse: joints parameter\n");
 			fprintf(stderr, "usage: joints parameter: joints=count\n");
@@ -234,7 +242,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: joints parameter: %d not positive nor %d\n", frame->jcount, 0);
 			return 1;
 		}
-		if(f > 0 && frame->jcount != frames[f - 1].jcount) return 1;
+		if(fcount > 0 && frame->jcount != frames[fcount - 1].jcount) return 1;
 		frame->joints = malloc(frame->jcount * sizeof(struct joint));
 		if(!frame->joints)
 		{
@@ -269,7 +277,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: members parameter: %d not positive nor %d\n", frame->mcount, 0);
 			return 1;
 		}
-		if(f > 0 && frame->mcount != frames[f - 1].mcount) return 1;
+		if(fcount > 0 && frame->mcount != frames[fcount - 1].mcount) return 1;
 		frame->members = malloc(frame->mcount * sizeof(struct member));
 		if(!frame->members)
 		{
@@ -338,7 +346,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: supports parameter: %d not positive nor %d\n", frame->scount, 0);
 			return 1;
 		}
-		if(f > 0 && frame->scount != frames[f - 1].scount) return 1;
+		if(fcount > 0 && frame->scount != frames[fcount - 1].scount) return 1;
 		frame->supports = malloc(frame->scount * sizeof(struct support));
 		if(!frame->supports)
 		{
@@ -396,7 +404,7 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: count: loads parameter: %d not positive nor %d\n", frame->lcount, 0);
 			return 1;
 		}
-		if(f > 0 && frame->lcount != frames[f - 1].lcount) return 1;
+		if(fcount > 0 && frame->lcount != frames[fcount - 1].lcount) return 1;
 		frame->loads = malloc(frame->lcount * sizeof(struct load));
 		if(!frame->loads)
 		{

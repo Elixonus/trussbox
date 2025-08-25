@@ -20,7 +20,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sweptarea.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/sweptarea.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,6 +271,9 @@
       <workItem from="1755801519989" duration="1132000" />
       <workItem from="1756067130266" duration="611000" />
       <workItem from="1756074228986" duration="1272000" />
+      <workItem from="1756080825241" duration="191000" />
+      <workItem from="1756087199426" duration="1224000" />
+      <workItem from="1756090813338" duration="2230000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />
