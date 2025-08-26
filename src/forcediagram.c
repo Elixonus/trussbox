@@ -156,7 +156,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.98, 0.98, 0.98);
+	cairo_set_source_rgb(context, 0.98439, 0.98439, 0.98439);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -179,7 +179,7 @@ int render(void)
 	cairo_save(context);
 	cairo_scale(context, 1.0 / fzoom, 1.0 / fzoom);
 	cairo_set_line_width(context, 0.002);
-	cairo_set_source_rgb(context, 0.95, 0.95, 0.95);
+	cairo_set_source_rgb(context, 0.963, 0.963, 0.963);
 	cairo_stroke(context);
 	cairo_restore(context);
 	cairo_new_path(context);
@@ -241,7 +241,7 @@ int render(void)
 		cairo_save(context);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_set_line_width(context, 0.02);
-		double color[3] = {1.0, 1.0, 1.0};
+		double color[3] = {0.0, 0.0, 0.0};
 		cairo_set_source_rgb(context, color[0], color[1], color[2]);
 		cairo_stroke(context);
 		cairo_restore(context);
@@ -254,7 +254,7 @@ int render(void)
 		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_save(context);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_set_line_width(context, 0.01);
+		cairo_set_line_width(context, 0.012);
 		double color[3];
 		map_mforce_to_color(mforces[m], color, ref_force);
 		cairo_set_source_rgb(context, color[0], color[1], color[2]);

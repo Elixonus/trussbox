@@ -80,8 +80,8 @@ echo "* ${fg_yellow}stitching${normal} video frames together"
 update_start_time
 ffmpeg -r "$frate" -i $dirname/frames/%09d.png -y $dirname/video.mp4 -loglevel error
 rm -rf $dirname/frames
-ffmpeg -r "$frate" -i $dirname/diagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
-rm -rf $dirname/diagrams
+ffmpeg -r "$frate" -i $dirname/fdiagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
+rm -rf $dirname/fdiagrams
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
 ./bin/trussutils textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true "title=ASCII Text Art Truss Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)"
