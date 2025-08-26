@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+
 #define MSDAXES 2
-#include "msd.h"
-#include "pipeline.h"
+#include "lib/msd.h"
+#include "lib/pipeline.h"
 
 #define EPSILON 1.0e-18
 

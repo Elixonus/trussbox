@@ -20,9 +20,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewexamplefdiagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/previewexamplefdiagram.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmontage.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmontage.mp4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/previewmontageparallel.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/previewmontageparallel.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/forcediagram.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/forcediagram.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/solvetruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/solvetruss.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sweptarea.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/sweptarea.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +51,10 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/forcediagram.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/msd.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/lib/msd.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/lib/msd.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/lib/pipeline.c" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/lib/pipeline.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/solvetruss.c" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/trussutils.c" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -106,6 +111,7 @@
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\tmp\test" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\src\lib" />
       <recent name="C:\Users\Elias Dobrin\Documents\GitHub\trussbox\src" />
     </key>
   </component>
@@ -279,7 +285,9 @@
       <workItem from="1756145210593" duration="727000" />
       <workItem from="1756145981479" duration="9792000" />
       <workItem from="1756161874090" duration="3820000" />
-      <workItem from="1756227118564" duration="5026000" />
+      <workItem from="1756227118564" duration="5625000" />
+      <workItem from="1756239392800" duration="1345000" />
+      <workItem from="1756247806924" duration="752000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

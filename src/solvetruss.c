@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+
 #define MSDAXES 2
-#include "msd.h"
+#include "lib/msd.h"
 
 #define EPSILON 1.0e-18
 
