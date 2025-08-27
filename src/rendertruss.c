@@ -164,6 +164,29 @@ int render(void)
 	cairo_restore(context);
 	cairo_set_line_cap(context, CAIRO_LINE_CAP_ROUND);
 	cairo_set_line_join(context, CAIRO_LINE_JOIN_ROUND);
+	for(int m = 0; m < mcount; m++)
+	{
+		struct member *member = &members[m];
+		cairo_save(context);
+		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
+		cairo_rotate(context, atan2(member->spring.m2->p[1] - member->spring.m1->p[1], member->spring.m2->p[0] - member->spring.m1->p[0]));
+		cairo_scale(context, 1.0, fscale / fzoom);
+		cairo_new_path(context);
+		cairo_rectangle(context, 0.0, -0.01, mdistance(member->spring.m1, member->spring.m2), 0.02);
+		cairo_set_line_width(context, 0.015);
+		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
+		cairo_stroke_preserve(context);
+		cairo_set_line_width(context, 0.005);
+		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
+		cairo_stroke_preserve(context);
+		cairo_pattern_t *gradient = cairo_pattern_create_linear(0.0, 0.0, mdistance(member->spring.m1, member->spring.m2), 0.0);
+		cairo_pattern_add_color_stop_rgb(gradient, 0.0, 0.937, 0.749, 0.0157);
+		cairo_pattern_add_color_stop_rgb(gradient, 0.5, 1.0, 1.0, 1.0);
+		cairo_pattern_add_color_stop_rgb(gradient, 1.0, 0.937, 0.749, 0.0157);
+		cairo_set_source(context, gradient);
+		cairo_fill(context);
+		cairo_restore(context);
+	}
 	for(int s = 0; s < scount; s++)
 	{
 		struct support *support = &supports[s];
@@ -273,39 +296,6 @@ int render(void)
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
 		cairo_restore(context);
-	}
-	for(int m = 0; m < mcount; m++)
-	{
-		struct member *member = &members[m];
-		cairo_new_path(context);
-		cairo_line_to(context, member->spring.m1->p[0], member->spring.m1->p[1]);
-		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
-		cairo_save(context);
-		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_set_line_width(context, 0.0225);
-		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-		cairo_stroke_preserve(context);
-		cairo_set_line_width(context, 0.0125);
-		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
-		cairo_stroke(context);
-		cairo_restore(context);
-		cairo_new_path(context);
-		cairo_save(context);
-		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
-		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_new_sub_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
-		cairo_close_path(context);
-		cairo_restore(context);
-		cairo_save(context);
-		cairo_translate(context, member->spring.m2->p[0], member->spring.m2->p[1]);
-		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_new_sub_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
-		cairo_close_path(context);
-		cairo_restore(context);
-		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-		cairo_fill(context);
 	}
 	cairo_restore(context);
 	cairo_restore(context);
