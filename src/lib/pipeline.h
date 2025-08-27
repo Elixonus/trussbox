@@ -19,6 +19,8 @@
 // 6. call "free_executable_and_input_output_paths();"
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#pragma once
+
 extern char *solvetruss_executable;
 extern char *rendertruss_executable;
 extern char *forcediagram_executable;
@@ -41,18 +43,33 @@ extern double fzoom;
 extern double fscale;
 
 void allocate_string(char **string, int count);
+
 void free_string(char *string);
+
 void allocate_executable_and_input_output_paths(int character_count_each);
+
 void free_executable_and_input_output_paths(void);
+
 void reset_current_frame_and_step_number(void);
+
 bool continue_current_frame(void);
+
 void progress_current_frame_and_step_number(void);
+
 void print_pipeline_header_commands(FILE *command_stream);
+
 void print_pipeline_manage_files_and_directories_commands(FILE *command_stream);
+
 void start_pipeline(FILE *command_stream);
+
 void print_pipeline_concatenate_problem_and_solution_command(FILE *command_stream);
+
 void print_pipeline_feedback_solution_into_problem_command(FILE *command_stream);
+
 void print_pipeline_solvetruss_command(FILE *command_stream);
+
 void print_pipeline_rendertruss_command(FILE *command_stream);
+
 void print_pipeline_forcediagram_command(FILE *command_stream);
+
 void print_pipeline_sweptarea_command(FILE *command_stream);

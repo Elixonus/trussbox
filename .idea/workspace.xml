@@ -20,7 +20,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +46,7 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/forcediagram.c" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/src/lib/msd.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/lib/msd.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/lib/msd.h" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/lib/pipeline.c" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/lib/pipeline.h" root0="SKIP_HIGHLIGHTING" />
@@ -283,7 +282,7 @@
       <workItem from="1756161874090" duration="3820000" />
       <workItem from="1756227118564" duration="5625000" />
       <workItem from="1756239392800" duration="1345000" />
-      <workItem from="1756247806924" duration="10076000" />
+      <workItem from="1756247806924" duration="752000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

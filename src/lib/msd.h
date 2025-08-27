@@ -1,5 +1,5 @@
-#ifndef MSDHEADER
-#define MSDHEADER
+#pragma once
+
 #ifdef MSDAXES
 
 struct mass {
@@ -22,10 +22,13 @@ struct damper {
 };
 
 double mdistance(struct mass *m1, struct mass *m2);
+
 double sdisplacement(struct spring *s);
+
 double dvelocity(struct damper *d);
+
 double sforce(struct spring *s);
+
 double dforce(struct damper *d);
 
-#endif
 #endif
