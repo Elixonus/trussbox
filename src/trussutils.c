@@ -922,42 +922,42 @@ int main(int argc, char **argv)
 		for(int s = 0; s < scount; s++)
 		{
 			struct support *support = &supports[s];
-			int count = support->constraint.a[0] + support->constraint.a[1];
-			double ncenter[2] = {0.0, 0.0};
-			int ncount = 0;
+			if(!support->constraint.a[0] && !support->constraint.a[1]) continue;
+			double vicinity[2] = {0.0, 0.0};
+			int concentration = 0;
 			for(int m = 0; m < mcount; m++)
 			{
 				struct member *member = &members[m];
 				if(member->spring.m1 == support->constraint.m)
 				{
 					for(int a = 0; a < 2; a++)
-						ncenter[a] += member->spring.m2->p[a];
-					ncount++;
+						vicinity[a] += member->spring.m2->p[a];
+					concentration++;
 				}
 				if(member->spring.m2 == support->constraint.m)
 				{
 					for(int a = 0; a < 2; a++)
-						ncenter[a] += member->spring.m1->p[a];
-					ncount++;
+						vicinity[a] += member->spring.m1->p[a];
+					concentration++;
 				}
 			}
 			for(int a = 0; a < 2; a++)
 			{
-				if(ncount > 0)
-					ncenter[a] /= ncount;
+				if(concentration > 0)
+					vicinity[a] /= concentration;
 				else
-					ncenter[a] = support->constraint.m->p[a];
+					vicinity[a] = support->constraint.m->p[a];
 			}
 			double polarity;
-			if(count == 2 || (count == 1 && support->constraint.a[1]))
-				polarity = ncenter[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
-			if(count == 1 && support->constraint.a[0])
-				polarity = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
+			if(support->constraint.a[1])
+				polarity = vicinity[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
+			if(support->constraint.a[0] && !support->constraint.a[1])
+				polarity = vicinity[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
 			int rowcol[2] = {
 				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
-			if(count == 2 || (count == 1 && support->constraint.a[1]))
+			if(support->constraint.a[1])
 			{
 				if(polarity > 0.0)
 				{
@@ -966,7 +966,7 @@ int main(int argc, char **argv)
 					setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
 					setchar(' ', rowcol[0] + 1, rowcol[1], ' ');
 					setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
-					if(count == 2)
+					if(support->constraint.a[0] && support->constraint.a[1])
 					{
 						setchar('=', rowcol[0] + 2, rowcol[1] - 2, ' ');
 						setchar('=', rowcol[0] + 2, rowcol[1] - 1, ' ');
@@ -974,7 +974,7 @@ int main(int argc, char **argv)
 						setchar('=', rowcol[0] + 2, rowcol[1] + 1, ' ');
 						setchar('=', rowcol[0] + 2, rowcol[1] + 2, ' ');
 					}
-					if(count == 1)
+					if((support->constraint.a[0] && !support->constraint.a[1]) || (!support->constraint.a[0] && support->constraint.a[1]))
 					{
 						setchar('o', rowcol[0] + 2, rowcol[1] - 2, ' ');
 						setchar('o', rowcol[0] + 2, rowcol[1] - 1, ' ');
@@ -990,7 +990,7 @@ int main(int argc, char **argv)
 					setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
 					setchar(' ', rowcol[0] - 1, rowcol[1], ' ');
 					setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
-					if(count == 2)
+					if(support->constraint.a[0] && support->constraint.a[1])
 					{
 						setchar('=', rowcol[0] - 2, rowcol[1] - 2, ' ');
 						setchar('=', rowcol[0] - 2, rowcol[1] - 1, ' ');
@@ -998,7 +998,7 @@ int main(int argc, char **argv)
 						setchar('=', rowcol[0] - 2, rowcol[1] + 1, ' ');
 						setchar('=', rowcol[0] - 2, rowcol[1] + 2, ' ');
 					}
-					if(count == 1)
+					if((support->constraint.a[0] && !support->constraint.a[1]) || (!support->constraint.a[0] && support->constraint.a[1]))
 					{
 						setchar('o', rowcol[0] - 2, rowcol[1] - 2, ' ');
 						setchar('o', rowcol[0] - 2, rowcol[1] - 1, ' ');
@@ -1008,7 +1008,7 @@ int main(int argc, char **argv)
 					}
 				}
 			}
-			if(count == 1 && support->constraint.a[0])
+			if(support->constraint.a[0] && !support->constraint.a[1])
 			{
 				if(polarity > 0.0)
 				{

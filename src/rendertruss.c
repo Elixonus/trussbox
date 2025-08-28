@@ -167,44 +167,43 @@ int render(void)
 	for(int s = 0; s < scount; s++)
 	{
 		struct support *support = &supports[s];
+		if(!support->constraint.a[0] && !support->constraint.a[1]) continue;
 		cairo_save(context);
 		cairo_translate(context, support->constraint.m->p[0], support->constraint.m->p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		int count = support->constraint.a[0] + support->constraint.a[1];
-		if(count == 0) continue;
 		if(support->constraint.a[0] && !support->constraint.a[1])
 			cairo_rotate(context, -0.5 * PI);
 		cairo_new_path(context);
-		double ncenter[2] = {0.0, 0.0};
-		int ncount = 0;
+		double vicinity[2] = {0.0, 0.0};
+		int concentration = 0;
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
 			if(member->spring.m1 == support->constraint.m)
 			{
 				for(int a = 0; a < 2; a++)
-					ncenter[a] += member->spring.m2->p[a];
-				ncount++;
+					vicinity[a] += member->spring.m2->p[a];
+				concentration++;
 			}
 			if(member->spring.m2 == support->constraint.m)
 			{
 				for(int a = 0; a < 2; a++)
-					ncenter[a] += member->spring.m1->p[a];
-				ncount++;
+					vicinity[a] += member->spring.m1->p[a];
+				concentration++;
 			}
 		}
 		for(int a = 0; a < 2; a++)
 		{
-			if(ncount > 0)
-				ncenter[a] /= ncount;
+			if(concentration > 0)
+				vicinity[a] /= concentration;
 			else
-				ncenter[a] = support->constraint.m->p[a];
+				vicinity[a] = support->constraint.m->p[a];
 		}
 		double polarity;
-		if(count == 2 || (count == 1 && support->constraint.a[1]))
-			polarity = ncenter[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
-		if(count == 1 && support->constraint.a[0])
-			polarity = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
+		if(support->constraint.a[1])
+			polarity = vicinity[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
+		if(support->constraint.a[0] && !support->constraint.a[1])
+			polarity = vicinity[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
 		if(polarity > 0.0)
 			cairo_arc(context, 0.0, 0.0, 0.02, 0.0, PI);
 		else
@@ -216,7 +215,7 @@ int render(void)
 		cairo_new_sub_path(context);
 		cairo_rectangle(context, -0.0625, -0.03, 0.125, 0.005);
 		cairo_close_path(context);
-		if(count == 1)
+		if((support->constraint.a[0] && !support->constraint.a[1]) || (!support->constraint.a[0] && support->constraint.a[1]))
 		{
 			cairo_new_sub_path(context);
 			cairo_arc(context, 0.055, -0.0425, 0.0075, 0.0, TAU);
@@ -234,34 +233,6 @@ int render(void)
 			cairo_arc(context, -0.055, -0.0425, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 		}
-		cairo_set_line_width(context, 0.01);
-		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-		cairo_stroke_preserve(context);
-		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
-		cairo_fill(context);
-		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
-		cairo_close_path(context);
-		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
-		cairo_fill(context);
-		cairo_restore(context);
-	}
-	for(int j = 0; j < jcount; j++)
-	{
-		struct joint *joint = &joints[j];
-		struct support *support = nullptr;
-		for(int s = 0; s < scount; s++)
-		{
-			if(supports[s].constraint.m == &joint->mass)
-				support = &supports[s];
-		}
-		if(support != nullptr) continue;
-		cairo_save(context);
-		cairo_translate(context, joint->mass.p[0], joint->mass.p[1]);
-		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.02, 0.0, TAU);
-		cairo_close_path(context);
 		cairo_set_line_width(context, 0.01);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
