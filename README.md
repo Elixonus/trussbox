@@ -49,23 +49,13 @@ Rendering design from [Simple 2D Constraint Solver Demo by Ange Yaghi](https://g
 
 ### Run
 
-```./bridges.sh```
-
-Creates solutions (videos and force data on each member 
-and reactions on each support in the tmp directory) 
-for each of the six truss bridges: warren, pratt, howe, 
-parker, cambridge and whipple without further 
-input.
-
-**or**
-
 ```./custom.sh```
 
-Creates solution (videos and force data on each member 
-and reactions on each support) for a given problem 
-containing input data for joints, members, supports, 
-loads as well as other input data provided into standard 
-input of the shell script (gravity, duration, frame rate, 
+Creates solution (videos and force data on each member
+and reactions on each support) for a given problem
+containing input data for joints, members, supports,
+loads as well as other input data provided into standard
+input of the shell script (gravity, duration, frame rate,
 step rate, etc...).
 
 Shell script example input:
@@ -87,6 +77,24 @@ tmp/warren
 
 **or**
 
+```./bridges.sh```
+
+Creates solutions (videos and force data on each member 
+and reactions on each support in the tmp directory) 
+for each of the six truss bridges: warren, pratt, howe, 
+parker, cambridge and whipple without further 
+input.
+
+**or**
+
+```./miscellaneous.sh```
+
+**or**
+
+```./pendulums.sh```
+
+**or**
+
 ```./montage.sh```
 
 ## Usage
@@ -95,7 +103,7 @@ tmp/warren
 
 ### Truss Solver
 
-```./bin/solvetruss gacceleration=float timef=float srate=float < problem.txt```
+```cat problem.txt | ./bin/solvetruss gacceleration=float timef=float srate=float```
 
 * (stdin): [Truss Problem Configuration](#truss-problem-configuration)
 * (stdout): [Truss Solution Configuration](#truss-solution-configuration)
@@ -109,7 +117,7 @@ tmp/warren
 
 ![Example Frame](./previewexampleframe.png)
 
-```./bin/rendertruss filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
+```cat problem.txt | ./bin/rendertruss filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): [Truss Problem Configuration](#truss-problem-configuration)
 * (stderr): error and usage messages
@@ -123,7 +131,7 @@ tmp/warren
 
 ![Example Force Diagram](./previewexamplefdiagram.png)
 
-```./bin/forcediagram filename gacceleration=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
+```cat problem.txt solution.txt | ./bin/forcediagram filename gacceleration=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): concatenation of [Truss Problem Configuration](#truss-problem-configuration) and [Truss Solution Configuration](#truss-solution-configuration)
 * (stderr): error and usage messages
@@ -139,7 +147,7 @@ tmp/warren
 
 ![Example Swept Area](./previewexamplesweptarea.png)
 
-```./bin/sweptarea filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
+```cat problems/*.txt | ./bin/sweptarea filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
 * (stdin): concatenation of multiple (many) [Truss Problem Configuration](#truss-problem-configuration)
 * (stderr): error and usage messages

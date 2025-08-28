@@ -35,8 +35,7 @@ print_elapsed_time() {
 echo "* ${fg_yellow}compiling${normal} programs"
 echo "|\\"
 update_start_time
-mkdir -p bin
-mkdir -p bin/lib
+mkdir -p bin bin/lib
 echo -n "| * ${fg_yellow}compiling${normal} mass spring damper library object"
 gcc -c src/lib/msd.c -o bin/lib/msd.o -DMSDAXES=2 -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"

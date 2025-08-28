@@ -30,10 +30,20 @@ print_elapsed_time() {
 	local seconds=$((delta_time % 60))
 	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
 }
+read -rep "create new miscellaneous output? (warning: this will override the previous output) (y/n): " create_miscellaneous
+if ! [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" || "$create_miscellaneous" == "n" || "$create_miscellaneous" == "N" ]]
+then
+	echo "error: unrecognized input">&2
+	exit 1
+fi
+if [[ "$create_miscellaneous" == "n" || "$create_miscellaneous" == "N" ]]
+then
+	exit 0
+fi
 echo "* ${fg_yellow}creating${normal} output for each of the miscellaneous systems"
-echo "|\\"
 mkdir -p tmp/miscellaneous
 rm -rf tmp/miscellaneous/*
+echo "|\\"
 echo "| * ${fg_yellow}working on${normal} Fink roof truss problem"
 echo "| |\\"
 update_start_time

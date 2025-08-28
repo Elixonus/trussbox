@@ -32,19 +32,7 @@ print_elapsed_time() {
 }
 echo "* ${fg_yellow}preparing${normal} preview media"
 echo "|\\"
-read -rep "create new montage? (y/n): " create_montage
-if ! [[
-	"$create_montage" == "y" || "$create_montage" == "Y" ||
-	"$create_montage" == "n" || "$create_montage" == "N"
-]]
-then
-	echo "error: unrecognized input">&2
-	exit 1
-fi
-if [[ "$create_montage" == "y" || "$create_montage" == "Y" ]]
-then
-	source montage.sh | sed -u "s/^/| /"
-fi
+source montage.sh | sed -u "s/^/| /"
 cp tmp/montage/video.mp4 previewmontage.mp4
 ffmpeg -i tmp/montage/miscellaneous/powertower/video.mp4 -vframes 1 -y previewmontage.png -loglevel error
 cp tmp/montage/parallel.mp4 previewmontageparallel.mp4

@@ -30,40 +30,44 @@ print_elapsed_time() {
 	local seconds=$((delta_time % 60))
 	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
 }
-echo "* ${fg_yellow}creating${normal} a montage of each of the systems"
-echo "|\\"
-read -rep "create new bridges output? (y/n): " create_bridges
+read -rep "create new montage? (warning: this will override the previous output) (y/n): " create_montage
+if ! [[
+	"$create_montage" == "y" || "$create_montage" == "Y" ||
+	"$create_montage" == "n" || "$create_montage" == "N"
+]]
+then
+	echo "error: unrecognized input">&2
+	exit 1
+fi
+if [[ "$create_montage" == "n" || "$create_montage" == "N" ]]
+then
+	exit 0
+fi
+read -rep "create new bridges output? (warning: this will override the previous output) (y/n): " create_bridges
 if ! [[ "$create_bridges" == "y" || "$create_bridges" == "Y" || "$create_bridges" == "n" || "$create_bridges" == "N" ]]
 then
 	echo "error: unrecognized input">&2
 	exit 1
 fi
-read -rep "create new miscellaneous output? (y/n): " create_miscellaneous
+read -rep "create new miscellaneous output? (warning: this will override the previous output) (y/n): " create_miscellaneous
 if ! [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" || "$create_miscellaneous" == "n" || "$create_miscellaneous" == "N" ]]
 then
 	echo "error: unrecognized input">&2
 	exit 1
 fi
-read -rep "create new pendulums output? (y/n): " create_pendulums
+read -rep "create new pendulums output? (warning: this will override the previous output) (y/n): " create_pendulums
 if ! [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" || "$create_pendulums" == "n" || "$create_pendulums" == "N" ]]
 then
 	echo "error: unrecognized input">&2
 	exit 1
 fi
+echo "* ${fg_yellow}creating${normal} a montage of each of the systems"
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
-if [[ "$create_bridges" == "y" || "$create_bridges" == "Y" ]]
-then
-	source bridges.sh | sed -u "s/^/| /"
-fi
-if [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" ]]
-then
-	source miscellaneous.sh | sed -u "s/^/| /"
-fi
-if [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" ]]
-then
-	source pendulums.sh | sed -u "s/^/| /"
-fi
+echo "|\\"
+echo $create_bridges | source bridges.sh | sed -u "s/^/| /"
+echo $create_miscellaneous | source miscellaneous.sh | sed -u "s/^/| /"
+echo $create_pendulums | source pendulums.sh | sed -u "s/^/| /"
 echo "| * ${fg_yellow}preparing${normal} montage videos"
 update_start_time
 mkdir -p tmp/montage/bridges/warren

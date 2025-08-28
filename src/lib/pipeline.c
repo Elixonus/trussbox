@@ -183,12 +183,12 @@ void print_pipeline_sweptarea_command(FILE *command_stream)
 {
 	if(strlen(sweptarea_executable) > 0 && sweptarea_executable[0] == '/')
 		printf(
-			"cat \"%s/problems/\"* | \"%s\" \"%s/sweptarea.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le\n",
+			"cat \"%s/problems/\"*.txt | \"%s\" \"%s/sweptarea.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le\n",
 			output_dirname, sweptarea_executable, output_dirname, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale
 		);
 	else
 		printf(
-			"cat \"%s/problems/\"* | \"./%s\" \"%s/sweptarea.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le\n",
+			"cat \"%s/problems/\"*.txt | \"./%s\" \"%s/sweptarea.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le\n",
 			output_dirname, sweptarea_executable, output_dirname, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale
 		);
 }

@@ -30,10 +30,20 @@ print_elapsed_time() {
 	local seconds=$((delta_time % 60))
 	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
 }
+read -rep "create new pendulums output? (warning: this will override the previous output) (y/n): " create_pendulums
+if ! [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" || "$create_pendulums" == "n" || "$create_pendulums" == "N" ]]
+then
+	echo "error: unrecognized input">&2
+	exit 1
+fi
+if [[ "$create_pendulums" == "n" || "$create_pendulums" == "N" ]]
+then
+	exit 0
+fi
 echo "* ${fg_yellow}creating${normal} output for each of the pendulums"
-echo "|\\"
 mkdir -p tmp/pendulums
 rm -rf tmp/pendulums/*
+echo "|\\"
 echo "| * ${fg_yellow}working on${normal} single pendulum problem"
 echo "| |\\"
 update_start_time
