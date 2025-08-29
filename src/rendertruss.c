@@ -174,72 +174,72 @@ int render(void)
 		if(support->constraint.a[0] && !support->constraint.a[1])
 			cairo_rotate(context, -0.5 * PI);
 		cairo_new_path(context);
-		double vicinity[2] = {0.0, 0.0};
-		int concentration = 0;
+		double ncenter[2] = {0.0, 0.0};
+		int ncount = 0;
 		for(int m = 0; m < mcount; m++)
 		{
 			struct member *member = &members[m];
 			if(member->spring.m1 == support->constraint.m)
 			{
 				for(int a = 0; a < 2; a++)
-					vicinity[a] += member->spring.m2->p[a];
-				concentration++;
+					ncenter[a] += member->spring.m2->p[a];
+				ncount++;
 			}
 			if(member->spring.m2 == support->constraint.m)
 			{
 				for(int a = 0; a < 2; a++)
-					vicinity[a] += member->spring.m1->p[a];
-				concentration++;
+					ncenter[a] += member->spring.m1->p[a];
+				ncount++;
 			}
 		}
 		for(int a = 0; a < 2; a++)
 		{
-			if(concentration > 0)
-				vicinity[a] /= concentration;
+			if(ncount > 0)
+				ncenter[a] /= ncount;
 			else
-				vicinity[a] = support->constraint.m->p[a];
+				ncenter[a] = support->constraint.m->p[a];
 		}
-		double polarity;
+		double nside;
 		if(support->constraint.a[1])
-			polarity = vicinity[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
+			nside = ncenter[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
 		if(support->constraint.a[0] && !support->constraint.a[1])
-			polarity = vicinity[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
-		if(polarity > 0.0)
+			nside = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
+		if(nside > 0.0)
 			cairo_arc(context, 0.0, 0.0, 0.02, 0.0, PI);
 		else
 			cairo_arc_negative(context, 0.0, 0.0, 0.02, 0.0, PI);
-		cairo_scale(context, 1.0, polarity);
+		cairo_scale(context, 1.0, nside);
 		cairo_line_to(context, -0.02, -0.02);
 		cairo_line_to(context, 0.02, -0.02);
 		cairo_close_path(context);
 		cairo_new_sub_path(context);
-		cairo_rectangle(context, -0.0625, -0.03, 0.125, 0.005);
+		cairo_rectangle(context, -0.05875, -0.028, 0.1175, 0.004);
 		cairo_close_path(context);
 		if((support->constraint.a[0] && !support->constraint.a[1]) || (!support->constraint.a[0] && support->constraint.a[1]))
 		{
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.055, -0.0425, 0.0075, 0.0, TAU);
+			cairo_arc(context, 0.05125, -0.0395, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0275, -0.0425, 0.0075, 0.0, TAU);
+			cairo_arc(context, 0.025625, -0.0395, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, 0.0, -0.0425, 0.0075, 0.0, TAU);
+			cairo_arc(context, 0.0, -0.0395, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.0275, -0.0425, 0.0075, 0.0, TAU);
+			cairo_arc(context, -0.025625, -0.0395, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 			cairo_new_sub_path(context);
-			cairo_arc(context, -0.055, -0.0425, 0.0075, 0.0, TAU);
+			cairo_arc(context, -0.05125, -0.0395, 0.0075, 0.0, TAU);
 			cairo_close_path(context);
 		}
-		cairo_set_line_width(context, 0.01);
+		cairo_set_line_width(context, 0.009);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_fill(context);
 		cairo_new_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
+		cairo_arc(context, 0.0, 0.0, 0.004, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_fill(context);
@@ -253,10 +253,10 @@ int render(void)
 		cairo_line_to(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_save(context);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
-		cairo_set_line_width(context, 0.0225);
+		cairo_set_line_width(context, 0.025);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);
 		cairo_stroke_preserve(context);
-		cairo_set_line_width(context, 0.0125);
+		cairo_set_line_width(context, 0.016);
 		cairo_set_source_rgb(context, 1.0, 1.0, 1.0);
 		cairo_stroke(context);
 		cairo_restore(context);
@@ -265,14 +265,14 @@ int render(void)
 		cairo_translate(context, member->spring.m1->p[0], member->spring.m1->p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_sub_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
+		cairo_arc(context, 0.0, 0.0, 0.004, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_restore(context);
 		cairo_save(context);
 		cairo_translate(context, member->spring.m2->p[0], member->spring.m2->p[1]);
 		cairo_scale(context, fscale / fzoom, fscale / fzoom);
 		cairo_new_sub_path(context);
-		cairo_arc(context, 0.0, 0.0, 0.0035, 0.0, TAU);
+		cairo_arc(context, 0.0, 0.0, 0.004, 0.0, TAU);
 		cairo_close_path(context);
 		cairo_restore(context);
 		cairo_set_source_rgb(context, 0.0, 0.0, 0.0);

@@ -20,9 +20,8 @@
   <component name="ChangeListManager">
     <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bakervalvegear.txt" beforeDir="false" afterPath="$PROJECT_DIR$/bakervalvegear.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rendertruss.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/rendertruss.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/trussutils.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +291,7 @@
       <workItem from="1756401768431" duration="4527000" />
       <workItem from="1756406903349" duration="125000" />
       <workItem from="1756408671052" duration="661000" />
-      <workItem from="1756416192573" duration="7114000" />
+      <workItem from="1756416192573" duration="12329000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

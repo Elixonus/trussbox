@@ -923,43 +923,43 @@ int main(int argc, char **argv)
 		{
 			struct support *support = &supports[s];
 			if(!support->constraint.a[0] && !support->constraint.a[1]) continue;
-			double vicinity[2] = {0.0, 0.0};
-			int concentration = 0;
+			double ncenter[2] = {0.0, 0.0};
+			int ncount = 0;
 			for(int m = 0; m < mcount; m++)
 			{
 				struct member *member = &members[m];
 				if(member->spring.m1 == support->constraint.m)
 				{
 					for(int a = 0; a < 2; a++)
-						vicinity[a] += member->spring.m2->p[a];
-					concentration++;
+						ncenter[a] += member->spring.m2->p[a];
+					ncount++;
 				}
 				if(member->spring.m2 == support->constraint.m)
 				{
 					for(int a = 0; a < 2; a++)
-						vicinity[a] += member->spring.m1->p[a];
-					concentration++;
+						ncenter[a] += member->spring.m1->p[a];
+					ncount++;
 				}
 			}
 			for(int a = 0; a < 2; a++)
 			{
-				if(concentration > 0)
-					vicinity[a] /= concentration;
+				if(ncount > 0)
+					ncenter[a] /= ncount;
 				else
-					vicinity[a] = support->constraint.m->p[a];
+					ncenter[a] = support->constraint.m->p[a];
 			}
-			double polarity;
+			double nside;
 			if(support->constraint.a[1])
-				polarity = vicinity[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
+				nside = ncenter[1] >= support->constraint.m->p[1] ? 1.0 : -1.0;
 			if(support->constraint.a[0] && !support->constraint.a[1])
-				polarity = vicinity[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
+				nside = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
 			int rowcol[2] = {
 				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
 				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
 			if(support->constraint.a[1])
 			{
-				if(polarity > 0.0)
+				if(nside > 0.0)
 				{
 					setchar('[', rowcol[0], rowcol[1] - 1, ' ');
 					setchar(']', rowcol[0], rowcol[1] + 1, ' ');
@@ -1010,7 +1010,7 @@ int main(int argc, char **argv)
 			}
 			if(support->constraint.a[0] && !support->constraint.a[1])
 			{
-				if(polarity > 0.0)
+				if(nside > 0.0)
 				{
 					setchar('-', rowcol[0] - 1, rowcol[1], ' ');
 					setchar('-', rowcol[0] + 1, rowcol[1], ' ');
