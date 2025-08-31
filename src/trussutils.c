@@ -742,8 +742,21 @@ int main(int argc, char **argv)
 			fprintf(stderr, "error: limit: fzoom argument: %.1le not greater than %.1le\n", fzoom, EPSILON);
 			return 1;
 		}
+
+		int linecount;
+		if(argc < 5 || sscanf(argv[4], "lines=%d", &linecount) != 1)
+		{
+			fprintf(stderr, "error: parse: lines argument\n");
+			fprintf(stderr, "usage: lines argument: lines=count\n");
+			return 1;
+		}
+		if(linecount < 1 || linecount > 100)
+		{
+			fprintf(stderr, "error: limit: lines argument: not between %d and %d\n", 1, 100);
+			return 1;
+		}
 		char colorarg[101];
-		if(argc < 5 || sscanf(argv[4], "color=%100s", colorarg) != 1)
+		if(argc < 6 || sscanf(argv[5], "color=%100s", colorarg) != 1)
 		{
 			fprintf(stderr, "error: parse: color argument\n");
 			fprintf(stderr, "usage: color argument: color=true|false\n");
@@ -761,7 +774,7 @@ int main(int argc, char **argv)
 			return 1;
 		}
 		char croparg[101];
-		if(argc < 6 || sscanf(argv[5], "vcrop=%100s", croparg) != 1)
+		if(argc < 7 || sscanf(argv[6], "vcrop=%100s", croparg) != 1)
 		{
 			fprintf(stderr, "error: parse: vcrop argument\n");
 			fprintf(stderr, "usage: vcrop argument: vcrop=true|false\n");
@@ -778,8 +791,10 @@ int main(int argc, char **argv)
 			fprintf(stderr, "usage: vcrop argument: vcrop=true|false\n");
 			return 1;
 		}
-		char title[51];
-		if(argc < 7 || sscanf(argv[6], "title=%50[^\n]", title) != 1)
+		char title[2 * linecount + 1];
+		char format[100];
+		sprintf(format, "title=%%%d[^\n]", 2 * linecount);
+		if(argc < 8 || sscanf(argv[7], format, title) != 1)
 		{
 			fprintf(stderr, "error: parse: title argument\n");
 			fprintf(stderr, "usage: title argument: title=string\n");
@@ -788,20 +803,20 @@ int main(int argc, char **argv)
 		if(scan_truss_problem() != 0) return 1;
 		if(usecolor)
 			if(scan_truss_solution(false) != 0) return 1;
-		char textart[25][52];
-		char colors[25][50];
-		for(int r = 0; r < 25; r++)
+		char textart[linecount][2 * linecount + 2];
+		char colors[linecount][2 * linecount];
+		for(int r = 0; r < linecount; r++)
 		{
-			for(int c = 0; c < 50; c++)
+			for(int c = 0; c < 2 * linecount; c++)
 			{
 				textart[r][c] = ' ';
 				if(usecolor) colors[r][c] = ' ';
 			}
-			textart[r][50] = '\n', textart[r][51] = '\0';
+			textart[r][2 * linecount] = '\n', textart[r][2 * linecount + 1] = '\0';
 		}
 		void setchar(char ch, int r, int c, char clr)
 		{
-			if(r < 0 || c < 0 || r >= 25 || c >= 50) return;
+			if(r < 0 || c < 0 || r >= linecount || c >= 2 * linecount) return;
 			textart[r][c] = ch;
 			if(usecolor)
 				colors[r][c] = clr;
@@ -853,12 +868,12 @@ int main(int argc, char **argv)
 			}
 			bresenham:
 			int rowcol1[2] = {
-				(int) round(24.0 * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
-				(int) round(49.0 * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
+				(int) round(((double) (linecount - 1)) * (0.5 - fzoom * (member->spring.m1->p[1] - fcenter[1]))),
+				(int) round(((double) (2 * linecount - 1)) * (0.5 + fzoom * (member->spring.m1->p[0] - fcenter[0])))
 			};
 			int rowcol2[2] = {
-				(int) round(24.0 * (0.5 - fzoom * (member->spring.m2->p[1] - fcenter[1]))),
-				(int) round(49.0 * (0.5 + fzoom * (member->spring.m2->p[0] - fcenter[0])))
+				(int) round(((double) (linecount - 1)) * (0.5 - fzoom * (member->spring.m2->p[1] - fcenter[1]))),
+				(int) round(((double) (2 * linecount - 1)) * (0.5 + fzoom * (member->spring.m2->p[0] - fcenter[0])))
 			};
 			int r1 = rowcol1[0], c1 = rowcol1[1];
 			int r2 = rowcol2[0], c2 = rowcol2[1];
@@ -902,8 +917,8 @@ int main(int argc, char **argv)
 			if(magnitude < EPSILON) continue;
 			double angle = fmod(atan2(load->action.f[1], load->action.f[0]) + TAU, TAU);
 			int rowcol[2] = {
-				(int) round(24.0 * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
-				(int) round(49.0 * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
+				(int) round(((double) (linecount - 1)) * (0.5 - fzoom * (load->action.m->p[1] - fcenter[1]))),
+				(int) round(((double) (2 * linecount - 1)) * (0.5 + fzoom * (load->action.m->p[0] - fcenter[0])))
 			};
 			if(angle < 0.25 * PI || angle > 1.75 * PI) setchar('>', rowcol[0], rowcol[1] + 1, 'y');
 			else if(angle < 0.75 * PI) setchar('^', rowcol[0] - 1, rowcol[1], 'y');
@@ -914,8 +929,8 @@ int main(int argc, char **argv)
 		{
 			struct joint *joint = &joints[j];
 			int rowcol[2] = {
-				(int) round(24.0 * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
-				(int) round(49.0 * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
+				(int) round(((double) (linecount - 1)) * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
+				(int) round(((double) (2 * linecount - 1)) * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 			};
 			setchar('*', rowcol[0], rowcol[1], ' ');
 		}
@@ -954,8 +969,8 @@ int main(int argc, char **argv)
 			if(support->constraint.a[0] && !support->constraint.a[1])
 				nside = ncenter[0] >= support->constraint.m->p[0] ? 1.0 : -1.0;
 			int rowcol[2] = {
-				(int) round(24.0 * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
-				(int) round(49.0 * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
+				(int) round(((double) (linecount - 1)) * (0.5 - fzoom * (support->constraint.m->p[1] - fcenter[1]))),
+				(int) round(((double) (2 * linecount - 1)) * (0.5 + fzoom * (support->constraint.m->p[0] - fcenter[0])))
 			};
 			if(support->constraint.a[1])
 			{
@@ -1038,13 +1053,13 @@ int main(int argc, char **argv)
 				}
 			}
 		}
-		int rowstart = 0, rowend = 24;
+		int rowstart = 0, rowend = linecount - 1;
 		if(docrop)
 		{
-			for(int r = 0; r < 25; r++)
+			for(int r = 0; r < linecount; r++)
 			{
 				bool blankline = true;
-				for(int c = 0; c < 50; c++)
+				for(int c = 0; c < 2 * linecount; c++)
 				{
 					if(textart[r][c] != ' ')
 					{
@@ -1055,10 +1070,10 @@ int main(int argc, char **argv)
 				if(!blankline) break;
 				rowstart++;
 			}
-			for(int r = 24; r > rowstart; r--)
+			for(int r = linecount - 1; r > rowstart; r--)
 			{
 				bool blankline = true;
-				for(int c = 0; c < 50; c++)
+				for(int c = 0; c < 2 * linecount; c++)
 				{
 					if(textart[r][c] != ' ')
 					{
@@ -1072,21 +1087,21 @@ int main(int argc, char **argv)
 		}
 		if(strcmp(title, "") != 0)
 		{
-			int padding = (50 - strlen(title)) / 2;
+			int padding = (2 * linecount - strlen(title)) / 2;
 			if(usecolor)
 			{
 				printf("\e[0;30m\e[47m%*s%s%*s\e[0m\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
 			}
 			else
 				printf("%*s%s%*s\n", padding, "", title, padding + ((int) strlen(title)) % 2, "");
-			printf("%*s\n", 50, "");
+			printf("%*s\n", 2 * linecount, "");
 		}
 		for(int r = rowstart; r <= rowend; r++)
 			if(usecolor)
 			{
-				for(int c = 0; c < 51; c++)
+				for(int c = 0; c < 2 * linecount + 1; c++)
 				{
-					if(c < 50)
+					if(c < 2 * linecount)
 					{
 						switch(colors[r][c])
 						{
@@ -1111,7 +1126,7 @@ int main(int argc, char **argv)
 						}
 					}
 					printf("%c", textart[r][c]);
-					if(c < 50)
+					if(c < 2 * linecount)
 						printf("\e[0m");
 				}
 			}

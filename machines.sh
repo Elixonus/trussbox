@@ -30,134 +30,96 @@ print_elapsed_time() {
 	local seconds=$((delta_time % 60))
 	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
 }
-read -rep "create new miscellaneous output? (warning: this will override the previous output) (y/n): " create_miscellaneous
-if ! [[ "$create_miscellaneous" == "y" || "$create_miscellaneous" == "Y" || "$create_miscellaneous" == "n" || "$create_miscellaneous" == "N" ]]
+read -rep "create new machines output? (warning: this will override the previous output) (y/n): " create_machines
+if ! [[ "$create_machines" == "y" || "$create_machines" == "Y" || "$create_machines" == "n" || "$create_machines" == "N" ]]
 then
 	echo "error: unrecognized input">&2
 	exit 1
 fi
-if [[ "$create_miscellaneous" == "n" || "$create_miscellaneous" == "N" ]]
+if [[ "$create_machines" == "n" || "$create_machines" == "N" ]]
 then
 	exit 0
 fi
-echo "* ${fg_yellow}creating${normal} output for each of the miscellaneous systems"
-mkdir -p tmp/miscellaneous
-rm -rf tmp/miscellaneous/*
+echo "* ${fg_yellow}creating${normal} output for each of the machines"
+mkdir -p tmp/machines
+rm -rf tmp/machines/*
 echo "|\\"
-echo "| * ${fg_yellow}working on${normal} Fink roof truss problem"
+echo "| * ${fg_yellow}working on${normal} pump jack truss problem"
 echo "| |\\"
 update_start_time
 echo "\
-fink.txt
--9.8
-2.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/miscellaneous/fink
-" | source custom.sh | sed -u "s/^/| | /"
-echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} scissor roof truss problem"
-echo "| |\\"
-update_start_time
-echo "\
-scissor.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
+pumpjack.txt
 0.0
-2.5
-0.1
-1.0
-tmp/miscellaneous/scissor
-" | source custom.sh | sed -u "s/^/| | /"
-echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} box cantilever problem"
-echo "| |\\"
-update_start_time
-echo "\
-cantilever.txt
--9.8
-3.0
-100000.0
-60.0
-1920
-1080
-0.5
-0.1
-1.0
-0.5
-tmp/miscellaneous/cantilever
-" | source custom.sh | sed -u "s/^/| | /"
-echo "| |/"
-echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} stadium truss problem"
-echo "| |\\"
-update_start_time
-echo "\
-stadium.txt
-0.0
-3.0
+7.0
 1000000.0
 60.0
 1920
 1080
-6.096
--4.8006
-0.05
+20.0
+13.0
+0.03
 1.0
-tmp/miscellaneous/stadium
+tmp/machines/pumpjack
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} power transmission line tower truss problem"
+echo "| * ${fg_yellow}working on${normal} landing gear truss problem"
 echo "| |\\"
 update_start_time
 echo "\
-powertower.txt
+landinggear.txt
+-9.8
+7.0
+1000000.0
+60.0
+1920
+1080
+15.0
+12.0
+0.05
+1.0
+tmp/machines/landinggear
+" | source custom.sh | sed -u "s/^/| | /"
+echo "| |/"
+echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
+echo "| * ${fg_yellow}working on${normal} Baker valve gear truss problem"
+echo "| |\\"
+update_start_time
+echo "\
+bakervalvegear.txt
 0.0
 10.0
 1000000.0
 60.0
 1920
 1080
-0.0
-4.8
-0.08
-0.7
-tmp/miscellaneous/powertower
+22.0
+10.0
+0.035
+1.0
+tmp/machines/bakervalvegear
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} power transmission line tower cross variant truss problem"
+echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
 echo "| |\\"
 update_start_time
 echo "\
-powertowercross.txt
+strandbeest.txt
 0.0
-4.0
-1000000.0
+8.0
+100000.0
 60.0
 1920
 1080
 0.0
-4.8
-0.08
-0.7
-tmp/miscellaneous/powertowercross
+-0.5
+0.2
+1.0
+tmp/machines/strandbeest
 " | source custom.sh | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo "${bold}* miscellaneous files can now be found in ${underline}$(pwd)/tmp/miscellaneous${normal}"
+echo "${bold}* machine files can now be found in ${underline}$(pwd)/tmp/machines${normal}"

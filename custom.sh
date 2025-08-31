@@ -83,7 +83,7 @@ rm -rf $dirname/frames
 ffmpeg -r "$frate" -i $dirname/fdiagrams/%09d.png -y $dirname/fdiagram.mp4 -loglevel error
 rm -rf $dirname/fdiagrams
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-textzoom=$(awk "BEGIN{print 0.8 * ${fzoom}}")
-./bin/trussutils textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" color=true vcrop=true "title=ASCII Text Art Truss Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)"
+textzoom=$(awk "BEGIN{print 0.7 * ${fzoom}}")
+./bin/trussutils textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" lines=35 color=true vcrop=true "title=ASCII Text Art Truss Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)"
 rm -rf "$dirname/prosols"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"

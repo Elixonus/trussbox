@@ -55,6 +55,12 @@ then
 	echo "error: unrecognized input">&2
 	exit 1
 fi
+read -rep "create new machines output? (warning: this will override the previous output) (y/n): " create_machines
+if ! [[ "$create_machines" == "y" || "$create_machines" == "Y" || "$create_machines" == "n" || "$create_machines" == "N" ]]
+then
+	echo "error: unrecognized input">&2
+	exit 1
+fi
 read -rep "create new pendulums output? (warning: this will override the previous output) (y/n): " create_pendulums
 if ! [[ "$create_pendulums" == "y" || "$create_pendulums" == "Y" || "$create_pendulums" == "n" || "$create_pendulums" == "N" ]]
 then
@@ -67,6 +73,7 @@ rm -rf tmp/montage/*
 echo "|\\"
 echo $create_bridges | source bridges.sh | sed -u "s/^/| /"
 echo $create_miscellaneous | source miscellaneous.sh | sed -u "s/^/| /"
+echo $create_machines | source machines.sh | sed -u "s/^/| /"
 echo $create_pendulums | source pendulums.sh | sed -u "s/^/| /"
 echo "| * ${fg_yellow}preparing${normal} montage videos"
 update_start_time
@@ -226,57 +233,57 @@ ffmpeg \
 	-map "[v]" \
 	-y tmp/montage/miscellaneous/powertowercross/video.mp4 \
 	-loglevel error
-mkdir -p tmp/montage/miscellaneous/pumpjack
+mkdir -p tmp/montage/machines/pumpjack
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.04 text=Pump Jack
-" | ./bin/subtitles tmp/montage/miscellaneous/pumpjack/subtitles.png fsize=1920x1080
+" | ./bin/subtitles tmp/montage/machines/pumpjack/subtitles.png fsize=1920x1080
 ffmpeg \
-	-i tmp/miscellaneous/pumpjack/video.mp4 \
-	-i tmp/miscellaneous/pumpjack/fdiagram.mp4 \
-	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/pumpjack/sweptarea.png \
-	-i tmp/montage/miscellaneous/pumpjack/subtitles.png \
+	-i tmp/machines/pumpjack/video.mp4 \
+	-i tmp/machines/pumpjack/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/machines/pumpjack/sweptarea.png \
+	-i tmp/montage/machines/pumpjack/subtitles.png \
 	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
-	-y tmp/montage/miscellaneous/pumpjack/video.mp4 \
+	-y tmp/montage/machines/pumpjack/video.mp4 \
 	-loglevel error
-mkdir -p tmp/montage/miscellaneous/landinggear
+mkdir -p tmp/montage/machines/landinggear
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.04 text=Airplane Landing Gear
-" | ./bin/subtitles tmp/montage/miscellaneous/landinggear/subtitles.png fsize=1920x1080
+" | ./bin/subtitles tmp/montage/machines/landinggear/subtitles.png fsize=1920x1080
 ffmpeg \
-	-i tmp/miscellaneous/landinggear/video.mp4 \
-	-i tmp/miscellaneous/landinggear/fdiagram.mp4 \
-	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/landinggear/sweptarea.png \
-	-i tmp/montage/miscellaneous/landinggear/subtitles.png \
+	-i tmp/machines/landinggear/video.mp4 \
+	-i tmp/machines/landinggear/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/machines/landinggear/sweptarea.png \
+	-i tmp/montage/machines/landinggear/subtitles.png \
 	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
-	-y tmp/montage/miscellaneous/landinggear/video.mp4 \
+	-y tmp/montage/machines/landinggear/video.mp4 \
 	-loglevel error
-mkdir -p tmp/montage/miscellaneous/bakervalvegear
+mkdir -p tmp/montage/machines/bakervalvegear
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.04 text=Locomotive Baker Valve Gear
-" | ./bin/subtitles tmp/montage/miscellaneous/bakervalvegear/subtitles.png fsize=1920x1080
+" | ./bin/subtitles tmp/montage/machines/bakervalvegear/subtitles.png fsize=1920x1080
 ffmpeg \
-	-i tmp/miscellaneous/bakervalvegear/video.mp4 \
-	-i tmp/miscellaneous/bakervalvegear/fdiagram.mp4 \
-	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/bakervalvegear/sweptarea.png \
-	-i tmp/montage/miscellaneous/bakervalvegear/subtitles.png \
+	-i tmp/machines/bakervalvegear/video.mp4 \
+	-i tmp/machines/bakervalvegear/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/machines/bakervalvegear/sweptarea.png \
+	-i tmp/montage/machines/bakervalvegear/subtitles.png \
 	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
-	-y tmp/montage/miscellaneous/bakervalvegear/video.mp4 \
+	-y tmp/montage/machines/bakervalvegear/video.mp4 \
 	-loglevel error
-mkdir -p tmp/montage/miscellaneous/strandbeest
+mkdir -p tmp/montage/machines/strandbeest
 echo "subtitles=1
 center=(0.0 -0.4) lineheight=0.04 text=Theo Jansen's Strandbeest
-" | ./bin/subtitles tmp/montage/miscellaneous/strandbeest/subtitles.png fsize=1920x1080
+" | ./bin/subtitles tmp/montage/machines/strandbeest/subtitles.png fsize=1920x1080
 ffmpeg \
-	-i tmp/miscellaneous/strandbeest/video.mp4 \
-	-i tmp/miscellaneous/strandbeest/fdiagram.mp4 \
-	-loop 1 -framerate 60 -t 5 -i tmp/miscellaneous/strandbeest/sweptarea.png \
-	-i tmp/montage/miscellaneous/strandbeest/subtitles.png \
+	-i tmp/machines/strandbeest/video.mp4 \
+	-i tmp/machines/strandbeest/fdiagram.mp4 \
+	-loop 1 -framerate 60 -t 5 -i tmp/machines/strandbeest/sweptarea.png \
+	-i tmp/montage/machines/strandbeest/subtitles.png \
 	-filter_complex "[0:v][2:v][1:v]concat=n=3:v=1[z];[z][3:v]overlay[v]" \
 	-map "[v]" \
-	-y tmp/montage/miscellaneous/strandbeest/video.mp4 \
+	-y tmp/montage/machines/strandbeest/video.mp4 \
 	-loglevel error
 mkdir -p tmp/montage/pendulums/pendulum
 echo "subtitles=1
@@ -346,10 +353,10 @@ ffmpeg \
 	-i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-i tmp/montage/miscellaneous/powertowercross/video.mp4 \
-	-i tmp/montage/miscellaneous/pumpjack/video.mp4 \
-	-i tmp/montage/miscellaneous/landinggear/video.mp4 \
-	-i tmp/montage/miscellaneous/bakervalvegear/video.mp4 \
-	-i tmp/montage/miscellaneous/strandbeest/video.mp4 \
+	-i tmp/montage/machines/pumpjack/video.mp4 \
+	-i tmp/montage/machines/landinggear/video.mp4 \
+	-i tmp/montage/machines/bakervalvegear/video.mp4 \
+	-i tmp/montage/machines/strandbeest/video.mp4 \
 	-i tmp/montage/pendulums/pendulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-i tmp/montage/pendulums/doublependulumroller/video.mp4 \
@@ -374,7 +381,7 @@ ffmpeg \
 	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/stadium/video.mp4 \
 	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/powertower/video.mp4 \
 	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/powertowercross/video.mp4 \
-	-t 25 -stream_loop -1 -i tmp/montage/miscellaneous/strandbeest/video.mp4 \
+	-t 25 -stream_loop -1 -i tmp/montage/machines/strandbeest/video.mp4 \
 	-t 25 -stream_loop -1 -i tmp/montage/pendulums/pendulum/video.mp4 \
 	-t 25 -stream_loop -1 -i tmp/montage/pendulums/doublependulum/video.mp4 \
 	-t 25 -stream_loop -1 -i tmp/montage/pendulums/doublependulumroller/video.mp4 \
