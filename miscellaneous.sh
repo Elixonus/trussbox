@@ -47,115 +47,37 @@ echo "|\\"
 echo "| * ${fg_yellow}working on${normal} Fink roof truss problem"
 echo "| |\\"
 update_start_time
-echo "\
-fink.txt
--9.8
-2.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/miscellaneous/fink
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=fink.txt gacceleration=-9.8 timef=2.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/miscellaneous/fink | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} scissor roof truss problem"
 echo "| |\\"
 update_start_time
-echo "\
-scissor.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.0
-2.5
-0.1
-1.0
-tmp/miscellaneous/scissor
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=scissor.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=2.5 fzoom=0.1 fscale=1.0 dirname=tmp/miscellaneous/scissor | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} box cantilever problem"
 echo "| |\\"
 update_start_time
-echo "\
-cantilever.txt
--9.8
-3.0
-100000.0
-60.0
-1920
-1080
-0.5
-0.1
-1.0
-0.5
-tmp/miscellaneous/cantilever
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=cantilever.txt gacceleration=-9.8 timef=3.0 srate=100000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.1 fzoom=1.0 fscale=0.5 dirname=tmp/miscellaneous/cantilever | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} stadium truss problem"
 echo "| |\\"
 update_start_time
-echo "\
-stadium.txt
-0.0
-3.0
-1000000.0
-60.0
-1920
-1080
-6.096
--4.8006
-0.05
-1.0
-tmp/miscellaneous/stadium
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=stadium.txt gacceleration=0.0 timef=3.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=6.096 fcentery=-4.8006 fzoom=0.05 fscale=1.0 dirname=tmp/miscellaneous/stadium | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower truss problem"
 echo "| |\\"
 update_start_time
-echo "\
-powertower.txt
-0.0
-10.0
-1000000.0
-60.0
-1920
-1080
-0.0
-4.8
-0.08
-0.7
-tmp/miscellaneous/powertower
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=powertower.txt gacceleration=0.0 timef=10.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=4.8 fzoom=0.08 fscale=0.7 dirname=tmp/miscellaneous/powertower | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} power transmission line tower cross variant truss problem"
 echo "| |\\"
 update_start_time
-echo "\
-powertowercross.txt
-0.0
-4.0
-1000000.0
-60.0
-1920
-1080
-0.0
-4.8
-0.08
-0.7
-tmp/miscellaneous/powertowercross
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=powertowercross.txt gacceleration=0.0 timef=4.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=4.8 fzoom=0.08 fscale=0.7 dirname=tmp/miscellaneous/powertowercross | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"

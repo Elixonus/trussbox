@@ -71,10 +71,10 @@ echo "* ${fg_yellow}creating${normal} a montage of each of the systems"
 mkdir -p tmp/montage
 rm -rf tmp/montage/*
 echo "|\\"
-echo $create_bridges | source bridges.sh | sed -u "s/^/| /"
-echo $create_miscellaneous | source miscellaneous.sh | sed -u "s/^/| /"
-echo $create_machines | source machines.sh | sed -u "s/^/| /"
-echo $create_pendulums | source pendulums.sh | sed -u "s/^/| /"
+echo $create_bridges | ./bridges.sh | sed -u "s/^/| /"
+echo $create_miscellaneous | ./miscellaneous.sh | sed -u "s/^/| /"
+echo $create_machines | ./machines.sh | sed -u "s/^/| /"
+echo $create_pendulums | ./pendulums.sh | sed -u "s/^/| /"
 echo "| * ${fg_yellow}preparing${normal} montage videos"
 update_start_time
 mkdir -p tmp/montage/bridges/warren

@@ -9,9 +9,6 @@
 
 #define EPSILON 1.0e-18
 
-constexpr double PI = 4.0 * atan(1.0);
-constexpr double TAU = 2.0 * PI;
-
 struct joint
 {
 	struct mass mass;

@@ -47,115 +47,37 @@ echo "|\\"
 echo "| * ${fg_yellow}working on${normal} Warren bridge problem"
 echo "| |\\"
 update_start_time
-echo "\
-warren.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/bridges/warren
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=warren.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/bridges/warren | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} Pratt bridge problem"
 echo "| |\\"
 update_start_time
-echo "\
-pratt.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/bridges/pratt
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=pratt.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/bridges/pratt | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} Howe bridge problem"
 echo "| |\\"
 update_start_time
-echo "\
-howe.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/bridges/howe
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=howe.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/bridges/howe | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} Parker bridge problem"
 echo "| |\\"
 update_start_time
-echo "\
-parker.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/bridges/parker
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=parker.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/bridges/parker | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} Cambridge bridge problem"
 echo "| |\\"
 update_start_time
-echo "\
-cambridge.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/bridges/cambridge
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=cambridge.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/bridges/cambridge | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} Whipple bridge problem"
 echo "| |\\"
 update_start_time
-echo "\
-whipple.txt
--9.8
-3.0
-10000.0
-60.0
-1920
-1080
-0.5
-0.125
-1.0
-1.0
-tmp/bridges/whipple
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=whipple.txt gacceleration=-9.8 timef=3.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.5 fcentery=0.125 fzoom=1.0 fscale=1.0 dirname=tmp/bridges/whipple | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"

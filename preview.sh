@@ -32,25 +32,12 @@ print_elapsed_time() {
 }
 echo "* ${fg_yellow}preparing${normal} preview media"
 echo "|\\"
-source montage.sh | sed -u "s/^/| /"
+./montage.sh | sed -u "s/^/| /"
 cp tmp/montage/video.mp4 previewmontage.mp4
 ffmpeg -i tmp/montage/miscellaneous/powertower/video.mp4 -vframes 1 -y previewmontage.png -loglevel error
 cp tmp/montage/parallel.mp4 previewmontageparallel.mp4
 ffmpeg -i tmp/montage/parallel.mp4 -vframes 1 -y previewmontageparallel.png -loglevel error
-echo "\
-strandbeest.txt
-0.0
-8.0
-100000.0
-60.0
-1920
-1080
-0.0
--0.5
-0.2
-1.0
-tmp/previewexample
-" | source custom.sh > /dev/null
+./custom.sh filename=strandbeest.txt gacceleration=0.0 timef=8.0 srate=100000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=-0.5 fzoom=0.2 fscale=1.0 dirname=tmp/previewexample > /dev/null
 ffmpeg -i tmp/previewexample/video.mp4 -vframes 1 -y previewexampleframe.png -loglevel error
 ffmpeg -i tmp/previewexample/fdiagram.mp4 -vframes 1 -y previewexamplefdiagram.png -loglevel error
 cp tmp/previewexample/sweptarea.png previewexamplesweptarea.png

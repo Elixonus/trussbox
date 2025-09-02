@@ -47,77 +47,25 @@ echo "|\\"
 echo "| * ${fg_yellow}working on${normal} single pendulum problem"
 echo "| |\\"
 update_start_time
-echo "\
-pendulum.txt
--9.8
-10.0
-10000.0
-60.0
-1920
-1080
-0.0
-0.0
-1.5
-1.0
-tmp/pendulums/pendulum
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=pendulum.txt gacceleration=-9.8 timef=10.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=0.0 fzoom=1.5 fscale=1.0 dirname=tmp/pendulums/pendulum | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} double pendulum problem"
 echo "| |\\"
 update_start_time
-echo "\
-doublependulum.txt
--9.8
-10.0
-10000.0
-60.0
-1920
-1080
-0.0
-0.0
-0.75
-1.0
-tmp/pendulums/doublependulum
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=doublependulum.txt gacceleration=-9.8 timef=10.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=0.0 fzoom=0.75 fscale=1.0 dirname=tmp/pendulums/doublependulum | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} double pendulum (roller) problem"
 echo "| |\\"
 update_start_time
-echo "\
-doublependulumroller.txt
--9.8
-10.0
-10000.0
-60.0
-1920
-1080
-0.0
-0.0
-0.75
-1.0
-tmp/pendulums/doublependulumroller
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=doublependulumroller.txt gacceleration=-9.8 timef=10.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=0.0 fzoom=0.75 fscale=1.0 dirname=tmp/pendulums/doublependulumroller | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} decuple pendulum problem"
 echo "| |\\"
 update_start_time
-echo "\
-decuplependulum.txt
--9.8
-10.0
-10000.0
-60.0
-1920
-1080
-0.0
--1.35
-0.25
-1.0
-tmp/pendulums/decuplependulum
-" | source custom.sh | sed -u "s/^/| | /"
+./custom.sh filename=decuplependulum.txt gacceleration=-9.8 timef=10.0 srate=10000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=-1.35 fzoom=0.25 fscale=1.0 dirname=tmp/pendulums/decuplependulum | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "|/"

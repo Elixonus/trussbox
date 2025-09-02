@@ -30,18 +30,42 @@ print_elapsed_time() {
 	local seconds=$((delta_time % 60))
 	printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
 }
-read -rep "problem filename: " filename
-read -rep "gravitational acceleration (m/s^2): " gacceleration
-read -rep "final time (s): " timef
-read -rep "step rate (Hz): " srate
-read -rep "frame rate (Hz): " frate
-read -rep "frame width (px): " fwidth
-read -rep "frame height (px): " fheight
-read -rep "frame center x (m): " fcenterx
-read -rep "frame center y (m): " fcentery
-read -rep "frame zoom: " fzoom
-read -rep "frame scale: " fscale
-read -rep "output dirname: " dirname
+if [ "$#" -gt 0 ]; then
+	for argument in "$@"; do
+		key=${argument%%=*}
+		value=${argument#*=}
+		case "$key" in
+			"filename") filename=$value;;
+			"gacceleration") gacceleration=$value;;
+			"timef") timef=$value;;
+			"srate") srate=$value;;
+			"frate") frate=$value;;
+			"fwidth") fwidth=$value;;
+			"fheight") fheight=$value;;
+			"fcenterx") fcenterx=$value;;
+			"fcentery") fcentery=$value;;
+			"fzoom") fzoom=$value;;
+			"fscale") fscale=$value;;
+			"dirname") dirname=$value;;
+		esac
+	done
+else
+	read -rep "problem filename: " filename
+	read -rep "gravitational acceleration (m/s^2): " gacceleration
+	read -rep "final time (s): " timef
+	read -rep "step rate (Hz): " srate
+	read -rep "frame rate (Hz): " frate
+	read -rep "frame width (px): " fwidth
+	read -rep "frame height (px): " fheight
+	read -rep "frame center x (m): " fcenterx
+	read -rep "frame center y (m): " fcentery
+	read -rep "frame zoom: " fzoom
+	read -rep "frame scale: " fscale
+	read -rep "output dirname: " dirname
+fi
+if [ -z "$filename" ] || [ -z "$gacceleration" ] || [ -z "$timef" ] || [ -z "$srate" ] || [ -z "$frate" ] || [ -z "$fwidth" ] || [ -z "$fheight" ] || [ -z "$fcenterx" ] || [ -z "$fcentery" ] || [ -z "$fzoom" ] || [ -z "$fscale" ] || [ -z "$dirname" ]; then
+	exit 1
+fi
 rm -rf $dirname
 mkdir -p $dirname
 echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
@@ -74,7 +98,7 @@ echo "* ${fg_yellow}running${normal} pipeline with parameters:
 | ${fg_cyan}fzoom${normal}=$fzoom
 | ${fg_cyan}fscale${normal}=$fscale"
 update_start_time
-source $dirname/pipeline.sh
+"./$dirname/pipeline.sh"
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "* ${fg_yellow}stitching${normal} video frames together"
 update_start_time
