@@ -1136,10 +1136,108 @@ int main(int argc, char **argv)
 		if(usecolor)
 			free_truss_solution();
 	}
+	else if(strcmp(argv[1], "mechanisms") == 0)
+	{
+		struct lever {
+			int jcount;
+			struct joint **joints;
+			struct member *member;
+			double height;
+			double mass;
+			double stiffness;
+			double dampening;
+		};
+		enum slider_shape {slider_shape_circular};
+		enum slider_connection {slider_connection_fixed, slider_connection_pinned};
+		struct slider {
+			int jcount;
+			struct joint **joints;
+			enum slider_shape shape;
+			enum slider_connection connnection;
+			double center[2];
+			double pivot[2];
+			double mass;
+			double stiffness;
+			double dampening;
+		};
+		int lever_count;
+		struct lever *levers;
+		int slider_count;
+		struct slider *sliders;
+		if(scan_truss_problem() != 0) return 1;
+		if(scanf("levers=%d\n", &lever_count) != 1)
+		{
+			fprintf(stderr, "error: parse: levers parameter\n");
+			fprintf(stderr, "usage: levers parameter: levers=count\n");
+			return 1;
+		}
+		if(lever_count < 0)
+		{
+			fprintf(stderr, "error: count: levers parameter: %d not positive nor %d\n", lever_count, 0);
+			return 1;
+		}
+		levers = malloc(lever_count * sizeof(struct lever));
+		if(!levers)
+		{
+			fprintf(stderr, "error: create: levers array: %zd bytes allocation\n", lever_count * sizeof(struct lever));
+			return 1;
+		}
+		for(int lv = 0; lv < lever_count; lv++)
+		{
+			struct lever lever;
+			int mindex;
+			if(scanf("joints=%d member=[%d] height=%le mass=%le stiffness=%le dampening=%le\n",
+					 &lever.jcount, &mindex, &lever.height, &lever.mass, &lever.stiffness, &lever.dampening) != 6)
+			{
+				fprintf(stderr, "error: parse: lever [%d] line\n", lv + 1);
+				fprintf(stderr, "joints=count member=[index] height=float mass=float stiffness=float dampening=float\n");
+				return 1;
+			}
+			mindex--;
+			if(mindex < 0 || mindex >= mcount)
+			{
+				fprintf(stderr, "error: index: lever [%d] line: member parameter: [%d] does not exist\n", lv + 1, mindex + 1);
+				return 1;
+			}
+			for(int lv2 = 0; lv2 < lv; lv2++) if(levers[lv2].member == &members[mindex])
+			{
+				fprintf(stderr, "error: index: lever [%d] line: member parameter: [%d] already in use\n", lv + 1, mindex + 1);
+				return 1;
+			}
+			lever.member = &members[mindex];
+			if(lever.height < EPSILON)
+			{
+				fprintf(stderr, "error: limit: lever [%d] line: height parameter: %.1le not greater than %.1le\n", lv + 1, lever.height, EPSILON);
+				return 1;
+			}
+			if(lever.mass < EPSILON)
+			{
+				fprintf(stderr, "error: limit: lever [%d] line: mass parameter: %.1le not greater than %.1le\n", lv + 1, lever.mass, EPSILON);
+				return 1;
+			}
+			levers[lv] = lever;
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		free_truss_problem();
+	}
 	else {
 		utilargerr:
 		fprintf(stderr, "error: parse: utility argument\n");
-		fprintf(stderr, "usage: utility argument: genpipeline|properties|transform|undeform|feedback|textart\n");
+		fprintf(stderr, "usage: utility argument: genpipeline|properties|transform|undeform|feedback|textart|mechanisms\n");
 		return 1;
 	}
 	return 0;
