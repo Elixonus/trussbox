@@ -98,8 +98,8 @@ void solve(void)
 		struct member *member = &members[m];
 		double length = mdistance(member->spring.m1, member->spring.m2);
 		if(length < EPSILON) continue;
-		double force = sforce(&member->spring) + dforce(&member->damper);
 		double direction[2];
+		double force = sforce(&member->spring) + dforce(&member->damper);
 		int jindex1, jindex2;
 		for(int j = 0; j < jcount; j++)
 		{
@@ -114,10 +114,10 @@ void solve(void)
 			jforces[jindex1][a] += direction[a] * force;
 			jforces[jindex2][a] -= direction[a] * force;
 		}
-		mforces[m] = force;
 		mlengths[m] = length;
 		mdisplacements[m] = sdisplacement(&member->spring);
 		mvelocities[m] = dvelocity(&member->damper);
+		mforces[m] = force;
 	}
 	for(int j = 0; j < jcount; j++)
 	{

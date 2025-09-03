@@ -49,7 +49,11 @@ Main rendering design from [Simple 2D Constraint Solver Demo by Ange Yaghi](http
 
 ### Run
 
-```./custom.sh```
+```./custom.sh``` (stdin option)
+
+**or**
+
+```./custom.sh filename=strandbeest.txt gacceleration=0.0 timef=8.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=-0.5 fzoom=0.2 fscale=1.0 dirname=tmp/strandbeest``` (args option)
 
 Creates solution (videos and force data on each member
 and reactions on each support) for a given problem
@@ -88,6 +92,10 @@ input.
 **or**
 
 ```./miscellaneous.sh```
+
+**or**
+
+```./machines.sh```
 
 **or**
 

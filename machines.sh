@@ -44,25 +44,25 @@ echo "* ${fg_yellow}creating${normal} output for each of the machines"
 mkdir -p tmp/machines
 rm -rf tmp/machines/*
 echo "|\\"
-echo "| * ${fg_yellow}working on${normal} pump jack truss problem"
+echo "| * ${fg_yellow}working on${normal} pump jack machine problem"
 echo "| |\\"
 update_start_time
 ./custom.sh filename=pumpjack.txt gacceleration=0.0 timef=7.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=20.0 fcentery=13.0 fzoom=0.03 fscale=1.0 dirname=tmp/machines/pumpjack | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} landing gear truss problem"
+echo "| * ${fg_yellow}working on${normal} landing gear machine problem"
 echo "| |\\"
 update_start_time
 ./custom.sh filename=landinggear.txt gacceleration=-9.8 timef=7.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=15.0 fcentery=12.0 fzoom=0.05 fscale=1.0 dirname=tmp/machines/landinggear | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} Baker valve gear truss problem"
+echo "| * ${fg_yellow}working on${normal} Baker valve gear machine problem"
 echo "| |\\"
 update_start_time
-./custom.sh filename=bakervalvegear.txt gacceleration=0.0 timef=10.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=22.0 fcentery=10.0 fzoom=0.035 fscale=1.0 dirname=tmp/machines/bakervalvegear | sed -u "s/^/| | /"
+./custom.sh filename=bakervalvegear.txt gacceleration=0.0 timef=10.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=22.0 fcentery=10.0 fzoom=0.04 fscale=1.0 dirname=tmp/machines/bakervalvegear | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
-echo "| * ${fg_yellow}working on${normal} strandbeest truss problem"
+echo "| * ${fg_yellow}working on${normal} strandbeest machine problem"
 echo "| |\\"
 update_start_time
 ./custom.sh filename=strandbeest.txt gacceleration=0.0 timef=8.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=0.0 fcentery=-0.5 fzoom=0.2 fscale=1.0 dirname=tmp/machines/strandbeest | sed -u "s/^/| | /"
