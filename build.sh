@@ -51,11 +51,26 @@ echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} truss swept area renderer executable"
 gcc src/sweptarea.c -o bin/sweptarea bin/lib/msd.o -lm $(pkg-config --cflags --libs cairo) -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator object"
-gcc -c src/lib/pipeline.c -o bin/lib/pipeline.o -lm -std=c23
+echo -n "| * ${fg_yellow}compiling${normal} truss pipeline library object"
+gcc -c src/lib/pipeline.c -o bin/lib/pipeline.o -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
-echo -n "| * ${fg_yellow}compiling${normal} truss utilities executable"
-gcc src/trussutils.c -o bin/trussutils bin/lib/msd.o bin/lib/pipeline.o -lm -std=c23
+echo -n "| * ${fg_yellow}compiling${normal} truss pipeline generator executable"
+gcc src/pipeline.c -o bin/pipeline bin/lib/pipeline.o -lm -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss data library object"
+gcc -c src/lib/trussdata.c -o bin/lib/trussdata.o -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss feedback executable"
+gcc src/feedback.c -o bin/feedback bin/lib/trussdata.o -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss transformer executable"
+gcc src/transform.c -o bin/transform bin/lib/trussdata.o -lm -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss undeformer executable"
+gcc src/undeform.c -o bin/undeform bin/lib/trussdata.o bin/lib/msd.o -lm -std=c23
+echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
+echo -n "| * ${fg_yellow}compiling${normal} truss textart generator executable"
+gcc src/textart.c -o bin/textart bin/lib/trussdata.o -lm -std=c23
 echo " > ${fg_white}${fg_green}[TASK COMPLETE]${normal}"
 echo -n "| * ${fg_yellow}compiling${normal} subtitles renderer executable"
 gcc src/subtitles.c -o bin/subtitles -lm $(pkg-config --cflags --libs cairo) -std=c23

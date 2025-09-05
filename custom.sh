@@ -70,12 +70,12 @@ rm -rf $dirname
 mkdir -p $dirname
 echo "* ${fg_yellow}creating${normal} a pipeline for the problem"
 update_start_time
-./bin/trussutils genpipeline \
+./bin/pipeline \
 	solvetruss_executable=bin/solvetruss \
 	rendertruss_executable=bin/rendertruss \
 	forcediagram_executable=bin/forcediagram \
 	sweptarea_executable=bin/sweptarea \
-	trussutils_executable=bin/trussutils \
+	feedback_executable=bin/feedback \
 	problem_filename=$filename \
 	output_dirname=$dirname \
 	gacceleration=$gacceleration \
@@ -108,6 +108,6 @@ ffmpeg -r "$frate" -i $dirname/fdiagrams/%09d.png -y $dirname/fdiagram.mp4 -logl
 rm -rf $dirname/fdiagrams
 echo "> ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 textzoom=$(awk "BEGIN{print 0.7 * ${fzoom}}")
-./bin/trussutils textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" lines=35 color=true vcrop=true "title=ASCII Text Art Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)"
+./bin/textart "fcenter=($fcenterx $fcentery)" "fzoom=$textzoom" lines=35 color=true vcrop=true "title=ASCII Text Art Representation" < "$dirname/prosols/$(ls $dirname/prosols | tail -n 1)"
 rm -rf "$dirname/prosols"
 echo "${bold}* output files can now be found in ${underline}$(pwd)/$dirname${normal}"

@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // STEPS TO CREATE SIMULATION PIPELINE
 // 1. call "allocate_executable_and_input_output_paths(1000);"
@@ -24,11 +19,15 @@
 // 6. call "free_executable_and_input_output_paths();"
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 char *solvetruss_executable;
 char *rendertruss_executable;
 char *forcediagram_executable;
 char *sweptarea_executable;
-char *trussutils_executable;
+char *feedback_executable;
 char *problem_filename;
 char *output_dirname;
 double gacceleration;
@@ -45,9 +44,11 @@ double fcenter[2];
 double fzoom;
 double fscale;
 
-void allocate_string(char **string, int count)
+int allocate_string(char **string, int count)
 {
 	*string = malloc((count + 1) * sizeof(char));
+	if(!*string) return 1;
+	return 0;
 }
 
 void free_string(char *string)
@@ -55,15 +56,16 @@ void free_string(char *string)
 	free(string);
 }
 
-void allocate_executable_and_input_output_paths(int character_count_each)
+int allocate_executable_and_input_output_paths(int character_count_each)
 {
-	allocate_string(&solvetruss_executable, character_count_each);
-	allocate_string(&rendertruss_executable, character_count_each);
-	allocate_string(&forcediagram_executable, character_count_each);
-	allocate_string(&sweptarea_executable, character_count_each);
-	allocate_string(&trussutils_executable, character_count_each);
-	allocate_string(&problem_filename, character_count_each);
-	allocate_string(&output_dirname, character_count_each);
+	if(allocate_string(&solvetruss_executable, character_count_each)) return 1;
+	if(allocate_string(&rendertruss_executable, character_count_each)) return 1;
+	if(allocate_string(&forcediagram_executable, character_count_each)) return 1;
+	if(allocate_string(&sweptarea_executable, character_count_each)) return 1;
+	if(allocate_string(&feedback_executable, character_count_each)) return 1;
+	if(allocate_string(&problem_filename, character_count_each)) return 1;
+	if(allocate_string(&output_dirname, character_count_each)) return 1;
+	return 0;
 }
 
 void free_executable_and_input_output_paths(void)
@@ -72,7 +74,7 @@ void free_executable_and_input_output_paths(void)
 	free_string(rendertruss_executable);
 	free_string(forcediagram_executable);
 	free_string(sweptarea_executable);
-	free_string(trussutils_executable);
+	free_string(feedback_executable);
 	free_string(problem_filename);
 	free_string(output_dirname);
 }
@@ -125,15 +127,15 @@ void print_pipeline_concatenate_problem_and_solution_command(FILE *command_strea
 
 void print_pipeline_feedback_solution_into_problem_command(FILE *command_stream)
 {
-	if(strlen(trussutils_executable) > 0 && trussutils_executable[0] == '/')
+	if(strlen(feedback_executable) > 0 && feedback_executable[0] == '/')
 		printf(
 			"\"%s\" feedback < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
-			trussutils_executable, output_dirname, frame + 1, output_dirname, frame + 2
+			feedback_executable, output_dirname, frame + 1, output_dirname, frame + 2
 		);
 	else
 		printf(
 			"\"./%s\" feedback < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
-			trussutils_executable, output_dirname, frame + 1, output_dirname, frame + 2
+			feedback_executable, output_dirname, frame + 1, output_dirname, frame + 2
 		);
 }
 

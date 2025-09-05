@@ -25,7 +25,7 @@ extern char *solvetruss_executable;
 extern char *rendertruss_executable;
 extern char *forcediagram_executable;
 extern char *sweptarea_executable;
-extern char *trussutils_executable;
+extern char *feedback_executable;
 extern char *problem_filename;
 extern char *output_dirname;
 extern double gacceleration;
