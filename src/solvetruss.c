@@ -98,8 +98,8 @@ void solve(void)
 		struct member *member = &members[m];
 		double length = mdistance(member->spring.m1, member->spring.m2);
 		if(length < EPSILON) continue;
-		double direction[2];
-		double force = sforce(&member->spring) + dforce(&member->damper);
+		double force = -sforce(&member->spring) - dforce(&member->damper);
+		double unit[2];
 		int jindex1, jindex2;
 		for(int j = 0; j < jcount; j++)
 		{
@@ -110,9 +110,9 @@ void solve(void)
 		}
 		for(int a = 0; a < 2; a++)
 		{
-			direction[a] = (joints[jindex2].mass.p[a] - joints[jindex1].mass.p[a]) / length;
-			jforces[jindex1][a] += direction[a] * force;
-			jforces[jindex2][a] -= direction[a] * force;
+			unit[a] = (joints[jindex2].mass.p[a] - joints[jindex1].mass.p[a]) / length;
+			jforces[jindex1][a] += unit[a] * force;
+			jforces[jindex2][a] -= unit[a] * force;
 		}
 		mlengths[m] = length;
 		mdisplacements[m] = sdisplacement(&member->spring);
@@ -287,8 +287,8 @@ int main(int argc, char **argv)
 	}
 	for(int m = 0; m < mcount; m++)
 	{
-		int jindex1, jindex2;
 		struct member member;
+		int jindex1, jindex2;
 		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
@@ -362,9 +362,9 @@ int main(int argc, char **argv)
 	}
 	for(int s = 0; s < scount; s++)
 	{
+		struct support support;
 		int jindex;
 		char axes[3];
-		struct support support;
 		if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2)
 		{
 			fprintf(stderr, "error: parse: support [%d] line\n", s + 1);
@@ -426,8 +426,8 @@ int main(int argc, char **argv)
 	}
 	for(int l = 0; l < lcount; l++)
 	{
-		int jindex;
 		struct load load;
+		int jindex;
 		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{

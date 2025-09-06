@@ -18,21 +18,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)">
-      <change afterPath="$PROJECT_DIR$/src/feedback.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/trussdata.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/trussdata.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pipeline.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/textart.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/transform.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/undeform.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom.sh" beforeDir="false" afterPath="$PROJECT_DIR$/custom.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/pipeline.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/pipeline.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/pipeline.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/pipeline.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/trussutils.c" beforeDir="false" />
-    </list>
+    <list default="true" id="0df49968-991b-4451-a0e3-dab2608b54d5" name="Changes" comment="added large number and nan check for truss solver (input only atm)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,7 +91,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.sync",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C++",
     "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -311,7 +297,10 @@
       <workItem from="1756925608895" duration="336000" />
       <workItem from="1757035082384" duration="1535000" />
       <workItem from="1757045648918" duration="719000" />
-      <workItem from="1757101295907" duration="9958000" />
+      <workItem from="1757101295907" duration="10131000" />
+      <workItem from="1757177843973" duration="763000" />
+      <workItem from="1757190429592" duration="6091000" />
+      <workItem from="1757450669948" duration="726000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />

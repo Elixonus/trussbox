@@ -184,7 +184,7 @@ int main(int argc, char **argv)
 			else if(br)
 				setchar('|', r1, c1, color);
 			else
-				setchar('*', r1, c1, color);
+				setchar('o', r1, c1, color);
 			if(c1 == c2 && r1 == r2) break;
 			error2 = 2 * error1;
 			if(error2 >= dr)
@@ -221,7 +221,7 @@ int main(int argc, char **argv)
 			(int) round(((double) (linecount - 1)) * (0.5 - fzoom * (joint->mass.p[1] - fcenter[1]))),
 			(int) round(((double) (2 * linecount - 1)) * (0.5 + fzoom * (joint->mass.p[0] - fcenter[0])))
 		};
-		setchar('*', rowcol[0], rowcol[1], ' ');
+		setchar('o', rowcol[0], rowcol[1], ' ');
 	}
 	for(int s = 0; s < scount; s++)
 	{
@@ -265,8 +265,6 @@ int main(int argc, char **argv)
 		{
 			if(nside > 0.0)
 			{
-				setchar('[', rowcol[0], rowcol[1] - 1, ' ');
-				setchar(']', rowcol[0], rowcol[1] + 1, ' ');
 				setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
 				setchar(' ', rowcol[0] + 1, rowcol[1], ' ');
 				setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');
@@ -289,8 +287,6 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				setchar('[', rowcol[0], rowcol[1] - 1, ' ');
-				setchar(']', rowcol[0], rowcol[1] + 1, ' ');
 				setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
 				setchar(' ', rowcol[0] - 1, rowcol[1], ' ');
 				setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
@@ -316,8 +312,6 @@ int main(int argc, char **argv)
 		{
 			if(nside > 0.0)
 			{
-				setchar('-', rowcol[0] - 1, rowcol[1], ' ');
-				setchar('-', rowcol[0] + 1, rowcol[1], ' ');
 				setchar('\\', rowcol[0] - 1, rowcol[1] - 1, ' ');
 				setchar(' ', rowcol[0], rowcol[1] - 1, ' ');
 				setchar('/', rowcol[0] + 1, rowcol[1] - 1, ' ');
@@ -329,8 +323,6 @@ int main(int argc, char **argv)
 			}
 			else
 			{
-				setchar('-', rowcol[0] - 1, rowcol[1], ' ');
-				setchar('-', rowcol[0] + 1, rowcol[1], ' ');
 				setchar('/', rowcol[0] - 1, rowcol[1] + 1, ' ');
 				setchar(' ', rowcol[0], rowcol[1] + 1, ' ');
 				setchar('\\', rowcol[0] + 1, rowcol[1] + 1, ' ');

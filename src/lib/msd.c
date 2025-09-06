@@ -62,7 +62,7 @@ double sforce(struct spring *s)
 {
 	double k = s->k;
 	double d = sdisplacement(s);
-	double f = k * d;
+	double f = -k * d;
 	return f;
 }
 
@@ -70,7 +70,7 @@ double dforce(struct damper *d)
 {
 	double c = d->c;
 	double v = dvelocity(d);
-	double f = c * v;
+	double f = -c * v;
 	return f;
 }
 

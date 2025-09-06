@@ -284,8 +284,8 @@ int main(int argc, char **argv)
 		}
 		for(int m = 0; m < frame->mcount; m++)
 		{
-			int jindex1, jindex2;
 			struct member member;
+			int jindex1, jindex2;
 			if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 			         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 			{
@@ -353,9 +353,9 @@ int main(int argc, char **argv)
 		}
 		for(int s = 0; s < frame->scount; s++)
 		{
+			struct support support;
 			int jindex;
 			char axes[3];
-			struct support support;
 			if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2)
 			{
 				fprintf(stderr, "error: parse: support [%d] line\n", s + 1);
@@ -411,8 +411,8 @@ int main(int argc, char **argv)
 		}
 		for(int l = 0; l < frame->lcount; l++)
 		{
-			int jindex;
 			struct load load;
+			int jindex;
 			if(scanf("joint=[%d] force=<%le %le>\n",
 					 &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 			{

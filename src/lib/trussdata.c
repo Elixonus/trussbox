@@ -62,7 +62,7 @@ void print_truss_problem(void)
 	{
 		struct joint *joint = &joints[j];
 		printf("mass=%.9le position=(%.9le %.9le) velocity=<%.9le %.9le>\n",
-			   joint->mass.m, joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
+		       joint->mass.m, joint->mass.p[0], joint->mass.p[1], joint->mass.v[0], joint->mass.v[1]);
 	}
 	printf("members=%d\n", mcount);
 	for(int m = 0; m < mcount; m++)
@@ -77,7 +77,7 @@ void print_truss_problem(void)
 				jindex2 = j;
 		}
 		printf("joint1=[%d] joint2=[%d] stiffness=%.9le length0=%.9le dampening=%.9le\n",
-			   jindex1 + 1, jindex2 + 1, member->spring.k, member->spring.l0, member->damper.c);
+		       jindex1 + 1, jindex2 + 1, member->spring.k, member->spring.l0, member->damper.c);
 	}
 	printf("supports=%d\n", scount);
 	for(int s = 0; s < scount; s++)
@@ -161,8 +161,8 @@ int scan_truss_problem(void)
 	}
 	for(int m = 0; m < mcount; m++)
 	{
-		int jindex1, jindex2;
 		struct member member;
+		int jindex1, jindex2;
 		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5)
 		{
@@ -229,9 +229,9 @@ int scan_truss_problem(void)
 	}
 	for(int s = 0; s < scount; s++)
 	{
+		struct support support;
 		int jindex;
 		char axes[3];
-		struct support support;
 		if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2)
 		{
 			fprintf(stderr, "error: parse: support [%d] line\n", s + 1);
@@ -285,8 +285,8 @@ int scan_truss_problem(void)
 	}
 	for(int l = 0; l < lcount; l++)
 	{
-		int jindex;
 		struct load load;
+		int jindex;
 		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3)
 		{
@@ -384,7 +384,7 @@ int scan_truss_solution(bool update_truss_problem)
 	for(int m = 0; m < mcount; m++)
 	{
 		if(scanf("force=%le displacement=%le length=%le velocity=%le\n",
-				 &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4)
+		         &mforces[m], &mdisplacements[m], &mlengths[m], &mvelocities[m]) != 4)
 		{
 			fprintf(stderr, "error: parse: member [%d] line (solution)\n", m + 1);
 			fprintf(stderr, "usage: member line (solution): force=float displacement=float length=float velocity=float\n");

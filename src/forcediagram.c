@@ -391,8 +391,8 @@ int main(int argc, char **argv)
 	if(!members) return 1;
 	for(int m = 0; m < mcount; m++)
 	{
-		int jindex1, jindex2;
 		struct member member;
+		int jindex1, jindex2;
 		if(scanf("joint1=[%d] joint2=[%d] stiffness=%le length0=%le dampening=%le\n",
 		         &jindex1, &jindex2, &member.spring.k, &member.spring.l0, &member.damper.c) != 5) return 1;
 		jindex1--, jindex2--;
@@ -412,9 +412,9 @@ int main(int argc, char **argv)
 	if(!supports) return 1;
 	for(int s = 0; s < scount; s++)
 	{
+		struct support support;
 		int jindex;
 		char axes[3];
-		struct support support;
 		if(scanf("joint=[%d] axes={%2[^}]}\n", &jindex, axes) != 2) return 1;
 		jindex--;
 		if(jindex < 0 || jindex >= jcount) return 1;
@@ -436,8 +436,8 @@ int main(int argc, char **argv)
 	if(!loads) return 1;
 	for(int l = 0; l < lcount; l++)
 	{
-		int jindex;
 		struct load load;
+		int jindex;
 		if(scanf("joint=[%d] force=<%le %le>\n",
 		         &jindex, &load.action.f[0], &load.action.f[1]) != 3) return 1;
 		jindex--;
