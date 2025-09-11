@@ -85,7 +85,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Elias Dobrin/Documents/GitHub/trussbox/src/lib",
+    "last_opened_file_path": "C:/Users/Elias Dobrin/Documents/GitHub/trussbox",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -301,6 +301,7 @@
       <workItem from="1757177843973" duration="763000" />
       <workItem from="1757190429592" duration="6091000" />
       <workItem from="1757450669948" duration="726000" />
+      <workItem from="1757563286473" duration="667000" />
     </task>
     <task id="LOCAL-00001" summary="renamed gravity parameter, changed sign convention and fixed typos">
       <option name="closed" value="true" />
