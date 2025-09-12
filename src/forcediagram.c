@@ -302,7 +302,7 @@ int render(void)
 	for(int j = 0; j < jcount; j++)
 	{
 		struct joint *joint = &joints[j];
-		double force[2] = {0.0, gacceleration * joint->mass.m};
+		double force[2] = {0.0, -gacceleration * joint->mass.m};
 		double color[3] = {0.0, 0.0, 0.0};
 		render_force(context, force, joint->mass.p, ref_force, color, true);
 	}

@@ -204,6 +204,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "error: limit: fscale argument: %.1le not greater than %.1le\n", fscale, EPSILON);
 		return 1;
 	}
+	fcount = 0;
 	flimit = 1;
 	frames = malloc(flimit * sizeof(struct frame));
 	if(!frames)

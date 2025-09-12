@@ -113,11 +113,11 @@ input.
 
 ```cat problem.txt | ./bin/solvetruss gacceleration=float timef=float srate=float```
 
-* (stdin): [Truss Problem Configuration](#truss-problem-configuration)
-* (stdout): [Truss Solution Configuration](#truss-solution-configuration)
+* (stdin): [Truss Problem Format](#truss-problem-format)
+* (stdout): [Truss Solution Format](#truss-solution-format)
 * (stderr): error and usage messages
 * ```gacceleration```: gravitational acceleration of a free mass in meters per second squared
-  (negative for downwards, positive for upwards)
+  (positive for downwards, negative for upwards)
 * ```timef```: last simulation time step time in seconds
 * ```srate```: frequency of simulation time steps in Hz
 
@@ -127,7 +127,7 @@ input.
 
 ```cat problem.txt | ./bin/rendertruss filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
-* (stdin): [Truss Problem Configuration](#truss-problem-configuration)
+* (stdin): [Truss Problem Format](#truss-problem-format)
 * (stderr): error and usage messages
 * ```filename```: output render png filename (image of truss in given configuration)
 * ```fsize```: renderer resolution in pixels (width and height)
@@ -141,11 +141,11 @@ input.
 
 ```cat problem.txt solution.txt | ./bin/forcediagram filename gacceleration=float fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
-* (stdin): concatenation of [Truss Problem Configuration](#truss-problem-configuration) and [Truss Solution Configuration](#truss-solution-configuration)
+* (stdin): concatenation of [Truss Problem Format](#truss-problem-format) and [Truss Solution Format](#truss-solution-format)
 * (stderr): error and usage messages
 * ```filename```: output diagram png filename (image of truss in given configuration)
 * ```gacceleration```: gravitational acceleration of a free mass in meters per second squared
-  (negative for downwards, positive for upwards)
+  (positive for downwards, negative for upwards)
 * ```fsize```: diagram resolution in pixels (width and height)
 * ```fcenter```: diagram camera center in meters
 * ```fzoom```: diagram camera zoom (size of visual elements remain unaffected)
@@ -157,7 +157,7 @@ input.
 
 ```cat problems/*.txt | ./bin/sweptarea filename fsize=widthxheight "fcenter=(float float)" fzoom=float fscale=float```
 
-* (stdin): concatenation of multiple (many) [Truss Problem Configuration](#truss-problem-configuration)
+* (stdin): concatenation of multiple (many) [Truss Problem Format](#truss-problem-format)
 * (stderr): error and usage messages
 * ```filename```: output visualization png filename (image of truss linkage displacement history given)
 * ```fsize```: visualization resolution in pixels (width and height)
@@ -167,7 +167,7 @@ input.
 
 ### Conventions
 
-#### Truss Problem Configuration
+#### Truss Problem Format
 
 Theo Jansen's Strandbeest Example:
 
@@ -232,7 +232,7 @@ loads=0
     * each individual point load joint binding and global space
       force vector in Newtons
 
-#### Truss Solution Configuration
+#### Truss Solution Format
 
 Theo Jansen's Strandbeest Example:
 

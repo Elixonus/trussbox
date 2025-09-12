@@ -53,7 +53,7 @@ echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(prin
 echo "| * ${fg_yellow}working on${normal} landing gear machine problem"
 echo "| |\\"
 update_start_time
-./custom.sh filename=landinggear.txt gacceleration=-9.8 timef=7.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=15.0 fcentery=12.0 fzoom=0.05 fscale=1.0 dirname=tmp/machines/landinggear | sed -u "s/^/| | /"
+./custom.sh filename=landinggear.txt gacceleration=9.8 timef=7.0 srate=1000000.0 frate=60.0 fwidth=1920 fheight=1080 fcenterx=15.0 fcentery=12.0 fzoom=0.05 fscale=1.0 dirname=tmp/machines/landinggear | sed -u "s/^/| | /"
 echo "| |/"
 echo "| > ${fg_white}${fg_green}[TASK COMPLETE]${normal} - ${fg_blue_misc}$(print_elapsed_time)${normal}"
 echo "| * ${fg_yellow}working on${normal} Baker valve gear machine problem"

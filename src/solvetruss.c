@@ -81,7 +81,7 @@ void solve(void)
 		struct joint *joint = &joints[j];
 		for(int a = 0; a < 2; a++)
 			jforces[j][a] = 0.0;
-		jforces[j][1] = gacceleration * joint->mass.m;
+		jforces[j][1] = -gacceleration * joint->mass.m;
 	}
 	for(int l = 0; l < lcount; l++)
 	{
