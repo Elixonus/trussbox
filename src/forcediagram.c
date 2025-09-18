@@ -452,10 +452,11 @@ int main(int argc, char **argv)
 	if(!jforces) return 1;
 	for(int j = 0; j < jcount; j++)
 	{
+		struct joint *joint = &joints[j];
 		jforces[j] = malloc(2 * sizeof(double));
 		if(!jforces[j]) return 1;
-		if(scanf("force=<%le %le> position=(%*f %*f) velocity=<%*f %*f>\n",
-		         &jforces[j][0], &jforces[j][1]) != 2) return 1;
+		if(scanf("force=<%le %le> position=(%le %le) velocity=<%le %le>\n",
+		         &jforces[j][0], &jforces[j][1], &joint->mass.p[0], &joint->mass.p[1], &joint->mass.v[0], &joint->mass.v[1]) != 6) return 1;
 	}
 	int mcount2;
 	if(scanf("members=%d\n", &mcount2) != 1) return 1;

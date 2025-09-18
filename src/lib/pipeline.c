@@ -107,7 +107,7 @@ void print_pipeline_manage_files_and_directories_commands(FILE *command_stream)
 	printf("mkdir -p \"%s\"\n", output_dirname);
 	printf("rm -rf \"%s/problems\" \"%s/solutions\" \"%s/prosols\" \"%s/frames\" \"%s/fdiagrams\"\n", output_dirname, output_dirname, output_dirname, output_dirname, output_dirname);
 	printf("mkdir -p \"%s/problems\" \"%s/solutions\" \"%s/prosols\" \"%s/frames\" \"%s/fdiagrams\"\n", output_dirname, output_dirname, output_dirname, output_dirname, output_dirname);
-	printf("cp \"%s\" \"%s/problems/%09d.txt\"\n", problem_filename, output_dirname, 1);
+	printf("cp \"%s\" \"%s/problems/%09d.txt\"\n", problem_filename, output_dirname, 0);
 }
 
 void start_pipeline(FILE *command_stream)
@@ -121,7 +121,7 @@ void print_pipeline_concatenate_problem_and_solution_command(FILE *command_strea
 {
 	printf(
 		"cat \"%s/problems/%09d.txt\" \"%s/solutions/%09d.txt\" > \"%s/prosols/%09d.txt\"\n",
-		output_dirname, frame + 1, output_dirname, frame + 1, output_dirname, frame + 1
+		output_dirname, frame, output_dirname, frame + 1, output_dirname, frame + 1
 	);
 }
 
@@ -130,12 +130,12 @@ void print_pipeline_feedback_solution_into_problem_command(FILE *command_stream)
 	if(strlen(feedback_executable) > 0 && feedback_executable[0] == '/')
 		printf(
 			"\"%s\" feedback < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
-			feedback_executable, output_dirname, frame + 1, output_dirname, frame + 2
+			feedback_executable, output_dirname, frame + 1, output_dirname, frame + 1
 		);
 	else
 		printf(
 			"\"./%s\" feedback < \"%s/prosols/%09d.txt\" > \"%s/problems/%09d.txt\"\n",
-			feedback_executable, output_dirname, frame + 1, output_dirname, frame + 2
+			feedback_executable, output_dirname, frame + 1, output_dirname, frame + 1
 		);
 }
 
@@ -144,12 +144,12 @@ void print_pipeline_solvetruss_command(FILE *command_stream)
 	if(strlen(solvetruss_executable) > 0 && solvetruss_executable[0] == '/')
 		printf(
 			"\"%s\" gacceleration=%.9le timef=%.9le srate=%.9le < \"%s/problems/%09d.txt\" > \"%s/solutions/%09d.txt\"\n",
-			solvetruss_executable, gacceleration, timef / ((double) (framef + 1)), srate, output_dirname, frame + 1, output_dirname, frame + 1
+			solvetruss_executable, gacceleration, timef / ((double) (framef + 1)), srate, output_dirname, frame, output_dirname, frame + 1
 		);
 	else
 		printf(
 			"\"./%s\" gacceleration=%.9le timef=%.9le srate=%.9le < \"%s/problems/%09d.txt\" > \"%s/solutions/%09d.txt\"\n",
-			solvetruss_executable, gacceleration, timef / ((double) (framef + 1)), srate, output_dirname, frame + 1, output_dirname, frame + 1
+			solvetruss_executable, gacceleration, timef / ((double) (framef + 1)), srate, output_dirname, frame, output_dirname, frame + 1
 		);
 }
 
@@ -158,12 +158,12 @@ void print_pipeline_rendertruss_command(FILE *command_stream)
 	if(strlen(rendertruss_executable) > 0 && rendertruss_executable[0] == '/')
 		printf(
 			"\"%s\" \"%s/frames/%09d.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le < \"%s/problems/%09d.txt\"\n",
-			rendertruss_executable, output_dirname, frame + 1, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, output_dirname, frame + 1
+			rendertruss_executable, output_dirname, frame, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, output_dirname, frame
 		);
 	else
 		printf(
 			"\"./%s\" \"%s/frames/%09d.png\" fsize=%dx%d \"fcenter=(%.9le %.9le)\" fzoom=%.9le fscale=%.9le < \"%s/problems/%09d.txt\"\n",
-			rendertruss_executable, output_dirname, frame + 1, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, output_dirname, frame + 1
+			rendertruss_executable, output_dirname, frame, fsize[0], fsize[1], fcenter[0], fcenter[1], fzoom, fscale, output_dirname, frame
 		);
 }
 

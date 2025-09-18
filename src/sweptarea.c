@@ -98,12 +98,12 @@ int render(void)
 		double color[3];
 		cairo_push_group(context);
 		if(m % 8 == 0) color[0] = 1.0, color[1] = 0.0, color[2] = 0.0;
-		if(m % 8 == 1) color[0] = 1.0, color[1] = 0.5, color[2] = 0.0;
+		if(m % 8 == 1) color[0] = 0.0, color[1] = 1.0, color[2] = 0.85;
 		if(m % 8 == 2) color[0] = 1.0, color[1] = 1.0, color[2] = 0.0;
-		if(m % 8 == 3) color[0] = 0.0, color[1] = 1.0, color[2] = 0.0;
-		if(m % 8 == 4) color[0] = 0.0, color[1] = 1.0, color[2] = 0.85;
-		if(m % 8 == 5) color[0] = 0.0, color[1] = 0.85, color[2] = 1.0;
-		if(m % 8 == 6) color[0] = 0.63, color[1] = 0.0, color[2] = 1.0;
+		if(m % 8 == 3) color[0] = 0.63, color[1] = 0.0, color[2] = 1.0;
+		if(m % 8 == 4) color[0] = 1.0, color[1] = 0.5, color[2] = 0.0;
+		if(m % 8 == 5) color[0] = 0.0, color[1] = 1.0, color[2] = 0.0;
+		if(m % 8 == 6) color[0] = 0.0, color[1] = 0.85, color[2] = 1.0;
 		if(m % 8 == 7) color[0] = 1.0, color[1] = 0.0, color[2] = 1.0;
 		cairo_new_path(context);
 		for(int f = 0; f < fcount - 1; f++)
